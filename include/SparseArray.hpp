@@ -8,6 +8,7 @@
 #pragma once
 #include <any>
 #include <vector>
+#include <iostream>
 #include <optional>
 
 template <typename T>
@@ -53,6 +54,12 @@ public:
         list.erase(list.begin() + index);
     }
 
+    void add(std::optional<T> &val)
+    {
+        std::cout << "je vient la " << std::endl;
+        list.push_back(val);
+    }
+
     void add(std::optional<T> val = std::nullopt)
     {
         if (val.has_value())
@@ -71,11 +78,25 @@ public:
         return list;
     }
 
-    template <class... Params>
-    T &emplace_at(size_type pos, Params &&...par)
+    // T &insert_at(size_type pos, T const & comp)
+    // {
+    //     list[pos] = comp;
+    // }
+
+    T& insert_at(size_type pos, T &&comp)
     {
-        list[pos] = std::vector<std::optional<T>>::allocator_type::allocate(par...);
+        std::cout << "pos = " << pos << std::endl;
+        list.at(pos) = comp;
+        //list.insert(list.begin() + pos, comp);
+        return list[pos].value();
     }
+
+    // template <class... Params>
+    // void emplace_at(size_type pos, Params &&...par)
+    // {
+    //     //list[pos] = allocator_type::allocate(par...);
+    //     list[pos].value = std::vector<std::optional<T>>::allocator_type::allocate(par...);
+    // }
 
 private:
     std::vector<std::optional<T>> list;
