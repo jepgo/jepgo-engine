@@ -36,6 +36,7 @@ enum SPEED
     DOWN,
     RIGHT,
     LEFT,
+    MID,
 };
 
 class Velocity
@@ -65,13 +66,19 @@ private:
 class Drawable
 {
 public:
-    Drawable(std::size_t ind, std::optional<sf::IntRect> r = std::nullopt)
+    Drawable(std::size_t ind, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt)
     {
         rect = r;
         index = ind;
+        if (s.has_value())
+            scale = s.value();
+        else {
+            scale.push_back(1);
+            scale.push_back(1);
+        }
+        sprite.setScale(scale[0], scale[1]);
     };
-    ~Drawable() {
-    };
+    ~Drawable() {};
     void draw(sf::RenderWindow &window, sf::Texture &texture, Positions &pos)
     {
         sprite.setTexture(texture);
@@ -87,20 +94,21 @@ public:
 private:
     sf::Sprite sprite;
     std::size_t index;
+    std::vector<float> scale;
     std::optional<sf::IntRect> rect;
 };
 
-class Sprite_Status
+class Sprite_Animation
 {
 public:
-    Sprite_Status(int sta, int value, double res)
+    Sprite_Animation(int sta, int value, double res)
     {
         status = sta;
         val = value;
         reset = res;
         t = 0;
     };
-    ~Sprite_Status() {};
+    ~Sprite_Animation() {};
     void setTime(sf::Time time)
     {
         t = time.asSeconds();
@@ -118,12 +126,29 @@ static std::map<sf::Keyboard::Key, SPEED> const ASSOCIATIVE_KEYS = {
     {sf::Keyboard::Right, RIGHT},
 };
 
+class Sprite_Status {
+    public:
+        Sprite_Status(std::map<SPEED, int> s) : stat(s) {};
+        ~Sprite_Status() {};
+        int status(SPEED s) {
+            return stat.at(s);
+        };
+        int mid() {return stat.at(MID);};
+    private:
+        std::map<SPEED, int> stat;
+};
+
+
 class Controllable
 {
 public:
     Controllable() {};
     ~Controllable() {};
-    void move(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
+    void move(sf::Keyboard::Key key, Velocity &vel, Positions &pos, std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw) {
+        if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
+            return;
+        if (stat.has_value() && draw.has_value() && draw.value().getRect().has_value())
+            draw.value().getRect().value().left = stat.value().status(ASSOCIATIVE_KEYS.at(key));
         return vel.move(ASSOCIATIVE_KEYS.at(key), pos);
     };
 

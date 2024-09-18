@@ -50,7 +50,7 @@ std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
 void checkSprite(Register &r, sf::Time &time)
 {
     //sf::Time time = clock.getElapsedTime();
-    auto &rec = r.getComp<Sprite_Status>();
+    auto &rec = r.getComp<Sprite_Animation>();
     auto &draw = r.getComp<Drawable>();
 
     for (std::size_t i = 0; i < rec.size(); i++)
@@ -65,15 +65,35 @@ void checkSprite(Register &r, sf::Time &time)
     }
 }
 
+void checkSpriteStatus()
+{
+
+}
+
 void keySystem(Register &r, sf::Keyboard::Key key)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
     auto &pos = r.getComp<Positions>();
+    auto &stat = r.getComp<Sprite_Status>();
+    auto &draw = r.getComp<Drawable>();
 
     for (std::size_t i = 0; i < control.size(); i++) {
         if (control[i].has_value() && vel[i].has_value() && pos[i].has_value()) {
-            control[i].value().move(key, vel[i].value(), pos[i].value());
+            control[i].value().move(key, vel[i].value(), pos[i].value(), stat[i], draw[i]);
+        }
+    }
+}
+
+void MidSpriteSystem(Register &r)
+{
+    auto &control = r.getComp<Controllable>();
+    auto &stat = r.getComp<Sprite_Status>();
+    auto &draw = r.getComp<Drawable>();
+
+    for (std::size_t i = 0; i < stat.size(); i++) {
+        if (control[i].has_value() && stat[i].has_value() && draw[i].has_value() && draw[i].value().getRect().has_value()) {
+            draw[i].value().getRect().value().left = stat[i].value().mid();
         }
     }
 }
@@ -84,7 +104,7 @@ int main()
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
-    std::vector<std::string> data = {"sprites/r-typesheet3.gif"};
+    std::vector<std::string> data = {"sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif"};
     std::vector<sf::Texture> texture = getAllTexture(data);
     sf::RenderWindow window(sf::VideoMode(800, 600), "R-TYPE");
     // Drawable test("sprites/r-typesheet3.gif", "caca");
@@ -92,14 +112,15 @@ int main()
 
     r.creatEntity();
     r.emplace_comp(0, Positions(100, 100));
-    r.emplace_comp(0, Drawable(0, sf::IntRect(0, 0, 17, 18)));
-    r.emplace_comp(0, Sprite_Status(10, 17, 0.5));
-    r.emplace_comp(0, Velocity({2, 2, 5, 2}));
+    r.emplace_comp(0, Drawable(1, sf::IntRect(202, 0, 30, 18), std::vector<float>{1.5, 1.5}));
+    // //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
+    r.emplace_comp(0, Velocity({5, 5, 5, 5}));
     r.emplace_comp(0, Controllable());
-    r.creatEntity();
-    r.emplace_comp(1, Positions(300, 300));
-    r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
-    r.emplace_comp(1, Sprite_Status(10, 17, 0.5));
+    r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
+    // r.creatEntity();
+    // r.emplace_comp(1, Positions(300, 300));
+    // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
+    // r.emplace_comp(1, Sprite_Status(10, 17, 0.5));
     while (window.isOpen())
     {
         while (window.pollEvent(event))
@@ -108,6 +129,8 @@ int main()
                 window.close();
             if (event.type == sf::Event::KeyPressed)
                 keySystem(r, event.key.code);
+            if (event.type == sf::Event::KeyReleased)
+                MidSpriteSystem(r);
         }
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();
