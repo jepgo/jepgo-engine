@@ -11,19 +11,17 @@
 #include <SFML/Graphics.hpp>
 #include "SparseArray.hpp"
 
+/**
+ * @brief The drawable System
+ * 
+ * @param window The window of the screen
+ * @param r The Registry
+ * @param texture The list of texture for all the sprite
+ */
 void display_drawable(sf::RenderWindow &window, Register &r, std::vector<sf::Texture> &texture)
 {
-
-    // SparseArray<Positions> &pos = std::any_cast<SparseArray<Positions> &>(map[std::type_index(typeid(Positions))]);
-    // SparseArray<Drawable> &draw = std::any_cast<SparseArray<Drawable> &>(map[std::type_index(typeid(Drawable))]);
     auto &pos = r.getComp<Positions>();
     auto &draw = r.getComp<Drawable>();
-
-    sf::RectangleShape rect(sf::Vector2f(0, 0));
-    rect.setSize(sf::Vector2f(10, 10));
-    rect.setFillColor(sf::Color(sf::Color::Black));
-    // Positions a(200, 200);
-    // Drawable test("sprites/r-typesheet3.gif", "test");
 
     for (std::size_t i = 0; i < draw.size(); i++)
     {
@@ -34,6 +32,12 @@ void display_drawable(sf::RenderWindow &window, Register &r, std::vector<sf::Tex
     }
 }
 
+/**
+ * @brief Get the All Texture object
+ * 
+ * @param list List of all the file of the textures
+ * @return std::vector<sf::Texture> 
+ */
 std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
 {
     sf::Texture tmp;
@@ -47,6 +51,12 @@ std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
     return texture;
 }
 
+/**
+ * @brief Function who check the Sprite Animations
+ * 
+ * @param r The Registry
+ * @param time The current time
+ */
 void checkSprite(Register &r, sf::Time &time)
 {
     //sf::Time time = clock.getElapsedTime();
@@ -65,11 +75,12 @@ void checkSprite(Register &r, sf::Time &time)
     }
 }
 
-void checkSpriteStatus()
-{
-
-}
-
+/**
+ * @brief The Controllable system
+ * 
+ * @param r The Registry
+ * @param key The keyboard key who's pressed
+ */
 void keySystem(Register &r, sf::Keyboard::Key key)
 {
     auto &control = r.getComp<Controllable>();
@@ -85,6 +96,17 @@ void keySystem(Register &r, sf::Keyboard::Key key)
     }
 }
 
+/**
+ * @brief The Hitable Compare
+ * 
+ * @param list List of Hitable
+ * @param me The current who's hit
+ * @param where The second who's hit
+ * @param m My Position
+ * @param him The Position of the other who are hit
+ * @return true 
+ * @return false 
+ */
 static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_t, Hitable*>::iterator &me, std::map<size_t, Hitable*>::iterator &where, Positions &m, Positions &him)
 {
     for (auto &it = where; it != list.end(); it++) {
@@ -94,6 +116,11 @@ static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_
     return false;
 }
 
+/**
+ * @brief The Hitable System
+ * 
+ * @param r The Registry
+ */
 void HitSystem(Register &r)
 {
     auto &hit = r.getComp<Hitable>();
@@ -104,6 +131,8 @@ void HitSystem(Register &r)
         if (hit[i].has_value() && pos[i].has_value())
             list.insert(std::make_pair(i, &hit[i].value()));
     }
+    if (list.size() == 0)
+        return;
     for (auto it = list.begin(); std::next(it) != list.end(); it++) {
         auto next = std::next(it);
         if (compareHitable(list, it, next, pos[it->first].value(), pos[next->first].value()))
@@ -111,6 +140,11 @@ void HitSystem(Register &r)
     }
 }
 
+/**
+ * @brief The Sprite Status System
+ * 
+ * @param r The Regsitry
+ */
 void MidSpriteSystem(Register &r)
 {
     auto &control = r.getComp<Controllable>();
@@ -139,7 +173,7 @@ int main()
     r.creatEntity();
     r.emplace_comp(0, Positions(100, 100));
     r.emplace_comp(0, Drawable(1, sf::IntRect(202, 0, 30, 18), std::vector<float>{1.5, 1.5}));
-    // //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
+    //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(0, Velocity({5, 5, 5, 5}));
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
@@ -149,6 +183,7 @@ int main()
     r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(1, Hitable(17, 18));
+    //r.removeComponent<Drawable>(1);
     // r.creatEntity();
     // r.emplace_comp(1, Positions(300, 300));
     // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
@@ -165,7 +200,7 @@ int main()
         }
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();
-        HitSystem(r);
+         HitSystem(r);
         checkSprite(r, time);
         display_drawable(window, r, texture);
         window.display();

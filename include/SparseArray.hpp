@@ -56,7 +56,6 @@ public:
 
     void add(std::optional<T> &val)
     {
-        std::cout << "je vient la " << std::endl;
         list.push_back(val);
     }
 
@@ -85,18 +84,14 @@ public:
 
     T& insert_at(size_type pos, T &&comp)
     {
-        std::cout << "pos = " << pos << std::endl;
         list.at(pos) = comp;
-        //list.insert(list.begin() + pos, comp);
         return list[pos].value();
     }
 
-    // template <class... Params>
-    // void emplace_at(size_type pos, Params &&...par)
-    // {
-    //     //list[pos] = allocator_type::allocate(par...);
-    //     list[pos].value = std::vector<std::optional<T>>::allocator_type::allocate(par...);
-    // }
+    void erase(std::size_t index)
+    {
+        list.at(index) = std::nullopt;
+    }
 
 private:
     std::vector<std::optional<T>> list;

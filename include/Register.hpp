@@ -32,6 +32,10 @@ public:
         std::any_cast<SparseArray<Component>&>(regist[std::type_index(typeid(Component))]).insert_at(id, std::move(comp));
     }
     template <typename Component>
+    void removeComponent(std::size_t entity) {
+    std::any_cast<SparseArray<Component>&>(regist[std::type_index(typeid(Component))]).erase(entity);
+}   
+    template <typename Component>
     SparseArray<Component> &getComp()
     {
         return std::any_cast<SparseArray<Component>&>(regist[std::type_index(typeid(Component))]);
