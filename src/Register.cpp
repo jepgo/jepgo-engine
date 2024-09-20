@@ -20,6 +20,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(Controllable)), SparseArray<Controllable>()});
     regist.insert({std::type_index(typeid(Velocity)), SparseArray<Velocity>()});
     regist.insert({std::type_index(typeid(Sprite_Status)), SparseArray<Sprite_Status>()});
+    regist.insert({std::type_index(typeid(Hitable)), SparseArray<Hitable>()});
 }
 
 Register::~Register()
@@ -34,6 +35,7 @@ void Register::creatEntity()
     std::any_cast<SparseArray<Velocity>&>(regist[std::type_index(typeid(Velocity))]).add();
     std::any_cast<SparseArray<Controllable>&>(regist[std::type_index(typeid(Controllable))]).add();
     std::any_cast<SparseArray<Sprite_Status>&>(regist[std::type_index(typeid(Sprite_Status))]).add();
+    std::any_cast<SparseArray<Hitable>&>(regist[std::type_index(typeid(Hitable))]).add();
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()

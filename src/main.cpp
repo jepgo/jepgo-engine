@@ -85,6 +85,32 @@ void keySystem(Register &r, sf::Keyboard::Key key)
     }
 }
 
+static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_t, Hitable*>::iterator &me, std::map<size_t, Hitable*>::iterator &where, Positions &m, Positions &him)
+{
+    for (auto &it = where; it != list.end(); it++) {
+        if (me->second->isHit(*(it->second), him, m))
+            return true;
+    }
+    return false;
+}
+
+void HitSystem(Register &r)
+{
+    auto &hit = r.getComp<Hitable>();
+    auto &pos = r.getComp<Positions>();
+    std::map<std::size_t, Hitable *> list;
+
+    for (std::size_t i = 0; i < hit.size(); i++) {
+        if (hit[i].has_value() && pos[i].has_value())
+            list.insert(std::make_pair(i, &hit[i].value()));
+    }
+    for (auto it = list.begin(); std::next(it) != list.end(); it++) {
+        auto next = std::next(it);
+        if (compareHitable(list, it, next, pos[it->first].value(), pos[next->first].value()))
+            std::cout << "touch" << std::endl;
+    }
+}
+
 void MidSpriteSystem(Register &r)
 {
     auto &control = r.getComp<Controllable>();
@@ -117,10 +143,15 @@ int main()
     r.emplace_comp(0, Velocity({5, 5, 5, 5}));
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
+    r.emplace_comp(0, Hitable(30, 18));
+    r.creatEntity();
+    r.emplace_comp(1, Positions(250, 250));
+    r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
+    r.emplace_comp(1, Hitable(17, 18));
     // r.creatEntity();
     // r.emplace_comp(1, Positions(300, 300));
     // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
-    // r.emplace_comp(1, Sprite_Status(10, 17, 0.5));
     while (window.isOpen())
     {
         while (window.pollEvent(event))
@@ -134,6 +165,7 @@ int main()
         }
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();
+        HitSystem(r);
         checkSprite(r, time);
         display_drawable(window, r, texture);
         window.display();

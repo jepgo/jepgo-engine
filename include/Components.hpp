@@ -138,6 +138,36 @@ class Sprite_Status {
         std::map<SPEED, int> stat;
 };
 
+class Hitable
+{
+    public:
+        /**
+         * @brief Construct a new Hitable object
+         * 
+         * @param w the width of the object
+         * @param h the hight of the object
+         */
+        Hitable(int w, int h) : width(w), height(h) {};
+        ~Hitable() {};
+        
+        /**
+         * @brief Methode to know if 2 hitable object touch each others
+         * 
+         * @param hit the other Hitable object
+         * @param him The position of the second Hitable
+         * @param me The Position of this Hitable
+         * @return true 
+         * @return false 
+         */
+        bool isHit(Hitable &hit, Positions &him, Positions &me) {
+            if (me._x + width < him._x || me._x > him._x + hit.width || me._y + height < him._y || me._y > him._y + hit.height)
+                return false;
+            return true;
+        };
+    private:
+        int width;
+        int height;
+};
 
 class Controllable
 {
