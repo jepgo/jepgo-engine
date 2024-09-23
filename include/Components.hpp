@@ -32,6 +32,11 @@ public:
 
 class Move {
     public:
+        /**
+         * @brief Construct a new Move object
+         * 
+         * @param pos The Nex Position of the Object
+         */
         Move(Positions const &pos): _pos(pos) {};
         inline auto getPos() const noexcept -> Positions const & {
             return _pos;
@@ -83,6 +88,15 @@ class Velocity {
         }
         std::vector<double> _speed;
         Positions _vel { 0, 0 };
+};
+
+class SoloMove
+{
+    public:
+        SoloMove(Direction dir): direction(dir) {};
+        ~SoloMove() {};
+    private:
+        Direction direction;
 };
 
 class Drawable 
@@ -251,6 +265,13 @@ class Hitable
         bool isHit(Hitable &hit, Positions &him, Positions &me) {
             return !(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height);
         };
+        /**
+         * @brief 
+         * 
+         * @param entity The entity to be found
+         * @param r The Registry
+         * @param list The list of all the texture
+         */
         void Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list);
     private:
         int width;

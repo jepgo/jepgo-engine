@@ -104,7 +104,7 @@ int main()
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, Hitable(30, 18));
     r.creatEntity();
-    r.emplace_comp(1, Positions(250, 250));
+    r.emplace_comp(1, Positions(1000, 250));
     r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
     //r.emplace_comp(1, Hitable(17, 18));
@@ -120,6 +120,8 @@ int main()
     // r.creatEntity();
     // r.emplace_comp(1, Positions(300, 300));
     // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
+    r.emplace_comp(2, Move(Positions(-1, 0)));
+    r.emplace_comp(2, Velocity({1, 1, 1, 1}));
     while (window.isOpen())
     {
         while (window.pollEvent(event))
