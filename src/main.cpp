@@ -94,7 +94,7 @@ void checkSprite(Register &r, sf::Time &time)
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-void keySystem(Register &r, sf::Keyboard::Key key)
+void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -104,12 +104,15 @@ void keySystem(Register &r, sf::Keyboard::Key key)
     auto &col = r.getComp<Colision>();
 
     for (std::size_t i = 0; i < control.size(); i++) {
-        if (control[i].has_value() && vel[i].has_value() && pos[i].has_value()) {
-            control[i].value().moveStatus(stat[i], draw[i], key);
-            //if () Colision System to add
-            control[i].value().move(key, vel[i].value(), pos[i].value());
-            //Position -> 
-        }
+        if (control[i].has_value() and vel[i].has_value() and pos[i].has_value())
+            continue;
+        // control[i].value().move(key, vel[i].value(), pos[i].value());
+        control[i].value().moveStatus(stat[i], draw[i], key);
+        if (keyUp)
+            control[i].value().onKeyUp(key, vel[i].value(), pos[i].value());
+        else
+            control[i].value().onKeyDown(key, vel[i].value(), pos[i].value());
+        // r.emplace_comp(i, Move(vel[i].value().getVel()));
     }
 }
 
@@ -244,9 +247,11 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::KeyPressed)
-                keySystem(r, event.key.code);
-            if (event.type == sf::Event::KeyReleased)
+                keySystem(r, event.key.code, false);
+            if (event.type == sf::Event::KeyReleased) {
+                keySystem(r, event.key.code, true);
                 MidSpriteSystem(r);
+            }
         }
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();

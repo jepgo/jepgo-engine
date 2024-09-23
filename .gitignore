@@ -1,0 +1,10 @@
+# Out Files
+*.o
+*.out
+*.a
+
+# Binary
+R-TYPE
+
+# Trashy Folders
+.vscode/

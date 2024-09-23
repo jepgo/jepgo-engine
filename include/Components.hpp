@@ -15,24 +15,29 @@ class Register;
 class Positions
 {
 public:
-    Positions(int x, int y)
-    {
-        _x = x;
-        _y = y;
-    }
+    Positions(int x, int y): x(x), y(y) {}
     ~Positions() {};
-    int _x;
-    int _y;
+    int x;
+    int y;
 };
 
 class Move {
     public:
-        Move(Positions const &p) : pos(p){};
-        ~Move() {};
-        inline Positions const &getPos() const { return (pos); }
-        private:
-            Positions const &pos;
+        Move(Positions const &pos): _pos(pos) {};
+        inline auto getPos() const noexcept -> Positions const & {
+            return _pos;
+        }
+    private: Positions const _pos;
 };
+
+// class Move {
+//     public:
+//         Move(Positions const &p) : pos(p){};
+//         ~Move() {};
+//         inline Positions const &getPos() const { return (pos); }
+//         private:
+//             Positions const &pos;
+// };
 
 struct Speed
 {
@@ -42,8 +47,7 @@ struct Speed
     std::size_t right;
 };
 
-enum SPEED
-{
+enum Direction {
     UP,
     DOWN,
     RIGHT,
@@ -51,28 +55,45 @@ enum SPEED
     MID,
 };
 
-class Velocity
-{
-public:
-    Velocity(std::vector<double> s)
-    {
-        speed = s;
-    };
-    ~Velocity() {};
-    void move(SPEED s, Positions &pos)
-    {
-        if (s == UP)
-            pos._y -= 1 * speed[UP];
-        if (s == DOWN)
-            pos._y += 1 * speed[DOWN];
-        if (s == LEFT)
-            pos._x -= 1 * speed[LEFT];
-        if (s == RIGHT)
-            pos._x += 1 * speed[RIGHT];
-    };
+class Velocity {
+    public:
+        Velocity(std::vector<double> const &s): _speed(s) {}
+        ~Velocity() = default;
 
-private:
-    std::vector<double> speed;
+        auto press(Direction s, Positions &pos) -> void {
+            auto p = _getValues(s, pos);
+            p.first += p.second * _speed[s];
+        }
+
+        auto unpress(Direction s, Positions &pos) -> void {
+            auto p = _getValues(s, pos);
+            p.first -= p.second * _speed[s];
+        }
+
+        inline auto getVel() const noexcept -> Positions const & {
+            return _vel;
+        }
+
+        // void move(Direction s, Positions &pos) const {
+        //     if (s == UP)
+        //         pos.y -= 1 * _speed[UP];
+        //     if (s == DOWN)
+        //         pos.y += 1 * _speed[DOWN];
+        //     if (s == LEFT)
+        //         pos.x -= 1 * _speed[LEFT];
+        //     if (s == RIGHT)
+        //         pos.x += 1 * _speed[RIGHT];
+        // };
+
+    private:
+        auto _getValues(Direction s, Positions &pos) -> std::pair<int &, int> {
+            int &ref = (s < Direction::LEFT) ? _vel.x : _vel.y;
+            int const mul = (s % 2) * 2 - 1;
+
+            return { ref, mul };
+        }
+        std::vector<double> _speed;
+        Positions _vel { 0, 0 };
 };
 
 class Drawable 
@@ -98,7 +119,7 @@ public:
         sprite.setTexture(texture);
         if (rect.has_value())
             sprite.setTextureRect(rect.value());
-        sprite.setPosition(sf::Vector2f(pos._x, pos._y));
+        sprite.setPosition(sf::Vector2f(pos.x, pos.y));
         window.draw(sprite);
     }
     void change_ind(std::size_t ind) { index = ind; };
@@ -145,7 +166,7 @@ public:
     bool deadAnimation;
 };
 
-static std::map<sf::Keyboard::Key, SPEED> const ASSOCIATIVE_KEYS = {
+static std::map<sf::Keyboard::Key, Direction> const ASSOCIATIVE_KEYS = {
     {sf::Keyboard::Up, UP},
     {sf::Keyboard::Down, DOWN},
     {sf::Keyboard::Left, LEFT},
@@ -154,14 +175,14 @@ static std::map<sf::Keyboard::Key, SPEED> const ASSOCIATIVE_KEYS = {
 
 class Sprite_Status {
     public:
-        Sprite_Status(std::map<SPEED, int> s) : stat(s) {};
+        Sprite_Status(std::map<Direction, int> s) : stat(s) {};
         ~Sprite_Status() {};
-        int status(SPEED s) {
+        int status(Direction s) {
             return stat.at(s);
         };
         int mid() {return stat.at(MID);};
     private:
-        std::map<SPEED, int> stat;
+        std::map<Direction, int> stat;
 };
 
 class Explosion
@@ -203,7 +224,7 @@ class Hitable
          * @return false 
          */
         bool isHit(Hitable &hit, Positions &him, Positions &me) {
-            if (me._x + width < him._x || me._x > him._x + hit.width || me._y + height < him._y || me._y > him._y + hit.height)
+            if (me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height)
                 return false;
             return true;
         };
@@ -235,7 +256,7 @@ class Colision
          * @return false 
          */
         bool isCol(Colision &col, Positions const &him, Positions const &me) {
-            if (me._x + width < him._x || me._x > him._x + col.width || me._y + height < him._y || me._y > him._y + col.height)
+            if (me.x + width < him.x || me.x > him.x + col.width || me.y + height < him.y || me.y > him.y + col.height)
                 return false;
             return true;
         };
@@ -244,23 +265,35 @@ class Colision
         int height;
 };
 
-class Controllable
-{
-public:
-    Controllable() {};
-    ~Controllable() {};
-    void move(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
-        if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
-            return;
-        return vel.move(ASSOCIATIVE_KEYS.at(key), pos);
-    };
-    void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key) {
-        if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
-            return;
-        if (stat.has_value() && draw.has_value() && draw.value().getRect().has_value())
-            draw.value().getRect().value().left = stat.value().status(ASSOCIATIVE_KEYS.at(key));
-    };
+/**
+ * Component that reacts to an input:
+ * 
+ * Examples:
+ * `Space`  Shoot
+ * `Z`      Go UP
+ * ...
+ */
+class Controllable {
+    public:
+        auto onKeyDown(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
+            vel.press(ASSOCIATIVE_KEYS.at(key), pos);
+        }
 
-private:
+        void onKeyUp(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
+            vel.unpress(ASSOCIATIVE_KEYS.at(key), pos);
+        }
+
+        void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key) {
+            if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
+                return;
+            if (stat.has_value() && draw.has_value() && draw.value().getRect().has_value())
+                draw.value().getRect().value().left = stat.value().status(ASSOCIATIVE_KEYS.at(key));
+        };
+    
+        // void move(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
+        //     if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
+        //         return;
+        //     vel.move(ASSOCIATIVE_KEYS.at(key), pos);
+        // };
 };
 
