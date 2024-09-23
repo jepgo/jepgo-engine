@@ -24,27 +24,21 @@ bool MoveSystem::checkMovement(Register &r, std::size_t &entity, Positions const
 
     if (Col[entity].has_value() == false)
         return true;
-    for (std::size_t i = 0; i < Col.size(); i++)
-    {
+    for (std::size_t i = 0; i < Col.size(); i++) {
         if (Col[i].has_value() && pos[i].has_value() && i != entity)
             list.insert(std::make_pair(i, &Col[i].value()));
     }
-    if (list.size() == 0)
-    {
+    if (list.size() == 0) {
         return true;
     }
-    if (list.size() == 1)
-    {
+    if (list.size() == 1) {
         return (Col[entity].value().isCol(*(list.begin()->second), pos[list.begin()->first].value(), Newpos + pos[entity].value()));
     }
-    std::cout << "list = " << list.size() << std::endl;
-    // for (auto it = list.begin(); std::next(it) != list.end(); it++)
-    // {
-    //     if (Col[entity].value().isCol(*(it->second), pos[it->first].value(), Newpos + pos[entity].value()))
-    //     {
-    //         return false;
-    //     }
-    // }
+    for (auto it = list.begin(); std::next(it) != list.end(); it++) {
+        if (Col[entity].value().isCol(*(it->second), pos[it->first].value(), Newpos + pos[entity].value())) {
+            return false;
+        }
+    }
     return true;
 }
 void MoveSystem::system(Register &r, sf::Time &t) {

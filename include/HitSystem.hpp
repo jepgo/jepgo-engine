@@ -14,7 +14,7 @@ class HitSystem {
     public:
         HitSystem();
         ~HitSystem();
-        static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_t, Hitable*>::iterator &me, std::map<size_t, Hitable*>::iterator &where, Positions &m, Positions &him, std::vector<sf::Texture> &texture, Register &re);
+        static bool compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Positions &m, SparseArray<Positions> &pos, std::size_t ind);
         void system(Register &r, std::vector<sf::Texture> &texture);
     protected:
     private:

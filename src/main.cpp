@@ -5,6 +5,7 @@
 ** main
 */
 
+#include "TestGame.hpp"
 #include "HitSystem.hpp"
 #include "DrawSystem.hpp"
 #include <iostream>
@@ -81,6 +82,7 @@ void MidSpriteSystem(Register &r)
 
 int main()
 {
+    int entity_nbr = -1;
     Register r;
     sf::Clock clock;
     sf::Time time;
@@ -89,12 +91,13 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "R-TYPE");
     // Drawable test("sprites/r-typesheet3.gif", "caca");
     // Positions ok(100, 100);
+    TestGame game = TestGame(1);
     MoveSystem moveSys = MoveSystem(10);
     HitSystem hitSys = HitSystem();
     DrawSystem drawSys = DrawSystem();
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
 
-    r.creatEntity();
+    r.creatEntity(entity_nbr);
     r.emplace_comp(0, Positions(100, 100));
     r.emplace_comp(0, Drawable(1, sf::IntRect(202, 0, 30, 18), std::vector<float>{1.5, 1.5}));
     //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
@@ -103,14 +106,14 @@ int main()
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, Hitable(30, 18));
-    r.creatEntity();
-    r.emplace_comp(1, Positions(1000, 250));
+    r.creatEntity(entity_nbr);
+    r.emplace_comp(1, Positions(600, 250));
     r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
-    //r.emplace_comp(1, Hitable(17, 18));
-    //r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(1, Colision(17, 18));
-     r.creatEntity();
+    r.emplace_comp(1, Hitable(17, 18));
+    r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    //r.emplace_comp(1, Colision(17, 18));
+     r.creatEntity(entity_nbr);
     r.emplace_comp(2, Positions(400, 350));
     r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
@@ -141,6 +144,7 @@ int main()
         moveSys.system(r, time);
         animSys.system(r, time);
         drawSys.system(window, r, texture);
+        game.generateRandomsEntitys(r, time, entity_nbr);
         window.display();
     }
     return 0;

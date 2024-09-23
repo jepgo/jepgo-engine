@@ -214,7 +214,7 @@ class Explosion
         /**
          * @brief Construct a new Explosion object
          * 
-         * @param ind 
+         * @param ind The index for the list of Texture
          * @param status The number of the status of the New Sprite
          * @param val The value to be increase for the left Sprite rectangle
          * @param t The time fo the Sprite to be refresh

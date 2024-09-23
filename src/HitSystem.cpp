@@ -26,15 +26,18 @@ HitSystem::~HitSystem()
  * @return true 
  * @return false 
  */
-bool HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_t, Hitable*>::iterator &me, std::map<size_t, Hitable*>::iterator &where, Positions &m, Positions &him, std::vector<sf::Texture> &texture, Register &re)
+bool HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Positions &m, SparseArray<Positions> &pos, std::size_t ind)
 {
-    for (auto &it = where; it != list.end(); it++) {
-        if (me->second->isHit(*(it->second), him, m)) {
-            me->second->Whenhit(me->first, re, texture);
-            it->second->Whenhit(it->first, re, texture);
+    std::size_t i = 0;
+    bool res = false;
+
+    for (auto it = list.begin(); it != list.end(); it++) {
+        if (i != ind && (me.isHit(*(it->second), pos[it->first].value(), m))) {
+            return true;
         }
+        i++;
     }
-    return true;
+    return res;
 }
 
 /**
@@ -44,6 +47,7 @@ bool HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, std::map<s
  */
 void HitSystem::system(Register &r, std::vector<sf::Texture> &texture)
 {
+    std::size_t nbr = 0;
     auto &hit = r.getComp<Hitable>();
     auto &pos = r.getComp<Positions>();
     std::map<std::size_t, Hitable *> list;
@@ -52,12 +56,12 @@ void HitSystem::system(Register &r, std::vector<sf::Texture> &texture)
         if (hit[i].has_value() && pos[i].has_value())
             list.insert(std::make_pair(i, &hit[i].value()));
     }
-    if (list.size() == 0)
+    if (list.size() == 0 || list.size() == 1)
         return;
-    for (auto it = list.begin(); std::next(it) != list.end(); it++) {
-        auto next = std::next(it);
-        if (HitSystem::compareHitable(list, it, next, pos[it->first].value(), pos[next->first].value(), texture, r)) {
+    for (auto it = list.begin(); it != list.end(); it++) {
+        if (HitSystem::compareHitable(list, *(it->second), pos[it->first].value(), pos, nbr)) {
             it->second->Whenhit(it->first, r, texture);
         }    
+        nbr++;
     }
 }
