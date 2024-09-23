@@ -63,8 +63,7 @@ void checkSprite(Register &r, sf::Time &time)
     auto &rec = r.getComp<Sprite_Animation>();
     auto &draw = r.getComp<Drawable>();
 
-    for (std::size_t i = 0; i < rec.size(); i++)
-    {
+    for (std::size_t i = 0; i < rec.size(); i++) {
         if (rec[i].has_value() && draw[i].has_value() && time.asSeconds() - rec[i].value().t >= rec[i].value().reset)
         {
             draw[i].value().getRect().value().left += rec[i].value().val;
@@ -109,6 +108,7 @@ void keySystem(Register &r, sf::Keyboard::Key key)
             control[i].value().moveStatus(stat[i], draw[i], key);
             //if () Colision System to add
             control[i].value().move(key, vel[i].value(), pos[i].value());
+            //Position -> 
         }
     }
 }
@@ -178,14 +178,43 @@ void MidSpriteSystem(Register &r)
     }
 }
 
+bool checkMovement(Register &r, std::size_t &entity, Positions const &Newpos)
+{
+    auto &Col = r.getComp<Colision>();
+    auto &pos = r.getComp<Positions>();
+    
+    std::map<std::size_t, Colision *> list;
+
+    for (std::size_t i = 0; i < Col.size(); i++) {
+        if (Col[i].has_value() && i != entity)
+            list.insert(std::make_pair(i, &Col[i].value()));
+    }
+    if (list.size() == 0)
+        return true;
+    for (auto it = list.begin(); std::next(it) != list.end(); it++) {
+        if (Col[entity].value().isCol(*(it->second), pos[it->first].value(), Newpos) == false)
+            return false;
+    }
+    return true;
+}
+
+void MoveSystem(Register &r)
+{
+    auto &move = r.getComp<Move>();
+
+    for (std::size_t i = 0; i < move.size(); i++) {
+        if (move[i].has_value() && checkMovement(r, i, move[i].value().getPos()))
+            r.emplace_comp(i, std::move(Positions(move[i].value().getPos())));
+    }
+}
+
 int main()
 {
     Register r;
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
-    std::vector<std::string> data = {"sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif"};
-    std::vector<sf::Texture> texture = getAllTexture(data);
+    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif" });
     sf::RenderWindow window(sf::VideoMode(800, 600), "R-TYPE");
     // Drawable test("sprites/r-typesheet3.gif", "caca");
     // Positions ok(100, 100);
@@ -222,6 +251,7 @@ int main()
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();
         HitSystem(r, texture);
+        MoveSystem(r);
         checkSprite(r, time);
         display_drawable(window, r, texture);
         window.display();

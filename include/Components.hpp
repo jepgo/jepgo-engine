@@ -25,6 +25,15 @@ public:
     int _y;
 };
 
+class Move {
+    public:
+        Move(Positions const &p) : pos(p){};
+        ~Move() {};
+        inline Positions const &getPos() const { return (pos); }
+        private:
+            Positions const &pos;
+};
+
 struct Speed
 {
     std::size_t up;
@@ -66,7 +75,7 @@ private:
     std::vector<double> speed;
 };
 
-class Drawable
+class Drawable 
 {
 public:
     Drawable(std::size_t ind, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt)
@@ -103,6 +112,7 @@ private:
     std::vector<float> scale;
     std::optional<sf::IntRect> rect;
 };
+
 
 class Sprite_Animation
 {
@@ -203,12 +213,11 @@ class Hitable
         int height;
 };
 
-
 class Colision
 {
     public:
         /**
-         * @brief Construct a new Hitable object
+         * @brief Construct a new Colision object
          * 
          * @param w the width of the object
          * @param h the hight of the object
@@ -217,15 +226,15 @@ class Colision
         ~Colision() {};
         
         /**
-         * @brief Methode to know if 2 hitable object touch each others
+         * @brief Methode to know if 2 colision object touch each others
          * 
-         * @param hit the other Hitable object
+         * @param hit the other Controllable object
          * @param him The position of the second Hitable
          * @param me The Position of this Hitable
          * @return true 
          * @return false 
          */
-        bool isCol(Colision &col, Positions &him, Positions &me) {
+        bool isCol(Colision &col, Positions const &him, Positions const &me) {
             if (me._x + width < him._x || me._x > him._x + col.width || me._y + height < him._y || me._y > him._y + col.height)
                 return false;
             return true;
