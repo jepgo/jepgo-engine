@@ -259,10 +259,8 @@ class Colision
          * @return false 
          */
         bool isCol(Colision &col, Positions const &him, Positions const &me) {
-            if (me.x + width < him.x || me.x > him.x + col.width || me.y + height < him.y || me.y > him.y + col.height)
-                return false;
-            return true;
-        };
+            return !(me.x + width < him.x || me.x > him.x + col.width || me.y + height < him.y || me.y > him.y + col.height);
+        }
     private:
         int width;
         int height;
