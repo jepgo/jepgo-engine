@@ -65,28 +65,17 @@ class Velocity {
 
         auto press(Direction s, Positions &pos) -> void {
             auto p = _getValues(s, pos);
-            p.first = std::clamp<int>(p.first + p.second, -1, 1);
+            p.first = std::clamp<int>(p.first + p.second * _speed[s], -_speed[s], _speed[s]);
         }
 
         auto unpress(Direction s, Positions &pos) -> void {
             auto p = _getValues(s, pos);
-            p.first = std::clamp<int>(p.first - p.second, -1, 1);
+            p.first = std::clamp<int>(p.first - p.second * _speed[s], -_speed[s], _speed[s]);
         }
 
         inline auto getVel() const noexcept -> Positions const & {
             return _vel;
         }
-
-        // void move(Direction s, Positions &pos) const {
-        //     if (s == UP)
-        //         pos.y -= 1 * _speed[UP];
-        //     if (s == DOWN)
-        //         pos.y += 1 * _speed[DOWN];
-        //     if (s == LEFT)
-        //         pos.x -= 1 * _speed[LEFT];
-        //     if (s == RIGHT)
-        //         pos.x += 1 * _speed[RIGHT];
-        // };
 
     private:
         auto _getValues(Direction s, Positions &pos) -> std::pair<int &, int> {
@@ -227,9 +216,7 @@ class Hitable
          * @return false 
          */
         bool isHit(Hitable &hit, Positions &him, Positions &me) {
-            if (me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height)
-                return false;
-            return true;
+            return !(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height);
         };
         void Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list);
     private:

@@ -193,7 +193,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "R-TYPE");
     // Drawable test("sprites/r-typesheet3.gif", "caca");
     // Positions ok(100, 100);
-    MoveSystem moveSys = MoveSystem(1000);
+    MoveSystem moveSys = MoveSystem(10);
 
     r.creatEntity();
     r.emplace_comp(0, Positions(100, 100));
