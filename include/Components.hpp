@@ -27,7 +27,7 @@ class Move {
         inline auto getPos() const noexcept -> Positions const & {
             return _pos;
         }
-    private: Positions const _pos;
+    private: Positions _pos;
 };
 
 // class Move {

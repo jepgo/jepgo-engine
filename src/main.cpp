@@ -101,18 +101,18 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
     auto &pos = r.getComp<Positions>();
     auto &stat = r.getComp<Sprite_Status>();
     auto &draw = r.getComp<Drawable>();
-    auto &col = r.getComp<Colision>();
+    // auto &col = r.getComp<Colision>();
 
     for (std::size_t i = 0; i < control.size(); i++) {
-        if (control[i].has_value() and vel[i].has_value() and pos[i].has_value())
+        if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
-        // control[i].value().move(key, vel[i].value(), pos[i].value());
-        control[i].value().moveStatus(stat[i], draw[i], key);
+        if (stat[i].has_value() and draw[i].has_value())
+            control[i].value().moveStatus(stat[i], draw[i], key);
         if (keyUp)
             control[i].value().onKeyUp(key, vel[i].value(), pos[i].value());
         else
             control[i].value().onKeyDown(key, vel[i].value(), pos[i].value());
-        // r.emplace_comp(i, Move(vel[i].value().getVel()));
+        r.emplace_comp(i, Move(vel[i].value().getVel()));
     }
 }
 
