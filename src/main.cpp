@@ -113,7 +113,6 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
             control[i].value().onKeyUp(key, vel[i].value(), pos[i].value());
         else
             control[i].value().onKeyDown(key, vel[i].value(), pos[i].value());
-        std::cout << vel[i].value().getVel().y << std::endl;
         r.emplace_comp(i, Move(vel[i].value().getVel()));
     }
 }
@@ -200,6 +199,7 @@ int main()
     r.emplace_comp(0, Drawable(1, sf::IntRect(202, 0, 30, 18), std::vector<float>{1.5, 1.5}));
     //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(0, Velocity({2, 2, 2, 2}));
+    r.emplace_comp(0, Colision(30, 18));
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, Hitable(30, 18));
@@ -207,8 +207,9 @@ int main()
     r.emplace_comp(1, Positions(250, 250));
     r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
-    r.emplace_comp(1, Hitable(17, 18));
-    r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    //r.emplace_comp(1, Hitable(17, 18));
+    //r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(1, Colision(17, 18));
     //r.removeComponent<Drawable>(1);
     // r.creatEntity();
     // r.emplace_comp(1, Positions(300, 300));

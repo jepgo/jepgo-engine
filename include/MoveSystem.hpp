@@ -28,11 +28,16 @@ public:
             if (Col[i].has_value() && i != entity)
                 list.insert(std::make_pair(i, &Col[i].value()));
         }
-        if (list.size() == 0)
+        if (list.size() == 0) {
             return true;
+        }
+        if (list.size() == 1) {
+            return (Col[entity].value().isCol(*(list.begin()->second), pos[list.begin()->first].value(), Newpos + pos[entity].value()));
+        }
         for (auto it = list.begin(); std::next(it) != list.end(); it++) {
-            if (Col[entity].value().isCol(*(it->second), pos[it->first].value(), Newpos) == false)
+            if (Col[entity].value().isCol(*(it->second), pos[it->first].value(), Newpos + pos[entity].value())) {
                 return false;
+            }
         }
         return true;
     }
@@ -42,10 +47,11 @@ public:
 
         if (t.asMilliseconds() - time <= reset)
             return;
-        std::cout << "i move" << std::endl;
         for (std::size_t i = 0; i < move.size(); i++) {
             if (move[i].has_value() && checkMovement(r, i, move[i].value().getPos()))
                 r.emplace_comp(i, Positions(move[i].value().getPos() + pos[i].value()));
+            else
+                r.removeComponent<Move>(i);
         }
         time = t.asMilliseconds();
     }
