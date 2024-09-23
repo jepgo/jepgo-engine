@@ -8,6 +8,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <optional>
+
+class Register;
 
 class Positions
 {
@@ -70,6 +73,8 @@ public:
     {
         rect = r;
         index = ind;
+        if (r.has_value())
+            start = r.value().left;
         if (s.has_value())
             scale = s.value();
         else {
@@ -90,6 +95,7 @@ public:
     void change_ind(std::size_t ind) { index = ind; };
     std::size_t getIndex() { return index; };
     std::optional<sf::IntRect> &getRect() { return rect; };
+    int start;
 
 private:
     sf::Sprite sprite;
@@ -101,22 +107,32 @@ private:
 class Sprite_Animation
 {
 public:
-    Sprite_Animation(int sta, int value, double res)
+    Sprite_Animation(int sta, int value, double res, std::optional<bool> dead = std::nullopt)
     {
         status = sta;
+        if (value < 0)
+            isneg = true;
+        else
+            isneg = false;
         val = value;
         reset = res;
         t = 0;
+        if (dead.has_value())
+            deadAnimation = true;
+        else
+            deadAnimation = false;
     };
     ~Sprite_Animation() {};
-    void setTime(sf::Time time)
+    void setTime(sf::Time &time)
     {
         t = time.asSeconds();
     };
+    bool isneg;
     int status;
     int val;
     double reset;
-    double t;
+    float t;
+    bool deadAnimation;
 };
 
 static std::map<sf::Keyboard::Key, SPEED> const ASSOCIATIVE_KEYS = {
@@ -136,6 +152,23 @@ class Sprite_Status {
         int mid() {return stat.at(MID);};
     private:
         std::map<SPEED, int> stat;
+};
+
+class Explosion
+{
+    public:
+        Explosion(std::size_t ind, int status, int val, double t, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r), scale(s), stat(status), time(t) {
+            value = val;
+        };
+        ~Explosion() {};
+        void explose(Register &r, std::size_t entity);
+    private:
+        std::size_t index;
+        std::optional<sf::IntRect> rect;
+        std::optional<std::vector<float>> scale;
+        int stat;
+        double time;
+        int value;
 };
 
 class Hitable
@@ -164,6 +197,7 @@ class Hitable
                 return false;
             return true;
         };
+        void Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list);
     private:
         int width;
         int height;
@@ -184,3 +218,4 @@ public:
 
 private:
 };
+

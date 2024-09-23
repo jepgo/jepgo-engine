@@ -42,6 +42,13 @@ public:
     }
     std::size_t entityNbr();
 
+    // void erase(std::size_t enity){
+    //     for (auto it = regist.begin(); it != regist.end(); it++) {
+    //         auto tmp = it->first;
+    //         std::any_cast<SparseArray<tmp>&>(regist[std::type_index(typeid(Component))]);
+    //     }
+    // };
+
 private:
     std::map<std::type_index, std::any> regist;
 };

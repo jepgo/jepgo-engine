@@ -20,6 +20,7 @@ LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
 MAIN	=	src/main.cpp \
 
 SRC =	src/Register.cpp	\
+		src/Components.cpp	\
 
 OBJS += $(SRC:.cpp=.o)
 

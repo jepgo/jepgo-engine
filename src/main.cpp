@@ -68,9 +68,23 @@ void checkSprite(Register &r, sf::Time &time)
         if (rec[i].has_value() && draw[i].has_value() && time.asSeconds() - rec[i].value().t >= rec[i].value().reset)
         {
             draw[i].value().getRect().value().left += rec[i].value().val;
-            if (draw[i].value().getRect().value().left >= (rec[i].value().status) * rec[i].value().val)
-                draw[i].value().getRect().value().left = 0;
-            rec[i].value().setTime(time);
+            if ((rec[i].value().isneg == false) && draw[i].value().getRect().value().left >= (rec[i].value().status) * rec[i].value().val) {
+                if (rec[i].value().deadAnimation == true) {
+                    r.removeComponent<Drawable>(i);
+                    r.removeComponent<Sprite_Animation>(i);
+                } else
+                    draw[i].value().getRect().value().left = draw[i].value().start;
+            }
+            else if ((rec[i].value().isneg == true) && draw[i].value().getRect().value().left <= (rec[i].value().status) * rec[i].value().val) {
+                if (rec[i].value().deadAnimation == true) {
+                    r.removeComponent<Drawable>(i);
+                    r.removeComponent<Sprite_Animation>(i);
+                } else
+                draw[i].value().getRect().value().left = draw[i].value().start;
+            }
+            if (rec[i].has_value()) {
+                rec[i].value().t = time.asSeconds();
+            }
         }
     }
 }
@@ -107,13 +121,15 @@ void keySystem(Register &r, sf::Keyboard::Key key)
  * @return true 
  * @return false 
  */
-static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_t, Hitable*>::iterator &me, std::map<size_t, Hitable*>::iterator &where, Positions &m, Positions &him)
+static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_t, Hitable*>::iterator &me, std::map<size_t, Hitable*>::iterator &where, Positions &m, Positions &him, std::vector<sf::Texture> &texture, Register &re)
 {
     for (auto &it = where; it != list.end(); it++) {
-        if (me->second->isHit(*(it->second), him, m))
-            return true;
+        if (me->second->isHit(*(it->second), him, m)) {
+            me->second->Whenhit(me->first, re, texture);
+            it->second->Whenhit(it->first, re, texture);
+        }
     }
-    return false;
+    return true;
 }
 
 /**
@@ -121,7 +137,7 @@ static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_
  * 
  * @param r The Registry
  */
-void HitSystem(Register &r)
+void HitSystem(Register &r, std::vector<sf::Texture> &texture)
 {
     auto &hit = r.getComp<Hitable>();
     auto &pos = r.getComp<Positions>();
@@ -135,8 +151,9 @@ void HitSystem(Register &r)
         return;
     for (auto it = list.begin(); std::next(it) != list.end(); it++) {
         auto next = std::next(it);
-        if (compareHitable(list, it, next, pos[it->first].value(), pos[next->first].value()))
-            std::cout << "touch" << std::endl;
+        if (compareHitable(list, it, next, pos[it->first].value(), pos[next->first].value(), texture, r)) {
+            it->second->Whenhit(it->first, r, texture);
+        }    
     }
 }
 
@@ -183,6 +200,7 @@ int main()
     r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(1, Hitable(17, 18));
+    r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40)));
     //r.removeComponent<Drawable>(1);
     // r.creatEntity();
     // r.emplace_comp(1, Positions(300, 300));
@@ -200,7 +218,7 @@ int main()
         }
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();
-         HitSystem(r);
+        HitSystem(r, texture);
         checkSprite(r, time);
         display_drawable(window, r, texture);
         window.display();
