@@ -83,6 +83,17 @@ void MidSpriteSystem(Register &r)
     }
 }
 
+void ModuleSytem(Register &r)
+{
+    auto &modules = r.getComp<Module>();
+    auto &pos = r.getComp<Positions>();
+
+    for (std::size_t i = 0; i < modules.size(); i++) {
+        if (modules[i].has_value() && pos[i].has_value())
+            modules[i].value().update(pos[i], pos);
+    }
+}
+
 int main()
 {
     Register r;
@@ -108,11 +119,12 @@ int main()
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, Hitable(30, 18));
-    // r.creatEntity(entity_nbr);
-    // r.emplace_comp(1, Positions(600, 250));
-    // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
-    // r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
-    // r.emplace_comp(1, Hitable(17, 18));
+    r.creatEntity();
+    r.emplace_comp(1, Positions(100, 100));
+    r.emplace_comp(1, Drawable(1, sf::IntRect(235, 20, 30, 30), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(1, Sprite_Animation(3, -33, 0.1));
+    //r.emplace_comp(1, Hitable(17, 18));
+    r.emplace_comp(1, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
     // r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     // //r.emplace_comp(1, Colision(17, 18));
     //  r.creatEntity(entity_nbr);
@@ -150,6 +162,7 @@ int main()
         hitSys.system(r, texture);
         moveSys.system(r, time);
         animSys.system(r, time);
+        ModuleSytem(r);
         drawSys.system(window, r, texture);
         game.generateRandomsEntitys(r, time);
         window.display();

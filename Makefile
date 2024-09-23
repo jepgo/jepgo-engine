@@ -27,6 +27,7 @@ SRC =	src/Register.cpp	\
 		src/AnimationSpriteSystem.cpp	\
 		src/TestGame.cpp	\
 		src/Controllable.cpp	\
+		src/Module.cpp	\
 
 OBJS += $(SRC:.cpp=.o)
 

@@ -13,6 +13,7 @@
 #include <typeindex>
 #include "SparseArray.hpp"
 #include "Components.hpp"
+#include "Module.hpp"
 
 class Register
 {

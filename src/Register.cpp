@@ -25,6 +25,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(Colision)), SparseArray<Colision>()});
     regist.insert({std::type_index(typeid(Move)), SparseArray<Move>()});
     regist.insert({std::type_index(typeid(SoloMove)), SparseArray<SoloMove>()});
+    regist.insert({std::type_index(typeid(Module)), SparseArray<Module>()});
 }
 
 Register::~Register()
@@ -45,6 +46,7 @@ void Register::creatEntity()
     std::any_cast<SparseArray<Colision>&>(regist[std::type_index(typeid(Colision))]).add();
     std::any_cast<SparseArray<Move>&>(regist[std::type_index(typeid(Move))]).add();
     std::any_cast<SparseArray<SoloMove>&>(regist[std::type_index(typeid(SoloMove))]).add();
+    std::any_cast<SparseArray<Module>&>(regist[std::type_index(typeid(Module))]).add();
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()
