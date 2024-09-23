@@ -51,8 +51,8 @@ struct Speed
 };
 
 enum Direction {
-    UP,
     DOWN,
+    UP,
     RIGHT,
     LEFT,
     MID,
