@@ -47,7 +47,6 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
     auto &pos = r.getComp<Positions>();
     auto &stat = r.getComp<Sprite_Status>();
     auto &draw = r.getComp<Drawable>();
-    // auto &col = r.getComp<Colision>();
 
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
@@ -111,6 +110,12 @@ int main()
     //r.emplace_comp(1, Hitable(17, 18));
     //r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Colision(17, 18));
+     r.creatEntity();
+    r.emplace_comp(2, Positions(400, 350));
+    r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
+    r.emplace_comp(2, Hitable(17, 18));
+    r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     //r.removeComponent<Drawable>(1);
     // r.creatEntity();
     // r.emplace_comp(1, Positions(300, 300));

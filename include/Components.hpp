@@ -15,6 +15,12 @@ class Register;
 class Positions
 {
 public:
+    /**
+     * @brief Construct a new Positions object
+     * 
+     * @param x Position x of the object
+     * @param y Position y of the Object
+     */
     Positions(int x, int y): x(x), y(y) {}
     ~Positions() {};
     Positions operator+(Positions const &pos) const {
@@ -32,15 +38,6 @@ class Move {
         }
     private: Positions _pos;
 };
-
-// class Move {
-//     public:
-//         Move(Positions const &p) : pos(p){};
-//         ~Move() {};
-//         inline Positions const &getPos() const { return (pos); }
-//         private:
-//             Positions const &pos;
-// };
 
 struct Speed
 {
@@ -91,6 +88,13 @@ class Velocity {
 class Drawable 
 {
 public:
+    /**
+     * @brief Construct a new Drawable object
+     * 
+     * @param ind The index of the texture in the List of all the texture
+     * @param r optional rectangle for The Sprite to Draw
+     * @param s A Optional Vector of 2 float for the Scale
+     */
     Drawable(std::size_t ind, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt)
     {
         rect = r;
@@ -130,6 +134,14 @@ private:
 class Sprite_Animation
 {
 public:
+    /**
+     * @brief Construct a new Sprite_Animation object
+     * 
+     * @param sta The number of Status for the Sprite
+     * @param value The value to be increase for the Sprite
+     * @param res The time for the Sprite to be reseted
+     * @param dead A Bool to know if the Sprite animation need to be delete after the max status
+     */
     Sprite_Animation(int sta, int value, double res, std::optional<bool> dead = std::nullopt)
     {
         status = sta;
@@ -167,6 +179,11 @@ static std::map<sf::Keyboard::Key, Direction> const ASSOCIATIVE_KEYS = {
 
 class Sprite_Status {
     public:
+        /**
+         * @brief Construct a new Sprite_Status object
+         * 
+         * @param s The directions of the Sprite
+         */
         Sprite_Status(std::map<Direction, int> s) : stat(s) {};
         ~Sprite_Status() {};
         int status(Direction s) {
@@ -180,10 +197,26 @@ class Sprite_Status {
 class Explosion
 {
     public:
+        /**
+         * @brief Construct a new Explosion object
+         * 
+         * @param ind 
+         * @param status The number of the status of the New Sprite
+         * @param val The value to be increase for the left Sprite rectangle
+         * @param t The time fo the Sprite to be refresh
+         * @param r The optional rectangle
+         * @param s The optional scale of the Sprite
+         */
         Explosion(std::size_t ind, int status, int val, double t, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r), scale(s), stat(status), time(t) {
             value = val;
         };
         ~Explosion() {};
+        /**
+         * @brief The action for the explosion
+         * 
+         * @param r The Registry
+         * @param entity The entity to be found
+         */
         void explose(Register &r, std::size_t entity);
     private:
         std::size_t index;
@@ -277,11 +310,5 @@ class Controllable {
             if (stat.has_value() && draw.has_value() && draw.value().getRect().has_value())
                 draw.value().getRect().value().left = stat.value().status(ASSOCIATIVE_KEYS.at(key));
         };
-    
-        // void move(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
-        //     if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
-        //         return;
-        //     vel.move(ASSOCIATIVE_KEYS.at(key), pos);
-        // };
 };
 
