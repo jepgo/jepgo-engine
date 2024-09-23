@@ -199,7 +199,7 @@ int main()
     r.emplace_comp(0, Positions(100, 100));
     r.emplace_comp(0, Drawable(1, sf::IntRect(202, 0, 30, 18), std::vector<float>{1.5, 1.5}));
     //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
-    r.emplace_comp(0, Velocity({5, 5, 5, 5}));
+    r.emplace_comp(0, Velocity({2, 2, 2, 2}));
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, Hitable(30, 18));
