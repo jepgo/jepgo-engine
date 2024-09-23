@@ -203,17 +203,53 @@ class Hitable
         int height;
 };
 
+
+class Colision
+{
+    public:
+        /**
+         * @brief Construct a new Hitable object
+         * 
+         * @param w the width of the object
+         * @param h the hight of the object
+         */
+        Colision(int w, int h) : width(w), height(h) {};
+        ~Colision() {};
+        
+        /**
+         * @brief Methode to know if 2 hitable object touch each others
+         * 
+         * @param hit the other Hitable object
+         * @param him The position of the second Hitable
+         * @param me The Position of this Hitable
+         * @return true 
+         * @return false 
+         */
+        bool isCol(Colision &col, Positions &him, Positions &me) {
+            if (me._x + width < him._x || me._x > him._x + col.width || me._y + height < him._y || me._y > him._y + col.height)
+                return false;
+            return true;
+        };
+    private:
+        int width;
+        int height;
+};
+
 class Controllable
 {
 public:
     Controllable() {};
     ~Controllable() {};
-    void move(sf::Keyboard::Key key, Velocity &vel, Positions &pos, std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw) {
+    void move(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
+        if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
+            return;
+        return vel.move(ASSOCIATIVE_KEYS.at(key), pos);
+    };
+    void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key) {
         if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
             return;
         if (stat.has_value() && draw.has_value() && draw.value().getRect().has_value())
             draw.value().getRect().value().left = stat.value().status(ASSOCIATIVE_KEYS.at(key));
-        return vel.move(ASSOCIATIVE_KEYS.at(key), pos);
     };
 
 private:
