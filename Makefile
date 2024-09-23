@@ -12,22 +12,23 @@ BIN_TESTS	=	build_tests
 FILES_UNIT	=	*.gc*
 
 CFLAGS += -Wall -Wextra -Wpedantic -std=c++17
-CPPFLAGS += -iquote./include -iquote./interpreter
+CPPFLAGS += -iquote./engine/include
 LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
 
 # Source files
 
-MAIN	=	src/main.cpp \
+MAIN	=	engine/src/main.cpp \
 
-SRC =	src/Register.cpp	\
-		src/Components.cpp	\
-		src/HitSystem.cpp	\
-		src/MoveSystem.cpp	\
-		src/DrawSystem.cpp	\
-		src/AnimationSpriteSystem.cpp	\
-		src/TestGame.cpp	\
-		src/Controllable.cpp	\
-		src/Module.cpp	\
+SRC =	engine/src/Register.cpp	\
+		engine/src/Components.cpp	\
+		engine/src/HitSystem.cpp	\
+		engine/src/MoveSystem.cpp	\
+		engine/src/DrawSystem.cpp	\
+		engine/src/AnimationSpriteSystem.cpp	\
+		engine/src/TestGame.cpp	\
+		engine/src/Controllable.cpp	\
+		engine/src/Module.cpp	\
+
 
 OBJS += $(SRC:.cpp=.o)
 

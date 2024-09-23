@@ -31,14 +31,14 @@ void AnimationSpriteSystem::system(Register &r, sf::Time &time)
         if (rec[i].has_value() && draw[i].has_value() && time.asSeconds() - rec[i].value().t >= rec[i].value().reset)
         {
             draw[i].value().getRect().value().left += rec[i].value().val;
-            if ((rec[i].value().isneg == false) && draw[i].value().getRect().value().left >= (rec[i].value().status) * rec[i].value().val) {
+            if ((rec[i].value().isneg == false) && draw[i].value().getRect().value().left >= (rec[i].value().status) * rec[i].value().val + draw[i].value().start) {
                 if (rec[i].value().deadAnimation == true) {
                     r.removeComponent<Drawable>(i);
                     r.removeComponent<Sprite_Animation>(i);
                 } else
                     draw[i].value().getRect().value().left = draw[i].value().start;
             }
-            else if ((rec[i].value().isneg == true) && draw[i].value().getRect().value().left <= (rec[i].value().status) * rec[i].value().val) {
+            else if ((rec[i].value().isneg == true) && draw[i].value().getRect().value().left <= (rec[i].value().status) * rec[i].value().val + draw[i].value().start) {
                 if (rec[i].value().deadAnimation == true) {
                     r.removeComponent<Drawable>(i);
                     r.removeComponent<Sprite_Animation>(i);

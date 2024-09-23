@@ -122,7 +122,7 @@ int main()
     r.creatEntity();
     r.emplace_comp(1, Positions(100, 100));
     r.emplace_comp(1, Drawable(1, sf::IntRect(235, 20, 30, 30), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(1, Sprite_Animation(3, -33, 0.1));
+    r.emplace_comp(1, Sprite_Animation(4, -33, 0.1));
     //r.emplace_comp(1, Hitable(17, 18));
     r.emplace_comp(1, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
     // r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));

@@ -157,8 +157,7 @@ public:
      * @param res The time for the Sprite to be reseted
      * @param dead A Bool to know if the Sprite animation need to be delete after the max status
      */
-    Sprite_Animation(int sta, int value, double res, std::optional<bool> dead = std::nullopt)
-    {
+    Sprite_Animation(int sta, int value, double res, std::optional<bool> dead = std::nullopt) {
         status = sta;
         if (value < 0)
             isneg = true;
