@@ -10,6 +10,7 @@
 #include "Components.hpp"
 #include <SFML/Graphics.hpp>
 #include "SparseArray.hpp"
+#include "MoveSystem.hpp"
 
 /**
  * @brief The drawable System
@@ -112,6 +113,7 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
             control[i].value().onKeyUp(key, vel[i].value(), pos[i].value());
         else
             control[i].value().onKeyDown(key, vel[i].value(), pos[i].value());
+        std::cout << vel[i].value().getVel().y << std::endl;
         r.emplace_comp(i, Move(vel[i].value().getVel()));
     }
 }
@@ -181,36 +183,6 @@ void MidSpriteSystem(Register &r)
     }
 }
 
-bool checkMovement(Register &r, std::size_t &entity, Positions const &Newpos)
-{
-    auto &Col = r.getComp<Colision>();
-    auto &pos = r.getComp<Positions>();
-    
-    std::map<std::size_t, Colision *> list;
-
-    for (std::size_t i = 0; i < Col.size(); i++) {
-        if (Col[i].has_value() && i != entity)
-            list.insert(std::make_pair(i, &Col[i].value()));
-    }
-    if (list.size() == 0)
-        return true;
-    for (auto it = list.begin(); std::next(it) != list.end(); it++) {
-        if (Col[entity].value().isCol(*(it->second), pos[it->first].value(), Newpos) == false)
-            return false;
-    }
-    return true;
-}
-
-void MoveSystem(Register &r)
-{
-    auto &move = r.getComp<Move>();
-
-    for (std::size_t i = 0; i < move.size(); i++) {
-        if (move[i].has_value() && checkMovement(r, i, move[i].value().getPos()))
-            r.emplace_comp(i, std::move(Positions(move[i].value().getPos())));
-    }
-}
-
 int main()
 {
     Register r;
@@ -221,6 +193,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "R-TYPE");
     // Drawable test("sprites/r-typesheet3.gif", "caca");
     // Positions ok(100, 100);
+    MoveSystem moveSys = MoveSystem(1000);
 
     r.creatEntity();
     r.emplace_comp(0, Positions(100, 100));
@@ -256,7 +229,7 @@ int main()
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();
         HitSystem(r, texture);
-        MoveSystem(r);
+        moveSys.system(r, time);
         checkSprite(r, time);
         display_drawable(window, r, texture);
         window.display();

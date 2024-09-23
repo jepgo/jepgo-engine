@@ -17,6 +17,9 @@ class Positions
 public:
     Positions(int x, int y): x(x), y(y) {}
     ~Positions() {};
+    Positions operator+(Positions const &pos) const {
+        return Positions(this->x + pos.x, this->y + pos.y);
+    }
     int x;
     int y;
 };
@@ -62,12 +65,12 @@ class Velocity {
 
         auto press(Direction s, Positions &pos) -> void {
             auto p = _getValues(s, pos);
-            p.first += p.second * _speed[s];
+            p.first = std::clamp<int>(p.first + p.second, -1, 1);
         }
 
         auto unpress(Direction s, Positions &pos) -> void {
             auto p = _getValues(s, pos);
-            p.first -= p.second * _speed[s];
+            p.first = std::clamp<int>(p.first - p.second, -1, 1);
         }
 
         inline auto getVel() const noexcept -> Positions const & {
@@ -87,8 +90,8 @@ class Velocity {
 
     private:
         auto _getValues(Direction s, Positions &pos) -> std::pair<int &, int> {
-            int &ref = (s < Direction::LEFT) ? _vel.x : _vel.y;
-            int const mul = (s % 2) * 2 - 1;
+            int &ref = (s < Direction::RIGHT) ? _vel.y : _vel.x;
+            int const mul = !(s % 2) * 2 - 1;
 
             return { ref, mul };
         }
