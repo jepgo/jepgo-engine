@@ -19,7 +19,7 @@ class Register
 public:
     Register();
     ~Register();
-    void creatEntity(int &entity_nbr);
+    void creatEntity();
     std::map<std::type_index, std::any> &getRegister();
     template <typename Component, class ...Params>
     void add_comp(std::size_t id, Params &&... par)
@@ -54,6 +54,7 @@ public:
     //     }
     // };
 
+    int entity_nbr = -1;
 private:
     std::map<std::type_index, std::any> regist;
 };

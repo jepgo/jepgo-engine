@@ -31,7 +31,7 @@ Register::~Register()
 {
 }
 
-void Register::creatEntity(int &entity_nbr)
+void Register::creatEntity()
 {
     entity_nbr++;
     std::any_cast<SparseArray<Positions>&>(regist[std::type_index(typeid(Positions))]).add();

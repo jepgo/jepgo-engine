@@ -26,7 +26,7 @@ class TestGame {
          * @param entity_nbr The total of entity nbr
          * @param textures The list of all the Texture
          */
-        void generateRandomsEntitys(Register &r, sf::Time &time, int &entity_nbr);
+        void generateRandomsEntitys(Register &r, sf::Time &time);
     private:
         float _reset;
         float _time;

@@ -58,6 +58,7 @@ enum Direction {
     RIGHT,
     LEFT,
     MID,
+    TIR,
 };
 
 class Velocity {
@@ -189,6 +190,7 @@ static std::map<sf::Keyboard::Key, Direction> const ASSOCIATIVE_KEYS = {
     {sf::Keyboard::Down, DOWN},
     {sf::Keyboard::Left, LEFT},
     {sf::Keyboard::Right, RIGHT},
+    {sf::Keyboard::A, TIR},
 };
 
 class Sprite_Status {
@@ -273,9 +275,9 @@ class Hitable
          * @param list The list of all the texture
          */
         void Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list);
-    private:
         int width;
         int height;
+    private:
 };
 
 class Colision
@@ -317,19 +319,9 @@ class Colision
  */
 class Controllable {
     public:
-        auto onKeyDown(sf::Keyboard::Key key, Velocity &vel) {
-            vel.press(ASSOCIATIVE_KEYS.at(key));
-        }
-
-        void onKeyUp(sf::Keyboard::Key key, Velocity &vel) {
-            vel.unpress(ASSOCIATIVE_KEYS.at(key));
-        }
-
-        void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key) {
-            if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
-                return;
-            if (stat.has_value() && draw.has_value() && draw.value().getRect().has_value())
-                draw.value().getRect().value().left = stat.value().status(ASSOCIATIVE_KEYS.at(key));
-        };
+        void onKeyDown(sf::Keyboard::Key key, Velocity &vel);
+        void onKeyUp(sf::Keyboard::Key key, Velocity &vel);
+        void Tir(Register &r, Positions &pos, int);
+        void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key);
 };
 

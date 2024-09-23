@@ -48,10 +48,13 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
     auto &pos = r.getComp<Positions>();
     auto &stat = r.getComp<Sprite_Status>();
     auto &draw = r.getComp<Drawable>();
+    auto &hit = r.getComp<Hitable>();
 
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
+        if (key == sf::Keyboard::A && hit[i].has_value())
+            return control[i].value().Tir(r, pos[i].value(), hit[i].value().width);
         if (stat[i].has_value() and draw[i].has_value())
             control[i].value().moveStatus(stat[i], draw[i], key);
         if (keyUp)
@@ -82,7 +85,6 @@ void MidSpriteSystem(Register &r)
 
 int main()
 {
-    int entity_nbr = -1;
     Register r;
     sf::Clock clock;
     sf::Time time;
@@ -97,7 +99,7 @@ int main()
     DrawSystem drawSys = DrawSystem();
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
 
-    r.creatEntity(entity_nbr);
+    r.creatEntity();
     r.emplace_comp(0, Positions(100, 100));
     r.emplace_comp(0, Drawable(1, sf::IntRect(202, 0, 30, 18), std::vector<float>{1.5, 1.5}));
     //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
@@ -106,25 +108,30 @@ int main()
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, Hitable(30, 18));
-    r.creatEntity(entity_nbr);
-    r.emplace_comp(1, Positions(600, 250));
-    r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
-    r.emplace_comp(1, Hitable(17, 18));
-    r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
-    //r.emplace_comp(1, Colision(17, 18));
-     r.creatEntity(entity_nbr);
-    r.emplace_comp(2, Positions(400, 350));
-    r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
-    r.emplace_comp(2, Hitable(17, 18));
-    r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
-    //r.removeComponent<Drawable>(1);
+    // r.creatEntity(entity_nbr);
+    // r.emplace_comp(1, Positions(600, 250));
+    // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
+    // r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
+    // r.emplace_comp(1, Hitable(17, 18));
+    // r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    // //r.emplace_comp(1, Colision(17, 18));
+    //  r.creatEntity(entity_nbr);
+    // r.emplace_comp(2, Positions(400, 350));
+    // r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
+    // r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
+    // r.emplace_comp(2, Hitable(17, 18));
+    // r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    // //r.removeComponent<Drawable>(1);
+    // // r.creatEntity();
+    // // r.emplace_comp(1, Positions(300, 300));
+    // // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
+    // r.emplace_comp(2, Move(Positions(-1, 0)));
+    // r.emplace_comp(2, Velocity({1, 1, 1, 1}));
+    
     // r.creatEntity();
-    // r.emplace_comp(1, Positions(300, 300));
-    // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
-    r.emplace_comp(2, Move(Positions(-1, 0)));
-    r.emplace_comp(2, Velocity({1, 1, 1, 1}));
+    // r.emplace_comp(1, Positions(200, 200));
+    // r.emplace_comp(1, Drawable(1, sf::IntRect(229, 100, 20, 20), std::vector<float>{1.5, 1.5}));
+    //r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
     while (window.isOpen())
     {
         while (window.pollEvent(event))
@@ -144,7 +151,7 @@ int main()
         moveSys.system(r, time);
         animSys.system(r, time);
         drawSys.system(window, r, texture);
-        game.generateRandomsEntitys(r, time, entity_nbr);
+        game.generateRandomsEntitys(r, time);
         window.display();
     }
     return 0;
