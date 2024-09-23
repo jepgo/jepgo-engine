@@ -41,7 +41,7 @@ std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
+void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -49,12 +49,17 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
     auto &stat = r.getComp<Sprite_Status>();
     auto &draw = r.getComp<Drawable>();
     auto &hit = r.getComp<Hitable>();
+    auto &shoot = r.getComp<Shoot>();
 
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
-        if (key == sf::Keyboard::A && hit[i].has_value())
-            return control[i].value().Tir(r, pos[i].value(), hit[i].value().width);
+        if (key == sf::Keyboard::A && hit[i].has_value() && shoot[i].has_value() && shoot[i].value().verif(time)) {
+            //control[i].value().Tir(r, pos[i].value(), hit[i].value().width);
+            shoot[i].value().shoot(r, pos[i].value());
+            shoot[i].value()._time =  time.asSeconds();
+            return;
+        }
         if (stat[i].has_value() and draw[i].has_value())
             control[i].value().moveStatus(stat[i], draw[i], key);
         if (keyUp)
@@ -119,6 +124,7 @@ int main()
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, Hitable(30, 18));
+    r.emplace_comp(0, Shoot(0.1, RIGHT, 20));
     r.creatEntity();
     r.emplace_comp(1, Positions(100, 100));
     r.emplace_comp(1, Drawable(1, sf::IntRect(235, 20, 30, 30), std::vector<float>{1.5, 1.5}));
@@ -146,19 +152,19 @@ int main()
     //r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
     while (window.isOpen())
     {
+        time = clock.getElapsedTime();
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::KeyPressed)
-                keySystem(r, event.key.code, false);
+                keySystem(r, event.key.code, false, time);
             if (event.type == sf::Event::KeyReleased) {
-                keySystem(r, event.key.code, true);
+                keySystem(r, event.key.code, true, time);
                 MidSpriteSystem(r);
             }
         }
         window.clear(sf::Color::White);
-        time = clock.getElapsedTime();
         hitSys.system(r, texture);
         moveSys.system(r, time);
         animSys.system(r, time);
