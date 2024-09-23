@@ -21,6 +21,10 @@ MAIN	=	src/main.cpp \
 
 SRC =	src/Register.cpp	\
 		src/Components.cpp	\
+		src/HitSystem.cpp	\
+		src/MoveSystem.cpp	\
+		src/DrawSystem.cpp	\
+		src/AnimationSpriteSystem.cpp	\
 
 OBJS += $(SRC:.cpp=.o)
 

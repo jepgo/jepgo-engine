@@ -5,33 +5,15 @@
 ** main
 */
 
+#include "HitSystem.hpp"
+#include "DrawSystem.hpp"
 #include <iostream>
 #include "Register.hpp"
 #include "Components.hpp"
 #include <SFML/Graphics.hpp>
 #include "SparseArray.hpp"
 #include "MoveSystem.hpp"
-
-/**
- * @brief The drawable System
- * 
- * @param window The window of the screen
- * @param r The Registry
- * @param texture The list of texture for all the sprite
- */
-void display_drawable(sf::RenderWindow &window, Register &r, std::vector<sf::Texture> &texture)
-{
-    auto &pos = r.getComp<Positions>();
-    auto &draw = r.getComp<Drawable>();
-
-    for (std::size_t i = 0; i < draw.size(); i++)
-    {
-        if (draw[i].has_value() && pos[i].has_value())
-        {
-            draw[i].value().draw(window, texture[draw[i].value().getIndex()], pos[i].value());
-        }
-    }
-}
+#include "AnimationSpriteSystem.hpp"
 
 /**
  * @brief Get the All Texture object
@@ -50,43 +32,6 @@ std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
         texture.push_back(tmp);
     }
     return texture;
-}
-
-/**
- * @brief Function who check the Sprite Animations
- * 
- * @param r The Registry
- * @param time The current time
- */
-void checkSprite(Register &r, sf::Time &time)
-{
-    //sf::Time time = clock.getElapsedTime();
-    auto &rec = r.getComp<Sprite_Animation>();
-    auto &draw = r.getComp<Drawable>();
-
-    for (std::size_t i = 0; i < rec.size(); i++) {
-        if (rec[i].has_value() && draw[i].has_value() && time.asSeconds() - rec[i].value().t >= rec[i].value().reset)
-        {
-            draw[i].value().getRect().value().left += rec[i].value().val;
-            if ((rec[i].value().isneg == false) && draw[i].value().getRect().value().left >= (rec[i].value().status) * rec[i].value().val) {
-                if (rec[i].value().deadAnimation == true) {
-                    r.removeComponent<Drawable>(i);
-                    r.removeComponent<Sprite_Animation>(i);
-                } else
-                    draw[i].value().getRect().value().left = draw[i].value().start;
-            }
-            else if ((rec[i].value().isneg == true) && draw[i].value().getRect().value().left <= (rec[i].value().status) * rec[i].value().val) {
-                if (rec[i].value().deadAnimation == true) {
-                    r.removeComponent<Drawable>(i);
-                    r.removeComponent<Sprite_Animation>(i);
-                } else
-                draw[i].value().getRect().value().left = draw[i].value().start;
-            }
-            if (rec[i].has_value()) {
-                rec[i].value().t = time.asSeconds();
-            }
-        }
-    }
 }
 
 /**
@@ -110,57 +55,10 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp)
         if (stat[i].has_value() and draw[i].has_value())
             control[i].value().moveStatus(stat[i], draw[i], key);
         if (keyUp)
-            control[i].value().onKeyUp(key, vel[i].value(), pos[i].value());
+            control[i].value().onKeyUp(key, vel[i].value());
         else
-            control[i].value().onKeyDown(key, vel[i].value(), pos[i].value());
+            control[i].value().onKeyDown(key, vel[i].value());
         r.emplace_comp(i, Move(vel[i].value().getVel()));
-    }
-}
-
-/**
- * @brief The Hitable Compare
- * 
- * @param list List of Hitable
- * @param me The current who's hit
- * @param where The second who's hit
- * @param m My Position
- * @param him The Position of the other who are hit
- * @return true 
- * @return false 
- */
-static bool compareHitable(std::map<std::size_t, Hitable*> &list, std::map<size_t, Hitable*>::iterator &me, std::map<size_t, Hitable*>::iterator &where, Positions &m, Positions &him, std::vector<sf::Texture> &texture, Register &re)
-{
-    for (auto &it = where; it != list.end(); it++) {
-        if (me->second->isHit(*(it->second), him, m)) {
-            me->second->Whenhit(me->first, re, texture);
-            it->second->Whenhit(it->first, re, texture);
-        }
-    }
-    return true;
-}
-
-/**
- * @brief The Hitable System
- * 
- * @param r The Registry
- */
-void HitSystem(Register &r, std::vector<sf::Texture> &texture)
-{
-    auto &hit = r.getComp<Hitable>();
-    auto &pos = r.getComp<Positions>();
-    std::map<std::size_t, Hitable *> list;
-
-    for (std::size_t i = 0; i < hit.size(); i++) {
-        if (hit[i].has_value() && pos[i].has_value())
-            list.insert(std::make_pair(i, &hit[i].value()));
-    }
-    if (list.size() == 0)
-        return;
-    for (auto it = list.begin(); std::next(it) != list.end(); it++) {
-        auto next = std::next(it);
-        if (compareHitable(list, it, next, pos[it->first].value(), pos[next->first].value(), texture, r)) {
-            it->second->Whenhit(it->first, r, texture);
-        }    
     }
 }
 
@@ -193,6 +91,9 @@ int main()
     // Drawable test("sprites/r-typesheet3.gif", "caca");
     // Positions ok(100, 100);
     MoveSystem moveSys = MoveSystem(10);
+    HitSystem hitSys = HitSystem();
+    DrawSystem drawSys = DrawSystem();
+    AnimationSpriteSystem animSys = AnimationSpriteSystem();
 
     r.creatEntity();
     r.emplace_comp(0, Positions(100, 100));
@@ -229,10 +130,10 @@ int main()
         }
         window.clear(sf::Color::White);
         time = clock.getElapsedTime();
-        HitSystem(r, texture);
+        hitSys.system(r, texture);
         moveSys.system(r, time);
-        checkSprite(r, time);
-        display_drawable(window, r, texture);
+        animSys.system(r, time);
+        drawSys.system(window, r, texture);
         window.display();
     }
     return 0;

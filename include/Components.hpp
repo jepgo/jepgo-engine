@@ -63,13 +63,13 @@ class Velocity {
         Velocity(std::vector<double> const &s): _speed(s) {}
         ~Velocity() = default;
 
-        auto press(Direction s, Positions &pos) -> void {
-            auto p = _getValues(s, pos);
+        auto press(Direction s) -> void {
+            auto p = _getValues(s);
             p.first = std::clamp<int>(p.first + p.second * _speed[s], -_speed[s], _speed[s]);
         }
 
-        auto unpress(Direction s, Positions &pos) -> void {
-            auto p = _getValues(s, pos);
+        auto unpress(Direction s) -> void {
+            auto p = _getValues(s);
             p.first = std::clamp<int>(p.first - p.second * _speed[s], -_speed[s], _speed[s]);
         }
 
@@ -78,7 +78,7 @@ class Velocity {
         }
 
     private:
-        auto _getValues(Direction s, Positions &pos) -> std::pair<int &, int> {
+        auto _getValues(Direction s) -> std::pair<int &, int> {
             int &ref = (s < Direction::RIGHT) ? _vel.y : _vel.x;
             int const mul = !(s % 2) * 2 - 1;
 
@@ -263,12 +263,12 @@ class Colision
  */
 class Controllable {
     public:
-        auto onKeyDown(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
-            vel.press(ASSOCIATIVE_KEYS.at(key), pos);
+        auto onKeyDown(sf::Keyboard::Key key, Velocity &vel) {
+            vel.press(ASSOCIATIVE_KEYS.at(key));
         }
 
-        void onKeyUp(sf::Keyboard::Key key, Velocity &vel, Positions &pos) {
-            vel.unpress(ASSOCIATIVE_KEYS.at(key), pos);
+        void onKeyUp(sf::Keyboard::Key key, Velocity &vel) {
+            vel.unpress(ASSOCIATIVE_KEYS.at(key));
         }
 
         void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key) {
