@@ -10,8 +10,13 @@
 static bool check(Register &r, std::size_t him, std::size_t me)
 {
     auto &explosion = r.getComp<Explosion>();
+    auto &col = r.getComp<Colision>();
 
     if (explosion[him].has_value() && explosion[me].has_value()) {
+        explosion[me].value().explose(r, me);
+        return true;
+    }
+    if (col[him].has_value() && explosion[me].has_value()) {
         explosion[me].value().explose(r, me);
         return true;
     }

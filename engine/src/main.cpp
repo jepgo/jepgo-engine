@@ -133,13 +133,14 @@ int main()
     //r.emplace_comp(1, Hitable(17, 18));
     r.emplace_comp(1, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
     // r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
-    // //r.emplace_comp(1, Colision(17, 18));
      r.creatEntity();
+    r.emplace_comp(2, Colision(17, 18));
     r.emplace_comp(2, Positions(400, 350));
     r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(2, Hitable(17, 18));
-    r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    
+    //r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     // //r.removeComponent<Drawable>(1);
     // // r.creatEntity();
     // // r.emplace_comp(1, Positions(300, 300));

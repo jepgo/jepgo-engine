@@ -301,8 +301,8 @@ public:
      */
     bool isHit(Hitable &hit, Positions &him, Positions &me)
     {
-        if (!(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height))
-            std::cout << "hit en = " << me.x << " " << me.y << " vs " << him.x << " " << him.y << std::endl;
+        // if (!(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height))
+        //     std::cout << "hit en = " << me.x << " " << me.y << " vs " << him.x << " " << him.y << std::endl;
          return !(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height);
     };
     /**
