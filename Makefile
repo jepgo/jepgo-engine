@@ -29,6 +29,7 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/Controllable.cpp	\
 		engine/src/Module.cpp	\
 		engine/src/Shoot.cpp	\
+		engine/src/ExplosionSystem.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)

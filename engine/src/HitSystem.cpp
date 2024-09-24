@@ -26,18 +26,17 @@ HitSystem::~HitSystem()
  * @return true 
  * @return false 
  */
-bool HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Positions &m, SparseArray<Positions> &pos, std::size_t ind)
+int HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Positions &m, SparseArray<Positions> &pos, int ind)
 {
-    std::size_t i = 0;
-    bool res = false;
+    int i = -1;
 
     for (auto it = list.begin(); it != list.end(); it++) {
-        if (i != ind && (me.isHit(*(it->second), pos[it->first].value(), m))) {
-            return true;
-        }
         i++;
+        if (i != ind && (me.isHit(*(it->second), pos[it->first].value(), m))) {
+            return it->first;
+        }
     }
-    return res;
+    return -1;
 }
 
 /**
@@ -47,20 +46,24 @@ bool HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &m
  */
 void HitSystem::system(Register &r, std::vector<sf::Texture> &texture)
 {
+    int tmp = 0;
     std::size_t nbr = 0;
     auto &hit = r.getComp<Hitable>();
     auto &pos = r.getComp<Positions>();
+    auto &h = r.getComp<Hit>();
     std::map<std::size_t, Hitable *> list;
 
     for (std::size_t i = 0; i < hit.size(); i++) {
-        if (hit[i].has_value() && pos[i].has_value())
+        if (hit[i].has_value() && pos[i].has_value() && !(h[i].has_value())) {
             list.insert(std::make_pair(i, &hit[i].value()));
+        }
     }
     if (list.size() == 0 || list.size() == 1)
         return;
     for (auto it = list.begin(); it != list.end(); it++) {
-        if (HitSystem::compareHitable(list, *(it->second), pos[it->first].value(), pos, nbr)) {
-            it->second->Whenhit(it->first, r, texture);
+        tmp = HitSystem::compareHitable(list, *(it->second), pos[it->first].value(), pos, nbr);
+        if (tmp != -1) {
+             r.emplace_comp(it->first, Hit(tmp));
         }    
         nbr++;
     }

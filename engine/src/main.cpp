@@ -11,6 +11,7 @@
 #include <iostream>
 #include "Register.hpp"
 #include "Components.hpp"
+#include "ExplosionSystem.hpp"
 #include <SFML/Graphics.hpp>
 #include "SparseArray.hpp"
 #include "MoveSystem.hpp"
@@ -54,7 +55,7 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
-        if (key == sf::Keyboard::A && hit[i].has_value() && shoot[i].has_value() && shoot[i].value().verif(time)) {
+        if (key == sf::Keyboard::A && shoot[i].has_value() && shoot[i].value().verif(time)) {
             //control[i].value().Tir(r, pos[i].value(), hit[i].value().width);
             shoot[i].value().shoot(r, pos[i].value());
             shoot[i].value()._time =  time.asSeconds();
@@ -123,7 +124,7 @@ int main()
     r.emplace_comp(0, Colision(30, 18));
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
-    r.emplace_comp(0, Hitable(30, 18));
+    //r.emplace_comp(0, Hitable(30, 18));
     r.emplace_comp(0, Shoot(0.1, RIGHT, 20));
     r.creatEntity();
     r.emplace_comp(1, Positions(100, 100));
@@ -133,12 +134,12 @@ int main()
     r.emplace_comp(1, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
     // r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     // //r.emplace_comp(1, Colision(17, 18));
-    //  r.creatEntity(entity_nbr);
-    // r.emplace_comp(2, Positions(400, 350));
-    // r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
-    // r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
-    // r.emplace_comp(2, Hitable(17, 18));
-    // r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+     r.creatEntity();
+    r.emplace_comp(2, Positions(400, 350));
+    r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
+    r.emplace_comp(2, Hitable(17, 18));
+    r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     // //r.removeComponent<Drawable>(1);
     // // r.creatEntity();
     // // r.emplace_comp(1, Positions(300, 300));
@@ -166,11 +167,12 @@ int main()
         }
         window.clear(sf::Color::White);
         hitSys.system(r, texture);
+        ExplosionSystem::system(r);
         moveSys.system(r, time);
         animSys.system(r, time);
         ModuleSytem(r);
         drawSys.system(window, r, texture);
-        game.generateRandomsEntitys(r, time);
+        //game.generateRandomsEntitys(r, time);
         window.display();
     }
     return 0;

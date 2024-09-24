@@ -10,6 +10,7 @@
 
 void Explosion::explose(Register &r, std::size_t entity)
 {
+    std::cout << "yeyey" << std::endl;
     if (rect.has_value() && scale.has_value())
     {
         r.emplace_comp(entity, Drawable(index, std::move(rect.value()), std::vector<float>{scale.value().front(), scale.value().back()}));
