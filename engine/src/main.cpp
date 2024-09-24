@@ -8,6 +8,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "TestGame.hpp"
+#include "ModuleSystem.hpp"
 #include "HitSystem.hpp"
 #include "DrawSystem.hpp"
 #include "Register.hpp"
@@ -49,14 +50,12 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
     auto &pos = r.getComp<Positions>();
     auto &stat = r.getComp<Sprite_Status>();
     auto &draw = r.getComp<Drawable>();
-    auto &hit = r.getComp<Hitable>();
     auto &shoot = r.getComp<Shoot>();
 
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
         if (key == sf::Keyboard::A && shoot[i].has_value() && shoot[i].value().verif(time)) {
-            //control[i].value().Tir(r, pos[i].value(), hit[i].value().width);
             shoot[i].value().shoot(r, pos[i].value());
             shoot[i].value()._time =  time.asSeconds();
             return;
@@ -89,27 +88,16 @@ void MidSpriteSystem(Register &r)
     }
 }
 
-void ModuleSytem(Register &r)
-{
-    auto &modules = r.getComp<Module>();
-    auto &pos = r.getComp<Positions>();
-
-    for (std::size_t i = 0; i < modules.size(); i++) {
-        if (modules[i].has_value() && pos[i].has_value())
-            modules[i].value().update(pos[i], pos);
-    }
-}
-
 int main()
 {
+    std::size_t height = 800;
+    std::size_t width = 600;
     Register r;
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
     std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif" });
-    sf::RenderWindow window(sf::VideoMode(800, 600), "R-TYPE");
-    // Drawable test("sprites/r-typesheet3.gif", "caca");
-    // Positions ok(100, 100);
+    sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     TestGame game = TestGame(1);
     MoveSystem moveSys = MoveSystem(10);
     HitSystem hitSys = HitSystem();
@@ -124,6 +112,7 @@ int main()
     r.emplace_comp(0, Colision(30, 18));
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
+    r.emplace_comp(0, ScreenLimit(height, width));
     //r.emplace_comp(0, Hitable(30, 18));
     r.emplace_comp(0, Shoot(0.1, RIGHT, 20));
     r.creatEntity();
@@ -167,11 +156,11 @@ int main()
             }
         }
         window.clear(sf::Color::White);
-        hitSys.system(r, texture);
+        hitSys.system(r);
         ExplosionSystem::system(r);
         moveSys.system(r, time);
         animSys.system(r, time);
-        ModuleSytem(r);
+        ModuleSystem::system(r);
         drawSys.system(window, r, texture);
         game.generateRandomsEntitys(r, time);
         window.display();

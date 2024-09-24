@@ -99,14 +99,14 @@ private:
     Positions _vel{0, 0};
 };
 
-class SoloMove
-{
-public:
-    SoloMove(Direction dir) : direction(dir) {};
-    ~SoloMove() {};
+class ScreenLimit{
+    public:
+        ScreenLimit(int height, int width) : _height(height),  _width(width) {};
+        ~ScreenLimit() {};
+        int _height;
+        int _width;
+    private:    
 
-private:
-    Direction direction;
 };
 
 class Drawable {
