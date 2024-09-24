@@ -44,7 +44,7 @@ int HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me
  * 
  * @param r The Registry
  */
-void HitSystem::system(Register &r, std::vector<sf::Texture> &texture)
+void HitSystem::system(Register &r)
 {
     int tmp = 0;
     std::size_t nbr = 0;

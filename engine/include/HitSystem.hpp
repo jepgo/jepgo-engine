@@ -15,7 +15,7 @@ class HitSystem {
         HitSystem();
         ~HitSystem();
         static int compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Positions &m, SparseArray<Positions> &pos, int ind);
-        void system(Register &r, std::vector<sf::Texture> &texture);
+        void system(Register &r);
     protected:
     private:
 };
