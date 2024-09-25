@@ -16,7 +16,7 @@ class Module {
         ~Module();
         int getEntityToModule();
         void update(std::optional<Positions> &me, SparseArray<Positions> &pos);
+        int _entity;
     private:
         std::map<Direction, int> _space;
-        int _entity;
 };

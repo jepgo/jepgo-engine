@@ -12,6 +12,14 @@
 
 class Register;
 
+class Life {
+    public:
+        Life(int life) : _life(life) {};
+        ~Life(){};
+        int _life;
+    private:
+};
+
 class Positions {
 public:
     /**
@@ -243,6 +251,26 @@ class Hit {
 
 };
 
+enum TYPE {
+    BOMB,
+    SHIPSHOOT,
+    CONTRO,
+    COLISION,
+};
+
+class Type {
+    public:
+        Type() {
+            type[BOMB] = false;
+            type[SHIPSHOOT] = false;
+            type[CONTRO] = false;
+            type[COLISION] = false;
+        };
+        ~Type() {};
+        std::map<TYPE, bool> type;
+    private:
+};
+
 class Explosion
 {
 public:
@@ -256,7 +284,7 @@ public:
      * @param r The optional rectangle
      * @param s The optional scale of the Sprite
      */
-    Explosion(std::size_t ind, int status, int val, double t, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r), scale(s), stat(status), time(t)
+    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, TYPE ty, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r), scale(s), stat(status), time(t), _dmg(dmg), type(ty)
     {
         value = val;
     };
@@ -267,8 +295,9 @@ public:
      * @param r The Registry
      * @param entity The entity to be found
      */
-    void explose(Register &r, std::size_t entity);
-
+    void explose(Register &r, std::size_t entity, std::size_t other);
+    std::size_t _dmg;
+    TYPE type;
 private:
     std::size_t index;
     std::optional<sf::IntRect> rect;
@@ -276,6 +305,30 @@ private:
     int stat;
     double time;
     int value;
+};
+
+// class Bomb {
+//     public:
+//         Bomb(Explosion &&e) : explo(e) {};
+//         ~Bomb() {};
+//         Explosion explo;
+//     private:
+// };
+
+// class ShipShoot {
+//     public:
+//         ShipShoot(Explosion &&e) : explo(e) {};
+//         ~ShipShoot() {};
+//         Explosion explo;
+// };
+
+
+class Dmg {
+    public:
+        Dmg(std::size_t dmg) : _dmg(dmg) {};
+        ~Dmg() {};
+        std::size_t _dmg;
+    private:
 };
 
 class Hitable

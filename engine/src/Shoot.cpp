@@ -43,5 +43,5 @@ void Shoot::shoot(Register &r, Positions &pos)
         r.emplace_comp(r.entity_nbr, pos + Positions(0, 0 + _decal));
     r.emplace_comp(r.entity_nbr, Move(Positions(4, 0)));
     r.emplace_comp(r.entity_nbr, Hitable(10, 10));
-    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, SHIPSHOOT, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
 }

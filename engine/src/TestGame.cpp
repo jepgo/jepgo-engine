@@ -37,6 +37,6 @@ void TestGame::generateRandomsEntitys(Register &r, sf::Time &time)
     r.emplace_comp(r.entity_nbr, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Velocity({1, 1, 1, 1}));
     r.emplace_comp(r.entity_nbr, Hitable(17, 18));
-    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, BOMB, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     _time = time.asSeconds();
 }

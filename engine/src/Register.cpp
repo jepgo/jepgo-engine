@@ -28,10 +28,14 @@ Register::Register()
     regist.insert({std::type_index(typeid(Shoot)), SparseArray<Shoot>()});
     regist.insert({std::type_index(typeid(Hit)), SparseArray<Hit>()});
     regist.insert({std::type_index(typeid(ScreenLimit)), SparseArray<ScreenLimit>()});
+    regist.insert({std::type_index(typeid(Life)), SparseArray<Life>()});
+    regist.insert({std::type_index(typeid(Dmg)), SparseArray<Dmg>()});
+
 }
 
 Register::~Register()
 {
+
 }
 
 void Register::creatEntity()
@@ -51,6 +55,9 @@ void Register::creatEntity()
     std::any_cast<SparseArray<Shoot>&>(regist[std::type_index(typeid(Shoot))]).add();
     std::any_cast<SparseArray<Hit>&>(regist[std::type_index(typeid(Hit))]).add();
     std::any_cast<SparseArray<ScreenLimit>&>(regist[std::type_index(typeid(ScreenLimit))]).add();
+    std::any_cast<SparseArray<Life>&>(regist[std::type_index(typeid(Life))]).add();
+    std::any_cast<SparseArray<Dmg>&>(regist[std::type_index(typeid(Dmg))]).add();
+
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()

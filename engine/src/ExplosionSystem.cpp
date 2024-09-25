@@ -11,16 +11,17 @@ static bool check(Register &r, std::size_t him, std::size_t me)
 {
     auto &explosion = r.getComp<Explosion>();
     auto &col = r.getComp<Colision>();
+    auto &control = r.getComp<Controllable>();
 
-    if (explosion[him].has_value() && explosion[me].has_value()) {
-        explosion[me].value().explose(r, me);
-        return true;
-    }
-    if (col[him].has_value() && explosion[me].has_value()) {
-        explosion[me].value().explose(r, me);
-        return true;
-    }
-    return false;
+    if (explosion[me].has_value() == false)
+        return false;
+    if (explosion[me].value().type == BOMB && explosion[him].has_value() && explosion[him].value().type != BOMB)
+        explosion[me].value().explose(r, me, him);
+    if (explosion[me].value().type == SHIPSHOOT && control[him].has_value() == false)
+        explosion[me].value().explose(r, me, him);
+    if (explosion[me].value().type == BOMB && control[him].has_value())
+        explosion[me].value().explose(r, me, him);
+    return true;
 }
 
 void ExplosionSystem::system(Register &r)

@@ -25,7 +25,7 @@ void Controllable::Tir(Register &r, Positions &pos, int left)
     r.emplace_comp(r.entity_nbr, pos + Positions(10 + left, 0));
     r.emplace_comp(r.entity_nbr, Move(Positions(4, 0)));
     r.emplace_comp(r.entity_nbr, Hitable(10, 10));
-    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, SHIPSHOOT, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
 }
 
 void Controllable::moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key)

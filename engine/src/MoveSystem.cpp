@@ -20,7 +20,6 @@ bool MoveSystem::checkMovement(Register &r, std::size_t &entity, Positions const
     auto &Col = r.getComp<Colision>();
     auto &pos = r.getComp<Positions>();
 
-    std::cout << "check" << std::endl;
     std::map<std::size_t, Colision *> list;
 
     if (Col[entity].has_value() == false)

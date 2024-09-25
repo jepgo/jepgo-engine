@@ -8,6 +8,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "TestGame.hpp"
+#include "DeathSystem.hpp"
+#include "DmgSystem.hpp"
 #include "ModuleSystem.hpp"
 #include "HitSystem.hpp"
 #include "DrawSystem.hpp"
@@ -113,13 +115,14 @@ int main()
     r.emplace_comp(0, Controllable());
     r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(0, ScreenLimit(height, width));
-    //r.emplace_comp(0, Hitable(30, 18));
+    r.emplace_comp(0, Hitable(30, 18));
     r.emplace_comp(0, Shoot(0.1, RIGHT, 20));
+    r.emplace_comp(0, Life(30));
     r.creatEntity();
     r.emplace_comp(1, Positions(100, 100));
     r.emplace_comp(1, Drawable(1, sf::IntRect(235, 20, 30, 30), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Sprite_Animation(4, -33, 0.1));
-    //r.emplace_comp(1, Hitable(17, 18));
+    r.emplace_comp(1, Hitable(17, 18));
     r.emplace_comp(1, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
     // r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     //  r.creatEntity();
@@ -161,6 +164,8 @@ int main()
         moveSys.system(r, time);
         animSys.system(r, time);
         ModuleSystem::system(r);
+        DmgSystem::system(r);
+        DeathSystem::system(r);
         drawSys.system(window, r, texture);
         game.generateRandomsEntitys(r, time);
         window.display();
