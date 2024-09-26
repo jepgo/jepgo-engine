@@ -99,7 +99,7 @@ int main()
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
-    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif" });
+    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif"});
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     TestGame game = TestGame(1);
     MoveSystem moveSys = MoveSystem(10);
@@ -128,8 +128,8 @@ int main()
 
     r.creatEntity();
     r.emplace_comp(2, Positions(300, 300));
-    r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
+    r.emplace_comp(2, Drawable(2, sf::IntRect(208, 32, 20, 20), std::vector<float>{1.5, 1.5}));
+    //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(2, Hitable(17, 18));
     r.emplace_comp(2, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.1));
     //r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
