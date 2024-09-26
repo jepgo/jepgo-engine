@@ -308,7 +308,7 @@ public:
      * @param r The optional rectangle
      * @param s The optional scale of the Sprite
      */
-    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, TYPE ty, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r), scale(s), stat(status), time(t), _dmg(dmg), type(ty)
+    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, TYPE ty, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : _dmg(dmg), type(ty), index(ind), rect(r), scale(s), stat(status), time(t)
     {
         value = val;
     };

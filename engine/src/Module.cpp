@@ -7,7 +7,7 @@
 
 #include "Module.hpp"
 
-Module::Module(std::map<Direction, int> space, int entity) : _space(space), _entity(entity)
+Module::Module(std::map<Direction, int> space, int entity) : _entity(entity), _space(space)
 {
 }
 

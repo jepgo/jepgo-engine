@@ -10,7 +10,6 @@
 static bool check(Register &r, std::size_t him, std::size_t me)
 {
     auto &explosion = r.getComp<Explosion>();
-    auto &col = r.getComp<Colision>();
     auto &control = r.getComp<Controllable>();
 
     if (explosion[me].has_value() == false)

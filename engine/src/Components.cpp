@@ -35,6 +35,7 @@ void Explosion::explose(Register &r, std::size_t entity, std::size_t other)
 
 void Hitable::Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list)
 {
+    (void)list;
     auto &explo = r.getComp<Explosion>();
 
     if (!explo[entity].has_value())
