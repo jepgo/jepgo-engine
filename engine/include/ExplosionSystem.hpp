@@ -11,6 +11,11 @@
 
 class ExplosionSystem {
     public:
+        /**
+         * @brief The System of the explosion, The goal of this system is to check after colision the Explosion one
+         * 
+         * @param r The Register of the entities
+         */
         static void system(Register &r);
     protected:
     private:

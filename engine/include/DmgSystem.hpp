@@ -11,6 +11,11 @@
 
 class DmgSystem {
     public:
+        /**
+         * @brief The System of all Dmg taken by the entities
+         * 
+         * @param r 
+         */
         static void system(Register &r) {
             auto &dmg = r.getComp<Dmg>();
             auto &life = r.getComp<Life>();

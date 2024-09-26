@@ -20,3 +20,26 @@ class Module {
     private:
         std::map<Direction, int> _space;
 };
+
+class ModuleShoot
+{
+    public:
+        ModuleShoot(std::map<Direction, int> space, float fireRate) : _space(space), _fireRate(fireRate) {};
+        ~ModuleShoot() {};
+        Module attach(int entity) {
+            return Module(_space, entity);
+        };
+        void changeShoot(std::optional<Shoot> &shoot) { 
+            if (shoot.has_value()) {
+                std::cout << "shoot changed" << std::endl;
+                shoot.value()._fireRate = _fireRate;
+            } else {
+                std::cout << "not change" << std::endl;
+                shoot = std::make_optional(Shoot(_fireRate, RIGHT, 10));
+            }
+        };
+    private:
+        std::map<Direction, int> _space;
+        float _fireRate;
+
+};

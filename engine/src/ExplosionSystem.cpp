@@ -30,7 +30,7 @@ void ExplosionSystem::system(Register &r)
 
     for (std::size_t i = 0; i < hit.size(); i++) {
         if (hit[i].has_value()) {
-            check(r, hit[i].value().GetEntity(), i);
+            (check(r, hit[i].value().GetEntity(), i));
             r.removeComponent<Hit>(i);
         }
     }

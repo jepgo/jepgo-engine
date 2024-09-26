@@ -50,6 +50,7 @@ void HitSystem::system(Register &r)
     std::size_t nbr = 0;
     auto &hit = r.getComp<Hitable>();
     auto &pos = r.getComp<Positions>();
+    auto &tt = r.getComp<ModuleShoot>();
     auto &h = r.getComp<Hit>();
     std::map<std::size_t, Hitable *> list;
 

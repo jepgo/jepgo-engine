@@ -229,8 +229,22 @@ private:
 
 class Shoot {
 public:
+    /**
+     * @brief Construct a new Shoot object
+     * 
+     * @param fireRate The time gap between each shot
+     * @param dir The direction of the shoot
+     * @param decal The decal of the shoot and the obj who are shooting
+     */
     Shoot(float fireRate, Direction dir, int decal);
     ~Shoot();
+    /**
+     * @brief Verif if the reset time is repected
+     * 
+     * @param time The current time
+     * @return true: The current time respect the reset timer
+     * @return false: The curent time not respect the reset timer
+     */
     bool verif(sf::Time &time);
     void shoot(Register &r, Positions &pos);
     float _fireRate;
@@ -243,8 +257,18 @@ private:
 
 class Hit {
     public:
+        /**
+         * @brief Construct a new Hit object
+         * 
+         * @param entity The entity B who's hit (A is the current get this components)
+         */
         Hit(int entity) : _entity(entity) {};
         ~Hit() {};
+        /**
+         * @brief Get the Entity object
+         * 
+         * @return int The entity contained by the Hit object
+         */
         int GetEntity() {return _entity;};
     private:
         int _entity;
@@ -307,24 +331,13 @@ private:
     int value;
 };
 
-// class Bomb {
-//     public:
-//         Bomb(Explosion &&e) : explo(e) {};
-//         ~Bomb() {};
-//         Explosion explo;
-//     private:
-// };
-
-// class ShipShoot {
-//     public:
-//         ShipShoot(Explosion &&e) : explo(e) {};
-//         ~ShipShoot() {};
-//         Explosion explo;
-// };
-
-
 class Dmg {
     public:
+        /**
+         * @brief Construct a new Dmg object (ephemeral component)
+         * 
+         * @param dmg The dmg deal
+         */
         Dmg(std::size_t dmg) : _dmg(dmg) {};
         ~Dmg() {};
         std::size_t _dmg;
