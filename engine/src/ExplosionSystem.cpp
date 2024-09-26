@@ -11,14 +11,15 @@ static bool check(Register &r, std::size_t him, std::size_t me)
 {
     auto &explosion = r.getComp<Explosion>();
     auto &control = r.getComp<Controllable>();
+    auto &module = r.getComp<Module>();
 
     if (explosion[me].has_value() == false)
         return false;
     if (explosion[me].value().type == BOMB && explosion[him].has_value() && explosion[him].value().type != BOMB)
         explosion[me].value().explose(r, me, him);
-    if (explosion[me].value().type == SHIPSHOOT && control[him].has_value() == false)
+    if (explosion[me].value().type == SHIPSHOOT && control[him].has_value() == false && module[him].has_value() == false)
         explosion[me].value().explose(r, me, him);
-    if (explosion[me].value().type == BOMB && control[him].has_value())
+    if (explosion[me].value().type == BOMB && explosion[him].has_value() == false)
         explosion[me].value().explose(r, me, him);
     return true;
 }

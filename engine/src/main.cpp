@@ -130,8 +130,15 @@ int main()
     r.emplace_comp(2, Positions(300, 300));
     r.emplace_comp(2, Drawable(2, sf::IntRect(208, 32, 20, 20), std::vector<float>{1.5, 1.5}));
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
-    r.emplace_comp(2, Hitable(17, 18));
+    r.emplace_comp(2, Hitable(20, 20));
     r.emplace_comp(2, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.1));
+    
+    r.creatEntity();
+    r.emplace_comp(3, Positions(200, 500));
+    r.emplace_comp(3, Drawable(2, sf::IntRect(173, 345, 32, 32), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(3, Sprite_Animation(4, 32, 0.3));
+    r.emplace_comp(3, Hitable(32, 32));
+    r.emplace_comp(3, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100)));
     //r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     //  r.creatEntity();
     // r.emplace_comp(2, Colision(17, 18));
@@ -176,7 +183,7 @@ int main()
         DmgSystem::system(r);
         DeathSystem::system(r);
         drawSys.system(window, r, texture);
-        //game.generateRandomsEntitys(r, time);
+        game.generateRandomsEntitys(r, time);
         window.display();
     }
     return 0;

@@ -16,6 +16,7 @@ class DeathSystem {
             r.removeComponent<Positions>(entity);
             r.removeComponent<Explosion>(entity);
             r.removeComponent<Controllable>(entity);
+            r.removeComponent<Hitable>(entity);
         };
         static void system(Register &r) {
             auto &life = r.getComp<Life>();

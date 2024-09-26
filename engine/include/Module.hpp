@@ -21,6 +21,23 @@ class Module {
         std::map<Direction, int> _space;
 };
 
+class ModuleArmor
+{
+    public:
+        ModuleArmor(std::map<Direction, int> space, Life &&life) : _space(space), _life(life) {};
+        ~ModuleArmor() {};
+        Module attach(int entity) {
+            return Module(_space, entity);
+        };
+        Life &getLife() {
+            return _life;
+        };
+    private:
+        std::map<Direction, int> _space;
+        Life _life;
+
+};
+
 class ModuleShoot
 {
     public:

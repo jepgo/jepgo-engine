@@ -17,6 +17,7 @@ public:
         auto &hit = r.getComp<Hit>();
         auto &shoot = r.getComp<Shoot>();
         auto &moduleTir = r.getComp<ModuleShoot>();
+        auto &moduleArm = r.getComp<ModuleArmor>();
         auto &control = r.getComp<Controllable>();
 
         for (std::size_t i = 0; i < moduleTir.size(); i++) {
@@ -26,6 +27,12 @@ public:
                 r.removeComponent<ModuleShoot>(i);
                 r.removeComponent<Hit>(i);
                 r.removeComponent<Hitable>(i);
+            }
+            if (moduleArm[i].has_value() && hit[i].has_value() && control[hit[i].value().GetEntity()].has_value()) {
+                r.emplace_comp(i, moduleArm[i].value().attach(hit[i].value().GetEntity()));
+                r.emplace_comp(i, moduleArm[i].value().getLife());
+                r.removeComponent<ModuleArmor>(i);
+                r.removeComponent<Hit>(i);
             }
         }
     };
