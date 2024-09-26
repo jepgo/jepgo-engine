@@ -24,6 +24,10 @@ class DmgSystem {
                 if (dmg[i].has_value() && life[i].has_value()) {
                     life[i].value()._life -= dmg[i].value()._dmg;
                     r.removeComponent<Dmg>(i);
+                    if (life[i].value()._life <= 0) {
+                        //std::cout << "dead" << std::endl;
+                        r.emplace_comp(i, Death());
+                    }
                 }
             }
         };

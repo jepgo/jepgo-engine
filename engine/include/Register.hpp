@@ -12,6 +12,7 @@
 #include <any>
 #include <typeindex>
 #include "SparseArray.hpp"
+#include "Enemy.hpp"
 #include "Components.hpp"
 #include "Module.hpp"
 

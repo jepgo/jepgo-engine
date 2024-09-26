@@ -63,7 +63,6 @@ void HitSystem::system(Register &r)
     for (auto it = list.begin(); it != list.end(); it++) {
         tmp = HitSystem::compareHitable(list, *(it->second), pos[it->first].value(), pos, nbr);
         if (tmp != -1) {
-            std::cout << "hit" << std::endl;
              r.emplace_comp(it->first, Hit(tmp));
         }    
         nbr++;

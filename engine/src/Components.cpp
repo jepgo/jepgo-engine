@@ -8,7 +8,7 @@
 #include "Components.hpp"
 #include "Register.hpp"
 
-void Explosion::explose(Register &r, std::size_t entity, std::size_t other)
+void Explosion::explose(Register &r, std::size_t entity)
 {
     auto &dmg = r.getComp<Dmg>();
 
@@ -24,11 +24,7 @@ void Explosion::explose(Register &r, std::size_t entity, std::size_t other)
     }
     else
         r.emplace_comp(entity, Drawable(index));
-    
-    if (dmg[other].has_value()) {
-        dmg[other].value()._dmg += _dmg;
-    } else
-        r.emplace_comp(other, Dmg(_dmg));
+
     r.removeComponent<Hitable>(entity);
     r.removeComponent<Move>(entity);
 }
@@ -40,5 +36,5 @@ void Hitable::Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> 
 
     if (!explo[entity].has_value())
         return;
-    explo[entity].value().explose(r, entity, 0);
+    explo[entity].value().explose(r, entity);
 }

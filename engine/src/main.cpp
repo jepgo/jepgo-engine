@@ -6,8 +6,10 @@
 */
 
 #include <iostream>
+#include "AddDmgSystem.hpp"
 #include <SFML/Graphics.hpp>
 #include "TestGame.hpp"
+#include "Game.hpp"
 #include "DeathSystem.hpp"
 #include "AttachModuleSystem.hpp"
 #include "DmgSystem.hpp"
@@ -101,6 +103,8 @@ int main()
     sf::Event event;
     std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif"});
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
+    Game player = Game();
+    AddDmgSystem addDmgSystem = AddDmgSystem(1);
     TestGame game = TestGame(1);
     MoveSystem moveSys = MoveSystem(10);
     HitSystem hitSys = HitSystem();
@@ -119,26 +123,29 @@ int main()
     r.emplace_comp(0, Hitable(30, 18));
     r.emplace_comp(0, Shoot(0.5, RIGHT, 20));
     r.emplace_comp(0, Life(30));
+    r.emplace_comp(0, Type(CONTRO));
     r.creatEntity();
     r.emplace_comp(1, Positions(100, 100));
     r.emplace_comp(1, Drawable(1, sf::IntRect(235, 20, 30, 30), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(1, Sprite_Animation(4, -33, 0.1));
     //r.emplace_comp(1, Hitable(17, 18));
     r.emplace_comp(1, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
-
+    r.emplace_comp(1, Type(MODULE));
     r.creatEntity();
     r.emplace_comp(2, Positions(300, 300));
     r.emplace_comp(2, Drawable(2, sf::IntRect(208, 32, 20, 20), std::vector<float>{1.5, 1.5}));
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(2, Hitable(20, 20));
     r.emplace_comp(2, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.1));
-    
+    r.emplace_comp(2, Type(MODULE));
     r.creatEntity();
     r.emplace_comp(3, Positions(200, 500));
     r.emplace_comp(3, Drawable(2, sf::IntRect(173, 345, 32, 32), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(3, Sprite_Animation(4, 32, 0.3));
     r.emplace_comp(3, Hitable(32, 32));
-    r.emplace_comp(3, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100)));
+    r.emplace_comp(3, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100), 10));
+    r.emplace_comp(3, Type(MODULE));
+    r.emplace_comp(3, DoDmg(30));
     //r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
     //  r.creatEntity();
     // r.emplace_comp(2, Colision(17, 18));
@@ -161,6 +168,10 @@ int main()
     //r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
     while (window.isOpen())
     {
+        //std::cout << "life = " << r.getComp<Life>()[3].value()._life << std::endl;
+        //std::cout << "ship = " << r.getComp<Hitable>()[0].has_value() << std::endl;
+        //std::cout << "life = " << r.getComp<Life>()[4].value()._life << std::endl;
+        //std::cout << "point = " << player.getPoint() << " exp = " << player.getExp() << " Lvl = " << player.getLvl() << std::endl;
         time = clock.getElapsedTime();
         while (window.pollEvent(event))
         {
@@ -176,12 +187,13 @@ int main()
         window.clear(sf::Color::White);
         hitSys.system(r);
         AttachModuleSystem::system(r);
-        ExplosionSystem::system(r);
         moveSys.system(r, time);
         animSys.system(r, time);
+        addDmgSystem.system(r, time);
         ModuleSystem::system(r);
         DmgSystem::system(r);
-        DeathSystem::system(r);
+        ExplosionSystem::system(r);
+        DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
         game.generateRandomsEntitys(r, time);
         window.display();

@@ -280,19 +280,16 @@ enum TYPE {
     SHIPSHOOT,
     CONTRO,
     COLISION,
+    MODULE,
 };
 
 class Type {
     public:
-        Type() {
-            type[BOMB] = false;
-            type[SHIPSHOOT] = false;
-            type[CONTRO] = false;
-            type[COLISION] = false;
-        };
+        Type(TYPE type) : _type(type) {};
         ~Type() {};
-        std::map<TYPE, bool> type;
-    private:
+        TYPE &getType() {return _type;};
+        private:
+            TYPE _type;
 };
 
 class Explosion
@@ -319,7 +316,7 @@ public:
      * @param r The Registry
      * @param entity The entity to be found
      */
-    void explose(Register &r, std::size_t entity, std::size_t other);
+    void explose(Register &r, std::size_t entity);
     std::size_t _dmg;
     TYPE type;
 private:
@@ -329,6 +326,12 @@ private:
     int stat;
     double time;
     int value;
+};
+
+class Death {
+    public:
+        Death() {};
+        ~Death() {};
 };
 
 class Dmg {
@@ -383,6 +386,15 @@ public:
     int height;
 
 private:
+};
+
+class DoDmg {
+    public:
+        DoDmg(std::size_t dmg) : _dmg(dmg) {};
+        ~DoDmg() {};
+        std::size_t &getDmg() {return _dmg;};
+    private:
+        std::size_t _dmg;
 };
 
 class Colision
