@@ -13,7 +13,7 @@ FILES_UNIT	=	*.gc*
 
 CFLAGS += -Wall -Wextra -Wpedantic -std=c++17
 CPPFLAGS += -iquote./engine/include
-LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 # Source files
 
@@ -30,6 +30,8 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/Module.cpp	\
 		engine/src/Shoot.cpp	\
 		engine/src/ExplosionSystem.cpp	\
+		engine/src/Game.cpp	\
+		engine/src/Enemy.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)

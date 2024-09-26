@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <SFML/Audio.hpp>
 #include "AddDmgSystem.hpp"
 #include <SFML/Graphics.hpp>
 #include "TestGame.hpp"
@@ -111,70 +112,20 @@ int main()
     DrawSystem drawSys = DrawSystem();
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
 
-    r.creatEntity();
-    r.emplace_comp(0, Positions(100, 100));
-    r.emplace_comp(0, Drawable(1, sf::IntRect(202, 0, 30, 18), std::vector<float>{1.5, 1.5}));
-    //   r.emplace_comp(0, Sprite_Animation(10, 17, 0.05));
-    r.emplace_comp(0, Velocity({2, 2, 2, 2}));
-    r.emplace_comp(0, Colision(30, 18));
-    r.emplace_comp(0, Controllable());
-    r.emplace_comp(0, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
-    r.emplace_comp(0, ScreenLimit(height, width));
-    r.emplace_comp(0, Hitable(30, 18));
-    r.emplace_comp(0, Shoot(0.5, RIGHT, 20));
-    r.emplace_comp(0, Life(30));
-    r.emplace_comp(0, Type(CONTRO));
-    r.creatEntity();
-    r.emplace_comp(1, Positions(100, 100));
-    r.emplace_comp(1, Drawable(1, sf::IntRect(235, 20, 30, 30), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(1, Sprite_Animation(4, -33, 0.1));
-    //r.emplace_comp(1, Hitable(17, 18));
-    r.emplace_comp(1, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
-    r.emplace_comp(1, Type(MODULE));
-    r.creatEntity();
-    r.emplace_comp(2, Positions(300, 300));
-    r.emplace_comp(2, Drawable(2, sf::IntRect(208, 32, 20, 20), std::vector<float>{1.5, 1.5}));
-    //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
-    r.emplace_comp(2, Hitable(20, 20));
-    r.emplace_comp(2, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.1));
-    r.emplace_comp(2, Type(MODULE));
-    r.creatEntity();
-    r.emplace_comp(3, Positions(200, 500));
-    r.emplace_comp(3, Drawable(2, sf::IntRect(173, 345, 32, 32), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(3, Sprite_Animation(4, 32, 0.3));
-    r.emplace_comp(3, Hitable(32, 32));
-    r.emplace_comp(3, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100), 10));
-    r.emplace_comp(3, Type(MODULE));
-    r.emplace_comp(3, DoDmg(30));
-    //r.emplace_comp(1, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
-    //  r.creatEntity();
-    // r.emplace_comp(2, Colision(17, 18));
-    // r.emplace_comp(2, Positions(400, 350));
-    // r.emplace_comp(2, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
-    // r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
-    // r.emplace_comp(2, Hitable(17, 18));
-    
-    //r.emplace_comp(2, Explosion(1, 4, -37, 0.2, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
-    // //r.removeComponent<Drawable>(1);
-    // // r.creatEntity();
-    // // r.emplace_comp(1, Positions(300, 300));
-    // // r.emplace_comp(1, Drawable(0, sf::IntRect(0, 0, 17, 18)));
-    // r.emplace_comp(2, Move(Positions(-1, 0)));
-    // r.emplace_comp(2, Velocity({1, 1, 1, 1}));
-    
-    // r.creatEntity();
-    // r.emplace_comp(1, Positions(200, 200));
-    // r.emplace_comp(1, Drawable(1, sf::IntRect(229, 100, 20, 20), std::vector<float>{1.5, 1.5}));
-    //r.emplace_comp(1, Sprite_Animation(10, 17, 0.05));
-    while (window.isOpen())
-    {
-        //std::cout << "life = " << r.getComp<Life>()[3].value()._life << std::endl;
-        //std::cout << "ship = " << r.getComp<Hitable>()[0].has_value() << std::endl;
-        //std::cout << "life = " << r.getComp<Life>()[4].value()._life << std::endl;
-        //std::cout << "point = " << player.getPoint() << " exp = " << player.getExp() << " Lvl = " << player.getLvl() << std::endl;
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
+    buffer.loadFromFile("sprites/test.ogg");
+    sound.setBuffer(buffer);
+    Game::CreatPlayer(r, height, width);
+    Game::CreateArmorModule(r, Positions(100, 100));
+    Game::CreateBoostModule(r);
+    Game::CreateShootModule(r, Positions(200, 200));
+    sound.setLoop(true);
+    sound.setVolume(50.f);
+    sound.play();
+    while (window.isOpen()) {
         time = clock.getElapsedTime();
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::KeyPressed)

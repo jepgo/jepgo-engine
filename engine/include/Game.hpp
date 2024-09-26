@@ -12,6 +12,12 @@ class Game {
     public:
         Game();
         ~Game();
+        static void CreatPlayer(Register &r, int height, int width);
+        static void CreateAsteroid(Register &r);
+        static void CreateBoostModule(Register &r);
+        static void CreateShipShoot(Register &r, Positions &&);
+        static void CreateShootModule(Register &r, Positions &&);
+        static void CreateArmorModule(Register &r, Positions &&);
         std::size_t &getExp() {return _exp;};
         std::size_t &getPoint() {return _point;};
         std::size_t &getLvl() {return _lvl;};
