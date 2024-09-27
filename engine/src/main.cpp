@@ -102,7 +102,7 @@ int main()
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
-    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif"});
+    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png"});
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(1);
@@ -118,6 +118,13 @@ int main()
     sf::Sound sound;
     buffer.loadFromFile("sprites/test.ogg");
     sound.setBuffer(buffer);
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, Drawable(3, std::nullopt, std::vector<float>{3, 4}));
+    r.emplace_comp(r.entity_nbr, Positions(0, 0));
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, Drawable(4, std::nullopt, std::vector<float>{1, 1}));
+    r.emplace_comp(r.entity_nbr, Positions(800, 200));
+    r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     Game::CreatPlayer(r, height, width);
     Game::CreateArmorModule(r, Positions(1000, 300));
     Game::CreateBoostModule(r);
@@ -127,7 +134,7 @@ int main()
     sound.setVolume(50.f);
     sound.play();
     while (window.isOpen()) {
-        std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
+        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
         time = clock.getElapsedTime();
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
