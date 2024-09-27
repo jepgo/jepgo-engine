@@ -12,6 +12,7 @@ Game::Game()
     _point = 0;
     _exp = 0;
     _lvl = 1;
+    _km = 0;
 }
 
 Game::~Game()

@@ -12,10 +12,11 @@
 
 class GameSystem {
     public:
-        static void system(Register &r, Game &player);
-        GameSystem();
+        void system(Register &r, Game &player, sf::Time &time);
+        GameSystem(float reset);
         ~GameSystem();
 
     private:
         float _time;
+        float _reset;
 };

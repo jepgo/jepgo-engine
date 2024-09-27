@@ -110,6 +110,7 @@ int main()
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(1);
     TestGame game = TestGame(1);
+    GameSystem SystemGame = GameSystem(0.1);
     MoveSystem moveSys = MoveSystem(10);
     HitSystem hitSys = HitSystem();
     DrawSystem drawSys = DrawSystem();
@@ -138,7 +139,7 @@ int main()
     sound.setVolume(50.f);
     sound.play();
     while (window.isOpen()) {
-        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
+        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl; 
         time = clock.getElapsedTime();
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -154,7 +155,7 @@ int main()
         Text::system(r, window);
         hitSys.system(r);
         AttachModuleSystem::system(r);
-        GameSystem::system(r, player);
+        SystemGame.system(r, player, time);
         LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
         animSys.system(r, time);

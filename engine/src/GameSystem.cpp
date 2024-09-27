@@ -7,7 +7,7 @@
 
 #include "GameSystem.hpp"
 
-GameSystem::GameSystem()
+GameSystem::GameSystem(float reset) : _reset(reset)
 {
     _time = 0;
 }
@@ -16,9 +16,14 @@ GameSystem::~GameSystem()
 {
 }
 
-void GameSystem::system(Register &r, Game &player) {
+void GameSystem::system(Register &r, Game &player, sf::Time &time) {
     std::size_t lvlup = 0;
 
+    if (time.asSeconds() - _time < _reset)
+        return;
+    else
+        _time = time.asSeconds();
+    player.getKm() += 1;
     while (player.getExp() >= 100) {
         lvlup++;
         player.getExp() -= 100;

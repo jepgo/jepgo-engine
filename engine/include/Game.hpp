@@ -22,8 +22,10 @@ class Game {
         std::size_t &getExp() {return _exp;};
         std::size_t &getPoint() {return _point;};
         std::size_t &getLvl() {return _lvl;};
+        std::size_t &getKm() {return _km;};
     private:
         std::size_t _exp;
         std::size_t _point;
         std::size_t _lvl;
+        std::size_t _km;
 };
