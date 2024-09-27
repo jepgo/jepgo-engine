@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include <SFML/Audio.hpp>
 #include "Register.hpp"
 #include "Components.hpp"
 #include "Game.hpp"
@@ -27,7 +28,7 @@ class TestGame {
          * @param entity_nbr The total of entity nbr
          * @param textures The list of all the Texture
          */
-        void generateRandomsEntitys(Register &r, sf::Time &time, std::size_t);
+        void generateRandomsEntitys(Register &r, sf::Time &time, std::size_t, std::vector<sf::Sound> &sounds);
     private:
         float _reset;
         float _time;

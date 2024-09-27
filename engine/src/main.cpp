@@ -124,7 +124,7 @@ int main()
     sf::Event event;
     std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif"});
     std::vector<sf::SoundBuffer> buuf;
-    std::vector<sf::Sound> sounds = getAllSound({"sprites/test.ogg"}, buuf);
+    std::vector<sf::Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg"}, buuf);
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(1);
@@ -135,10 +135,6 @@ int main()
     DrawSystem drawSys = DrawSystem();
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
 
-    sf::Sound sound;
-    sf::SoundBuffer buffer;
-    buffer.loadFromFile("sprites/test.ogg");
-    sound.setBuffer(buffer);
     sf::Font font;
     font.loadFromFile(".font/arial.ttf");
     r.creatEntity();
@@ -156,9 +152,9 @@ int main()
 
     //Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::Creat
-    sounds[0].setLoop(true);
-    sounds[0].setVolume(50.f);
-    sounds[0].play();
+    sounds[1].setLoop(true);
+    sounds[1].setVolume(50.f);
+    sounds[1].play();
     while (window.isOpen()) {
         //std::cout << "life = " << r.getComp<Life>()[5].value()._life << std::endl;
         //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl; 
@@ -177,7 +173,7 @@ int main()
         Text::system(r, window);
         hitSys.system(r);
         AttachModuleSystem::system(r);
-        SystemGame.system(r, player, time, playerEntity);
+        SystemGame.system(r, player, time, playerEntity, sounds);
         LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
         animSys.system(r, time);
@@ -189,7 +185,7 @@ int main()
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
-        game.generateRandomsEntitys(r, time, playerEntity);
+        game.generateRandomsEntitys(r, time, playerEntity, sounds);
         window.display();
     }
     return 0;
