@@ -11,7 +11,7 @@ Game::Game()
 {
     _point = 0;
     _exp = 0;
-    _lvl = 0;
+    _lvl = 1;
 }
 
 Game::~Game()
@@ -50,6 +50,7 @@ void Game::CreateShootModule(Register &r, Positions &&pos)
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, std::move(pos));
     r.emplace_comp(r.entity_nbr, Drawable(2, sf::IntRect(208, 32, 20, 20), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Hitable(20, 20));
     r.emplace_comp(r.entity_nbr, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.1));

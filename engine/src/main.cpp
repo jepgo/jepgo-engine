@@ -8,6 +8,7 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include "AddDmgSystem.hpp"
+#include "GameSystem.hpp"
 #include <SFML/Graphics.hpp>
 #include "TestGame.hpp"
 #include "Game.hpp"
@@ -126,15 +127,15 @@ int main()
     r.emplace_comp(r.entity_nbr, Positions(800, 200));
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     Game::CreatPlayer(r, height, width);
-    Game::CreateArmorModule(r, Positions(1000, 300));
+    //Game::CreateArmorModule(r, Positions(1000, 300));
     Game::CreateBoostModule(r);
-    Game::CreateShootModule(r, Positions(200, 200));
+    //Game::CreateShootModule(r, Positions(200, 200));
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
     sound.setLoop(true);
     sound.setVolume(50.f);
     sound.play();
     while (window.isOpen()) {
-        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
+        std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
         time = clock.getElapsedTime();
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -150,6 +151,7 @@ int main()
         Text::system(r, window);
         hitSys.system(r);
         AttachModuleSystem::system(r);
+        GameSystem::system(r, player);
         moveSys.system(r, time);
         animSys.system(r, time);
         addDmgSystem.system(r, time);

@@ -33,6 +33,7 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/Game.cpp	\
 		engine/src/Enemy.cpp	\
 		engine/src/Text.cpp	\
+		engine/src/GameSystem.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)
