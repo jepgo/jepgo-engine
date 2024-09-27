@@ -16,7 +16,7 @@ GameSystem::~GameSystem()
 {
 }
 
-void GameSystem::system(Register &r, Game &player, sf::Time &time, int entity, std::vector<sf::Sound> &sounds) {
+void GameSystem::system(Register &r, Game &player, sf::Time &time, int entity, sf::Sound &sound) {
     std::size_t lvlup = 0;
 
     if (time.asSeconds() - _time < _reset)

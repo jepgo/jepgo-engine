@@ -98,17 +98,14 @@ void MidSpriteSystem(Register &r)
     }
 }
 
-std::vector<sf::Sound> getAllSound(const std::vector<std::string>& list, std::vector<sf::SoundBuffer>& buffers)
+std::vector<sf::SoundBuffer> getAllSound(const std::vector<std::string>& list, std::vector<sf::SoundBuffer>& buffers)
 {
-    std::vector<sf::Sound> res;
+    std::vector<sf::SoundBuffer> res;
 
     for (const auto& filename : list) {
-        sf::Sound sound;
         sf::SoundBuffer buffer;
         buffer.loadFromFile(filename);
-        buffers.push_back(buffer);
-        sound.setBuffer(buffers.back());
-        res.push_back(sound);
+        res.push_back(std::move(buffer));
     }
     return res;
 }
@@ -124,7 +121,7 @@ int main()
     sf::Event event;
     std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif"});
     std::vector<sf::SoundBuffer> buuf;
-    std::vector<sf::Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg"}, buuf);
+    std::vector<sf::SoundBuffer> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg"}, buuf);
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(1);
@@ -152,9 +149,10 @@ int main()
 
     //Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::Creat
-    sounds[1].setLoop(true);
-    sounds[1].setVolume(50.f);
-    sounds[1].play();
+    sf::Sound sound;
+    sound.setBuffer(sounds[1]);
+    sound.setLoop(true);
+    sound.play();
     while (window.isOpen()) {
         //std::cout << "life = " << r.getComp<Life>()[5].value()._life << std::endl;
         //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl; 
@@ -173,7 +171,7 @@ int main()
         Text::system(r, window);
         hitSys.system(r);
         AttachModuleSystem::system(r);
-        SystemGame.system(r, player, time, playerEntity, sounds);
+        SystemGame.system(r, player, time, playerEntity, sound);
         LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
         animSys.system(r, time);
@@ -185,7 +183,7 @@ int main()
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
-        game.generateRandomsEntitys(r, time, playerEntity, sounds);
+        game.generateRandomsEntitys(r, time, playerEntity, sound, sounds);
         window.display();
     }
     return 0;
