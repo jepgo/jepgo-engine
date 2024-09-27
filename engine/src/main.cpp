@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <SFML/Audio.hpp>
+#include "DestroyerSystem.hpp"
 #include "AddDmgSystem.hpp"
 #include "GameSystem.hpp"
 #include <SFML/Graphics.hpp>
@@ -135,7 +136,7 @@ int main()
     sound.setVolume(50.f);
     sound.play();
     while (window.isOpen()) {
-        std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
+        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
         time = clock.getElapsedTime();
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -160,6 +161,7 @@ int main()
         ExplosionSystem::system(r);
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
+        DestoyersSystem::system(r);
         game.generateRandomsEntitys(r, time);
         window.display();
     }

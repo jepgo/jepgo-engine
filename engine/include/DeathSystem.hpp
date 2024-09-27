@@ -16,9 +16,9 @@ class DeathSystem {
             auto &type = r.getComp<Type>();
 
             if (type[entity].has_value() && (type[entity].value().getType() == CONTRO || type[entity].value().getType() == MODULE)) {
-                r.removeComponent<Drawable>(entity);
-                r.removeComponent<Positions>(entity);
-                r.removeComponent<Explosion>(entity);
+                //r.removeComponent<Drawable>(entity);
+                //r.removeComponent<Positions>(entity);
+                //r.removeComponent<Explosion>(entity);
                 r.removeComponent<Controllable>(entity);
                 r.removeComponent<Hitable>(entity);
             }

@@ -55,6 +55,11 @@ private:
     Positions _pos;
 };
 
+// class LoopMove {
+//     public:
+
+// };
+
 struct Speed
 {
     std::size_t up;

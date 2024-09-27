@@ -33,6 +33,7 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.emplace_comp(r.entity_nbr, Shoot(0.5, RIGHT, 20));
     r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, Type(CONTRO));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
 }
 
 void Game::CreateBoostModule(Register &r) {
@@ -68,6 +69,7 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100), 10));
     r.emplace_comp(r.entity_nbr, Type(MODULE));
     r.emplace_comp(r.entity_nbr, DoDmg(30));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
 }
 
 static int randomYPos()
