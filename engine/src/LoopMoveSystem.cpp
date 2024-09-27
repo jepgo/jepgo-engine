@@ -9,7 +9,7 @@
 
 static bool checkPosition(Positions &pos, int height, int width)
 {
-    if (pos.x < -width || pos.y < -height)
+    if (pos.x <= (-1 * width) + 10 || pos.y <= (-1 * height) + 10)
         return true;
     return false;
 }

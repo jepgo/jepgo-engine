@@ -23,7 +23,6 @@ AnimationSpriteSystem::~AnimationSpriteSystem()
  */
 void AnimationSpriteSystem::system(Register &r, sf::Time &time)
 {
-    //sf::Time time = clock.getElapsedTime();
     auto &rec = r.getComp<Sprite_Animation>();
     auto &draw = r.getComp<Drawable>();
 

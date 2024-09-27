@@ -116,3 +116,8 @@ void Game::CreatText(Register &r, Positions &&pos, std::string text, sf::Font &f
     r.emplace_comp(r.entity_nbr, pos);
     r.emplace_comp(r.entity_nbr, Text(text, font, 30, sf::Color::Black));
 }
+
+void Game::CreateMiniBoss1(Register &r, Positions &&)
+{
+    
+}

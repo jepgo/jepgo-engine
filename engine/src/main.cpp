@@ -131,10 +131,9 @@ int main()
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, LoopMove(Positions(1800, 200)));
     Game::CreatPlayer(r, height, width);
-    //Game::CreateArmorModule(r, Positions(1000, 300));
     Game::CreateBoostModule(r);
-    //Game::CreateShootModule(r, Positions(200, 200));
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
+    //Game::Creat
     sound.setLoop(true);
     sound.setVolume(50.f);
     sound.play();
@@ -166,7 +165,7 @@ int main()
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
-        game.generateRandomsEntitys(r, time);
+        //game.generateRandomsEntitys(r, time);
         window.display();
     }
     return 0;
