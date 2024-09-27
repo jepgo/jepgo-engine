@@ -8,6 +8,7 @@
 #pragma once
 #include "Register.hpp"
 #include "Components.hpp"
+#include "Game.hpp"
 
 class TestGame {
     public:
@@ -26,7 +27,7 @@ class TestGame {
          * @param entity_nbr The total of entity nbr
          * @param textures The list of all the Texture
          */
-        void generateRandomsEntitys(Register &r, sf::Time &time);
+        void generateRandomsEntitys(Register &r, sf::Time &time, Game &player);
     private:
         float _reset;
         float _time;

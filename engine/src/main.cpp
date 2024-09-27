@@ -98,6 +98,20 @@ void MidSpriteSystem(Register &r)
     }
 }
 
+std::vector<sf::Sound> getAllSound(std::vector<std::string> list)
+{
+    sf::Sound sound;
+    std::vector<sf::Sound> res;
+    sf::SoundBuffer buffer;
+
+    for (std::size_t i = 0; i < list.size(); i++) {
+        buffer.loadFromFile(list[i]);
+        sound.setBuffer(buffer);
+        res.push_back(sound);
+    }
+    return res;
+}
+
 int main()
 {
     std::size_t height = 800;
@@ -107,6 +121,7 @@ int main()
     sf::Time time;
     sf::Event event;
     std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif"});
+    // std::vector<sf::Sound> sounds = getAllSound({"sprites/test.ogg"});
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(1);
@@ -119,10 +134,6 @@ int main()
 
     sf::Font font;
     font.loadFromFile(".font/arial.ttf");
-    sf::SoundBuffer buffer;
-    sf::Sound sound;
-    buffer.loadFromFile("sprites/test.ogg");
-    sound.setBuffer(buffer);
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Drawable(3, std::nullopt, std::vector<float>{3, 4}));
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
@@ -134,11 +145,11 @@ int main()
     Game::CreatPlayer(r, height, width);
     Game::CreateBoostModule(r);
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
-    Game::CreateMiniBoss1(r, Positions(660, 200));
+    //Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::Creat
-    sound.setLoop(true);
-    sound.setVolume(50.f);
-    sound.play();
+    // sounds[0].setLoop(true);
+    // sounds[0].setVolume(50.f);
+    // sounds[0].play();
     while (window.isOpen()) {
         //std::cout << "life = " << r.getComp<Life>()[5].value()._life << std::endl;
         //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl; 
@@ -169,7 +180,7 @@ int main()
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
-        //game.generateRandomsEntitys(r, time);
+        game.generateRandomsEntitys(r, time, player);
         window.display();
     }
     return 0;

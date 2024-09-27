@@ -29,6 +29,8 @@ class AddDmgSystem {
                 return true;
             if (type[me].value().getType() == MINIBOSS)
                 return true;
+            if (type[me].value().getType() == CONTRO && type[him].value().getType() != SHIPSHOOT)
+                return true;
             if (type[me].value().getType() == BOMB && type[him].value().getType() != BOMB)
                 return true;
             if (type[me].value().getType() == SHIPSHOOT && type[him].value().getType() != CONTRO && type[him].value().getType() != MODULE)    
@@ -47,6 +49,7 @@ class AddDmgSystem {
 
             for (std::size_t i = 0; i < hit.size(); i++) {
                 if (hit[i].has_value() && checkValue(r, hit[i].value().GetEntity(), i)) {
+                    std::cout << "take dmg" << std::endl;
                     r.emplace_comp<Dmg>(i ,addDmg(dmg[i], doDmg[hit[i].value().GetEntity()].value().getDmg()));
                 }
                 r.removeComponent<Hit>(i);

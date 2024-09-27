@@ -20,7 +20,6 @@ class InvinsibleSystem {
 
             for (std::size_t i = 0; i < inv.size(); i++) {
                 if (inv[i].has_value() && check_time(inv[i].value(), time)) {
-                    std::cout << "no more invincible" << std::endl;
                     r.removeComponent<Invincible>(i);
                     r.removeComponent<InvincibleTime>(i);
                 }

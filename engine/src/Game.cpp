@@ -55,7 +55,7 @@ void Game::CreateShootModule(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Hitable(20, 20));
-    r.emplace_comp(r.entity_nbr, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.1));
+    r.emplace_comp(r.entity_nbr, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.25));
     r.emplace_comp(r.entity_nbr, Type(MODULE));
 }
 
@@ -128,5 +128,6 @@ void Game::CreateMiniBoss1(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Type(MINIBOSS));
     r.emplace_comp(r.entity_nbr, Invincible());
     r.emplace_comp(r.entity_nbr, InvincibleTime(0, 10));
-    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, MINIBOSS, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(r.entity_nbr, Enemy(10000, 100));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, MINIBOSS, sf::IntRect(180, 300, 40, 40), std::vector<float>{10, 10}));
 }

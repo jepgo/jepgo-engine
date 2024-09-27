@@ -19,10 +19,13 @@ TestGame::~TestGame()
 {
 }
 
-void TestGame::generateRandomsEntitys(Register &r, sf::Time &time)
+void TestGame::generateRandomsEntitys(Register &r, sf::Time &time, Game &player)
 {
     if (time.asSeconds() - _time <= _reset)
         return;
-    Game::CreateAsteroid(r);
+    if (player.getLvl() <= 2)
+        Game::CreateAsteroid(r);
+    else
+        Game::CreateMiniBoss1(r, Positions(660, 200));
     _time = time.asSeconds();
 }
