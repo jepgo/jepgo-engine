@@ -32,7 +32,7 @@ int HitSystem::compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me
 
     for (auto it = list.begin(); it != list.end(); it++) {
         i++;
-        if (i != ind && (me.isHit(*(it->second), pos[it->first].value(), m))) {
+        if (i != ind && (me.isHit(*(it->second), pos[it->first].value(), m, (it->second)->_pos))) {
             return it->first;
         }
     }
@@ -51,6 +51,7 @@ void HitSystem::system(Register &r)
     auto &hit = r.getComp<Hitable>();
     auto &pos = r.getComp<Positions>();
     auto &h = r.getComp<Hit>();
+    auto &type = r.getComp<Type>();
     std::map<std::size_t, Hitable *> list;
 
     for (std::size_t i = 0; i < hit.size(); i++) {
@@ -63,6 +64,7 @@ void HitSystem::system(Register &r)
     for (auto it = list.begin(); it != list.end(); it++) {
         tmp = HitSystem::compareHitable(list, *(it->second), pos[it->first].value(), pos, nbr);
         if (tmp != -1) {
+            if (type[it->first].has_value() && type[it->first].value().getType() == SHIPSHOOT && type[tmp].value().getType() == MINIBOSS)
              r.emplace_comp(it->first, Hit(tmp));
         }    
         nbr++;

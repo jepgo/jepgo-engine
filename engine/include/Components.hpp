@@ -288,6 +288,7 @@ enum TYPE {
     CONTRO,
     COLISION,
     MODULE,
+    MINIBOSS,
 };
 
 class Type {
@@ -363,7 +364,7 @@ public:
      * @param w the width of the object
      * @param h the hight of the object
      */
-    Hitable(int w, int h) : width(w), height(h) {};
+    Hitable(int w, int h, std::optional<Positions> &&pos = std::nullopt) : width(w), height(h), _pos(pos) {};
     ~Hitable() {};
 
     /**
@@ -375,10 +376,21 @@ public:
      * @return true
      * @return false
      */
-    bool isHit(Hitable &hit, Positions &him, Positions &me)
+    bool isHit(Hitable &hit, Positions &him, Positions &me, std::optional<Positions> &himDecal)
     {
-        // if (!(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height))
-        //     std::cout << "hit en = " << me.x << " " << me.y << " vs " << him.x << " " << him.y << std::endl;
+        if (_pos.has_value() && himDecal.has_value()) {
+            Positions &tmp = _pos.value();
+            Positions &tmp2 = himDecal.value();
+            return !(me.x + width + tmp.x < him.x + tmp2.x || me.x + tmp.x > him.x + hit.width + tmp2.x || me.y + height + tmp.y < him.y + tmp2.y || me.y + tmp.y > him.y + hit.height + tmp2.y);
+        }
+        else if (himDecal.has_value()) {
+            Positions &tmp2 = himDecal.value();
+            return !(me.x + width < him.x + tmp2.x || me.x > him.x + hit.width + tmp2.x || me.y + height < him.y + tmp2.y || me.y > him.y + hit.height + tmp2.y);
+        }
+        else if (_pos.has_value()) {
+            Positions &tmp = _pos.value();
+            return !(me.x + width + tmp.x < him.x || me.x + tmp.x > him.x + hit.width || me.y + height + tmp.y < him.y || me.y + tmp.y > him.y + hit.height);
+        }
          return !(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height);
     };
     /**
@@ -391,6 +403,7 @@ public:
     void Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list);
     int width;
     int height;
+    std::optional<Positions> _pos;
 
 private:
 };

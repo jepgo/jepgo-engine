@@ -117,7 +117,14 @@ void Game::CreatText(Register &r, Positions &&pos, std::string text, sf::Font &f
     r.emplace_comp(r.entity_nbr, Text(text, font, 30, sf::Color::Black));
 }
 
-void Game::CreateMiniBoss1(Register &r, Positions &&)
+void Game::CreateMiniBoss1(Register &r, Positions &&pos)
 {
-    
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, Drawable(5, sf::IntRect(0, 0, 140, 250), std::vector<float>{1, 1}));
+    r.emplace_comp(r.entity_nbr, pos);
+    r.emplace_comp(r.entity_nbr, DoDmg(20));
+    r.emplace_comp(r.entity_nbr, Life(3000));
+    r.emplace_comp(r.entity_nbr, Hitable(20, 30, Positions(0, 110)));
+    r.emplace_comp(r.entity_nbr, Type(MINIBOSS));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, MINIBOSS, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
 }

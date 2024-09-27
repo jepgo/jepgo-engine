@@ -105,7 +105,7 @@ int main()
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
-    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png"});
+    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif"});
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(1);
@@ -133,11 +133,13 @@ int main()
     Game::CreatPlayer(r, height, width);
     Game::CreateBoostModule(r);
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
+    Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::Creat
     sound.setLoop(true);
     sound.setVolume(50.f);
     sound.play();
     while (window.isOpen()) {
+        //std::cout << "life = " << r.getComp<Life>()[5].value()._life << std::endl;
         //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl; 
         time = clock.getElapsedTime();
         while (window.pollEvent(event)) {
