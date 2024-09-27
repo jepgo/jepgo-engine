@@ -471,6 +471,13 @@ class Invincible {
         ~Invincible() {};
 };
 
+class LvLUp {
+    public:
+        LvLUp(std::size_t lvl) : _lvl(lvl) {};
+        ~LvLUp() {};
+        std::size_t _lvl;
+};
+
 class InvincibleTime {
     public:
         InvincibleTime(float time, float reset) : _time(time), _reset(reset) {};

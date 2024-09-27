@@ -29,7 +29,7 @@ class AddDmgSystem {
                 return true;
             if (type[me].value().getType() == MINIBOSS)
                 return true;
-            if (type[me].value().getType() == CONTRO && type[him].value().getType() != SHIPSHOOT)
+            if (type[me].value().getType() == CONTRO && type[him].value().getType() != SHIPSHOOT && type[him].value().getType() != MODULE)
                 return true;
             if (type[me].value().getType() == BOMB && type[him].value().getType() != BOMB)
                 return true;

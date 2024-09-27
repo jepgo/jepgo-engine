@@ -118,6 +118,7 @@ int main()
     std::size_t height = 800;
     std::size_t width = 600;
     Register r;
+    int playerEntity = 0;
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
@@ -149,6 +150,7 @@ int main()
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, LoopMove(Positions(1800, 200)));
     Game::CreatPlayer(r, height, width);
+    playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r);
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
 
@@ -175,7 +177,7 @@ int main()
         Text::system(r, window);
         hitSys.system(r);
         AttachModuleSystem::system(r);
-        SystemGame.system(r, player, time);
+        SystemGame.system(r, player, time, playerEntity);
         LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
         animSys.system(r, time);
@@ -187,7 +189,7 @@ int main()
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
-        game.generateRandomsEntitys(r, time, player);
+        game.generateRandomsEntitys(r, time, playerEntity);
         window.display();
     }
     return 0;

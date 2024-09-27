@@ -40,6 +40,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(LoopMove)), SparseArray<LoopMove>()});
     regist.insert({std::type_index(typeid(Invincible)), SparseArray<Invincible>()});
     regist.insert({std::type_index(typeid(InvincibleTime)), SparseArray<InvincibleTime>()});
+    regist.insert({std::type_index(typeid(LvLUp)), SparseArray<LvLUp>()});
 }
 
 Register::~Register()
@@ -76,6 +77,7 @@ void Register::creatEntity()
     std::any_cast<SparseArray<LoopMove>&>(regist[std::type_index(typeid(LoopMove))]).add();
     std::any_cast<SparseArray<Invincible>&>(regist[std::type_index(typeid(Invincible))]).add();
     std::any_cast<SparseArray<InvincibleTime>&>(regist[std::type_index(typeid(InvincibleTime))]).add();
+    std::any_cast<SparseArray<LvLUp>&>(regist[std::type_index(typeid(LvLUp))]).add();
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()

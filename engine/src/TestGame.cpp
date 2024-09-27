@@ -19,13 +19,14 @@ TestGame::~TestGame()
 {
 }
 
-void TestGame::generateRandomsEntitys(Register &r, sf::Time &time, Game &player)
+void TestGame::generateRandomsEntitys(Register &r, sf::Time &time, std::size_t entity)
 {
+    auto &lvl = r.getComp<LvLUp>();
     if (time.asSeconds() - _time <= _reset)
         return;
-    if (player.getLvl() <= 2)
-        Game::CreateAsteroid(r);
-    else
+    if (lvl[entity].has_value() && lvl[entity].value()._lvl == 3)
         Game::CreateMiniBoss1(r, Positions(660, 200));
+    Game::CreateAsteroid(r);
+    r.removeComponent<LvLUp>(entity);
     _time = time.asSeconds();
 }

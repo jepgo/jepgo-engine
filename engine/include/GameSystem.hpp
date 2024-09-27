@@ -12,7 +12,7 @@
 
 class GameSystem {
     public:
-        void system(Register &r, Game &player, sf::Time &time);
+        void system(Register &r, Game &player, sf::Time &time, int entity);
         GameSystem(float reset);
         ~GameSystem();
 
