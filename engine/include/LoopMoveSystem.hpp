@@ -2,13 +2,13 @@
 ** EPITECH PROJECT, 2024
 ** R-Type [WSL: Fedora]
 ** File description:
-** DestoyersSystem
+** LoopMoveSystem
 */
 
 #pragma once
 #include "Register.hpp"
 
-class DestoyersSystem {
+class LoopMoveSystem {
     public:
         static void system(Register &r, int height, int width);
     protected:

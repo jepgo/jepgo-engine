@@ -55,10 +55,12 @@ private:
     Positions _pos;
 };
 
-// class LoopMove {
-//     public:
-
-// };
+class LoopMove {
+    public:
+        LoopMove(Positions &&pos) : _pos(pos) {};
+        ~LoopMove() {};
+        Positions _pos;        
+};
 
 struct Speed
 {

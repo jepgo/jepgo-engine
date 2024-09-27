@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include "LoopMoveSystem.hpp"
 #include <SFML/Audio.hpp>
 #include "DestroyerSystem.hpp"
 #include "AddDmgSystem.hpp"
@@ -127,6 +128,7 @@ int main()
     r.emplace_comp(r.entity_nbr, Drawable(4, std::nullopt, std::vector<float>{3, 3}));
     r.emplace_comp(r.entity_nbr, Positions(800, 200));
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
+    r.emplace_comp(r.entity_nbr, LoopMove(Positions(1800, 200)));
     Game::CreatPlayer(r, height, width);
     //Game::CreateArmorModule(r, Positions(1000, 300));
     Game::CreateBoostModule(r);
@@ -153,6 +155,7 @@ int main()
         hitSys.system(r);
         AttachModuleSystem::system(r);
         GameSystem::system(r, player);
+        LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
         animSys.system(r, time);
         addDmgSystem.system(r, time);
@@ -161,7 +164,7 @@ int main()
         ExplosionSystem::system(r);
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
-        DestoyersSystem::system(r);
+        DestoyersSystem::system(r, height, width);
         game.generateRandomsEntitys(r, time);
         window.display();
     }

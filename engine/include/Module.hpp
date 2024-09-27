@@ -50,10 +50,8 @@ class ModuleShoot
         };
         void changeShoot(std::optional<Shoot> &shoot) { 
             if (shoot.has_value()) {
-                std::cout << "shoot changed" << std::endl;
                 shoot.value()._fireRate = _fireRate;
             } else {
-                std::cout << "not change" << std::endl;
                 shoot = std::make_optional(Shoot(_fireRate, RIGHT, 10));
             }
         };
