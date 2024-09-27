@@ -464,3 +464,17 @@ public:
     void Tir(Register &r, Positions &pos, int);
     void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key);
 };
+
+class Invincible {
+    public:
+        Invincible() {};
+        ~Invincible() {};
+};
+
+class InvincibleTime {
+    public:
+        InvincibleTime(float time, float reset) : _time(time), _reset(reset) {};
+        ~InvincibleTime() {};
+    float _reset;
+    float _time;
+};

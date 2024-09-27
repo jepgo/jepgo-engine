@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include "InvinsibleSystem.hpp"
 #include "LoopMoveSystem.hpp"
 #include <SFML/Audio.hpp>
 #include "DestroyerSystem.hpp"
@@ -160,6 +161,7 @@ int main()
         LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
         animSys.system(r, time);
+        InvinsibleSystem::system(r, time);
         addDmgSystem.system(r, time);
         ModuleSystem::system(r);
         DmgSystem::system(r);
