@@ -11,6 +11,7 @@
 #include <utility>
 #include <any>
 #include <typeindex>
+#include "Text.hpp"
 #include "SparseArray.hpp"
 #include "Enemy.hpp"
 #include "Components.hpp"

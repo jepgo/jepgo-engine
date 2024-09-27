@@ -60,8 +60,9 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, std::move(pos));
+    r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, Drawable(2, sf::IntRect(173, 345, 32, 32), std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.entity_nbr, Sprite_Animation(4, 32, 0.3));
+    r.emplace_comp(r.entity_nbr, Sprite_Animation(4, 32, 0.2));
     r.emplace_comp(r.entity_nbr, Hitable(32, 32));
     r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100), 10));
     r.emplace_comp(r.entity_nbr, Type(MODULE));
@@ -103,4 +104,11 @@ void Game::CreateShipShoot(Register &r, Positions && pos)
     r.emplace_comp(r.entity_nbr, DoDmg(10));
     r.emplace_comp(r.entity_nbr, Type(SHIPSHOOT));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, SHIPSHOOT, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+}
+
+void Game::CreatText(Register &r, Positions &&pos, std::string text, sf::Font &font)
+{
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, pos);
+    r.emplace_comp(r.entity_nbr, Text(text, font, 30, sf::Color::Black));
 }

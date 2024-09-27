@@ -15,8 +15,6 @@ void ExplosionSystem::system(Register &r)
     for (std::size_t i = 0; i < death.size(); i++) {
         if (death[i].has_value() && explosion[i].has_value()) {
             explosion[i].value().explose(r, i);
-            r.removeComponent<Death>(i);
-            //r.removeComponent<Life>(i);
         }
     }
 }

@@ -112,18 +112,22 @@ int main()
     DrawSystem drawSys = DrawSystem();
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
 
+    sf::Font font;
+    font.loadFromFile(".font/arial.ttf");
     sf::SoundBuffer buffer;
     sf::Sound sound;
     buffer.loadFromFile("sprites/test.ogg");
     sound.setBuffer(buffer);
     Game::CreatPlayer(r, height, width);
-    Game::CreateArmorModule(r, Positions(100, 100));
+    Game::CreateArmorModule(r, Positions(1000, 300));
     Game::CreateBoostModule(r);
     Game::CreateShootModule(r, Positions(200, 200));
+    Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
     sound.setLoop(true);
     sound.setVolume(50.f);
     sound.play();
     while (window.isOpen()) {
+        std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " point = " << player.getPoint() << std::endl; 
         time = clock.getElapsedTime();
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -136,6 +140,7 @@ int main()
             }
         }
         window.clear(sf::Color::White);
+        Text::system(r, window);
         hitSys.system(r);
         AttachModuleSystem::system(r);
         moveSys.system(r, time);

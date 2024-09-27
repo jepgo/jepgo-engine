@@ -18,6 +18,7 @@ class Game {
         static void CreateShipShoot(Register &r, Positions &&);
         static void CreateShootModule(Register &r, Positions &&);
         static void CreateArmorModule(Register &r, Positions &&);
+        static void CreatText(Register &r, Positions &&, std::string text, sf::Font &font);
         std::size_t &getExp() {return _exp;};
         std::size_t &getPoint() {return _point;};
         std::size_t &getLvl() {return _lvl;};
