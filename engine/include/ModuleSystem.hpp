@@ -26,6 +26,7 @@ public:
             if (modules[i].has_value() && life[modules[i].value()._entity].has_value() && life[modules[i].value()._entity].value()._life <= 0) {
                 r.removeComponent<Drawable>(i);
                 r.removeComponent<Module>(i);
+                r.removeComponent<Hitable>(i);
             }
         }
     };

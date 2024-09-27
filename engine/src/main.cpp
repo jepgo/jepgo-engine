@@ -122,7 +122,7 @@ int main()
     r.emplace_comp(r.entity_nbr, Drawable(3, std::nullopt, std::vector<float>{3, 4}));
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
     r.creatEntity();
-    r.emplace_comp(r.entity_nbr, Drawable(4, std::nullopt, std::vector<float>{1, 1}));
+    r.emplace_comp(r.entity_nbr, Drawable(4, std::nullopt, std::vector<float>{3, 3}));
     r.emplace_comp(r.entity_nbr, Positions(800, 200));
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     Game::CreatPlayer(r, height, width);
