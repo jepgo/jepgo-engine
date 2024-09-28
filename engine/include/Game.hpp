@@ -12,6 +12,7 @@ class Game {
     public:
         Game();
         ~Game();
+        static void CreateMainThem(Register &r);
         static void CreatPlayer(Register &r, int height, int width);
         static void CreateAsteroid(Register &r);
         static void CreateBoostModule(Register &r);

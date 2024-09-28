@@ -8,8 +8,8 @@
 #include <iostream>
 #include "InvinsibleSystem.hpp"
 #include "LoopMoveSystem.hpp"
-#include <SFML/Audio.hpp>
 #include "DestroyerSystem.hpp"
+#include "SoundLoopSystem.hpp"
 #include "AddDmgSystem.hpp"
 #include "GameSystem.hpp"
 #include <SFML/Graphics.hpp>
@@ -146,6 +146,7 @@ int main()
     playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r);
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
+    //Game::CreateMainThem(r);
 
     //Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::Creat
@@ -167,6 +168,7 @@ int main()
                 MidSpriteSystem(r);
             }
         }
+        //std::cout << "number = " << r.getComp<SoundLoop>()[5].has_value() << std::endl;
         window.clear(sf::Color::White);
         Text::system(r, window);
         hitSys.system(r);
@@ -183,6 +185,7 @@ int main()
         DeathSystem::system(r, player);
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
+        //SoundLoopSystem::system(r, sounds, time);
         game.generateRandomsEntitys(r, time, playerEntity, sound, sounds);
         window.display();
     }

@@ -7,6 +7,7 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <optional>
 
@@ -18,6 +19,53 @@ class Life {
         ~Life(){};
         int _life;
     private:
+};
+
+class SoundEffect {
+    public:
+        SoundEffect(std::size_t ind) : _ind(ind) {};
+        ~SoundEffect() {};
+        void Play(std::vector<sf::SoundBuffer> &buffer) {
+            _sound.setBuffer(buffer[_ind]);
+            _sound.play();
+        };
+    private:
+        std::size_t _ind;
+        sf::Sound _sound;
+};
+
+class SoundLoop {
+    public:
+        SoundLoop(std::size_t ind, float reset) : _ind(ind) , _reset(reset) {
+        };
+        ~SoundLoop() {
+            //std::cout << "delete" << std::endl;
+        };
+        void Play(std::vector<sf::SoundBuffer> &buffer, sf::Time &time) {
+            if (time.asSeconds() - _time < _reset)
+                return;
+            std::cout << "play" << std::endl;
+            _time = time.asSeconds();
+            _sound.setBuffer(buffer[_ind]);
+            _sound.play();
+            _play = true;
+        };
+        void Stop() {
+            if (_play == false)
+                return;
+            _sound.stop();
+            _play = false;
+        };
+        void ChangeSong(std::size_t ind) {
+            Stop();
+            _ind = ind;
+        };
+        bool _play = false;
+    private:
+        float _time = 0;
+        float _reset;
+        std::size_t _ind;
+        sf::Sound _sound;
 };
 
 class Positions {
@@ -148,7 +196,8 @@ public:
         }
         sprite.setScale(scale[0], scale[1]);
     };
-    ~Drawable() {};
+    ~Drawable() {
+    };
     void draw(sf::RenderWindow &window, sf::Texture &texture, Positions &pos)
     {
         sprite.setTexture(texture);

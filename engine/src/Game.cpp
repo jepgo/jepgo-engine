@@ -19,6 +19,11 @@ Game::~Game()
 {
 }
 
+void Game::CreateMainThem(Register &r) {
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, SoundLoop(1, 32));
+}
+
 void Game::CreatPlayer(Register &r, int height, int width)
 {
     r.creatEntity();

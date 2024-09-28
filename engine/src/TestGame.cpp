@@ -21,7 +21,9 @@ TestGame::~TestGame()
 
 void TestGame::generateRandomsEntitys(Register &r, sf::Time &time, std::size_t entity, sf::Sound &sound, std::vector<sf::SoundBuffer> &buff)
 {
+    //auto &soundloop = r.getComp<SoundLoop>();
     auto &lvl = r.getComp<LvLUp>();
+
     if (time.asSeconds() - _time <= _reset)
         return;
     if (lvl[entity].has_value() && lvl[entity].value()._lvl == 3) {
@@ -30,6 +32,10 @@ void TestGame::generateRandomsEntitys(Register &r, sf::Time &time, std::size_t e
         sound.setBuffer(buff[0]);
         sound.setLoop(true);
         sound.play();
+        // for (std::size_t i = 0; i < soundloop.size(); i++) {
+        //     if (soundloop[i].has_value())
+        //         soundloop[i].value().ChangeSong(0);
+        // }
     }
     Game::CreateAsteroid(r);
     r.removeComponent<LvLUp>(entity);

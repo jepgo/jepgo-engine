@@ -48,8 +48,7 @@ class AddDmgSystem {
             auto &type = r.getComp<Type>();
 
             for (std::size_t i = 0; i < hit.size(); i++) {
-                if (hit[i].has_value() && checkValue(r, hit[i].value().GetEntity(), i)) {
-                    std::cout << "take dmg" << std::endl;
+                if (hit[i].has_value() && checkValue(r, hit[i].value().GetEntity(), i)) { 
                     r.emplace_comp<Dmg>(i ,addDmg(dmg[i], doDmg[hit[i].value().GetEntity()].value().getDmg()));
                 }
                 r.removeComponent<Hit>(i);
