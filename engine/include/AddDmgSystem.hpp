@@ -55,6 +55,7 @@ class AddDmgSystem {
                 }
                 r.removeComponent<Hit>(i);
             }
+            //_time = time.asSeconds();
         };
     private:
         float _reset;

@@ -24,6 +24,22 @@ void Game::CreateMainThem(Register &r) {
     r.emplace_comp(r.entity_nbr, SoundLoop(1, 32));
 }
 
+void Game::CreateBackGround(Register &r)
+{
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, Drawable(3, std::nullopt, std::vector<float>{3, 4}));
+    r.emplace_comp(r.entity_nbr, Positions(0, 0));
+}
+
+void Game::CreatePlanet(Register &r)
+{
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, Drawable(4, std::nullopt, std::vector<float>{3, 3}));
+    r.emplace_comp(r.entity_nbr, Positions(800, 200));
+    r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
+    r.emplace_comp(r.entity_nbr, LoopMove(Positions(1800, 200)));
+}
+
 void Game::CreatPlayer(Register &r, int height, int width)
 {
     r.creatEntity();
@@ -75,10 +91,8 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, Drawable(2, sf::IntRect(173, 345, 32, 32), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(4, 32, 0.2));
-    // r.emplace_comp(r.entity_nbr, Invincible());
-    // r.emplace_comp(r.entity_nbr, InvincibleTime(0, 7));
     r.emplace_comp(r.entity_nbr, Hitable(32, 32));
-    r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100), 10));
+    r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
     r.emplace_comp(r.entity_nbr, Type(NEUTRAL));
     r.emplace_comp(r.entity_nbr, DoDmg(30));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
@@ -134,7 +148,7 @@ void Game::CreateMiniBoss1(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Drawable(5, sf::IntRect(0, 0, 140, 250), std::vector<float>{1, 1}));
     r.emplace_comp(r.entity_nbr, pos);
     r.emplace_comp(r.entity_nbr, DoDmg(20));
-    r.emplace_comp(r.entity_nbr, Life(300));
+    r.emplace_comp(r.entity_nbr, Life(3000));
     r.emplace_comp(r.entity_nbr, Hitable(20, 30, Positions(0, 110)));
     r.emplace_comp(r.entity_nbr, Type(MINIBOSS));
     r.emplace_comp(r.entity_nbr, Invincible());

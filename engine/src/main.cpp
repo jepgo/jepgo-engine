@@ -127,7 +127,7 @@ int main()
 
     window.setPosition(sf::Vector2i((desktopMode.width / 4), (desktopMode.height / 4)));
     Game player = Game();
-    AddDmgSystem addDmgSystem = AddDmgSystem(1);
+    AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
     TestGame game = TestGame(1);
     GameSystem SystemGame = GameSystem(0.1);
     MoveSystem moveSys = MoveSystem(10);
@@ -137,23 +137,12 @@ int main()
 
     sf::Font font;
     font.loadFromFile(".font/arial.ttf");
-    r.creatEntity();
-    r.emplace_comp(r.entity_nbr, Drawable(3, std::nullopt, std::vector<float>{3, 4}));
-    r.emplace_comp(r.entity_nbr, Positions(0, 0));
-    r.creatEntity();
-    r.emplace_comp(r.entity_nbr, Drawable(4, std::nullopt, std::vector<float>{3, 3}));
-    r.emplace_comp(r.entity_nbr, Positions(800, 200));
-    r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
-    r.emplace_comp(r.entity_nbr, LoopMove(Positions(1800, 200)));
+    Game::CreateBackGround(r);
+    Game::CreatePlanet(r);
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r, playerEntity);
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
-    Game::CreateArmorModule(r, Positions(200, 200));
-    //Game::CreateMainThem(r);
-
-    //Game::CreateMiniBoss1(r, Positions(660, 200));
-    //Game::Creat
     sf::Sound sound;
     sound.setBuffer(sounds[1]);
     sound.setLoop(true);
@@ -183,7 +172,7 @@ int main()
         InvinsibleSystem::system(r, time);
         addDmgSystem.system(r, time);
         ModuleSystem::system(r);
-        DmgSystem::system(r);
+        DmgSystem::system(r, time);
         ExplosionSystem::system(r);
         DeathSystem::system(r, playerEntity);
         drawSys.system(window, r, texture);
