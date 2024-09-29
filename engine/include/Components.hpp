@@ -376,6 +376,7 @@ enum TYPE {
     COLISION,
     MODULE,
     MINIBOSS,
+    NEUTRAL,
 };
 
 class Type {

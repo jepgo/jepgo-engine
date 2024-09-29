@@ -123,6 +123,9 @@ int main()
     std::vector<sf::SoundBuffer> buuf;
     std::vector<sf::SoundBuffer> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg"}, buuf);
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
+    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+
+    window.setPosition(sf::Vector2i((desktopMode.width / 4), (desktopMode.height / 4)));
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(1);
     TestGame game = TestGame(1);
@@ -146,6 +149,7 @@ int main()
     playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r, playerEntity);
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
+    Game::CreateArmorModule(r, Positions(200, 200));
     //Game::CreateMainThem(r);
 
     //Game::CreateMiniBoss1(r, Positions(660, 200));

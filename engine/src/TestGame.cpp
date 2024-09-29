@@ -47,7 +47,7 @@ void TestGame::Stages(Register &r, sf::Time &time, std::size_t entity, sf::Sound
 
     if (time.asSeconds() - _time <= _reset)
         return;
-    if (km[entity].value()._dist >= 100) {
+    if (km[entity].value()._dist >= 500) {
         Stage2(r, sound, buff);
     } 
     else

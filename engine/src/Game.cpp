@@ -65,7 +65,7 @@ void Game::CreateShootModule(Register &r, Positions &&pos)
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Hitable(20, 20));
     r.emplace_comp(r.entity_nbr, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.25));
-    r.emplace_comp(r.entity_nbr, Type(MODULE));
+    r.emplace_comp(r.entity_nbr, Type(NEUTRAL));
 }
 
 void Game::CreateArmorModule(Register &r, Positions &&pos)
@@ -75,9 +75,11 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, Drawable(2, sf::IntRect(173, 345, 32, 32), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(4, 32, 0.2));
+    // r.emplace_comp(r.entity_nbr, Invincible());
+    // r.emplace_comp(r.entity_nbr, InvincibleTime(0, 7));
     r.emplace_comp(r.entity_nbr, Hitable(32, 32));
     r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(100), 10));
-    r.emplace_comp(r.entity_nbr, Type(MODULE));
+    r.emplace_comp(r.entity_nbr, Type(NEUTRAL));
     r.emplace_comp(r.entity_nbr, DoDmg(30));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
 }
@@ -132,11 +134,11 @@ void Game::CreateMiniBoss1(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Drawable(5, sf::IntRect(0, 0, 140, 250), std::vector<float>{1, 1}));
     r.emplace_comp(r.entity_nbr, pos);
     r.emplace_comp(r.entity_nbr, DoDmg(20));
-    r.emplace_comp(r.entity_nbr, Life(3000));
+    r.emplace_comp(r.entity_nbr, Life(300));
     r.emplace_comp(r.entity_nbr, Hitable(20, 30, Positions(0, 110)));
     r.emplace_comp(r.entity_nbr, Type(MINIBOSS));
     r.emplace_comp(r.entity_nbr, Invincible());
-    r.emplace_comp(r.entity_nbr, InvincibleTime(0, 10));
+    r.emplace_comp(r.entity_nbr, InvincibleTime(0, 5));
     r.emplace_comp(r.entity_nbr, Enemy(10000, 100));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, MINIBOSS, sf::IntRect(180, 300, 40, 40), std::vector<float>{10, 10}));
 }

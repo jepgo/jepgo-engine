@@ -25,6 +25,8 @@ class AddDmgSystem {
 
             if (doDmg[him].has_value() == false)
                 return false;
+            if (type[me].has_value() == NEUTRAL || type[him].has_value() == NEUTRAL)
+                return false;
             if (type[me].has_value() == false || type[him].has_value() == false)
                 return true;
             if (type[me].value().getType() == MINIBOSS)
