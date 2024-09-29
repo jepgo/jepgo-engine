@@ -29,6 +29,10 @@ void DrawSystem::system(sf::RenderWindow &window, Register &r, std::vector<sf::T
 
     for (std::size_t i = 0; i < draw.size(); i++)
     {
+        // if (draw[i].has_value() && i == 4)
+        //     std::cout << "is draw" << std::endl;
+        // if (draw[i].has_value() == false && i == 4)
+        //     std::cout << "not draw" << std::endl;
         if (draw[i].has_value() && pos[i].has_value())
         {
             draw[i].value().draw(window, texture[draw[i].value().getIndex()], pos[i].value());

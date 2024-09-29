@@ -20,7 +20,6 @@ class DmgSystem {
             auto &dmg = r.getComp<Dmg>();
             auto &life = r.getComp<Life>();
             auto &inv = r.getComp<Invincible>();
-            auto &type = r.getComp<Type>();
 
             for (std::size_t i = 0; i < dmg.size(); i++) {
                 if (dmg[i].has_value() && inv[i].has_value())

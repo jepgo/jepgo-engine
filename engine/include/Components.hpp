@@ -82,7 +82,7 @@ class SoundLoop {
         void Play(std::vector<sf::SoundBuffer> &buffer, sf::Time &time) {
             if (time.asSeconds() - _time < _reset)
                 return;
-            std::cout << "play" << std::endl;
+            //std::cout << "play" << std::endl;
             _time = time.asSeconds();
             _sound.setBuffer(buffer[_ind]);
             _sound.play();
@@ -292,6 +292,62 @@ public:
     double reset;
     float t;
     bool deadAnimation;
+};
+
+class Short_Animation {
+public:
+    /**
+     * @brief Construct a new Sprite_Animation object
+     *
+     * @param sta The number of Status for the Sprite
+     * @param value The value to be increase for the Sprite
+     * @param res The time for the Sprite to be reseted
+     * @param dead A Bool to know if the Sprite animation need to be delete after the max status
+     */
+    Short_Animation(int sta, int value, double res)
+    {
+        status = sta;
+        if (value < 0)
+            isneg = true;
+        else
+            isneg = false;
+        val = value;
+        reset = res;
+        t = 0;
+    };
+    ~Short_Animation() {};
+    void setTime(sf::Time &time)
+    {
+        t = time.asSeconds();
+    };
+    bool isneg;
+    int status;
+    int val;
+    double reset;
+    float t;
+};
+
+class Animation2Time {
+    public:
+        Animation2Time(Short_Animation &&anim1, Short_Animation &&anim2, std::vector<float> &&animsTime, float time)
+        : _anim1(anim1), _anim2(anim2), _animsTime(animsTime), _time(time) {
+            _reset = 0;
+        };
+        ~Animation2Time() {};
+        Short_Animation &getAnim1() {return _anim1;};
+        Short_Animation &getAnim2() {return _anim2;};
+        float getAnimation1Time() {return _animsTime[0];};
+        float getAnimation2Time() {return _animsTime[1];};
+        float getAnimationTime() {return _time;};
+        bool &getstatus() {return _status;};
+        float _lastTime = 0;
+        float _reset;
+    private:
+        Short_Animation _anim1;
+        Short_Animation _anim2;
+        std::vector<float> _animsTime;
+        float _time;
+        bool _status = false;
 };
 
 static std::map<sf::Keyboard::Key, Direction> const ASSOCIATIVE_KEYS = {

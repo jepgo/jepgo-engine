@@ -6,9 +6,11 @@
 */
 
 #include <iostream>
+#include "Animation2TimeSystem.hpp"
 #include "InvinsibleSystem.hpp"
 #include "LoopMoveSystem.hpp"
 #include "DestroyerSystem.hpp"
+#include "ShortAnimationSystem.hpp"
 #include "SoundLoopSystem.hpp"
 #include "AddDmgSystem.hpp"
 #include "GameSystem.hpp"
@@ -53,7 +55,7 @@ std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
+int keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time, sf::Sound &sound)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -66,9 +68,11 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
         if (key == sf::Keyboard::A && shoot[i].has_value() && shoot[i].value().verif(time)) {
+            //sound.play();
+            //std::cout << "fire" << std::endl;
             shoot[i].value().shoot(r, pos[i].value());
             shoot[i].value()._time =  time.asSeconds();
-            return;
+            return 2;
         }
         if (stat[i].has_value() and draw[i].has_value())
             control[i].value().moveStatus(stat[i], draw[i], key);
@@ -78,6 +82,7 @@ void keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
             control[i].value().onKeyDown(key, vel[i].value());
         r.emplace_comp(i, Move(vel[i].value().getVel()));
     }
+    return -1;
 }
 
 /**
@@ -98,7 +103,7 @@ void MidSpriteSystem(Register &r)
     }
 }
 
-std::vector<sf::SoundBuffer> getAllSound(const std::vector<std::string>& list, std::vector<sf::SoundBuffer>& buffers)
+std::vector<sf::SoundBuffer> getAllSound(const std::vector<std::string>& list)
 {
     std::vector<sf::SoundBuffer> res;
 
@@ -120,8 +125,7 @@ int main()
     sf::Time time;
     sf::Event event;
     std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif"});
-    std::vector<sf::SoundBuffer> buuf;
-    std::vector<sf::SoundBuffer> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg"}, buuf);
+    std::vector<sf::SoundBuffer> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
 
@@ -142,22 +146,27 @@ int main()
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r, playerEntity);
-    Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
+    Game::CreateMiniBoss1(r, Positions(660, 200));
+    //Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
+    sf::Sound test;
+    test.setBuffer(sounds[2]);
+    test.setVolume(50);
     sf::Sound sound;
     sound.setBuffer(sounds[1]);
     sound.setLoop(true);
     sound.play();
     while (window.isOpen()) {
         //std::cout << "life = " << r.getComp<Life>()[5].value()._life << std::endl;
-        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl; 
+        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl;
+        //std::cout << "drawable is = " << r.getComp<Drawable>()[4].value().getRect().value().left << std::endl; 
         time = clock.getElapsedTime();
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::KeyPressed)
-                keySystem(r, event.key.code, false, time);
+                keySystem(r, event.key.code, false, time, test);
             if (event.type == sf::Event::KeyReleased) {
-                keySystem(r, event.key.code, true, time);
+                keySystem(r, event.key.code, true, time, test);
                 MidSpriteSystem(r);
             }
         }
@@ -168,7 +177,9 @@ int main()
         SystemGame.system(r, time, playerEntity, sound);
         LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
+        Animation2TimeSystem::system(r, time);
         animSys.system(r, time);
+        ShortAnimationSystem::system(r, time);
         InvinsibleSystem::system(r, time);
         addDmgSystem.system(r, time);
         ModuleSystem::system(r);
@@ -178,7 +189,7 @@ int main()
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
         //SoundLoopSystem::system(r, sounds, time);
-        game.Stages(r, time, playerEntity, sound, sounds);
+        //game.Stages(r, time, playerEntity, sound, sounds);
         window.display();
     }
     return 0;
