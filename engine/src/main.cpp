@@ -146,7 +146,7 @@ int main()
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r, playerEntity);
-    Game::CreateMiniBoss1(r, Positions(660, 200));
+    //Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
     sf::Sound test;
     test.setBuffer(sounds[2]);
@@ -189,7 +189,7 @@ int main()
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
         //SoundLoopSystem::system(r, sounds, time);
-        //game.Stages(r, time, playerEntity, sound, sounds);
+        game.Stages(r, time, playerEntity, sound, sounds);
         window.display();
     }
     return 0;

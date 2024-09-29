@@ -114,7 +114,7 @@ void Game::CreateAsteroid(Register &r)
     r.emplace_comp(r.entity_nbr, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Velocity({1, 1, 1, 1}));
-    r.emplace_comp(r.entity_nbr, Hitable(17, 18));
+    r.emplace_comp(r.entity_nbr, Hitable(17, 18, Positions(0, -1)));
     r.emplace_comp(r.entity_nbr, Enemy(100, 10));
     r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, DoDmg(10));
