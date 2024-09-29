@@ -66,7 +66,7 @@ void HitSystem::system(Register &r)
         if (tmp != -1) {
             //std::cout << "hit" << std::endl;
             //if (type[it->first].has_value() && type[it->first].value().getType() == SHIPSHOOT && type[tmp].value().getType() == MINIBOSS)
-             r.emplace_comp(it->first, Hit(tmp));
+            r.emplace_comp(it->first, Hit(tmp));
         }    
         nbr++;
     }

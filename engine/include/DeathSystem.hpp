@@ -29,17 +29,19 @@ class DeathSystem {
          * @param r The Registry of all the Entity
          * @param player The data about a player
          */
-        static void system(Register &r, Game &player) {
+        static void system(Register &r, std::size_t playerEntity) {
             auto &life = r.getComp<Life>();
             auto &enemy = r.getComp<Enemy>();
             auto &death = r.getComp<Death>();
+            auto &exp = r.getComp<Exp>();
+            auto &points = r.getComp<Points>();
 
             for (std::size_t i = 0; i < life.size(); i++) {
                 if (life[i].has_value() && life[i].value()._life <= 0) {
                     DeathSystem::death(r, i);
                     if (enemy[i].has_value() && death[i].has_value()) {
-                        player.getExp() += enemy[i].value()._exp;
-                        player.getPoint() += enemy[i].value()._point;
+                        exp[playerEntity].value()._exp += enemy[i].value()._exp;
+                        points[playerEntity].value()._point += enemy[i].value()._point;
                     }
                     r.removeComponent<Death>(i);
                 }

@@ -115,7 +115,7 @@ int main()
     std::size_t height = 800;
     std::size_t width = 600;
     Register r;
-    int playerEntity = 0;
+    int playerEntity = 2;
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
@@ -144,7 +144,7 @@ int main()
     r.emplace_comp(r.entity_nbr, LoopMove(Positions(1800, 200)));
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
-    Game::CreateBoostModule(r);
+    Game::CreateBoostModule(r, playerEntity);
     Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
     //Game::CreateMainThem(r);
 
@@ -168,12 +168,11 @@ int main()
                 MidSpriteSystem(r);
             }
         }
-        //std::cout << "number = " << r.getComp<SoundLoop>()[5].has_value() << std::endl;
         window.clear(sf::Color::White);
         Text::system(r, window);
         hitSys.system(r);
         AttachModuleSystem::system(r);
-        SystemGame.system(r, player, time, playerEntity, sound);
+        SystemGame.system(r, time, playerEntity, sound);
         LoopMoveSystem::system(r, height, width);
         moveSys.system(r, time);
         animSys.system(r, time);
@@ -182,11 +181,11 @@ int main()
         ModuleSystem::system(r);
         DmgSystem::system(r);
         ExplosionSystem::system(r);
-        DeathSystem::system(r, player);
+        DeathSystem::system(r, playerEntity);
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
         //SoundLoopSystem::system(r, sounds, time);
-        game.generateRandomsEntitys(r, time, playerEntity, sound, sounds);
+        game.Stages(r, time, playerEntity, sound, sounds);
         window.display();
     }
     return 0;

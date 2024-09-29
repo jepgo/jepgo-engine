@@ -13,6 +13,44 @@
 
 class Register;
 
+class Stage {
+    public:
+        Stage() {};
+        ~Stage() {};
+    private:
+
+};
+
+class DistanceKm {
+    public:
+        DistanceKm() {};
+        ~DistanceKm() {};
+        std::size_t _dist = 0;
+};
+
+class Exp {
+    public:
+        Exp(std::size_t exp) : _exp(exp) {};
+        ~Exp() {};
+        std::size_t _exp;
+};
+
+class Points {
+    public:
+        Points() {
+            _point = 0;
+        };
+        ~Points() {};
+        std::size_t _point;
+};
+
+class Lvl {
+    public:
+        Lvl(std::size_t lvl) : _lvl(lvl) {};
+        ~Lvl() {};
+        std::size_t _lvl;
+};
+
 class Life {
     public:
         Life(int life) : _life(life) {};

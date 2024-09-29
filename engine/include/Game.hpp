@@ -15,7 +15,7 @@ class Game {
         static void CreateMainThem(Register &r);
         static void CreatPlayer(Register &r, int height, int width);
         static void CreateAsteroid(Register &r);
-        static void CreateBoostModule(Register &r);
+        static void CreateBoostModule(Register &r, std::size_t PlayerEntity);
         static void CreateShipShoot(Register &r, Positions &&);
         static void CreateShootModule(Register &r, Positions &&);
         static void CreateArmorModule(Register &r, Positions &&);

@@ -43,6 +43,10 @@ Register::Register()
     regist.insert({std::type_index(typeid(LvLUp)), SparseArray<LvLUp>()});
     regist.insert({std::type_index(typeid(SoundLoop)), SparseArray<SoundLoop>()});
     regist.insert({std::type_index(typeid(SoundEffect)), SparseArray<SoundEffect>()});
+    regist.insert({std::type_index(typeid(Lvl)), SparseArray<Lvl>()});
+    regist.insert({std::type_index(typeid(Points)), SparseArray<Points>()});
+    regist.insert({std::type_index(typeid(Exp)), SparseArray<Exp>()});
+    regist.insert({std::type_index(typeid(DistanceKm)), SparseArray<DistanceKm>()});
 }
 
 Register::~Register()
@@ -82,6 +86,10 @@ void Register::creatEntity()
     std::any_cast<SparseArray<LvLUp>&>(regist[std::type_index(typeid(LvLUp))]).add();
     std::any_cast<SparseArray<SoundEffect>&>(regist[std::type_index(typeid(SoundEffect))]).add();
     std::any_cast<SparseArray<SoundLoop>&>(regist[std::type_index(typeid(SoundLoop))]).add();
+    std::any_cast<SparseArray<Lvl>&>(regist[std::type_index(typeid(Lvl))]).add();
+    std::any_cast<SparseArray<Exp>&>(regist[std::type_index(typeid(Exp))]).add();
+    std::any_cast<SparseArray<Points>&>(regist[std::type_index(typeid(Points))]).add();
+    std::any_cast<SparseArray<DistanceKm>&>(regist[std::type_index(typeid(DistanceKm))]).add();
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()

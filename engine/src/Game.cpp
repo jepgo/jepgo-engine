@@ -39,16 +39,20 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.emplace_comp(r.entity_nbr, Shoot(0.5, RIGHT, 20));
     r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, Type(CONTRO));
+    r.emplace_comp(r.entity_nbr, Exp(0));
+    r.emplace_comp(r.entity_nbr, Points());
+    r.emplace_comp(r.entity_nbr, Lvl(1));
+    r.emplace_comp(r.entity_nbr, DistanceKm());
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
 }
 
-void Game::CreateBoostModule(Register &r) {
+void Game::CreateBoostModule(Register &r, std::size_t PlayerEntity) {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
     r.emplace_comp(r.entity_nbr, Drawable(1, sf::IntRect(235, 20, 30, 30), std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(4, -33, 0.1));
     //r.emplace_comp(1, Hitable(17, 18));
-    r.emplace_comp(r.entity_nbr, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, 0));
+    r.emplace_comp(r.entity_nbr, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, PlayerEntity));
     r.emplace_comp(r.entity_nbr, Type(MODULE));
 }
 
