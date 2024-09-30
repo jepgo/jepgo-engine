@@ -10,12 +10,20 @@
 
 void Controllable::onKeyDown(sf::Keyboard::Key key, Velocity &vel)
 {
+    try {
     vel.press(ASSOCIATIVE_KEYS.at(key));
+    } catch(std::exception const &) {
+
+    }
 }
 
 void Controllable::onKeyUp(sf::Keyboard::Key key, Velocity &vel)
 {
+    try {
     vel.unpress(ASSOCIATIVE_KEYS.at(key));
+    } catch(std::exception const &) {
+
+    }
 }
 
 void Controllable::Tir(Register &r, Positions &pos, int left)
