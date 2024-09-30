@@ -18,9 +18,14 @@ void BombGenerationSystem::system(Register &r, sf::Time &time)
 {
     auto &bomb = r.getComp<BombGeneration>();
 
-    for (std::size_t i = 0; i < bomb.size(); i++) {
-        if (bomb[i].has_value()) {
-            generatBomb(bomb[i].value(), time, r);
+    for (std::size_t i = 0; i < bomb.size(); i++)
+    {
+        if (bomb[i].has_value())
+        {
+            if (time.asSeconds() - bomb[i].value().getTime() >= bomb[i].value().getReset()) {
+                Game::CreateBomb(r, std::move(bomb[i].value().getPos()), time.asSeconds(), bomb[i].value().getTrac());
+                bomb[i].value().getTime() = time.asSeconds();
+            }
         }
     }
 }

@@ -24,14 +24,14 @@ static void checkRules(std::optional<Animation2Time> &anim, std::optional<Invinc
     } else {
         //std::cout << "close" << std::endl;
         r.creatEntity();
-        r.emplace_comp(r.entity_nbr, BombGeneration(time.asSeconds(), 0.4, Positions(800, 300), 10));
-        r.emplace_comp(r.entity_nbr, BombGenerationTime(time.asSeconds(), 3));
+        r.emplace_comp(r.entity_nbr, BombGeneration(time.asSeconds(), 0.4, Positions(800, 300), 8));
+        r.emplace_comp(r.entity_nbr, BombGenerationTime(time.asSeconds(), 1.5));
         r.creatEntity();
-        r.emplace_comp(r.entity_nbr, BombGeneration(time.asSeconds(), 0.4, Positions(800, 100), 10));
-        r.emplace_comp(r.entity_nbr, BombGenerationTime(time.asSeconds(), 3));
+        r.emplace_comp(r.entity_nbr, BombGeneration(time.asSeconds(), 0.4, Positions(800, 100), 8));
+        r.emplace_comp(r.entity_nbr, BombGenerationTime(time.asSeconds(), 1.5));
         r.creatEntity();
-        r.emplace_comp(r.entity_nbr, BombGeneration(time.asSeconds(), 0.4, Positions(10, 200), 10));
-        r.emplace_comp(r.entity_nbr, BombGenerationTime(time.asSeconds(), 3));
+        r.emplace_comp(r.entity_nbr, BombGeneration(time.asSeconds(), 0.4, Positions(10, 200), 6));
+        r.emplace_comp(r.entity_nbr, BombGenerationTime(time.asSeconds(), 1.5));
         r.emplace_comp(i, std::move(anim.value().getAnim1()));
         r.emplace_comp(i, Invincible());
         r.emplace_comp(i, InvincibleTime(time.asSeconds(), anim.value().getAnimation2Time() + anim.value().getAnimationTime()));

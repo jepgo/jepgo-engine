@@ -150,9 +150,6 @@ int main()
     Game::CreatePlanet(r);
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
-    Game::CreateBoostModule(r, playerEntity);
-    //Game::CreateBomb(r, Positions(700, 300), 0, 5);
-    //Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
     sf::Sound test;
     test.setBuffer(sounds[2]);
@@ -183,8 +180,6 @@ int main()
         SystemGame.system(r, time, playerEntity, sound);
         LoopMoveSystem::system(r, height, width);
         MoveToPlayerTimeSystem::system(r, time);
-        BombGenerationTimeSystem::system(r, time);
-        BombGenerationSystem::system(r, time);
         movetoplayer.system(r, time);
         moveSys.system(r, time);
         Animation2TimeSystem::system(r, time);
@@ -199,6 +194,8 @@ int main()
         drawSys.system(window, r, texture);
         DestoyersSystem::system(r, height, width);
         //SoundLoopSystem::system(r, sounds, time);
+        BombGenerationTimeSystem::system(r, time);
+        BombGenerationSystem::system(r, time);
         game.Stages(r, time, playerEntity, sound, sounds);
         window.display();
     }

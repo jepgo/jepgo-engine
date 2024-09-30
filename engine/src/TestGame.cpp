@@ -34,7 +34,7 @@ static void Stage2(Register &r, sf::Sound &sound, std::vector<sf::SoundBuffer> &
         sound.play();
 }
 
-static void Stage1(Register &r)
+static void Stage1(Register &r, sf::Time &time)
 {
     Game::CreateAsteroid(r);
 }
@@ -47,11 +47,11 @@ void TestGame::Stages(Register &r, sf::Time &time, std::size_t entity, sf::Sound
 
     if (time.asSeconds() - _time <= _reset)
         return;
-    if (km[entity].value()._dist >= 50) {
+    if (km[entity].value()._dist >= 700) {
         Stage2(r, sound, buff);
     } 
     else
-        Stage1(r);
+        Stage1(r, time);
     r.removeComponent<LvLUp>(entity);
     _time = time.asSeconds();
 }
