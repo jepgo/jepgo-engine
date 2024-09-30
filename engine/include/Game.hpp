@@ -15,6 +15,7 @@ class Game {
         static void CreateMainThem(Register &r);
         static void CreateBackGround(Register &r);
         static void CreateAsteroid(Register &r);
+        static void CreateBomb(Register &r, Positions &&pos, float time, float reset);
         static void CreatePlanet(Register &r);
         static void CreateShipShoot(Register &r, Positions &&);
         static void CreateMiniBoss1(Register &r, Positions &&);

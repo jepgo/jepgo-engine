@@ -39,6 +39,7 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/ShortAnimationSystem.cpp	\
 		engine/src/Animation2TimeSystem.cpp	\
 		engine/src/MoveToPlayerSystem.cpp	\
+		engine/src/MoveToPlayerTimeSystem.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)

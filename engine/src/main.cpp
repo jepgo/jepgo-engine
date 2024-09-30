@@ -8,6 +8,7 @@
 #include <iostream>
 #include "MoveToPlayerSystem.hpp"
 #include "Animation2TimeSystem.hpp"
+#include "MoveToPlayerTimeSystem.hpp"
 #include "InvinsibleSystem.hpp"
 #include "LoopMoveSystem.hpp"
 #include "DestroyerSystem.hpp"
@@ -125,7 +126,7 @@ int main()
     sf::Clock clock;
     sf::Time time;
     sf::Event event;
-    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif"});
+    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
     std::vector<sf::SoundBuffer> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
@@ -148,6 +149,7 @@ int main()
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r, playerEntity);
+    //Game::CreateBomb(r, Positions(700, 300), 0, 5);
     //Game::CreateMiniBoss1(r, Positions(660, 200));
     //Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
     sf::Sound test;
@@ -178,6 +180,7 @@ int main()
         AttachModuleSystem::system(r);
         SystemGame.system(r, time, playerEntity, sound);
         LoopMoveSystem::system(r, height, width);
+        MoveToPlayerTimeSystem::system(r, time);
         movetoplayer.system(r, time);
         moveSys.system(r, time);
         Animation2TimeSystem::system(r, time);

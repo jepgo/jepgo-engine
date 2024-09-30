@@ -173,6 +173,27 @@ class MoveToPlayer {
         int _speed;
 };
 
+class BombGeneration {
+    public:
+        BombGeneration(float time, float reset, Positions &&pos) : _time(time), _reset(reset), _pos(pos) {};
+        ~BombGeneration() {};
+        Positions &getPos() {return _pos;};
+        float &getTime() {return _time;};
+        float &getReset() {return _reset;};
+    private:
+        float _time;
+        float _reset;
+        Positions _pos;
+};
+
+class MoveToPlayerTime {
+    public:
+        MoveToPlayerTime(float time, float reset) : _time(time), _reset(reset) {};
+        ~MoveToPlayerTime() {};
+        float _time;
+        float _reset;
+};
+
 class Velocity {
 public:
     Velocity(std::vector<double> const &s) : _speed(s) {}
@@ -311,7 +332,7 @@ public:
      * @param res The time for the Sprite to be reseted
      * @param dead A Bool to know if the Sprite animation need to be delete after the max status
      */
-    Short_Animation(int sta, int value, double res)
+    Short_Animation(int sta, int value, double res, std::optional<std::size_t> start = std::nullopt)
     {
         status = sta;
         if (value < 0)
@@ -321,16 +342,22 @@ public:
         val = value;
         reset = res;
         t = 0;
+        if (start.has_value())
+            _start = start.value();
+        else
+            _start = 0;
     };
     ~Short_Animation() {};
     void setTime(sf::Time &time)
     {
         t = time.asSeconds();
     };
+    std::size_t getStart() {return _start;};
     bool isneg;
     int status;
     int val;
     double reset;
+    std::size_t _start;
     float t;
 };
 

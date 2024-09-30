@@ -17,7 +17,7 @@ void ShortAnimationSystem:: system(Register &r, sf::Time &time)
         {
             draw[i].value().getRect().value().left += rec[i].value().val;
             //std::cout << "valeur = " << draw[i].value().getRect().value().left << std::endl;
-            if ((rec[i].value().isneg == false) && draw[i].value().getRect().value().left >= (rec[i].value().status) * rec[i].value().val) {
+            if ((rec[i].value().isneg == false) && draw[i].value().getRect().value().left >= (rec[i].value().status) * rec[i].value().val + rec[i].value().getStart()) {
                 r.removeComponent<Short_Animation>(i);
                 //std::cout << "i remove" << std::endl;
             }

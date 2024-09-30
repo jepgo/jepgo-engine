@@ -105,11 +105,27 @@ static int randomYPos()
     return 100 + rand() % (700 - 10 + 1);
 }
 
+void Game::CreateBomb(Register &r, Positions &&pos, float time, float reset)
+{
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, MoveToPlayer(1));
+    r.emplace_comp(r.entity_nbr, std::move(pos));
+    r.emplace_comp(r.entity_nbr, Drawable(6, sf::IntRect(185, 140, 15, 15), std::vector<float>{1, 1}));
+    r.emplace_comp(r.entity_nbr, MoveToPlayerTime(time, reset));
+    r.emplace_comp(r.entity_nbr, Short_Animation(4, 16, 1, 185));
+    r.emplace_comp(r.entity_nbr, Velocity({1, 1, 1, 1}));
+    r.emplace_comp(r.entity_nbr, Hitable(15, 15, Positions(1, -1)));
+    r.emplace_comp(r.entity_nbr, Enemy(100, 10));
+    //r.emplace_comp(r.entity_nbr, Life(30));
+    r.emplace_comp(r.entity_nbr, DoDmg(10));
+    r.emplace_comp(r.entity_nbr, Type(BOMB));
+    r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, BOMB, sf::IntRect(180, 300, 40, 40), std::vector<float>{1.5, 1.5}));
+}
+
 void Game::CreateAsteroid(Register &r)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
-    //r.emplace_comp(r.entity_nbr, MoveToPlayer(1));
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, Positions(1000, randomYPos()));
     r.emplace_comp(r.entity_nbr, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));
