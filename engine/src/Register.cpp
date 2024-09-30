@@ -49,6 +49,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(DistanceKm)), SparseArray<DistanceKm>()});
     regist.insert({std::type_index(typeid(Short_Animation)), SparseArray<Short_Animation>()});
     regist.insert({std::type_index(typeid(Animation2Time)), SparseArray<Animation2Time>()});
+    regist.insert({std::type_index(typeid(MoveToPlayer)), SparseArray<MoveToPlayer>()});
 }
 
 Register::~Register()
@@ -94,6 +95,7 @@ void Register::creatEntity()
     std::any_cast<SparseArray<DistanceKm>&>(regist[std::type_index(typeid(DistanceKm))]).add();
     std::any_cast<SparseArray<Short_Animation>&>(regist[std::type_index(typeid(Short_Animation))]).add();
     std::any_cast<SparseArray<Animation2Time>&>(regist[std::type_index(typeid(Animation2Time))]).add();
+    std::any_cast<SparseArray<MoveToPlayer>&>(regist[std::type_index(typeid(MoveToPlayer))]).add();
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()

@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include "MoveToPlayerSystem.hpp"
 #include "Animation2TimeSystem.hpp"
 #include "InvinsibleSystem.hpp"
 #include "LoopMoveSystem.hpp"
@@ -137,6 +138,7 @@ int main()
     MoveSystem moveSys = MoveSystem(10);
     HitSystem hitSys = HitSystem();
     DrawSystem drawSys = DrawSystem();
+    MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
 
     sf::Font font;
@@ -176,6 +178,7 @@ int main()
         AttachModuleSystem::system(r);
         SystemGame.system(r, time, playerEntity, sound);
         LoopMoveSystem::system(r, height, width);
+        movetoplayer.system(r, time);
         moveSys.system(r, time);
         Animation2TimeSystem::system(r, time);
         animSys.system(r, time);

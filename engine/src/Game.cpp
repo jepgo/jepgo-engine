@@ -109,6 +109,7 @@ void Game::CreateAsteroid(Register &r)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
+    //r.emplace_comp(r.entity_nbr, MoveToPlayer(1));
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, Positions(1000, randomYPos()));
     r.emplace_comp(r.entity_nbr, Drawable(0, sf::IntRect(0, 0, 17, 18), std::vector<float>{1.5, 1.5}));

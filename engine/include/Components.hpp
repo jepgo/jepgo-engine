@@ -166,6 +166,13 @@ enum Direction
     TIR,
 };
 
+class MoveToPlayer {
+    public:
+        MoveToPlayer(int speed) : _speed(speed) {};
+        ~MoveToPlayer() {};
+        int _speed;
+};
+
 class Velocity {
 public:
     Velocity(std::vector<double> const &s) : _speed(s) {}
