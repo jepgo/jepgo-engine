@@ -40,6 +40,8 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/Animation2TimeSystem.cpp	\
 		engine/src/MoveToPlayerSystem.cpp	\
 		engine/src/MoveToPlayerTimeSystem.cpp	\
+		engine/src/BombGenerationTimeSystem.cpp	\
+		engine/src/BombGenerationSystem.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)

@@ -51,6 +51,8 @@ Register::Register()
     regist.insert({std::type_index(typeid(Animation2Time)), SparseArray<Animation2Time>()});
     regist.insert({std::type_index(typeid(MoveToPlayer)), SparseArray<MoveToPlayer>()});
     regist.insert({std::type_index(typeid(MoveToPlayerTime)), SparseArray<MoveToPlayerTime>()});
+    regist.insert({std::type_index(typeid(BombGeneration)), SparseArray<BombGeneration>()});
+    regist.insert({std::type_index(typeid(BombGenerationTime)), SparseArray<BombGenerationTime>()});
 }
 
 Register::~Register()
@@ -98,6 +100,8 @@ void Register::creatEntity()
     std::any_cast<SparseArray<Animation2Time>&>(regist[std::type_index(typeid(Animation2Time))]).add();
     std::any_cast<SparseArray<MoveToPlayer>&>(regist[std::type_index(typeid(MoveToPlayer))]).add();
     std::any_cast<SparseArray<MoveToPlayerTime>&>(regist[std::type_index(typeid(MoveToPlayerTime))]).add();
+    std::any_cast<SparseArray<BombGeneration>&>(regist[std::type_index(typeid(BombGeneration))]).add();
+    std::any_cast<SparseArray<BombGenerationTime>&>(regist[std::type_index(typeid(BombGenerationTime))]).add();
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()

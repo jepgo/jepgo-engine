@@ -8,6 +8,8 @@
 #include <iostream>
 #include "MoveToPlayerSystem.hpp"
 #include "Animation2TimeSystem.hpp"
+#include "BombGenerationSystem.hpp"
+#include "BombGenerationTimeSystem.hpp"
 #include "MoveToPlayerTimeSystem.hpp"
 #include "InvinsibleSystem.hpp"
 #include "LoopMoveSystem.hpp"
@@ -181,6 +183,8 @@ int main()
         SystemGame.system(r, time, playerEntity, sound);
         LoopMoveSystem::system(r, height, width);
         MoveToPlayerTimeSystem::system(r, time);
+        BombGenerationTimeSystem::system(r, time);
+        BombGenerationSystem::system(r, time);
         movetoplayer.system(r, time);
         moveSys.system(r, time);
         Animation2TimeSystem::system(r, time);

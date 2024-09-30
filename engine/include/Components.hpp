@@ -175,15 +175,28 @@ class MoveToPlayer {
 
 class BombGeneration {
     public:
-        BombGeneration(float time, float reset, Positions &&pos) : _time(time), _reset(reset), _pos(pos) {};
+        BombGeneration(float time, float reset, Positions &&pos, float trac) : _time(time), _reset(reset), _pos(pos), _trac(trac) {};
         ~BombGeneration() {};
         Positions &getPos() {return _pos;};
         float &getTime() {return _time;};
         float &getReset() {return _reset;};
+        float &getTrac() {return _trac;};
     private:
         float _time;
         float _reset;
         Positions _pos;
+        float _trac;
+};
+
+class BombGenerationTime {
+    public:
+        BombGenerationTime(float time, float during) : _time(time), _during(during) {};
+        ~BombGenerationTime() {};
+        float getTime() {return _time;};
+        float getDuring() {return _during;};
+    private:
+        float _time;
+        float _during;
 };
 
 class MoveToPlayerTime {
