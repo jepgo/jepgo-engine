@@ -10,7 +10,7 @@
 
 class ShortAnimationSystem {
     public:
-        static void system(Register &r, sf::Time &time);
+        static void system(Register &r, float time);
     protected:
     private:
 };

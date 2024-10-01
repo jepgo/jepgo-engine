@@ -12,7 +12,7 @@ class MoveToPlayerSystem {
     public:
         MoveToPlayerSystem(float reset);
         ~MoveToPlayerSystem();
-        void system(Register &r, sf::Time &time);
+        void system(Register &r, float time);
     private:
         float _time;
         float _reset;

@@ -17,7 +17,7 @@ public:
     MoveSystem(float r);
     ~MoveSystem();
     static bool checkMovement(Register &r, std::size_t &entity, Positions const &Newpos);
-    void system(Register &r, sf::Time &t);
+    void system(Register &r, float t);
 
     float time;
     float reset;

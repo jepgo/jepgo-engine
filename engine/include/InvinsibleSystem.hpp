@@ -10,12 +10,12 @@
 
 class InvinsibleSystem {
     public:
-        static bool check_time(InvincibleTime &inv, sf::Time &time){
-            if (time.asSeconds() - inv._time < inv._reset)
+        static bool check_time(InvincibleTime &inv, float time){
+            if (time - inv._time < inv._reset)
                 return false;
             return true;
         };
-        static void system(Register &r, sf::Time time){
+        static void system(Register &r, float time){
             auto &inv = r.getComp<InvincibleTime>();
 
             for (std::size_t i = 0; i < inv.size(); i++) {

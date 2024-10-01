@@ -16,7 +16,7 @@ class DmgSystem {
          * 
          * @param r 
          */
-        static void system(Register &r, sf::Time &time) {
+        static void system(Register &r, float time) {
             auto &dmg = r.getComp<Dmg>();
             auto &life = r.getComp<Life>();
             auto &inv = r.getComp<Invincible>();
@@ -27,7 +27,7 @@ class DmgSystem {
                 if (dmg[i].has_value() && life[i].has_value()) {
                     life[i].value()._life -= dmg[i].value()._dmg;
                     r.emplace_comp<Invincible>(i, Invincible());
-                    r.emplace_comp<InvincibleTime>(i, InvincibleTime(time.asSeconds(), 0.1));
+                    r.emplace_comp<InvincibleTime>(i, InvincibleTime(time, 0.1));
                     r.removeComponent<Dmg>(i);
                     if (life[i].value()._life <= 0) {
                         r.emplace_comp(i, Death());

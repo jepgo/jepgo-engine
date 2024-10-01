@@ -54,18 +54,6 @@
 //     return texture;
 // }
 
-std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
-{
-    std::vector<Texture2D> texture;
-
-    for (std::size_t i = 0; i < list.size(); i++)
-    {
-        Texture2D tmp = LoadTexture(list[i].c_str());
-        //tmp.loadFromFile(list[i].c_str());
-        texture.push_back(std::move(tmp));
-    }
-    return texture;
-}
 
 /**
  * @brief The Controllable system
@@ -73,7 +61,7 @@ std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-int keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time, sf::Sound &sound)
+int keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -85,7 +73,7 @@ int keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time, sf
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
-        if (key == sf::Keyboard::A && shoot[i].has_value() && shoot[i].value().verif(time)) {
+        if (IsKeyDown(KeyboardKey::KEY_A) && shoot[i].has_value() && shoot[i].value().verif(time)) {
             //sound.play();
             //std::cout << "fire" << std::endl;
             shoot[i].value().shoot(r, pos[i].value());
@@ -116,7 +104,7 @@ void MidSpriteSystem(Register &r)
 
     for (std::size_t i = 0; i < stat.size(); i++) {
         if (control[i].has_value() && stat[i].has_value() && draw[i].has_value() && draw[i].value().getRect().has_value()) {
-            draw[i].value().getRect().value().left = stat[i].value().mid();
+            draw[i].value().getRect().value().width = stat[i].value().mid();
         }
     }
 }
@@ -133,15 +121,88 @@ std::vector<sf::SoundBuffer> getAllSound(const std::vector<std::string>& list)
     return res;
 }
 
+std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
+{
+    std::vector<Texture2D> texture;
+    texture.reserve(list.size());
+
+    for (std::size_t i = 0; i < list.size(); i++)
+    {
+        Texture2D tmp = LoadTexture(list[i].c_str());
+        //tmp.loadFromFile(list[i].c_str());
+        texture.push_back(std::move(tmp));
+    }
+    return texture;
+}
+
 int main()
 {
-    //RayLib ray(800, 600, "R-Type");
-    //std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
-    InitWindow(800, 600, "R-TYPE");
-    while (!WindowShouldClose) {
+    int playerEntity = 0;
+    std::size_t height = 800;
+    std::size_t width = 600;
+    InitWindow(height, width, "R-TYPE");
+    Register r;
+    Game::CreateBackGround(r);
+    Game::CreatePlanet(r);
+    Game::CreatPlayer(r, height, width);
+    playerEntity = r.entity_nbr;
+    float startTime = GetTime();
+    Game player = Game();
+    AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
+    TestGame game = TestGame(1);
+    GameSystem SystemGame = GameSystem(0.1);
+    MoveSystem moveSys = MoveSystem(0.01);
+    HitSystem hitSys = HitSystem();
+    DrawSystem drawSys = DrawSystem();
+    MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
+    AnimationSpriteSystem animSys = AnimationSpriteSystem();
+    std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
+    while (!WindowShouldClose()) {
+        float time = GetTime() - startTime;
+        hitSys.system(r);
+        std::cout << "after hit" << std::endl;
+        AttachModuleSystem::system(r);
+        std::cout << "after attach" << std::endl;
+        SystemGame.system(r, time, playerEntity);
+        std::cout << "after systemGame" << std::endl;
+        LoopMoveSystem::system(r, height, width);
+        std::cout << "after loopMoveSystem" << std::endl;
+        MoveToPlayerTimeSystem::system(r, time);
+        std::cout << "after MoveToPlayer" << std::endl;
+        movetoplayer.system(r, time);
+        std::cout << "after movetop" << std::endl;
+        moveSys.system(r, time);
+        std::cout << "after move" << std::endl;
+        Animation2TimeSystem::system(r, time);
+        std::cout << "Animation2" << std::endl;
+        animSys.system(r, time);
+        std::cout << "after anim" << std::endl;
+        ShortAnimationSystem::system(r, time);
+        std::cout << "after shotAnim" << std::endl;
+        InvinsibleSystem::system(r, time);
+        std::cout << "after Invinsible" << std::endl;
+        addDmgSystem.system(r, time);
+        std::cout << "after addDmg" << std::endl;
+        ModuleSystem::system(r);
+        std::cout << "after module" << std::endl;
+        DmgSystem::system(r, time);
+        std::cout << "after Dmg" << std::endl;
+        ExplosionSystem::system(r);
+        std::cout << "after Explosion" << std::endl;
+        DeathSystem::system(r, playerEntity);
+        std::cout << "after Death" << std::endl;
+        DestoyersSystem::system(r, height, width);
+        std::cout << "after destroyer" << std::endl;
+        //SoundLoopSystem::system(r, sounds, time);
+        BombGenerationTimeSystem::system(r, time);
+        std::cout << "after BombeGeneTime" << std::endl;
+        BombGenerationSystem::system(r, time);
+        std::cout << "after BombGene" << std::endl;
+        game.Stages(r, time, playerEntity);
+        std::cout << "after Stage" << std::endl;
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        //DrawTexture(texture[0], 300, 300, WHITE);
+        drawSys.system(r, texture);
         EndDrawing();
     }
     CloseWindow();
@@ -218,6 +279,7 @@ int main()
 //         // ShortAnimationSystem::system(r, time);
 //         // InvinsibleSystem::system(r, time);
 //         // addDmgSystem.system(r, time);
+
 //         // ModuleSystem::system(r);
 //         // DmgSystem::system(r, time);
 //         //ExplosionSystem::system(r);

@@ -7,14 +7,14 @@
 
 #include "MoveToPlayerTimeSystem.hpp"
 
-static bool checkTime(sf::Time &time, MoveToPlayerTime &player)
+static bool checkTime(float time, MoveToPlayerTime &player)
 {
-    if (time.asSeconds() - player._time < player._reset)
+    if (time - player._time < player._reset)
         return false;
     return true;
 }
 
-void MoveToPlayerTimeSystem::system(Register &r, sf::Time &time)
+void MoveToPlayerTimeSystem::system(Register &r, float time)
 {
     auto &t = r.getComp<MoveToPlayerTime>();
 

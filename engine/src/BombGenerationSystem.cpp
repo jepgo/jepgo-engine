@@ -14,7 +14,7 @@ static void generatBomb(BombGeneration &bomb, sf::Time &time, Register &r)
     Game::CreateBomb(r, std::move(bomb.getPos()), time.asSeconds(), bomb.getTrac());
 }
 
-void BombGenerationSystem::system(Register &r, sf::Time &time)
+void BombGenerationSystem::system(Register &r, float time)
 {
     auto &bomb = r.getComp<BombGeneration>();
 
@@ -22,9 +22,9 @@ void BombGenerationSystem::system(Register &r, sf::Time &time)
     {
         if (bomb[i].has_value())
         {
-            if (time.asSeconds() - bomb[i].value().getTime() >= bomb[i].value().getReset()) {
-                Game::CreateBomb(r, std::move(bomb[i].value().getPos()), time.asSeconds(), bomb[i].value().getTrac());
-                bomb[i].value().getTime() = time.asSeconds();
+            if (time - bomb[i].value().getTime() >= bomb[i].value().getReset()) {
+                Game::CreateBomb(r, std::move(bomb[i].value().getPos()), time, bomb[i].value().getTrac());
+                bomb[i].value().getTime() = time;
             }
         }
     }

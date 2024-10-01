@@ -22,7 +22,7 @@ class DrawSystem {
  * @param r The Registry
  * @param texture The list of texture for all the sprite
  */
-void system(sf::RenderWindow &window, Register &r, std::vector<sf::Texture> &texture);
+void system(Register &r, std::vector<Texture2D> &texture);
     protected:
     private:
 };

@@ -65,14 +65,14 @@ static int FoundClosestPlayer(Register &r, Positions &me)
     return ind;
 }
 
-void MoveToPlayerSystem::system(Register &r, sf::Time &time)
+void MoveToPlayerSystem::system(Register &r, float time)
 {
     int ind;
     std::vector<float> tmp;
     auto &move = r.getComp<MoveToPlayer>();
     auto &pos = r.getComp<Positions>();
 
-    if (time.asSeconds() - _time < _reset)
+    if (time - _time < _reset)
         return;
     for (std::size_t i = 0; i < move.size(); i++) {
         if (move[i].has_value() && pos[i].has_value()) {
@@ -83,5 +83,5 @@ void MoveToPlayerSystem::system(Register &r, sf::Time &time)
             }
         }
     }
-    _time = time.asSeconds();
+    _time = time;
 }

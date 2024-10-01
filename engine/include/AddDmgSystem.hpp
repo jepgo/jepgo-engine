@@ -41,8 +41,8 @@ class AddDmgSystem {
                 return true;
             return false;     
         };
-        void system(Register &r, sf::Time &time){
-            if (time.asSeconds() - _time < _reset)
+        void system(Register &r, float time){
+            if (time - _time < _reset)
                 return;
             auto &hit = r.getComp<Hit>();
             auto &dmg = r.getComp<Dmg>();

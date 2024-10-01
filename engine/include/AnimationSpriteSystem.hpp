@@ -20,7 +20,7 @@ class AnimationSpriteSystem {
  * @param r The Registry
  * @param time The current time
  */
-void system(Register &r, sf::Time &time);
+void system(Register &r, float time);
 
     protected:
     private:

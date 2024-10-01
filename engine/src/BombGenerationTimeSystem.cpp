@@ -14,12 +14,12 @@ static bool checkTime(BombGenerationTime &bomb, float time)
     return true;
 }
 
-void BombGenerationTimeSystem::system(Register &r, sf::Time &time)
+void BombGenerationTimeSystem::system(Register &r, float time)
 {
     auto &bomb = r.getComp<BombGenerationTime>();
 
     for (std::size_t i = 0; i < bomb.size(); i++) {
-        if (bomb[i].has_value() && checkTime(bomb[i].value(), time.asSeconds())) {
+        if (bomb[i].has_value() && checkTime(bomb[i].value(), time)) {
             r.removeComponent<BombGeneration>(i);
             r.removeComponent<BombGenerationTime>(i);
         }

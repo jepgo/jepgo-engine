@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include "Raylib.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -138,14 +139,14 @@ public:
      * @param x Position x of the object
      * @param y Position y of the Object
      */
-    Positions(int x, int y) : x(x), y(y) {}
+    Positions(float x, float y) : x(x), y(y) {}
     ~Positions() {};
     Positions operator+(Positions const &pos) const
     {
         return Positions(this->x + pos.x, this->y + pos.y);
     }
-    int x;
-    int y;
+    float x;
+    float y;
 };
 
 class Move {
@@ -254,9 +255,9 @@ public:
     }
 
 private:
-    auto _getValues(Direction s) -> std::pair<int &, int>
+    auto _getValues(Direction s) -> std::pair<float &, float>
     {
-        int &ref = (s < Direction::RIGHT) ? _vel.y : _vel.x;
+        float &ref = (s < Direction::RIGHT) ? _vel.y : _vel.x;
         int const mul = !(s % 2) * 2 - 1;
 
         return {ref, mul};
@@ -284,12 +285,10 @@ public:
      * @param r optional rectangle for The Sprite to Draw
      * @param s A Optional Vector of 2 float for the Scale
      */
-    Drawable(std::size_t ind, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt)
+    Drawable(std::size_t ind, std::optional<Rectangle> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r)
     {
-        rect = r;
-        index = ind;
         if (r.has_value())
-            start = r.value().left;
+            start = r.value().x;
         if (s.has_value())
             scale = s.value();
         else
@@ -297,28 +296,27 @@ public:
             scale.push_back(1);
             scale.push_back(1);
         }
-        sprite.setScale(scale[0], scale[1]);
     };
     ~Drawable() {
     };
-    void draw(sf::RenderWindow &window, sf::Texture &texture, Positions &pos)
+    void draw(std::vector<Texture2D> &textures, Positions &pos)
     {
-        sprite.setTexture(texture);
-        if (rect.has_value())
-            sprite.setTextureRect(rect.value());
-        sprite.setPosition(sf::Vector2f(pos.x, pos.y));
-        window.draw(sprite);
+        if (rect.has_value()) {
+            float a = (rect.value().width * scale[0]);
+            float b = (rect.value().height * scale[1]);
+            DrawTexturePro(textures[index], rect.value(), Rectangle{pos.x, pos.y, a, b}, {pos.x / 2, pos.y / 2}, 0, WHITE);
+        } else
+            DrawTextureEx(textures[index], {pos.x, pos.y}, 0.0f, scale[0], WHITE);
     }
     void change_ind(std::size_t ind) { index = ind; };
     std::size_t getIndex() { return index; };
-    std::optional<sf::IntRect> &getRect() { return rect; };
+    std::optional<Rectangle> &getRect() { return rect; };
     int start;
 
 private:
-    sf::Sprite sprite;
     std::size_t index;
     std::vector<float> scale;
-    std::optional<sf::IntRect> rect;
+    std::optional<Rectangle> rect;
 };
 
 class Sprite_Animation {
@@ -528,7 +526,7 @@ public:
      * @param r The optional rectangle
      * @param s The optional scale of the Sprite
      */
-    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, TYPE ty, std::optional<sf::IntRect> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : _dmg(dmg), type(ty), index(ind), rect(r), scale(s), stat(status), time(t)
+    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, TYPE ty, std::optional<Rectangle> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : _dmg(dmg), type(ty), index(ind), rect(r), scale(s), stat(status), time(t)
     {
         value = val;
     };
@@ -544,7 +542,7 @@ public:
     TYPE type;
 private:
     std::size_t index;
-    std::optional<sf::IntRect> rect;
+    std::optional<Rectangle> rect;
     std::optional<std::vector<float>> scale;
     int stat;
     double time;

@@ -19,7 +19,7 @@ TestGame::~TestGame()
 {
 }
 
-static void Stage2(Register &r, sf::Sound &sound, std::vector<sf::SoundBuffer> &buff)
+static void Stage2(Register &r)
 {
     auto &type = r.getComp<Type>();
 
@@ -28,30 +28,30 @@ static void Stage2(Register &r, sf::Sound &sound, std::vector<sf::SoundBuffer> &
             return;
     }
     Game::CreateMiniBoss1(r, Positions(660, 200));
-        sound.stop();
-        sound.setBuffer(buff[0]);
-        sound.setLoop(true);
-        sound.play();
+        // sound.stop();
+        // sound.setBuffer(buff[0]);
+        // sound.setLoop(true);
+        // sound.play();
 }
 
-static void Stage1(Register &r, sf::Time &time)
+static void Stage1(Register &r)
 {
     Game::CreateAsteroid(r);
 }
 
-void TestGame::Stages(Register &r, sf::Time &time, std::size_t entity, sf::Sound &sound, std::vector<sf::SoundBuffer> &buff)
+void TestGame::Stages(Register &r, float time, std::size_t entity)
 {
     auto &km = r.getComp<DistanceKm>();
     // auto &lvl = r.getComp<Lvl>();
     // auto &lvlup = r.getComp<LvLUp>();
 
-    if (time.asSeconds() - _time <= _reset)
+    if (time - _time <= _reset)
         return;
     if (km[entity].value()._dist >= 700) {
-        Stage2(r, sound, buff);
+        Stage2(r);
     } 
     else
-        Stage1(r, time);
+        Stage1(r);
     r.removeComponent<LvLUp>(entity);
-    _time = time.asSeconds();
+    _time = time;
 }
