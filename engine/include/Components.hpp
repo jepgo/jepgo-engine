@@ -62,7 +62,7 @@ class Life {
 class SoundEffect {
     public:
         SoundEffect(std::size_t ind) : _ind(ind) {};
-        ~SoundEffect() {};
+        ~SoundEffect() {std::cout << "del" << std::endl;};
         void Play(std::vector<sf::SoundBuffer> &buffer) {
             _sound.setBuffer(buffer[_ind]);
             _sound.play();
@@ -75,22 +75,46 @@ class SoundEffect {
 class SoundLoop {
     public:
         SoundLoop(std::size_t ind, float reset) : _ind(ind) , _reset(reset) {
+            std::cout << "ctor" << std::endl;
         };
         ~SoundLoop() {
-            //std::cout << "delete" << std::endl;
+            std::cout << "delete" << std::endl;
         };
+        SoundLoop(const SoundLoop &s) : _sound(s._sound) {
+        _time = s._time;
+        _reset = s._reset;
+        _ind = s._ind;
+            std::cout << "copy ctor" << std::endl;
+        };
+        SoundLoop(SoundLoop &&s) {
+            _time = s._time;
+            _reset = s._reset;
+            _ind = s._ind;
+            _sound = std::move(s._sound);
+            std::cout << "move ctor" << std::endl;
+        };
+        SoundLoop &operator=(const SoundLoop &s)
+        {
+                    _time = s._time;
+            _reset = s._reset;
+        _ind = s._ind;
+        _sound = s._sound;
+            std::cout << "equal optor" << std::endl;
+        }
         void Play(std::vector<sf::SoundBuffer> &buffer, sf::Time &time) {
             if (time.asSeconds() - _time < _reset)
                 return;
-            //std::cout << "play" << std::endl;
+            std::cout << "play" << std::endl;
             _time = time.asSeconds();
             _sound.setBuffer(buffer[_ind]);
+            _sound.setLoop(true);
             _sound.play();
             _play = true;
         };
         void Stop() {
             if (_play == false)
                 return;
+            std::cout << "stop" << std::endl;
             _sound.stop();
             _play = false;
         };

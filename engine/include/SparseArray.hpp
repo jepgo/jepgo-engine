@@ -22,7 +22,7 @@ std::ostream &operator<<(std::ostream &os, std::optional<T> value)
 template <typename T>
 class SparseArray
 {
-    using container_t = std ::vector<std::optional<T>>; // optionally add your allocator template here.
+    using container_t = std::vector<std::optional<T>>; // optionally add your allocator template here.
     using size_type = typename container_t ::size_type;
 
 public:
@@ -82,10 +82,13 @@ public:
     //     list[pos] = comp;
     // }
 
-    T& insert_at(size_type pos, T &&comp)
+    void insert_at(size_type pos, T &&comp)
     {
-        list.at(pos) = comp;
-        return list[pos].value();
+        //list.emplace(pos, comp);
+        //list.insert(list.cbegin() + pos, std::move(comp));
+        //std::cout << "insert" << std::endl;
+        list.at(pos) = std::move(comp);
+        //return list[pos].value();
     }
 
     void erase(std::size_t index)
