@@ -141,6 +141,7 @@ int main()
     std::size_t height = 800;
     std::size_t width = 600;
     InitWindow(height, width, "R-TYPE");
+    InitAudioDevice();
     Register r;
     Game::CreateBackGround(r);
     Game::CreatePlanet(r);
@@ -157,7 +158,10 @@ int main()
     MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
+    Sound sound = LoadSound("sprites/level1.ogg");
     while (!WindowShouldClose()) {
+        if (!IsSoundPlaying(sound))
+            PlaySound(sound);
         float time = GetTime() - startTime;
         hitSys.system(r);
         std::cout << "after hit" << std::endl;
@@ -205,6 +209,7 @@ int main()
         drawSys.system(r, texture);
         EndDrawing();
     }
+    CloseAudioDevice();
     CloseWindow();
     return 0;
 }

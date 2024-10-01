@@ -27,7 +27,7 @@ static void Stage2(Register &r)
         if (type[i].has_value() && type[i].value().getType() == MINIBOSS)
             return;
     }
-    Game::CreateMiniBoss1(r, Positions(660, 200));
+    Game::CreateMiniBoss1(r, Positions(1360, 300));
         // sound.stop();
         // sound.setBuffer(buff[0]);
         // sound.setLoop(true);
