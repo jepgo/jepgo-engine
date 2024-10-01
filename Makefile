@@ -13,7 +13,7 @@ FILES_UNIT	=	*.gc*
 
 CFLAGS += -Wall -Wextra -Wpedantic -std=c++20
 CPPFLAGS += -iquote./engine/include
-LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lraylib
 
 # Source files
 
@@ -42,6 +42,7 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/MoveToPlayerTimeSystem.cpp	\
 		engine/src/BombGenerationTimeSystem.cpp	\
 		engine/src/BombGenerationSystem.cpp	\
+		engine/src/Raylib.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)

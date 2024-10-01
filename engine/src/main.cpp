@@ -5,6 +5,7 @@
 ** main
 */
 
+#include "Raylib.hpp"
 #include <iostream>
 #include "MoveToPlayerSystem.hpp"
 #include "Animation2TimeSystem.hpp"
@@ -40,15 +41,28 @@
  * @param list List of all the file of the textures
  * @return std::vector<sf::Texture> 
  */
-std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
+// std::vector<sf::Texture> getAllTexture(std::vector<std::string> list)
+// {
+//     sf::Texture tmp;
+//     std::vector<sf::Texture> texture;
+
+//     for (std::size_t i = 0; i < list.size(); i++)
+//     {
+//         tmp.loadFromFile(list[i].c_str());
+//         texture.push_back(tmp);
+//     }
+//     return texture;
+// }
+
+std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
 {
-    sf::Texture tmp;
-    std::vector<sf::Texture> texture;
+    std::vector<Texture2D> texture;
 
     for (std::size_t i = 0; i < list.size(); i++)
     {
-        tmp.loadFromFile(list[i].c_str());
-        texture.push_back(tmp);
+        Texture2D tmp = LoadTexture(list[i].c_str());
+        //tmp.loadFromFile(list[i].c_str());
+        texture.push_back(std::move(tmp));
     }
     return texture;
 }
@@ -121,85 +135,100 @@ std::vector<sf::SoundBuffer> getAllSound(const std::vector<std::string>& list)
 
 int main()
 {
-    std::size_t height = 800;
-    std::size_t width = 600;
-    Register r;
-    int playerEntity = 2;
-    sf::Clock clock;
-    sf::Time time;
-    sf::Event event;
-    std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
-    std::vector<sf::SoundBuffer> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
-    sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
-    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
-
-    window.setPosition(sf::Vector2i((desktopMode.width / 4), (desktopMode.height / 4)));
-    Game player = Game();
-    AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
-    TestGame game = TestGame(1);
-    GameSystem SystemGame = GameSystem(0.1);
-    MoveSystem moveSys = MoveSystem(10);
-    HitSystem hitSys = HitSystem();
-    DrawSystem drawSys = DrawSystem();
-    MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
-    AnimationSpriteSystem animSys = AnimationSpriteSystem();
-
-    sf::Font font;
-    font.loadFromFile(".font/arial.ttf");
-    Game::CreateBackGround(r);
-    Game::CreatePlanet(r);
-    Game::CreatPlayer(r, height, width);
-    playerEntity = r.entity_nbr;
-    //Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
-    sf::Sound test;
-    r.creatEntity();
-    r.emplace_comp(r.entity_nbr, SoundLoop(1, 10)); 
-    test.setBuffer(sounds[2]);
-    test.setVolume(50);
-    sf::Sound sound;
-    //sound.setBuffer(sounds[1]);
-    //sound.setLoop(true);
-    //sound.play();
-    while (window.isOpen()) {
-        //std::cout << "life = " << r.getComp<Life>()[5].value()._life << std::endl;
-        //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl;
-        //std::cout << "drawable is = " << r.getComp<Drawable>()[4].value().getRect().value().left << std::endl; 
-        time = clock.getElapsedTime();
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-            if (event.type == sf::Event::KeyPressed)
-                keySystem(r, event.key.code, false, time, test);
-            if (event.type == sf::Event::KeyReleased) {
-                keySystem(r, event.key.code, true, time, test);
-                MidSpriteSystem(r);
-            }
-        }
-        window.clear(sf::Color::White);
-        // Text::system(r, window);
-        // hitSys.system(r);
-        // AttachModuleSystem::system(r);
-        // SystemGame.system(r, time, playerEntity, sound);
-        // LoopMoveSystem::system(r, height, width);
-        // MoveToPlayerTimeSystem::system(r, time);
-        // movetoplayer.system(r, time);
-        // moveSys.system(r, time);
-        // Animation2TimeSystem::system(r, time);
-        // animSys.system(r, time);
-        // ShortAnimationSystem::system(r, time);
-        // InvinsibleSystem::system(r, time);
-        // addDmgSystem.system(r, time);
-        // ModuleSystem::system(r);
-        // DmgSystem::system(r, time);
-        //ExplosionSystem::system(r);
-        // DeathSystem::system(r, playerEntity);
-        drawSys.system(window, r, texture);
-        // DestoyersSystem::system(r, height, width);
-        SoundLoopSystem::system(r, sounds, time);
-        //BombGenerationTimeSystem::system(r, time);
-        //BombGenerationSystem::system(r, time);
-        //game.Stages(r, time, playerEntity, sound, sounds);
-        window.display();
+    //RayLib ray(800, 600, "R-Type");
+    //std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
+    InitWindow(800, 600, "R-TYPE");
+    while (!WindowShouldClose) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        //DrawTexture(texture[0], 300, 300, WHITE);
+        EndDrawing();
     }
+    CloseWindow();
     return 0;
 }
+
+// int main()
+// {
+//     std::size_t height = 800;
+//     std::size_t width = 600;
+//     Register r;
+//     int playerEntity = 2;
+//     sf::Clock clock;
+//     sf::Time time;
+//     sf::Event event;
+//     std::vector<sf::Texture> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
+//     std::vector<sf::SoundBuffer> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
+//     sf::RenderWindow window(sf::VideoMode(height, width), "R-TYPE");
+//     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+
+//     window.setPosition(sf::Vector2i((desktopMode.width / 4), (desktopMode.height / 4)));
+//     Game player = Game();
+//     AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
+//     TestGame game = TestGame(1);
+//     GameSystem SystemGame = GameSystem(0.1);
+//     MoveSystem moveSys = MoveSystem(10);
+//     HitSystem hitSys = HitSystem();
+//     DrawSystem drawSys = DrawSystem();
+//     MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
+//     AnimationSpriteSystem animSys = AnimationSpriteSystem();
+
+//     sf::Font font;
+//     font.loadFromFile(".font/arial.ttf");
+//     Game::CreateBackGround(r);
+//     Game::CreatePlanet(r);
+//     Game::CreatPlayer(r, height, width);
+//     playerEntity = r.entity_nbr;
+//     //Game::CreatText(r, Positions(350, 0), "R-TYPE", font);
+//     sf::Sound test;
+//     r.creatEntity();
+//     r.emplace_comp(r.entity_nbr, SoundLoop(1, 10)); 
+//     test.setBuffer(sounds[2]);
+//     test.setVolume(50);
+//     sf::Sound sound;
+//     //sound.setBuffer(sounds[1]);
+//     //sound.setLoop(true);
+//     //sound.play();
+//     while (window.isOpen()) {
+//         //std::cout << "life = " << r.getComp<Life>()[5].value()._life << std::endl;
+//         //std::cout << "lvl = " << player.getLvl() << " exp = " << player.getExp() << " km = " << player.getKm() << std::endl;
+//         //std::cout << "drawable is = " << r.getComp<Drawable>()[4].value().getRect().value().left << std::endl; 
+//         time = clock.getElapsedTime();
+//         while (window.pollEvent(event)) {
+//             if (event.type == sf::Event::Closed)
+//                 window.close();
+//             if (event.type == sf::Event::KeyPressed)
+//                 keySystem(r, event.key.code, false, time, test);
+//             if (event.type == sf::Event::KeyReleased) {
+//                 keySystem(r, event.key.code, true, time, test);
+//                 MidSpriteSystem(r);
+//             }
+//         }
+//         window.clear(sf::Color::White);
+//         // Text::system(r, window);
+//         // hitSys.system(r);
+//         // AttachModuleSystem::system(r);
+//         // SystemGame.system(r, time, playerEntity, sound);
+//         // LoopMoveSystem::system(r, height, width);
+//         // MoveToPlayerTimeSystem::system(r, time);
+//         // movetoplayer.system(r, time);
+//         // moveSys.system(r, time);
+//         // Animation2TimeSystem::system(r, time);
+//         // animSys.system(r, time);
+//         // ShortAnimationSystem::system(r, time);
+//         // InvinsibleSystem::system(r, time);
+//         // addDmgSystem.system(r, time);
+//         // ModuleSystem::system(r);
+//         // DmgSystem::system(r, time);
+//         //ExplosionSystem::system(r);
+//         // DeathSystem::system(r, playerEntity);
+//         drawSys.system(window, r, texture);
+//         // DestoyersSystem::system(r, height, width);
+//         SoundLoopSystem::system(r, sounds, time);
+//         //BombGenerationTimeSystem::system(r, time);
+//         //BombGenerationSystem::system(r, time);
+//         //game.Stages(r, time, playerEntity, sound, sounds);
+//         window.display();
+//     }
+//     return 0;
+// }
