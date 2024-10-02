@@ -5,6 +5,11 @@
 
 # Binary
 R-TYPE
+r-type_client
+r-type_server
 
 # Trashy Folders
 .vscode/
+
+# Unused Folders
+UDP
