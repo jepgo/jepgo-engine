@@ -8,23 +8,28 @@
 #include "Components.hpp"
 #include "Register.hpp"
 
-void Controllable::onKeyDown(int key, Velocity &vel)
-{
-    try {
-    vel.press(ASSOCIATIVE_KEYS.at(key));
-    } catch(std::exception const &) {
+// void Controllable::onKeyDown(int key, Velocity &vel)
+// {
+//     try {
+//     vel.press(ASSOCIATIVE_KEYS.at(key));
+//     } catch(std::exception const &) {
 
-    }
-}
+//     }
+// }
 
-void Controllable::onKeyUp(int key, Velocity &vel)
-{
-    try {
-    vel.unpress(ASSOCIATIVE_KEYS.at(key));
-    } catch(std::exception const &) {
+// void Controllable::onKeyUp(int key, Velocity &vel)
+// {
+//     try {
+//     vel.unpress(ASSOCIATIVE_KEYS.at(key));
+//     } catch(std::exception const &) {
 
-    }
-}
+//     }
+// }
+
+// void Controllable::updateDirection(Vector2 const &v)
+// {
+    
+// }
 
 void Controllable::Tir(Register &r, Positions &pos, int left)
 {

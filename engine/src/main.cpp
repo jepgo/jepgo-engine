@@ -54,6 +54,18 @@
 //     return texture;
 // }
 
+/**
+ * Get the direction vector (x, y)
+ */
+static Vector2 getDirectionVector(void)
+{
+    Vector2 vec(
+        IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT),
+        IsKeyDown(KEY_DOWN) - IsKeyDown(KEY_UP)
+    );
+
+    return vec;
+}
 
 /**
  * @brief The Controllable system
@@ -61,7 +73,7 @@
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-int keySystem(Register &r, bool keyUp, float time, std::vector<Sound> &sounds)
+int keySystem(Register &r, float time, std::vector<Sound> &sounds)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -82,10 +94,11 @@ int keySystem(Register &r, bool keyUp, float time, std::vector<Sound> &sounds)
         }
         if (stat[i].has_value() and draw[i].has_value())
             control[i].value().moveStatus(stat[i], draw[i], key);
-        if (keyUp)
-            control[i].value().onKeyUp(key, vel[i].value());
-        else
-            control[i].value().onKeyDown(key, vel[i].value());
+        vel[i].value().setVel(getDirectionVector());
+        // if (keyUp)
+        //     control[i].value().onKeyUp(key, vel[i].value());
+        // else
+        //     control[i].value().onKeyDown(key, vel[i].value());
         r.emplace_comp(i, Move(vel[i].value().getVel()));
     }
     return -1;
@@ -163,7 +176,7 @@ int main()
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
     while (!WindowShouldClose()) {
         float time = GetTime() - startTime;
-        keySystem(r, true, time, sounds);
+        keySystem(r, time, sounds);
         hitSys.system(r);
         AttachModuleSystem::system(r);
         SystemGame.system(r, time, playerEntity);

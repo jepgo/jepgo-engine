@@ -16,7 +16,8 @@ class Text {
             _text.setFont(font);
             _text.setString(text);
             _text.setCharacterSize(size);
-            _text.setColor(color);
+            // _text.setColor(color);
+            _text.setFillColor(color);
         };
         ~Text() {};
         void draw(sf::RenderWindow &window, Positions &pos) {

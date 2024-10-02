@@ -8,7 +8,7 @@
 #pragma once
 #include "Raylib.hpp"
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+// #include <SFML/Audio.hpp>
 #include <iostream>
 #include <optional>
 
@@ -69,7 +69,7 @@ class SoundEffect {
         };
     private:
         std::size_t _ind;
-        sf::Sound _sound;
+        // sf::Sound _sound;
 };
 
 class SoundLoop {
@@ -80,7 +80,8 @@ class SoundLoop {
         ~SoundLoop() {
             std::cout << "delete" << std::endl;
         };
-        SoundLoop(const SoundLoop &s) : _sound(s._sound) {
+        // SoundLoop(const SoundLoop &s) : _sound(s._sound) {
+        SoundLoop(const SoundLoop &s) {
         _time = s._time;
         _ind = s._ind;
             std::cout << "copy ctor" << std::endl;
@@ -88,15 +89,16 @@ class SoundLoop {
         SoundLoop(SoundLoop &&s) {
             _time = s._time;
             _ind = s._ind;
-            _sound = std::move(s._sound);
+            // _sound = std::move(s._sound);
             std::cout << "move ctor" << std::endl;
         };
         SoundLoop &operator=(const SoundLoop &s)
         {
                     _time = s._time;
         _ind = s._ind;
-        _sound = s._sound;
+        // _sound = s._sound;
             std::cout << "equal optor" << std::endl;
+            return *this;
         }
         void Play(std::vector<Sound> &buffer) {
             if (!IsSoundPlaying(buffer[_ind]))
@@ -113,7 +115,7 @@ class SoundLoop {
     private:
         float _time = 0;
         std::size_t _ind;
-        sf::Sound _sound;
+        // sf::Sound _sound;
 };
 
 class Positions {
@@ -222,16 +224,21 @@ public:
     Velocity(std::vector<double> const &s) : _speed(s) {}
     ~Velocity() = default;
 
-    auto press(Direction s) -> void
-    {
-        auto p = _getValues(s);
-        p.first = std::clamp<int>(p.first + p.second * _speed[s], -_speed[s], _speed[s]);
-    }
+    // auto press(Direction s) -> void
+    // {
+    //     auto p = _getValues(s);
+    //     p.first = std::clamp<int>(p.first + p.second * _speed[s], -_speed[s], _speed[s]);
+    // }
 
-    auto unpress(Direction s) -> void
-    {
-        auto p = _getValues(s);
-        p.first = std::clamp<int>(p.first - p.second * _speed[s], -_speed[s], _speed[s]);
+    // auto unpress(Direction s) -> void
+    // {
+    //     auto p = _getValues(s);
+    //     p.first = std::clamp<int>(p.first - p.second * _speed[s], -_speed[s], _speed[s]);
+    // }
+
+    inline auto setVel(Vector2 const &v) -> void {
+        _vel.x = v.x * _speed[0];
+        _vel.y = v.y * _speed[1];
     }
 
     inline auto getVel() const noexcept -> Positions const &
@@ -240,13 +247,13 @@ public:
     }
 
 private:
-    auto _getValues(Direction s) -> std::pair<float &, float>
-    {
-        float &ref = (s < Direction::RIGHT) ? _vel.y : _vel.x;
-        int const mul = !(s % 2) * 2 - 1;
+    // auto _getValues(Direction s) -> std::pair<float &, float>
+    // {
+    //     float &ref = (s < Direction::RIGHT) ? _vel.y : _vel.x;
+    //     int const mul = !(s % 2) * 2 - 1;
 
-        return {ref, mul};
-    }
+    //     return {ref, mul};
+    // }
     std::vector<double> _speed;
     Positions _vel{0, 0};
 };
@@ -658,8 +665,9 @@ private:
 class Controllable
 {
 public:
-    void onKeyDown(int key, Velocity &vel);
-    void onKeyUp(int key, Velocity &vel);
+    // void onKeyDown(int key, Velocity &vel);
+    // void onKeyUp(int key, Velocity &vel);
+    // void updateDirection(Vector2 const &v);
     void Tir(Register &r, Positions &pos, int);
     void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, int key);
 };
@@ -681,6 +689,6 @@ class InvincibleTime {
     public:
         InvincibleTime(float time, float reset) : _time(time), _reset(reset) {};
         ~InvincibleTime() {};
-    float _reset;
     float _time;
+    float _reset;
 };

@@ -33,7 +33,7 @@ void GameSystem::system(Register &r, float time, int entity) {
         exp[entity].value()._exp -= 100;
         lvl[entity].value()._lvl += 1;
     }
-    std::cout << "here" << std::endl;
+    // std::cout << "here" << std::endl;
     if (lvlup != 0)
         r.emplace_comp(entity, LvLUp(lvl[entity].value()._lvl));
     if (lvl[entity].value()._lvl == 2 && lvlup != 0)
