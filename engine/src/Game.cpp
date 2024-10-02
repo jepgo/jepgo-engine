@@ -125,12 +125,12 @@ void Game::CreateAsteroid(Register &r)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
-    r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
+    r.emplace_comp(r.entity_nbr, Move(Positions(-2, 0)));
     r.emplace_comp(r.entity_nbr, Positions(1700, randomYPos()));
     r.emplace_comp(r.entity_nbr, Drawable(0, Rectangle{0, 0, 17, 18}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Velocity({1, 1, 1, 1}));
-    r.emplace_comp(r.entity_nbr, Hitable(17, 18, Positions(0, -1)));
+    r.emplace_comp(r.entity_nbr, Hitable(20, 20, Positions(0, -1)));
     r.emplace_comp(r.entity_nbr, Enemy(100, 10));
     r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, DoDmg(10));
@@ -143,8 +143,8 @@ void Game::CreateShipShoot(Register &r, Positions && pos)
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Drawable(1, Rectangle{229, 100, 20, 20}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, pos);
-    r.emplace_comp(r.entity_nbr, Move(Positions(4, 0)));
-    r.emplace_comp(r.entity_nbr, Hitable(10, 10));
+    r.emplace_comp(r.entity_nbr, Move(Positions(10, 0)));
+    r.emplace_comp(r.entity_nbr, Hitable(12, 12));
     r.emplace_comp(r.entity_nbr, Life(1));
     r.emplace_comp(r.entity_nbr, DoDmg(10));
     r.emplace_comp(r.entity_nbr, Type(SHIPSHOOT));

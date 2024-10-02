@@ -419,12 +419,12 @@ class Animation2Time {
         bool _status = false;
 };
 
-static std::map<sf::Keyboard::Key, Direction> const ASSOCIATIVE_KEYS = {
-    {sf::Keyboard::Up, UP},
-    {sf::Keyboard::Down, DOWN},
-    {sf::Keyboard::Left, LEFT},
-    {sf::Keyboard::Right, RIGHT},
-    {sf::Keyboard::A, TIR},
+static std::map<int, Direction> const ASSOCIATIVE_KEYS = {
+    {KeyboardKey::KEY_UP, UP},
+    {KeyboardKey::KEY_DOWN, DOWN},
+    {KeyboardKey::KEY_LEFT, LEFT},
+    {KeyboardKey::KEY_RIGHT, RIGHT},
+    {KeyboardKey::KEY_A, TIR},
 };
 
 class Sprite_Status {
@@ -464,7 +464,7 @@ public:
      * @return true: The current time respect the reset timer
      * @return false: The curent time not respect the reset timer
      */
-    bool verif(sf::Time &time);
+    bool verif(float time);
     void shoot(Register &r, Positions &pos);
     float _fireRate;
     float _time;
@@ -672,10 +672,10 @@ private:
 class Controllable
 {
 public:
-    void onKeyDown(sf::Keyboard::Key key, Velocity &vel);
-    void onKeyUp(sf::Keyboard::Key key, Velocity &vel);
+    void onKeyDown(int key, Velocity &vel);
+    void onKeyUp(int key, Velocity &vel);
     void Tir(Register &r, Positions &pos, int);
-    void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key);
+    void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, int key);
 };
 
 class Invincible {

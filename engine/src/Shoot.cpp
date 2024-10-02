@@ -19,11 +19,11 @@ Shoot::~Shoot()
     
 }
 
-bool Shoot::verif(sf::Time &time)
+bool Shoot::verif(float time)
 {
-    if (time.asSeconds() - _time >= _fireRate)
+    if (time - _time >= _fireRate)
     {
-        _time = time.asSeconds();
+        _time = time;
         return true;
     }
     else

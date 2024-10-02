@@ -8,7 +8,7 @@
 #include "Components.hpp"
 #include "Register.hpp"
 
-void Controllable::onKeyDown(sf::Keyboard::Key key, Velocity &vel)
+void Controllable::onKeyDown(int key, Velocity &vel)
 {
     try {
     vel.press(ASSOCIATIVE_KEYS.at(key));
@@ -17,7 +17,7 @@ void Controllable::onKeyDown(sf::Keyboard::Key key, Velocity &vel)
     }
 }
 
-void Controllable::onKeyUp(sf::Keyboard::Key key, Velocity &vel)
+void Controllable::onKeyUp(int key, Velocity &vel)
 {
     try {
     vel.unpress(ASSOCIATIVE_KEYS.at(key));
@@ -36,7 +36,7 @@ void Controllable::Tir(Register &r, Positions &pos, int left)
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, SHIPSHOOT, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 }
 
-void Controllable::moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, sf::Keyboard::Key key)
+void Controllable::moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, int key)
 {
     if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
         return;

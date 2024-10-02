@@ -61,7 +61,7 @@
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-int keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
+int keySystem(Register &r, bool keyUp, float time)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -73,11 +73,12 @@ int keySystem(Register &r, sf::Keyboard::Key key, bool keyUp, sf::Time &time)
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
-        if (IsKeyDown(KeyboardKey::KEY_A) && shoot[i].has_value() && shoot[i].value().verif(time)) {
+        auto key = GetKeyPressed();
+        if (key == KeyboardKey::KEY_A && shoot[i].has_value() && shoot[i].value().verif(time)) {
             //sound.play();
             //std::cout << "fire" << std::endl;
             shoot[i].value().shoot(r, pos[i].value());
-            shoot[i].value()._time =  time.asSeconds();
+            shoot[i].value()._time =  time;
             return 2;
         }
         if (stat[i].has_value() and draw[i].has_value())
@@ -163,6 +164,7 @@ int main()
         if (!IsSoundPlaying(sound))
             PlaySound(sound);
         float time = GetTime() - startTime;
+        keySystem(r, true, time);
         hitSys.system(r);
         std::cout << "after hit" << std::endl;
         AttachModuleSystem::system(r);
