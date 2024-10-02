@@ -45,13 +45,13 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Positions(100, 100));
     r.emplace_comp(r.entity_nbr, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.entity_nbr, Velocity({2, 2, 2, 2}));
+    r.emplace_comp(r.entity_nbr, Velocity({5, 5, 5, 5}));
     r.emplace_comp(r.entity_nbr, Colision(30, 18));
     r.emplace_comp(r.entity_nbr, Controllable());
     r.emplace_comp(r.entity_nbr, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(r.entity_nbr, ScreenLimit(height, width));
     r.emplace_comp(r.entity_nbr, Hitable(30, 18));
-    r.emplace_comp(r.entity_nbr, Shoot(0.5, RIGHT, 20));
+    r.emplace_comp(r.entity_nbr, Shoot(0.5, RIGHT, 20, 2));
     r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, Type(CONTRO));
     r.emplace_comp(r.entity_nbr, Exp(0));

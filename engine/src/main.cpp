@@ -61,7 +61,7 @@
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-int keySystem(Register &r, bool keyUp, float time)
+int keySystem(Register &r, bool keyUp, float time, std::vector<Sound> &sounds)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -75,8 +75,7 @@ int keySystem(Register &r, bool keyUp, float time)
             continue;
         auto key = GetKeyPressed();
         if (key == KeyboardKey::KEY_A && shoot[i].has_value() && shoot[i].value().verif(time)) {
-            //sound.play();
-            //std::cout << "fire" << std::endl;
+            PlaySound(sounds[shoot[i].value()._ind]);
             shoot[i].value().shoot(r, pos[i].value());
             shoot[i].value()._time =  time;
             return 2;
@@ -164,7 +163,7 @@ int main()
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
     while (!WindowShouldClose()) {
         float time = GetTime() - startTime;
-        keySystem(r, true, time);
+        keySystem(r, true, time, sounds);
         hitSys.system(r);
         AttachModuleSystem::system(r);
         SystemGame.system(r, time, playerEntity);

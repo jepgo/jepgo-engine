@@ -9,7 +9,7 @@
 #include "Register.hpp"
 #include "Game.hpp"
 
-Shoot::Shoot(float fireRate, Direction dir, int decal) : _fireRate(fireRate), _direction(dir), _decal(decal)
+Shoot::Shoot(float fireRate, Direction dir, int decal, std::size_t ind) : _fireRate(fireRate), _direction(dir), _decal(decal), _ind(ind)
 {
     _time = 0;
 }

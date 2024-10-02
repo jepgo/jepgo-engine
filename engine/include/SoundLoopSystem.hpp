@@ -15,8 +15,6 @@ class SoundLoopSystem {
 
             for (std::size_t i = 0; i < sound.size(); i++) {
                 if (sound[i].has_value() && sound[i].value()._play == false) {
-                    //std::cout << "sound here" << std::endl;
-                    //std::cout << "play" << std::endl;
                     sound[i].value().Play(buff);
                 }
             }

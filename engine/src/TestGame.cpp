@@ -52,7 +52,7 @@ void TestGame::Stages(Register &r, float time, std::size_t entity, std::vector<S
 
     if (time - _time <= _reset)
         return;
-    if (km[entity].value()._dist >= 50) {
+    if (km[entity].value()._dist >= 700) {
         Stage2(r, sound, sounds);
     } 
     else

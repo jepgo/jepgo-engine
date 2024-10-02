@@ -52,7 +52,7 @@ class ModuleShoot
             if (shoot.has_value()) {
                 shoot.value()._fireRate = _fireRate;
             } else {
-                shoot = std::make_optional(Shoot(_fireRate, RIGHT, 10));
+                shoot = std::make_optional(Shoot(_fireRate, RIGHT, 10, 2));
             }
         };
     private:

@@ -64,9 +64,8 @@ class SoundEffect {
     public:
         SoundEffect(std::size_t ind) : _ind(ind) {};
         ~SoundEffect() {std::cout << "del" << std::endl;};
-        void Play(std::vector<sf::SoundBuffer> &buffer) {
-            _sound.setBuffer(buffer[_ind]);
-            _sound.play();
+        void Play(std::vector<Sound> &buffer) {
+            PlaySound(buffer[_ind]);
         };
     private:
         std::size_t _ind;
@@ -441,7 +440,7 @@ public:
      * @param dir The direction of the shoot
      * @param decal The decal of the shoot and the obj who are shooting
      */
-    Shoot(float fireRate, Direction dir, int decal);
+    Shoot(float fireRate, Direction dir, int decal, std::size_t ind);
     ~Shoot();
     /**
      * @brief Verif if the reset time is repected
@@ -454,6 +453,7 @@ public:
     void shoot(Register &r, Positions &pos);
     float _fireRate;
     float _time;
+    std::size_t _ind;
 
 private:
     Direction _direction;
