@@ -185,7 +185,7 @@ int main()
         SoundLoopSystem::system(r, sounds, time);
         BombGenerationTimeSystem::system(r, time);
         BombGenerationSystem::system(r, time);
-        game.Stages(r, time, playerEntity);
+        game.Stages(r, time, playerEntity, sounds);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);

@@ -103,17 +103,13 @@ class SoundLoop {
             if (!IsSoundPlaying(buffer[_ind]))
                 PlaySound(buffer[_ind]);
         };
-        void Stop() {
-            if (_play == false)
-                return;
-            std::cout << "stop" << std::endl;
-            _sound.stop();
-            _play = false;
+        void Stop(Sound &sound) {
+            StopSound(sound);
         };
         void ChangeSong(std::size_t ind) {
-            Stop();
             _ind = ind;
         };
+        std::size_t getInd() {return _ind;};
         bool _play = false;
     private:
         float _time = 0;
