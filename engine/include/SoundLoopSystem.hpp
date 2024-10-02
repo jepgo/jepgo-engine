@@ -17,7 +17,7 @@ class SoundLoopSystem {
                 if (sound[i].has_value() && sound[i].value()._play == false) {
                     //std::cout << "sound here" << std::endl;
                     //std::cout << "play" << std::endl;
-                    sound[i].value().Play(buff, time);
+                    sound[i].value().Play(buff);
                 }
             }
         };

@@ -99,7 +99,7 @@ class SoundLoop {
         _sound = s._sound;
             std::cout << "equal optor" << std::endl;
         }
-        void Play(std::vector<Sound> &buffer, float time) {
+        void Play(std::vector<Sound> &buffer) {
             if (!IsSoundPlaying(buffer[_ind]))
                 PlaySound(buffer[_ind]);
         };

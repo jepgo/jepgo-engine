@@ -49,8 +49,6 @@ void TestGame::Stages(Register &r, float time, std::size_t entity, std::vector<S
 {
     auto &km = r.getComp<DistanceKm>();
     auto &sound = r.getComp<SoundLoop>();
-    // auto &lvl = r.getComp<Lvl>();
-    // auto &lvlup = r.getComp<LvLUp>();
 
     if (time - _time <= _reset)
         return;
