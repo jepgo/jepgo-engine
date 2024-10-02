@@ -10,7 +10,7 @@
 
 class SoundLoopSystem {
     public:
-        static void system(Register &r, std::vector<sf::SoundBuffer> &buff, sf::Time &time) {
+        static void system(Register &r, std::vector<Sound> &buff, float time) {
             auto& sound = r.getComp<SoundLoop>();
 
             for (std::size_t i = 0; i < sound.size(); i++) {

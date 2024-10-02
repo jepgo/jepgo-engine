@@ -21,7 +21,7 @@ Game::~Game()
 
 void Game::CreateMainThem(Register &r) {
     r.creatEntity();
-    r.emplace_comp(r.entity_nbr, SoundLoop(1, 32));
+    r.emplace_comp(r.entity_nbr, SoundLoop(1));
 }
 
 void Game::CreateBackGround(Register &r)
@@ -125,7 +125,7 @@ void Game::CreateAsteroid(Register &r)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
-    r.emplace_comp(r.entity_nbr, Move(Positions(-2, 0)));
+    r.emplace_comp(r.entity_nbr, Move(Positions(-3, 0)));
     r.emplace_comp(r.entity_nbr, Positions(1700, randomYPos()));
     r.emplace_comp(r.entity_nbr, Drawable(0, Rectangle{0, 0, 17, 18}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(10, 17, 0.05));
@@ -167,7 +167,7 @@ void Game::CreateMiniBoss1(Register &r, Positions &&pos)
     //r.emplace_comp(r.entity_nbr, Short_Animation(3, 144, 0.7));
     r.emplace_comp(r.entity_nbr, DoDmg(20));
     r.emplace_comp(r.entity_nbr, Life(2000));
-    r.emplace_comp(r.entity_nbr, Hitable(20, 30, Positions(0, 110)));
+    r.emplace_comp(r.entity_nbr, Hitable(22, 32, Positions(0, 110)));
     r.emplace_comp(r.entity_nbr, Type(MINIBOSS));
     r.emplace_comp(r.entity_nbr, Invincible());
     r.emplace_comp(r.entity_nbr, InvincibleTime(0, 5));

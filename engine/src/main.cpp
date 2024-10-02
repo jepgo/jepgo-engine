@@ -110,13 +110,12 @@ void MidSpriteSystem(Register &r)
     }
 }
 
-std::vector<sf::SoundBuffer> getAllSound(const std::vector<std::string>& list)
+std::vector<Sound> getAllSound(const std::vector<std::string>& list)
 {
-    std::vector<sf::SoundBuffer> res;
+    std::vector<Sound> res;
 
     for (const auto& filename : list) {
-        sf::SoundBuffer buffer;
-        buffer.loadFromFile(filename);
+        Sound buffer = LoadSound(filename.c_str());
         res.push_back(std::move(buffer));
     }
     return res;
@@ -158,54 +157,35 @@ int main()
     DrawSystem drawSys = DrawSystem();
     MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
+    std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
-    Sound sound = LoadSound("sprites/level1.ogg");
+    //Sound sound = LoadSound("sprites/level1.ogg");
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, SoundLoop(1));
     while (!WindowShouldClose()) {
-        if (!IsSoundPlaying(sound))
-            PlaySound(sound);
         float time = GetTime() - startTime;
         keySystem(r, true, time);
         hitSys.system(r);
-        std::cout << "after hit" << std::endl;
         AttachModuleSystem::system(r);
-        std::cout << "after attach" << std::endl;
         SystemGame.system(r, time, playerEntity);
-        std::cout << "after systemGame" << std::endl;
         LoopMoveSystem::system(r, height, width);
-        std::cout << "after loopMoveSystem" << std::endl;
         MoveToPlayerTimeSystem::system(r, time);
-        std::cout << "after MoveToPlayer" << std::endl;
         movetoplayer.system(r, time);
-        std::cout << "after movetop" << std::endl;
         moveSys.system(r, time);
-        std::cout << "after move" << std::endl;
         Animation2TimeSystem::system(r, time);
-        std::cout << "Animation2" << std::endl;
         animSys.system(r, time);
-        std::cout << "after anim" << std::endl;
         ShortAnimationSystem::system(r, time);
-        std::cout << "after shotAnim" << std::endl;
         InvinsibleSystem::system(r, time);
-        std::cout << "after Invinsible" << std::endl;
         addDmgSystem.system(r, time);
-        std::cout << "after addDmg" << std::endl;
         ModuleSystem::system(r);
-        std::cout << "after module" << std::endl;
         DmgSystem::system(r, time);
-        std::cout << "after Dmg" << std::endl;
         ExplosionSystem::system(r);
-        std::cout << "after Explosion" << std::endl;
         DeathSystem::system(r, playerEntity);
-        std::cout << "after Death" << std::endl;
         DestoyersSystem::system(r, height, width);
-        std::cout << "after destroyer" << std::endl;
-        //SoundLoopSystem::system(r, sounds, time);
+        SoundLoopSystem::system(r, sounds, time);
         BombGenerationTimeSystem::system(r, time);
-        std::cout << "after BombeGeneTime" << std::endl;
         BombGenerationSystem::system(r, time);
-        std::cout << "after BombGene" << std::endl;
         game.Stages(r, time, playerEntity);
-        std::cout << "after Stage" << std::endl;
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);
