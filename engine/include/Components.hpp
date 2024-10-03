@@ -67,7 +67,7 @@ class Life {
 class SoundEffect {
     public:
         SoundEffect(std::size_t ind) : _ind(ind) {};
-        ~SoundEffect() {std::cout << "del" << std::endl;};
+        ~SoundEffect() {};
         void Play(std::vector<Sound> &buffer) {
             PlaySound(buffer[_ind]);
         };
@@ -79,10 +79,8 @@ class SoundEffect {
 class SoundLoop {
     public:
         SoundLoop(std::size_t ind) : _ind(ind) {
-            std::cout << "ctor" << std::endl;
         };
         ~SoundLoop() {
-            std::cout << "delete" << std::endl;
         };
         SoundLoop(const SoundLoop &s) {
             _time = s._time;
@@ -92,15 +90,11 @@ class SoundLoop {
         SoundLoop(SoundLoop &&s) {
             _time = s._time;
             _ind = s._ind;
-            // _sound = std::move(s._sound);
-            std::cout << "move ctor" << std::endl;
         };
         SoundLoop &operator=(const SoundLoop &s)
         {
-                    _time = s._time;
-        _ind = s._ind;
-        // _sound = s._sound;
-            std::cout << "equal optor" << std::endl;
+            _time = s._time;
+            _ind = s._ind;
             return *this;
         }
         void Play(std::vector<Sound> &buffer) {

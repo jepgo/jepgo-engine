@@ -13,7 +13,7 @@ FILES_UNIT	=	*.gc*
 
 CFLAGS += -Wall -Wextra -Wpedantic -std=c++20
 CPPFLAGS += -iquote./engine/include
-LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lraylib
+LDFLAGS += -lraylib
 
 # Source files
 

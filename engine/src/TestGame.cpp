@@ -28,6 +28,7 @@ static void Stage2(Register &r, SparseArray<SoundLoop> &sound, std::vector<Sound
             return;
     }
     Game::CreateMiniBoss1(r, Positions(1360, 300));
+    //Game::CreateArmorModule(r, Positions(600, 300));
     for (std::size_t i = 0; i < sound.size(); i++) {
         if (sound[i].has_value()) {
             sound[i].value().Stop(sounds[sound[i].value().getInd()]);
