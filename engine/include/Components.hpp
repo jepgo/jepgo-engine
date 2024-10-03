@@ -185,54 +185,6 @@ class DrawLvl {
         Color _color;
 };
 
-class DrawReborn {
-    public:
-        DrawReborn(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
-        ~DrawReborn() {};
-        Positions _pos;
-        std::size_t _size;
-        Color _color;
-};
-
-class Message {
-    public:
-        Message(std::string mess, Positions &&pos, std::size_t size, Color color) : _mess(mess), _pos(pos), _size(size), _color(color) {};
-        ~Message() {};
-        std::string _mess;
-        Positions _pos;
-        std::size_t _size;
-        Color _color;
-};
-
-class MessageTime {
-    public:
-        MessageTime(float time, float reset) : _time(time), _reset(reset) {};
-        ~MessageTime() {};
-        float &getTime() {return _time;};
-        float &getReset() {return _reset;};
-    private:
-        float _time;
-        float _reset;
-};
-
-class Reborn {
-    public:
-        Reborn(std::size_t live) : _live(live) {};
-        ~Reborn() {};
-        std::size_t &getLive() {return _live;};
-    private:
-        std::size_t _live;
-};
-
-class GameLvl {
-    public:
-        GameLvl(std::size_t lvl) : _lvl(lvl) {};
-        ~GameLvl() {};
-        std::size_t &GetLvl() {return _lvl;};
-    private:
-        std::size_t _lvl;
-};
-
 class LoopMove {
     public:
         LoopMove(Positions &&pos) : _pos(pos) {};

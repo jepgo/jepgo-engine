@@ -56,6 +56,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(DrawKm)), SparseArray<DrawKm>()});
     regist.insert({std::type_index(typeid(DrawPoints)), SparseArray<DrawPoints>()});
     regist.insert({std::type_index(typeid(DrawLvl)), SparseArray<DrawLvl>()});
+<<<<<<< HEAD
     regist.insert({std::type_index(typeid(Message)), SparseArray<Message>()});
     regist.insert({std::type_index(typeid(Reborn)), SparseArray<Reborn>()});
     regist.insert({std::type_index(typeid(DrawReborn)), SparseArray<DrawReborn>()});
@@ -63,6 +64,8 @@ Register::Register()
     regist.insert({std::type_index(typeid(MoveTo)), SparseArray<MoveTo>()});
     regist.insert({std::type_index(typeid(MessageTime)), SparseArray<MessageTime>()});
     regist.insert({std::type_index(typeid(AutoShoot)), SparseArray<AutoShoot>()});
+=======
+>>>>>>> c351202 (feat(Engine): add the Text Components)
 }
 
 Register::~Register()

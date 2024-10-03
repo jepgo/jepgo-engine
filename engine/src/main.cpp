@@ -9,7 +9,6 @@
 #include <stddef.h>
 #include <raylib.h>
 #include <iostream>
-#include "Menu.hpp"
 
 int main(void)
 {
@@ -63,7 +62,14 @@ int main(void)
         game.Stages(r, time, playerEntity, sounds);
         BeginDrawing();
         ClearBackground(RAYWHITE);
+<<<<<<< HEAD
         m.drawMenu();
+=======
+        drawSys.system(r, texture);
+        DrawKmSystem::system(r);
+        DrawLvlSystem::system(r);
+        DrawPointsSystem::system(r);
+>>>>>>> c351202 (feat(Engine): add the Text Components)
         EndDrawing();
     }
     CloseWindow();
