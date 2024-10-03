@@ -16,7 +16,7 @@ CFLAGS += -Wall -Wextra -Wpedantic
 CXXFLAGS += -std=c++23
 CPPFLAGS += -iquote./
 
-SRC = DLLoader.cpp
+SRC = DLLoader.cpp Moduku.cpp
 
 OBJS = $(SRC:.cpp=.o)
 
