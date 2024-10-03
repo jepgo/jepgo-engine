@@ -51,8 +51,10 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.emplace_comp(r.entity_nbr, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(r.entity_nbr, ScreenLimit(height * 2, width * 2));
     r.emplace_comp(r.entity_nbr, Hitable(100, 40));
-    r.emplace_comp(r.entity_nbr, Shoot(0.5, RIGHT, 20, 2));
     r.emplace_comp(r.entity_nbr, Life(30));
+    r.emplace_comp(r.entity_nbr, Reborn(3));
+    r.emplace_comp(r.entity_nbr, DrawReborn(Positions(10, 560), 15, RED));
+    r.emplace_comp(r.entity_nbr, Shoot(0.5, RIGHT, 20, 2));
     r.emplace_comp(r.entity_nbr, Type(CONTRO));
     r.emplace_comp(r.entity_nbr, Exp(0));
     r.emplace_comp(r.entity_nbr, Points());

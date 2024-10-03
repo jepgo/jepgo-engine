@@ -10,6 +10,7 @@
 #include "DrawKmSystem.hpp"
 #include "DrawLvlSystem.hpp"
 #include "MessageSystem.hpp"
+#include "DrawRebornSystem.hpp"
 #include "DrawPointsSystem.hpp"
 #include "MoveToPlayerSystem.hpp"
 #include "Animation2TimeSystem.hpp"
@@ -29,6 +30,7 @@
 #include "AttachModuleSystem.hpp"
 #include "DmgSystem.hpp"
 #include "ModuleSystem.hpp"
+#include "RebornSystem.hpp"
 #include "HitSystem.hpp"
 #include "DrawSystem.hpp"
 #include "Register.hpp"
@@ -201,12 +203,14 @@ int main()
         BombGenerationTimeSystem::system(r, time);
         BombGenerationSystem::system(r, time);
         game.Stages(r, time, playerEntity, sounds);
+        RebornSystem::system(r, playerEntity);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);
         DrawKmSystem::system(r);
         DrawLvlSystem::system(r);
         DrawPointsSystem::system(r);
+        DrawRebornSystem::system(r);
         MessageSystem::system(r);
         EndDrawing();
     }
