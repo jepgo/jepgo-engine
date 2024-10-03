@@ -53,6 +53,9 @@ Register::Register()
     regist.insert({std::type_index(typeid(MoveToPlayerTime)), SparseArray<MoveToPlayerTime>()});
     regist.insert({std::type_index(typeid(BombGeneration)), SparseArray<BombGeneration>()});
     regist.insert({std::type_index(typeid(BombGenerationTime)), SparseArray<BombGenerationTime>()});
+    regist.insert({std::type_index(typeid(DrawKm)), SparseArray<DrawKm>()});
+    regist.insert({std::type_index(typeid(DrawPoints)), SparseArray<DrawPoints>()});
+    regist.insert({std::type_index(typeid(DrawLvl)), SparseArray<DrawLvl>()});
 }
 
 Register::~Register()
@@ -102,6 +105,9 @@ void Register::creatEntity()
     std::any_cast<SparseArray<MoveToPlayerTime>&>(regist[std::type_index(typeid(MoveToPlayerTime))]).add();
     std::any_cast<SparseArray<BombGeneration>&>(regist[std::type_index(typeid(BombGeneration))]).add();
     std::any_cast<SparseArray<BombGenerationTime>&>(regist[std::type_index(typeid(BombGenerationTime))]).add();
+    std::any_cast<SparseArray<DrawKm>&>(regist[std::type_index(typeid(DrawKm))]).add();
+    std::any_cast<SparseArray<DrawPoints>&>(regist[std::type_index(typeid(DrawPoints))]).add();
+    std::any_cast<SparseArray<DrawLvl>&>(regist[std::type_index(typeid(DrawLvl))]).add();
     for (auto const &cb : _rules) {
         cb(regist);
     }

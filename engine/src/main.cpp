@@ -7,6 +7,9 @@
 
 #include "Raylib.hpp"
 #include <iostream>
+#include "DrawKmSystem.hpp"
+#include "DrawLvlSystem.hpp"
+#include "DrawPointsSystem.hpp"
 #include "MoveToPlayerSystem.hpp"
 #include "Animation2TimeSystem.hpp"
 #include "BombGenerationSystem.hpp"
@@ -200,6 +203,9 @@ int main()
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);
+        DrawKmSystem::system(r);
+        DrawLvlSystem::system(r);
+        DrawPointsSystem::system(r);
         EndDrawing();
     }
     CloseAudioDevice();
