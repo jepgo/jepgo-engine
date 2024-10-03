@@ -9,6 +9,36 @@
 #include <stddef.h>
 #include <raylib.h>
 #include <iostream>
+#include "DrawKmSystem.hpp"
+#include "DrawLvlSystem.hpp"
+#include "MessageSystem.hpp"
+#include "DrawPointsSystem.hpp"
+#include "MoveToPlayerSystem.hpp"
+#include "Animation2TimeSystem.hpp"
+#include "BombGenerationSystem.hpp"
+#include "BombGenerationTimeSystem.hpp"
+#include "MoveToPlayerTimeSystem.hpp"
+#include "InvinsibleSystem.hpp"
+#include "LoopMoveSystem.hpp"
+#include "DestroyerSystem.hpp"
+#include "ShortAnimationSystem.hpp"
+#include "SoundLoopSystem.hpp"
+#include "AddDmgSystem.hpp"
+#include "GameSystem.hpp"
+#include "TestGame.hpp"
+#include "Game.hpp"
+#include "DeathSystem.hpp"
+#include "AttachModuleSystem.hpp"
+#include "DmgSystem.hpp"
+#include "ModuleSystem.hpp"
+#include "HitSystem.hpp"
+#include "DrawSystem.hpp"
+#include "Register.hpp"
+#include "Components.hpp"
+#include "ExplosionSystem.hpp"
+#include "SparseArray.hpp"
+#include "MoveSystem.hpp"
+#include "AnimationSpriteSystem.hpp"
 
 int main(void)
 {
@@ -33,7 +63,7 @@ int main(void)
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
     std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
-    //Sound sound = LoadSound("sprites/level1.ogg");
+
     r.creatEntity();
     r.emplace_comp(r.currentEntity, SoundLoop(1));
     while (!WindowShouldClose()) {
@@ -69,7 +99,11 @@ int main(void)
         DrawKmSystem::system(r);
         DrawLvlSystem::system(r);
         DrawPointsSystem::system(r);
+<<<<<<< HEAD
 >>>>>>> c351202 (feat(Engine): add the Text Components)
+=======
+        MessageSystem::system(r);
+>>>>>>> 5f4ac64 (feat(Engine): add the Dead text)
         EndDrawing();
     }
     CloseWindow();

@@ -57,6 +57,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(DrawPoints)), SparseArray<DrawPoints>()});
     regist.insert({std::type_index(typeid(DrawLvl)), SparseArray<DrawLvl>()});
 <<<<<<< HEAD
+<<<<<<< HEAD
     regist.insert({std::type_index(typeid(Message)), SparseArray<Message>()});
     regist.insert({std::type_index(typeid(Reborn)), SparseArray<Reborn>()});
     regist.insert({std::type_index(typeid(DrawReborn)), SparseArray<DrawReborn>()});
@@ -66,6 +67,9 @@ Register::Register()
     regist.insert({std::type_index(typeid(AutoShoot)), SparseArray<AutoShoot>()});
 =======
 >>>>>>> c351202 (feat(Engine): add the Text Components)
+=======
+    regist.insert({std::type_index(typeid(Message)), SparseArray<Message>()});
+>>>>>>> 5f4ac64 (feat(Engine): add the Dead text)
 }
 
 Register::~Register()
@@ -119,12 +123,15 @@ void Register::creatEntity()
     std::any_cast<SparseArray<DrawPoints>&>(regist[std::type_index(typeid(DrawPoints))]).add();
     std::any_cast<SparseArray<DrawLvl>&>(regist[std::type_index(typeid(DrawLvl))]).add();
     std::any_cast<SparseArray<Message>&>(regist[std::type_index(typeid(Message))]).add();
+<<<<<<< HEAD
     std::any_cast<SparseArray<Reborn>&>(regist[std::type_index(typeid(Reborn))]).add();
     std::any_cast<SparseArray<DrawReborn>&>(regist[std::type_index(typeid(DrawReborn))]).add();
     std::any_cast<SparseArray<GameLvl>&>(regist[std::type_index(typeid(GameLvl))]).add();
     std::any_cast<SparseArray<MoveTo>&>(regist[std::type_index(typeid(MoveTo))]).add();
     std::any_cast<SparseArray<MessageTime>&>(regist[std::type_index(typeid(MessageTime))]).add();
     std::any_cast<SparseArray<AutoShoot>&>(regist[std::type_index(typeid(AutoShoot))]).add();
+=======
+>>>>>>> 5f4ac64 (feat(Engine): add the Dead text)
     for (auto const &cb : _rules) {
         cb(regist);
     }
