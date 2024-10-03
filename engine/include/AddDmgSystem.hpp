@@ -23,18 +23,21 @@ class AddDmgSystem {
             auto &doDmg = r.getComp<DoDmg>();
             auto &type = r.getComp<Type>();
 
-            if (doDmg[him].has_value() == false)
+            if (doDmg[him].has_value() == false) {
                 return false;
-            if (type[me].has_value() == NEUTRAL || type[him].has_value() == NEUTRAL)
-                return false;
+            }
             if (type[me].has_value() == false || type[him].has_value() == false)
                 return true;
+            if (type[me].value().getType() == NEUTRAL || type[him].value().getType() == NEUTRAL)
+                return false;
             if (type[me].value().getType() == MINIBOSS && type[him].value().getType() != BOMB)
                 return true;
-            if (type[me].value().getType() == CONTRO && type[him].value().getType() != SHIPSHOOT && type[him].value().getType() != MODULE)
+            if (type[me].value().getType() == CONTRO && type[him].value().getType() != SHIPSHOOT && type[him].value().getType() != MODULE) {
                 return true;
-            if (type[me].value().getType() == BOMB && type[him].value().getType() != BOMB && type[him].value().getType() != MINIBOSS)
+            }
+            if (type[me].value().getType() == BOMB && type[him].value().getType() != BOMB && type[him].value().getType() != MINIBOSS) {
                 return true;
+            }
             if (type[me].value().getType() == SHIPSHOOT && type[him].value().getType() != CONTRO && type[him].value().getType() != MODULE)    
                 return true;
             if (type[me].value().getType() == MODULE && type[him].value().getType() != CONTRO && type[him].value().getType() != SHIPSHOOT)
@@ -42,8 +45,8 @@ class AddDmgSystem {
             return false;     
         };
         void system(Register &r, float time){
-            if (time - _time < _reset)
-                return;
+            // if (time - _time < _reset)
+            //     return;
             auto &hit = r.getComp<Hit>();
             auto &dmg = r.getComp<Dmg>();
             auto &doDmg = r.getComp<DoDmg>();

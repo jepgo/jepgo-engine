@@ -22,8 +22,9 @@ class DmgSystem {
             auto &inv = r.getComp<Invincible>();
 
             for (std::size_t i = 0; i < dmg.size(); i++) {
-                if (dmg[i].has_value() && inv[i].has_value())
+                if (dmg[i].has_value() && inv[i].has_value()) {
                     r.removeComponent<Dmg>(i);
+                }
                 if (dmg[i].has_value() && life[i].has_value()) {
                     life[i].value()._life -= dmg[i].value()._dmg;
                     r.emplace_comp<Invincible>(i, Invincible());

@@ -174,7 +174,6 @@ int main()
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
     while (!WindowShouldClose()) {
-        std::cout << "before" << std::endl;
         float time = GetTime() - startTime;
         keySystem(r, time, sounds);
         hitSys.system(r);
@@ -192,7 +191,6 @@ int main()
         ModuleSystem::system(r);
         DmgSystem::system(r, time);
         ExplosionSystem::system(r);
-        std::cout << "after" << std::endl;
         DeathSystem::system(r, playerEntity);
         DestoyersSystem::system(r, height, width);
         SoundLoopSystem::system(r, sounds, time);

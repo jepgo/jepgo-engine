@@ -91,7 +91,7 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(4, 32, 0.2));
     r.emplace_comp(r.entity_nbr, Hitable(64, 64));
-    r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 100}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
+    r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 120}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
     r.emplace_comp(r.entity_nbr, Type(NEUTRAL));
     r.emplace_comp(r.entity_nbr, DoDmg(30));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
@@ -113,7 +113,7 @@ void Game::CreateBomb(Register &r, Positions &&pos, float time, float reset)
     r.emplace_comp(r.entity_nbr, MoveToPlayerTime(time, reset));
     r.emplace_comp(r.entity_nbr, Short_Animation(4, 16, 1, 185));
     r.emplace_comp(r.entity_nbr, Velocity({1, 1, 1, 1}));
-    r.emplace_comp(r.entity_nbr, Hitable(15, 15, Positions(1, -1)));
+    r.emplace_comp(r.entity_nbr, Hitable(30, 30, Positions(1, -1)));
     r.emplace_comp(r.entity_nbr, Enemy(100, 10));
     //r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, DoDmg(10));
