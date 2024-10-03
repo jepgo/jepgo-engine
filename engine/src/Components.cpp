@@ -29,9 +29,8 @@ void Explosion::explose(Register &r, std::size_t entity)
     r.removeComponent<Move>(entity);
 }
 
-void Hitable::Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list)
+void Hitable::Whenhit(std::size_t entity, Register &r)
 {
-    (void)list;
     auto &explo = r.getComp<Explosion>();
 
     if (!explo[entity].has_value())

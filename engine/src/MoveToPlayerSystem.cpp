@@ -79,7 +79,7 @@ void MoveToPlayerSystem::system(Register &r, float time)
             ind = FoundClosestPlayer(r, pos[i].value());
             if (ind != -1) {
                 tmp = getTheMove(pos[i].value(), pos[ind].value());
-                r.emplace_comp(i, Move(Positions(tmp[0], tmp[1])));
+                r.emplace_comp(i, Move(Positions(tmp[0] * move[i].value()._speed, tmp[1] * move[i].value()._speed)));
             }
         }
     }

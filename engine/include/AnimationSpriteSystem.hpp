@@ -8,7 +8,6 @@
 #pragma once
 #include "Register.hpp"
 #include "Components.hpp"
-#include <SFML/Graphics.hpp>
 
 class AnimationSpriteSystem {
     public:

@@ -7,10 +7,10 @@
 
 #pragma once
 #include "Raylib.hpp"
-#include <SFML/Graphics.hpp>
-// #include <SFML/Audio.hpp>
 #include <iostream>
 #include <optional>
+#include <vector>
+#include <map>
 
 class Register;
 
@@ -337,10 +337,7 @@ public:
             deadAnimation = false;
     };
     ~Sprite_Animation() {};
-    void setTime(sf::Time &time)
-    {
-        t = time.asSeconds();
-    };
+
     bool isneg;
     int status;
     int val;
@@ -375,10 +372,7 @@ public:
             _start = 0;
     };
     ~Short_Animation() {};
-    void setTime(sf::Time &time)
-    {
-        t = time.asSeconds();
-    };
+
     std::size_t getStart() {return _start;};
     bool isneg;
     int status;
@@ -606,7 +600,7 @@ public:
      * @param r The Registry
      * @param list The list of all the texture
      */
-    void Whenhit(std::size_t entity, Register &r, std::vector<sf::Texture> &list);
+    void Whenhit(std::size_t entity, Register &r);
     int width;
     int height;
     std::optional<Positions> _pos;

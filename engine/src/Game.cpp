@@ -49,8 +49,8 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.emplace_comp(r.entity_nbr, Colision(30, 18));
     r.emplace_comp(r.entity_nbr, Controllable());
     r.emplace_comp(r.entity_nbr, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
-    r.emplace_comp(r.entity_nbr, ScreenLimit(height, width));
-    r.emplace_comp(r.entity_nbr, Hitable(30, 18));
+    r.emplace_comp(r.entity_nbr, ScreenLimit(height * 2, width * 2));
+    r.emplace_comp(r.entity_nbr, Hitable(100, 40));
     r.emplace_comp(r.entity_nbr, Shoot(0.5, RIGHT, 20, 2));
     r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, Type(CONTRO));
@@ -79,7 +79,7 @@ void Game::CreateShootModule(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Hitable(20, 20));
-    r.emplace_comp(r.entity_nbr, ModuleShoot({{LEFT, 0}, {UP, 30}, {RIGHT, 0}, {DOWN, 0}}, 0.25));
+    r.emplace_comp(r.entity_nbr, ModuleShoot({{LEFT, 0}, {UP, 60}, {RIGHT, 0}, {DOWN, 0}}, 0.25));
     r.emplace_comp(r.entity_nbr, Type(NEUTRAL));
 }
 
@@ -90,8 +90,8 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
     r.emplace_comp(r.entity_nbr, Move(Positions(-1, 0)));
     r.emplace_comp(r.entity_nbr, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(4, 32, 0.2));
-    r.emplace_comp(r.entity_nbr, Hitable(32, 32));
-    r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 50}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
+    r.emplace_comp(r.entity_nbr, Hitable(64, 64));
+    r.emplace_comp(r.entity_nbr, ModuleArmor({{LEFT, 100}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
     r.emplace_comp(r.entity_nbr, Type(NEUTRAL));
     r.emplace_comp(r.entity_nbr, DoDmg(30));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
@@ -107,7 +107,7 @@ static int randomYPos()
 void Game::CreateBomb(Register &r, Positions &&pos, float time, float reset)
 {
     r.creatEntity();
-    r.emplace_comp(r.entity_nbr, MoveToPlayer(1));
+    r.emplace_comp(r.entity_nbr, MoveToPlayer(2));
     r.emplace_comp(r.entity_nbr, std::move(pos));
     r.emplace_comp(r.entity_nbr, Drawable(6, Rectangle{185, 140, 15, 15}, std::vector<float>{1, 1}));
     r.emplace_comp(r.entity_nbr, MoveToPlayerTime(time, reset));
@@ -125,12 +125,12 @@ void Game::CreateAsteroid(Register &r)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Positions(0, 0));
-    r.emplace_comp(r.entity_nbr, Move(Positions(-3, 0)));
+    r.emplace_comp(r.entity_nbr, Move(Positions(-2, 0)));
     r.emplace_comp(r.entity_nbr, Positions(1700, randomYPos()));
     r.emplace_comp(r.entity_nbr, Drawable(0, Rectangle{0, 0, 17, 18}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.entity_nbr, Velocity({1, 1, 1, 1}));
-    r.emplace_comp(r.entity_nbr, Hitable(25, 25, Positions(0, -1)));
+    r.emplace_comp(r.entity_nbr, Hitable(35, 35, Positions(0, -1)));
     r.emplace_comp(r.entity_nbr, Enemy(100, 10));
     r.emplace_comp(r.entity_nbr, Life(30));
     r.emplace_comp(r.entity_nbr, DoDmg(10));
@@ -144,18 +144,18 @@ void Game::CreateShipShoot(Register &r, Positions && pos)
     r.emplace_comp(r.entity_nbr, Drawable(1, Rectangle{229, 100, 20, 20}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.entity_nbr, pos);
     r.emplace_comp(r.entity_nbr, Move(Positions(10, 0)));
-    r.emplace_comp(r.entity_nbr, Hitable(15, 15));
+    r.emplace_comp(r.entity_nbr, Hitable(40, 40));
     r.emplace_comp(r.entity_nbr, Life(1));
     r.emplace_comp(r.entity_nbr, DoDmg(10));
     r.emplace_comp(r.entity_nbr, Type(SHIPSHOOT));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, SHIPSHOOT, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 }
 
-void Game::CreatText(Register &r, Positions &&pos, std::string text, sf::Font &font)
+void Game::CreatText(Register &r, Positions &&pos, std::string text)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, pos);
-    r.emplace_comp(r.entity_nbr, Text(text, font, 30, sf::Color::Black));
+    //r.emplace_comp(r.entity_nbr, Text(text, font, 30, sf::Color::Black));
 }
 
 void Game::CreateMiniBoss1(Register &r, Positions &&pos)
@@ -167,7 +167,7 @@ void Game::CreateMiniBoss1(Register &r, Positions &&pos)
     //r.emplace_comp(r.entity_nbr, Short_Animation(3, 144, 0.7));
     r.emplace_comp(r.entity_nbr, DoDmg(20));
     r.emplace_comp(r.entity_nbr, Life(2000));
-    r.emplace_comp(r.entity_nbr, Hitable(22, 32, Positions(0, 110)));
+    r.emplace_comp(r.entity_nbr, Hitable(44, 64, Positions(0, 220)));
     r.emplace_comp(r.entity_nbr, Type(MINIBOSS));
     r.emplace_comp(r.entity_nbr, Invincible());
     r.emplace_comp(r.entity_nbr, InvincibleTime(0, 5));

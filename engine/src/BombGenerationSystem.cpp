@@ -7,11 +7,11 @@
 
 #include "BombGenerationSystem.hpp"
 
-static void generatBomb(BombGeneration &bomb, sf::Time &time, Register &r)
+static void generatBomb(BombGeneration &bomb, float time, Register &r)
 {
-    if (time.asSeconds() - bomb.getTime() < bomb.getReset())
+    if (time - bomb.getTime() < bomb.getReset())
         return;
-    Game::CreateBomb(r, std::move(bomb.getPos()), time.asSeconds(), bomb.getTrac());
+    Game::CreateBomb(r, std::move(bomb.getPos()), time, bomb.getTrac());
 }
 
 void BombGenerationSystem::system(Register &r, float time)

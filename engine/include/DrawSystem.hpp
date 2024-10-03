@@ -9,7 +9,6 @@
 
 #include "Register.hpp"
 #include "Components.hpp"
-#include <SFML/Graphics.hpp>
 
 class DrawSystem {
     public:

@@ -43,8 +43,8 @@ void Controllable::Tir(Register &r, Positions &pos, int left)
 
 void Controllable::moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, int key)
 {
-    if (key != sf::Keyboard::Up && key != sf::Keyboard::Down && key != sf::Keyboard::Right && key != sf::Keyboard::Left)
+    if (key != KeyboardKey::KEY_DOWN && key != KeyboardKey::KEY_UP && key != KeyboardKey::KEY_LEFT && key != KeyboardKey::KEY_RIGHT)
         return;
     if (stat.has_value() && draw.has_value() && draw.value().getRect().has_value())
-        draw.value().getRect().value().width = stat.value().status(ASSOCIATIVE_KEYS.at(key));
+        draw.value().getRect().value().x = stat.value().status(ASSOCIATIVE_KEYS.at(key));
 };
