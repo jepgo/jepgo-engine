@@ -21,6 +21,10 @@ class DeathSystem {
                 //r.removeComponent<Explosion>(entity);
                 r.removeComponent<Controllable>(entity);
                 r.removeComponent<Hitable>(entity);
+                if (type[entity].value().getType() == CONTRO) {
+                    r.creatEntity();
+                    r.emplace_comp(r.entity_nbr, Message("You are dead...", Positions(200, 200), 50, RED));
+                }
             }
         };
         /**
