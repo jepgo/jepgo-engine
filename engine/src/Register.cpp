@@ -56,6 +56,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(DrawKm)), SparseArray<DrawKm>()});
     regist.insert({std::type_index(typeid(DrawPoints)), SparseArray<DrawPoints>()});
     regist.insert({std::type_index(typeid(DrawLvl)), SparseArray<DrawLvl>()});
+    regist.insert({std::type_index(typeid(Message)), SparseArray<Message>()});
 }
 
 Register::~Register()
@@ -108,6 +109,7 @@ void Register::creatEntity()
     std::any_cast<SparseArray<DrawKm>&>(regist[std::type_index(typeid(DrawKm))]).add();
     std::any_cast<SparseArray<DrawPoints>&>(regist[std::type_index(typeid(DrawPoints))]).add();
     std::any_cast<SparseArray<DrawLvl>&>(regist[std::type_index(typeid(DrawLvl))]).add();
+    std::any_cast<SparseArray<Message>&>(regist[std::type_index(typeid(Message))]).add();
     for (auto const &cb : _rules) {
         cb(regist);
     }
