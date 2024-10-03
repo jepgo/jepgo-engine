@@ -56,8 +56,11 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.emplace_comp(r.entity_nbr, Type(CONTRO));
     r.emplace_comp(r.entity_nbr, Exp(0));
     r.emplace_comp(r.entity_nbr, Points());
+    r.emplace_comp(r.entity_nbr, DrawPoints(Positions(10, 500), 20, GREEN));
     r.emplace_comp(r.entity_nbr, Lvl(1));
+    r.emplace_comp(r.entity_nbr, DrawLvl(Positions(10, 540), 15, RED));
     r.emplace_comp(r.entity_nbr, DistanceKm());
+    r.emplace_comp(r.entity_nbr, DrawKm(Positions(650, 20), 30, GREEN));
     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 }
 

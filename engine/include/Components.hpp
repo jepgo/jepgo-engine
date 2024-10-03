@@ -45,6 +45,7 @@ class Points {
         std::size_t _point;
 };
 
+
 class Lvl {
     public:
         Lvl(std::size_t lvl) : _lvl(lvl) {};
@@ -111,6 +112,7 @@ class SoundLoop {
         // sf::Sound _sound;
 };
 
+
 class Positions {
 public:
     /**
@@ -144,6 +146,33 @@ public:
 
 private:
     Positions _pos;
+};
+
+class DrawKm {
+    public:
+        DrawKm(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
+        ~DrawKm() {};
+        Positions _pos;
+        std::size_t _size;
+        Color _color;
+};
+
+class DrawPoints {
+    public:
+        DrawPoints(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
+        ~DrawPoints() {};
+        Positions _pos;
+        std::size_t _size;
+        Color _color;
+};
+
+class DrawLvl {
+    public:
+        DrawLvl(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
+        ~DrawLvl() {};
+        Positions _pos;
+        std::size_t _size;
+        Color _color;
 };
 
 class LoopMove {
