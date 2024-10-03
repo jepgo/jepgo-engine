@@ -17,16 +17,50 @@ int main(void)
     
     InitWindow(screenWidth, screenHeight, "rtype");
     InitAudioDevice();
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-
-    Menu::Menu m(screenWidth, screenHeight);
-
-    SetTargetFPS(200);
-    while (!WindowShouldClose())
-    {
-        screenWidth = GetScreenWidth();
-        screenHeight = GetScreenHeight();
-        m.updateSize(screenWidth, screenHeight);
+    Register r;
+    Game::CreateBackGround(r);
+    Game::CreatePlanet(r);
+    Game::CreatPlayer(r, height, width);
+    playerEntity = r.currentEntity;
+    float startTime = GetTime();
+    Game player = Game();
+    AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
+    TestGame game = TestGame(1);
+    GameSystem SystemGame = GameSystem(0.1);
+    MoveSystem moveSys = MoveSystem(0.01);
+    HitSystem hitSys = HitSystem();
+    DrawSystem drawSys = DrawSystem();
+    MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
+    AnimationSpriteSystem animSys = AnimationSpriteSystem();
+    std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
+    std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
+    //Sound sound = LoadSound("sprites/level1.ogg");
+    r.creatEntity();
+    r.emplace_comp(r.currentEntity, SoundLoop(1));
+    while (!WindowShouldClose()) {
+        float time = GetTime() - startTime;
+        keySystem(r, time, sounds);
+        hitSys.system(r);
+        AttachModuleSystem::system(r);
+        SystemGame.system(r, time, playerEntity);
+        LoopMoveSystem::system(r, height, width);
+        MoveToPlayerTimeSystem::system(r, time);
+        movetoplayer.system(r, time);
+        moveSys.system(r, time);
+        Animation2TimeSystem::system(r, time);
+        animSys.system(r, time);
+        ShortAnimationSystem::system(r, time);
+        InvinsibleSystem::system(r, time);
+        addDmgSystem.system(r, time);
+        ModuleSystem::system(r);
+        DmgSystem::system(r, time);
+        ExplosionSystem::system(r);
+        DeathSystem::system(r, playerEntity);
+        DestoyersSystem::system(r, height, width);
+        SoundLoopSystem::system(r, sounds, time);
+        BombGenerationTimeSystem::system(r, time);
+        BombGenerationSystem::system(r, time);
+        game.Stages(r, time, playerEntity, sounds);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         m.drawMenu();
