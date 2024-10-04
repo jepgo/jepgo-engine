@@ -10,7 +10,7 @@
 
 class RebornSystem {
     public:
-        static void system(Register &r, std::size_t playerEntity) {
+        static void system(Register &r, std::size_t playerEntity, float time) {
             auto &reborn = r.getComp<Reborn>();
             auto &contro = r.getComp<Controllable>();
             auto &mess = r.getComp<Message>();
@@ -29,6 +29,8 @@ class RebornSystem {
                     r.emplace_comp(playerEntity, Life(30));
                     r.emplace_comp(playerEntity, Type(CONTRO));
                     r.emplace_comp(playerEntity, Shoot(0.5, RIGHT, 20, 2));
+                    r.emplace_comp(playerEntity, Invincible());
+                    r.emplace_comp(playerEntity, InvincibleTime(time, 2));
                     r.emplace_comp(r.entity_nbr, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
                     for (std::size_t a = 0; a < mess.size(); a++) {
                         if (mess[a].has_value())
