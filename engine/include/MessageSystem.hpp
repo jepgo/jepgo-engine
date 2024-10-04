@@ -15,9 +15,6 @@ class MessageSystem {
 
             for (std::size_t i = 0; i < mess.size(); i++) {
                 if (mess[i].has_value()) {
-                    int x = int(mess[i].value()._pos.x);
-                    int y = int(mess[i].value()._pos.y);
-
                     DrawText(mess[i].value()._mess.c_str(), (int)mess[i].value()._pos.x, (int)mess[i].value()._pos.y, mess[i].value()._size, mess[i].value()._color);
                 }
             }
