@@ -203,6 +203,15 @@ class Reborn {
         std::size_t _live;
 };
 
+class GameLvl {
+    public:
+        GameLvl(std::size_t lvl) : _lvl(lvl) {};
+        ~GameLvl() {};
+        std::size_t &GetLvl() {return _lvl;};
+    private:
+        std::size_t _lvl;
+};
+
 class LoopMove {
     public:
         LoopMove(Positions &&pos) : _pos(pos) {};

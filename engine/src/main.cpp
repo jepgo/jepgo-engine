@@ -203,7 +203,8 @@ int main()
         BombGenerationTimeSystem::system(r, time);
         BombGenerationSystem::system(r, time);
         game.Stages(r, time, playerEntity, sounds);
-        RebornSystem::system(r, playerEntity);
+        RebornSystem::system(r, playerEntity, time);
+        
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);
