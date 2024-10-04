@@ -9,6 +9,7 @@
 #include <iostream>
 #include "DrawKmSystem.hpp"
 #include "DrawLvlSystem.hpp"
+#include "DetachModulesSystem.hpp"
 #include "MessageSystem.hpp"
 #include "DrawRebornSystem.hpp"
 #include "DrawPointsSystem.hpp"
@@ -78,7 +79,7 @@ static Vector2 getDirectionVector(void)
  * @param r The Registry
  * @param key The keyboard key who's pressed
  */
-int keySystem(Register &r, float time, std::vector<Sound> &sounds)
+int keySystem(Register &r, float time, std::vector<Sound> &sounds, int key)
 {
     auto &control = r.getComp<Controllable>();
     auto &vel = r.getComp<Velocity>();
@@ -90,7 +91,6 @@ int keySystem(Register &r, float time, std::vector<Sound> &sounds)
     for (std::size_t i = 0; i < control.size(); i++) {
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
-        auto key = GetKeyPressed();
         if (key == KeyboardKey::KEY_A && shoot[i].has_value() && shoot[i].value().verif(time)) {
             PlaySound(sounds[shoot[i].value()._ind]);
             shoot[i].value().shoot(r, pos[i].value());
@@ -154,6 +154,7 @@ std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
 
 int main()
 {
+    int key;
     int playerEntity = 0;
     std::size_t height = 800;
     std::size_t width = 600;
@@ -164,6 +165,7 @@ int main()
     Game::CreatePlanet(r);
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
+    Game::CreateArmorModule(r, Positions(300, 300));
     float startTime = GetTime();
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
@@ -180,9 +182,11 @@ int main()
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
     while (!WindowShouldClose()) {
+        key = GetKeyPressed();
         float time = GetTime() - startTime;
-        keySystem(r, time, sounds);
+        keySystem(r, time, sounds, key);
         hitSys.system(r);
+        DetachModulesSystem::system(r, time, key);
         AttachModuleSystem::system(r);
         SystemGame.system(r, time, playerEntity);
         LoopMoveSystem::system(r, height, width);

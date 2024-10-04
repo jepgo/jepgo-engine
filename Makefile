@@ -43,6 +43,7 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/BombGenerationTimeSystem.cpp	\
 		engine/src/BombGenerationSystem.cpp	\
 		engine/src/Raylib.cpp	\
+		engine/src/DetachModulesSystem.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)

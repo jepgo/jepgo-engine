@@ -32,13 +32,13 @@ class AddDmgSystem {
                 return false;
             if (type[me].value().getType() == MINIBOSS && type[him].value().getType() != BOMB)
                 return true;
-            if (type[me].value().getType() == CONTRO && type[him].value().getType() != SHIPSHOOT && type[him].value().getType() != MODULE) {
+            if (type[me].value().getType() == CONTRO && type[him].value().getType() != SHIPSHOOT && type[him].value().getType() != MODULE && type[him].value().getType() != MODULE_ARM) {
                 return true;
             }
             if (type[me].value().getType() == BOMB && type[him].value().getType() != BOMB && type[him].value().getType() != MINIBOSS) {
                 return true;
             }
-            if (type[me].value().getType() == SHIPSHOOT && type[him].value().getType() != CONTRO && type[him].value().getType() != MODULE)    
+            if (type[me].value().getType() == SHIPSHOOT && type[him].value().getType() != CONTRO && type[him].value().getType() != MODULE && type[him].value().getType() != MODULE_ARM)    
                 return true;
             if (type[me].value().getType() == MODULE && type[him].value().getType() != CONTRO && type[him].value().getType() != SHIPSHOOT)
                 return true;
