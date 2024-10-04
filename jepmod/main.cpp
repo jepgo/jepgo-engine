@@ -4,10 +4,10 @@
 
 int main(void)
 {
-    // jmod::DLLoader loader("./caca.so");
-    // auto foo = loader.getFunc<int>("foo");
+    jmod::DLLoader loader("./caca.so");
+    auto foo = loader.getFunc<int, int, int>("foo");
 
-    // std::cout << foo() << std::endl;
+    std::cout << foo(2, 3) << std::endl;
 
     jmod::Jepmodule m("basic");
     return 0;

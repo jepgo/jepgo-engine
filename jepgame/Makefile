@@ -8,20 +8,24 @@
 AR ?= ar
 ARFLAGS ?= rcv
 
-NAME = jepmod
+NAME = jepgame
 ROOT = ..
 LIB = $(ROOT)/lib$(NAME).a
 
-CFLAGS += -Wall -Wextra -Wpedantic
-CXXFLAGS += -std=c++23
-CPPFLAGS += -iquote./
+CFLAGS += -Wall -Wextra -Wpedantic -std=c++17
+CPPFLAGS += -iquote./ -iquote$(ROOT)
+LDFLAGS += -lsfml-graphics
 
-SRC = DLLoader.cpp Jepmodule.cpp
+SRC = service/UDP.cpp \
+	service/Builder.cpp \
+	service/Connections.cpp \
+	gamemaker/hardcoded.cpp \
+	gamemaker/Client.cpp \
 
 OBJS = $(SRC:.cpp=.o)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(CXX) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 lib: $(LIB)
 
