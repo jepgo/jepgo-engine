@@ -33,7 +33,7 @@ public:
             if (moduleArm[i].has_value() && hit[i].has_value() && control[hit[i].value().GetEntity()].has_value()) {
                 r.emplace_comp(i, moduleArm[i].value().attach(hit[i].value().GetEntity()));
                 r.emplace_comp(i, moduleArm[i].value().getLife());
-                r.emplace_comp(i, Type(MODULE));
+                r.emplace_comp(i, Type(MODULE_ARM));
                 r.removeComponent<ModuleArmor>(i);
                 r.removeComponent<Hit>(i);
                 r.removeComponent<Move>(i);

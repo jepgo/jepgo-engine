@@ -548,6 +548,7 @@ enum TYPE {
     CONTRO,
     COLISION,
     MODULE,
+    MODULE_ARM,
     MINIBOSS,
     NEUTRAL,
 };
