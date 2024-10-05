@@ -8,22 +8,32 @@
 #include "engine/engine.hpp"
 #include "hardcoded.hpp"
 
-void jgame::hardcodedSystems(jgame::Client &client)
+/// FIXME: hardcoded
+void jgame::hardcodedSystems(EitherRef<Client, Server> something)
 {
-    AttachModuleSystem::system(client.ecs);
-    LoopMoveSystem::system(client.ecs,
-        client.window.heigth, client.window.width);
-    MoveToPlayerTimeSystem::system(client.ecs, client.getTime());
-    Animation2TimeSystem::system(client.ecs, client.getTime());
-    ShortAnimationSystem::system(client.ecs, client.getTime());
-    InvinsibleSystem::system(client.ecs, client.getTime());
-    ModuleSystem::system(client.ecs);
-    DmgSystem::system(client.ecs, client.getTime());
-    ExplosionSystem::system(client.ecs);
-    // DeathSystem::system(client.ecs, playerEntity);
-    DestoyersSystem::system(client.ecs,
-        client.window.heigth, client.window.width);
-    // SoundLoopSystem::system(client.ecs, sounds, client.getTime());
-    BombGenerationTimeSystem::system(client.ecs, client.getTime());
-    BombGenerationSystem::system(client.ecs, client.getTime());
+    std::visit([](auto &&arg) {
+        using T = std::decay_t<decltype(arg)>;
+        auto &base = arg.get();
+
+        AttachModuleSystem::system(base.ecs);
+        if constexpr (std::is_same_v<T, std::reference_wrapper<Client>>) {
+            LoopMoveSystem::system(base.ecs,
+                base.window.heigth, base.window.width);
+            DestoyersSystem::system(base.ecs,
+                base.window.heigth, base.window.width);
+            base.systems.draw.system(base.ecs, base.textures);
+
+        }
+        MoveToPlayerTimeSystem::system(base.ecs, base.getTime());
+        Animation2TimeSystem::system(base.ecs, base.getTime());
+        ShortAnimationSystem::system(base.ecs, base.getTime());
+        InvinsibleSystem::system(base.ecs, base.getTime());
+        ModuleSystem::system(base.ecs);
+        DmgSystem::system(base.ecs, base.getTime());
+        ExplosionSystem::system(base.ecs);
+        BombGenerationTimeSystem::system(base.ecs, base.getTime());
+        BombGenerationSystem::system(base.ecs, base.getTime());
+        // DeathSystem::system(base.ecs, playerEntity);
+        // SoundLoopSystem::system(base.ecs, sounds, base.getTime());
+    }, something);
 }

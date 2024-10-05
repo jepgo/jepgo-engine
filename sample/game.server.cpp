@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
     while (true) {
         server.updateTime();
         onUpdate(server);
-        // jgame::hardcodedSystems(server);
+        jgame::hardcodedSystems(server);
         for (auto &yap : server.getYapers()) {
             auto [msg, _] = yap.get().getMessage();
             onClientMessage(server, msg);

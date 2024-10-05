@@ -16,7 +16,7 @@
 #include "include/SparseArray.hpp"
 #include "include/Trajectory.hpp"
 
-// for hardcoded.hpp
+/// FIXME: hardcoded
 #include "include/BombGenerationSystem.hpp"
 #include "include/BombGenerationTimeSystem.hpp"
 #include "include/SoundLoopSystem.hpp"
@@ -31,3 +31,7 @@
 #include "include/ExplosionSystem.hpp"
 #include "include/DeathSystem.hpp"
 #include "include/DestroyerSystem.hpp"
+#include "include/AddDmgSystem.hpp"
+#include "include/TestGame.hpp"
+#include "include/GameSystem.hpp"
+#include "include/MoveToPlayerSystem.hpp"

@@ -14,19 +14,26 @@ extern "C" void onStart(jgame::Client &client)
     client.connect("localhost", 1234);
     client.sendToServer("hello server");
 
-    // ...
+    /// FIXME: hardcoded
+    Game::CreateBackGround(client.ecs);
+    Game::CreatePlanet(client.ecs);
+    Game::CreatPlayer(client.ecs, client.window.width, client.window.heigth);
 }
 
 extern "C" void onServerMessage(jgame::Client &client, std::string const &msg)
 {
     std::cout << "i received a message: " << msg << std::endl;
-
-    // ...
 }
 
 extern "C" void onUpdate(jgame::Client &client)
 {
-    // ...
+    std::string buf = "pos ";
+    Vector2 pos = client.getDirection();
+
+    buf += std::to_string(pos.x);
+    buf += " ";
+    buf += std::to_string(pos.y);
+    client.sendToServer(buf);
 }
 
 // this part will be hiden later
@@ -40,6 +47,15 @@ int main(int argc, char const *argv[])
     InitWindow(client.window.width, client.window.heigth,
         client.window.name.c_str());
     InitAudioDevice();
+    client.getAllTextures({
+        "sprites/r-typesheet3.gif",
+        "sprites/r-typesheet1.gif",
+        "sprites/r-typesheet2.gif",
+        "sprites/parallax-space-backgound.png",
+        "sprites/parallax-space-big-planet.png",
+        "sprites/r-typesheet32.gif",
+        "sprites/r-typesheet14.gif"
+    });
     while (not WindowShouldClose()) {
         client.updateTime();
         onUpdate(client);

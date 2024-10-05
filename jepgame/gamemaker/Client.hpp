@@ -10,6 +10,7 @@
 #include <string>
 #include <optional>
 
+#include "engine/engine.hpp"
 #include "jepgame/service/UDPBase.hpp"
 
 namespace jgame {
@@ -36,6 +37,42 @@ namespace jgame {
                 std::string name = "Can you consider giving me a name ?";
             } window;
 
+            /// FIXME: hardcoded
+            struct AllSystems {
+                AllSystems(void)
+                : addDmg(.1), test(1), game(.1), move(.01), moveTo(.3) {
+                    return;
+                }
+                AllSystems(double a, double b, double c, double d, double e)
+                : addDmg(a), test(b), game(c), move(d), moveTo(e) {
+                    return;
+                }
+                Game player;
+                AddDmgSystem addDmg;
+                TestGame test;
+                GameSystem game;
+                MoveSystem move;
+                HitSystem hit;
+                DrawSystem draw;
+                MoveToPlayerSystem moveTo;
+                AnimationSpriteSystem anim;
+            } systems;
+
+            /// FIXME: hardcoded
+            std::vector<Texture2D> textures;
+            void getAllTextures(std::vector<std::string> list) {
+                textures.reserve(list.size());
+                for (std::size_t i = 0; i < list.size(); i++) {
+                    std::cout << list[i].c_str() << std::endl;
+                    Texture2D tmp = LoadTexture(list[i].c_str());
+                    std::cout << "bar" << std::endl;
+                    //tmp.loadFromFile(list[i].c_str());
+                    textures.push_back(std::move(tmp));
+                }
+            }
+
+        private:
+            /// FIXME: hardcoded
     };
 }
 

@@ -8,6 +8,7 @@
 #ifndef ENUMS_HPP_
     #define ENUMS_HPP_
 
+    #include "jepgame/toolbox/Either.hpp"
     #include <variant>
 
 namespace jgo::enums {
@@ -18,7 +19,7 @@ namespace jgo::enums {
         EntityCheck = 1,
         Apply,
     };
-    using FromAny = std::variant<enums::FromClient, enums::FromServer>;
+    using FromAny = Either<enums::FromClient, enums::FromServer>;
 }
 
 #endif /* !ENUMS_HPP_ */
