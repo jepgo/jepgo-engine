@@ -60,6 +60,7 @@ Register::Register()
     regist.insert({std::type_index(typeid(Reborn)), SparseArray<Reborn>()});
     regist.insert({std::type_index(typeid(DrawReborn)), SparseArray<DrawReborn>()});
     regist.insert({std::type_index(typeid(GameLvl)), SparseArray<GameLvl>()});
+    regist.insert({std::type_index(typeid(MoveTo)), SparseArray<MoveTo>()});
 }
 
 Register::~Register()
@@ -116,6 +117,7 @@ void Register::creatEntity()
     std::any_cast<SparseArray<Reborn>&>(regist[std::type_index(typeid(Reborn))]).add();
     std::any_cast<SparseArray<DrawReborn>&>(regist[std::type_index(typeid(DrawReborn))]).add();
     std::any_cast<SparseArray<GameLvl>&>(regist[std::type_index(typeid(GameLvl))]).add();
+    std::any_cast<SparseArray<MoveTo>&>(regist[std::type_index(typeid(MoveTo))]).add();
     for (auto const &cb : _rules) {
         cb(regist);
     }

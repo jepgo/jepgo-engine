@@ -44,6 +44,8 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/BombGenerationSystem.cpp	\
 		engine/src/Raylib.cpp	\
 		engine/src/DetachModulesSystem.cpp	\
+		engine/src/MoveToSystem.cpp	\
+		engine/src/MoveTo.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)

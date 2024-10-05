@@ -11,6 +11,7 @@
 #include "DrawLvlSystem.hpp"
 #include "DetachModulesSystem.hpp"
 #include "MessageSystem.hpp"
+#include "MoveToSystem.hpp"
 #include "DrawRebornSystem.hpp"
 #include "DrawPointsSystem.hpp"
 #include "MoveToPlayerSystem.hpp"
@@ -170,6 +171,7 @@ int main()
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
     TestGame game = TestGame(1);
+    MoveToSystem SystemMoveTo = MoveToSystem(0, 0.1);
     GameSystem SystemGame = GameSystem(0.1);
     MoveSystem moveSys = MoveSystem(0.01);
     HitSystem hitSys = HitSystem();
@@ -191,6 +193,7 @@ int main()
         SystemGame.system(r, time, playerEntity);
         LoopMoveSystem::system(r, height, width);
         MoveToPlayerTimeSystem::system(r, time);
+        SystemMoveTo.system(r, time);
         movetoplayer.system(r, time);
         moveSys.system(r, time);
         Animation2TimeSystem::system(r, time);

@@ -14,6 +14,7 @@
 #include <vector>
 #include <functional>
 #include "Text.hpp"
+#include "MoveTo.hpp"
 #include "SparseArray.hpp"
 #include "Enemy.hpp"
 #include "Components.hpp"
