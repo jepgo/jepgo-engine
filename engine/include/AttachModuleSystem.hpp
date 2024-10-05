@@ -37,6 +37,7 @@ public:
                 r.removeComponent<ModuleArmor>(i);
                 r.removeComponent<Hit>(i);
                 r.removeComponent<Move>(i);
+                r.removeComponent<AutoShoot>(i);
             }
         }
     };

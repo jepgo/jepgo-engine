@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 #include <any>
+#include "AutoShoot.hpp"
 #include <typeindex>
 #include <vector>
 #include <functional>
