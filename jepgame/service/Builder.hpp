@@ -46,7 +46,7 @@ namespace jgo {
                     _vec.push_back(_caster.u8[n]);
                 return *this;
             }
-            auto toString(void) -> std::string;
+            auto toString(void) const -> std::string;
             auto reset(enums::FromAny op) -> void;
             inline auto display() -> void {
                 std::cout << "data: " << std::hex;

@@ -20,3 +20,7 @@ namespace asio::ip {
     using cppBuffer = std::array<char, maxBufferSize>;
 }
 
+namespace jgo {
+    using Reply = std::tuple<std::string, udp::endpoint>;
+}
+

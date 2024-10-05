@@ -86,6 +86,7 @@ static std::vector<std::string> parser
         /// TODO: do the rest because im lazy
 
     }
+    return {};
 }
 
 Jepmodule::Jepmodule(std::string const &path)

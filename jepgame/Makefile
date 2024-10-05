@@ -21,6 +21,7 @@ SRC = service/UDP.cpp \
 	service/Connections.cpp \
 	gamemaker/hardcoded.cpp \
 	gamemaker/Client.cpp \
+	gamemaker/Server.cpp \
 
 OBJS = $(SRC:.cpp=.o)
 

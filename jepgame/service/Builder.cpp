@@ -26,7 +26,7 @@ auto jgo::Builder::reset(enums::FromAny op) -> void
     _vec.push_back(opNum);
 }
 
-auto jgo::Builder::toString(void) -> std::string
+auto jgo::Builder::toString(void) const -> std::string
 {
     return std::string(_vec.begin(), _vec.end());
 }

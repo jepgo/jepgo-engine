@@ -38,7 +38,7 @@ namespace jgo {
                 return _end;
             }
 
-            auto getMessage(void) -> std::tuple<std::string, udp::endpoint>;
+            auto getMessage(void) -> jgo::Reply;
             static std::string makeIP(asio::ip::address const &addr, asio::ip::port port);
 
         private:

@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Connections.hpp"
+#include "UDP.hpp"
 
 // signel connection
 
@@ -22,7 +23,7 @@ std::string jgo::Connection::makeIP(asio::ip::address const &a, asio::ip::port p
     return a.to_string() + ":" + std::to_string(static_cast<unsigned int>(p));
 }
 
-auto jgo::Connection::getMessage(void) -> std::tuple<std::string, udp::endpoint>
+auto jgo::Connection::getMessage(void) -> jgo::Reply
 {
     std::string e = _queue.front();
 

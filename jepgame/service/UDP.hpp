@@ -13,8 +13,6 @@
 #include "Connections.hpp"
 
 namespace jgo {
-    using Reply = std::tuple<std::string, udp::endpoint>;
-
     class UDP {
         public:
             UDP(asio::ip::port port, asio::io_service &service);

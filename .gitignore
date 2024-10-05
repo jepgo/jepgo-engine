@@ -11,6 +11,7 @@ r-type_server
 
 # Trashy Folders
 .vscode/
+build/
 
 # Unused Folders
 UDP

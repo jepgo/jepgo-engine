@@ -13,6 +13,7 @@
 #include "jepgame/service/Asio.hpp"
 #include "jepgame/service/UDP.hpp"
 #include "engine/engine.hpp"
+#include "jepgame/service/Builder.hpp"
 
 namespace jgame {
     class Client {
@@ -35,6 +36,15 @@ namespace jgame {
             }
             inline auto updateTime(void) -> void {
                 _time.current = GetTime() - _time.start;
+            }
+            inline auto sendToServer(std::string const &str) -> void {
+                _udp->sendToAll(str);
+            }
+            inline auto sentToServer(jgo::Builder const &builder) -> void {
+                _udp->sendToAll(builder.toString());
+            }
+            inline auto getYapers() -> std::vector<jgo::ConnectionRef> {
+                return _udp->getYapers();
             }
             auto connect(std::string ip, asio::ip::port port) -> void;
             auto getDirection(void) const -> Vector2;
