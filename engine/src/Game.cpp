@@ -163,11 +163,11 @@ void Game::CreatText(Register &r, Positions &&pos, std::string text)
     //r.emplace_comp(r.entity_nbr, Text(text, font, 30, sf::Color::Black));
 }
 
-void Game::CreateMessageTime(Register &r, Positions &&pos, std::string text, float time)
+void Game::CreateMessageTime(Register &r, Positions &&pos, std::string text, float time, float reset)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Message(text, std::move(pos), 20, RED));
-    r.emplace_comp(r.entity_nbr, MessageTime(time, 5));
+    r.emplace_comp(r.entity_nbr, MessageTime(time, reset));
 }
 
 void Game::CreateMiniBoss1(Register &r, Positions &&pos)
