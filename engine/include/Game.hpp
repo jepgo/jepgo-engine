@@ -24,7 +24,7 @@ class Game {
         static void CreatPlayer(Register &r, int height, int width);
         static void CreateBoostModule(Register &r, std::size_t PlayerEntity);
         static void CreatText(Register &r, Positions &&, std::string text);
-        static void CreateMessageTime(Register &r, Positions &&, std::string text, float time);
+        static void CreateMessageTime(Register &r, Positions &&, std::string text, float time, float reset);
         std::size_t &getExp() {return _exp;};
         std::size_t &getPoint() {return _point;};
         std::size_t &getLvl() {return _lvl;};
