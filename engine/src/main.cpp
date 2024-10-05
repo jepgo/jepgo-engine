@@ -104,10 +104,6 @@ int keySystem(Register &r, float time, std::vector<Sound> &sounds, int key)
         if (stat[i].has_value() and draw[i].has_value())
             control[i].value().moveStatus(stat[i], draw[i], key);
         vel[i].value().setVel(getDirectionVector());
-        // if (keyUp)
-        //     control[i].value().onKeyUp(key, vel[i].value());
-        // else
-        //     control[i].value().onKeyDown(key, vel[i].value());
         r.emplace_comp(i, Move(vel[i].value().getVel()));
     }
     return -1;
@@ -182,7 +178,7 @@ int main()
     DrawSystem drawSys = DrawSystem();
     MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
-    std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav"});
+    std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav", "sprites/explose.wav"});
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
 
     r.creatEntity();
@@ -208,7 +204,7 @@ int main()
         addDmgSystem.system(r, time);
         ModuleSystem::system(r);
         DmgSystem::system(r, time);
-        ExplosionSystem::system(r);
+        ExplosionSystem::system(r, sounds, 3);
         DeathSystem::system(r, playerEntity);
         DestoyersSystem::system(r, height, width);
         SoundLoopSystem::system(r, sounds, time);
