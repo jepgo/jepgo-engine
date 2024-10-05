@@ -10,6 +10,7 @@
 #include "DrawKmSystem.hpp"
 #include "DrawLvlSystem.hpp"
 #include "DetachModulesSystem.hpp"
+#include "MessageTimeSystem.hpp"
 #include "MessageSystem.hpp"
 #include "MoveToSystem.hpp"
 #include "DrawRebornSystem.hpp"
@@ -166,7 +167,7 @@ int main()
     Game::CreatePlanet(r);
     Game::CreatPlayer(r, height, width);
     playerEntity = r.currentEntity;
-    Game::CreateArmorModule(r, Positions(300, 300));
+    Game::CreateMessageTime(r, Positions(300, 300), "Farm as you can !", 0);
     float startTime = GetTime();
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
@@ -211,7 +212,7 @@ int main()
         BombGenerationSystem::system(r, time);
         game.Stages(r, time, playerEntity, sounds);
         RebornSystem::system(r, playerEntity, time, key);
-        
+        MessageTimeSystem::system(r, time);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);

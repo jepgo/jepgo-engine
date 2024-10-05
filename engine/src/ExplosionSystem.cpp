@@ -14,6 +14,8 @@ void ExplosionSystem::system(Register &r)
 
     for (std::size_t i = 0; i < death.size(); i++) {
         if (death[i].has_value() && explosion[i].has_value()) {
+            if (i == 2)
+                std::cout << "player explosion" << std::endl;
             explosion[i].value().explose(r, i);
         }
     }

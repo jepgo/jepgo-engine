@@ -81,7 +81,7 @@ void Game::CreateShootModule(Register &r, Positions &&pos)
     r.creatEntity();
     r.emplace_comp(r.currentEntity, std::move(pos));
     r.emplace_comp(r.currentEntity, Drawable(2, Rectangle{208, 32, 20, 20}, std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.currentEntity, Move(Positions(-1, 0)));
+    r.emplace_comp(r.currentEntity, Move(Positions(1, 0)));
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.currentEntity, Hitable(20, 20));
     r.emplace_comp(r.currentEntity, ModuleShoot({{LEFT, 0}, {UP, 60}, {RIGHT, 0}, {DOWN, 0}}, 0.25));
@@ -92,11 +92,11 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
 {
     r.creatEntity();
     r.emplace_comp(r.currentEntity, std::move(pos));
-    r.emplace_comp(r.currentEntity, Move(Positions(-1, 0)));
+    r.emplace_comp(r.currentEntity, Move(Positions(1, 0)));
     r.emplace_comp(r.currentEntity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.currentEntity, Sprite_Animation(4, 32, 0.2));
     r.emplace_comp(r.currentEntity, Hitable(64, 64));
-    r.emplace_comp(r.currentEntity, ModuleArmor({{LEFT, 100}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
+    r.emplace_comp(r.currentEntity, ModuleArmor({{LEFT, 120}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
     r.emplace_comp(r.currentEntity, Type(NEUTRAL));
     r.emplace_comp(r.currentEntity, DoDmg(30));
     r.emplace_comp(r.currentEntity, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
@@ -163,11 +163,18 @@ void Game::CreatText(Register &r, Positions &&pos, std::string text)
     //r.emplace_comp(r.currentEntity, Text(text, font, 30, sf::Color::Black));
 }
 
+void Game::CreateMessageTime(Register &r, Positions &&pos, std::string text, float time)
+{
+    r.creatEntity();
+    r.emplace_comp(r.currentEntity, Message(text, std::move(pos), 20, RED));
+    r.emplace_comp(r.currentEntity, MessageTime(time, 5));
+}
+
 void Game::CreateMiniBoss1(Register &r, Positions &&pos)
 {
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Drawable(5, Rectangle{432, 0, 144, 250}, std::vector<float>{1, 1}));
-    r.emplace_comp(r.currentEntity, Positions(pos.x + 100, pos.y));
+    r.emplace_comp(r.currentEntity, Positions(pos.x + 150, pos.y));
     r.emplace_comp(r.currentEntity, Animation2Time(Short_Animation(3, -144, 0.7), Short_Animation(3, 144, 0.7), std::vector<float>{2.1, 2.1}, 10));
     //r.emplace_comp(r.currentEntity, Short_Animation(3, 144, 0.7));
     r.emplace_comp(r.currentEntity, MoveTo(std::move(pos), 1));
