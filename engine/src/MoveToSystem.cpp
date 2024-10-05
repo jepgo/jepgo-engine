@@ -49,7 +49,6 @@ void MoveToSystem::system(Register &r, float time)
 
     if (time - _time < _reset)
         return;
-
     for (std::size_t i = 0; i < move.size(); i++) {
         if (move[i].has_value() && pos[i].has_value()) {
             tmp = getTheMove(pos[i].value(), move[i].value().getPosition());

@@ -167,9 +167,10 @@ void Game::CreateMiniBoss1(Register &r, Positions &&pos)
 {
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, Drawable(5, Rectangle{432, 0, 144, 250}, std::vector<float>{1, 1}));
-    r.emplace_comp(r.entity_nbr, pos);
+    r.emplace_comp(r.entity_nbr, Positions(pos.x + 100, pos.y));
     r.emplace_comp(r.entity_nbr, Animation2Time(Short_Animation(3, -144, 0.7), Short_Animation(3, 144, 0.7), std::vector<float>{2.1, 2.1}, 10));
     //r.emplace_comp(r.entity_nbr, Short_Animation(3, 144, 0.7));
+    r.emplace_comp(r.entity_nbr, MoveTo(std::move(pos), 1));
     r.emplace_comp(r.entity_nbr, DoDmg(20));
     r.emplace_comp(r.entity_nbr, Life(2000));
     r.emplace_comp(r.entity_nbr, Hitable(44, 64, Positions(0, 220)));
