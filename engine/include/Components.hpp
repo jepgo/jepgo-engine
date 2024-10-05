@@ -127,6 +127,12 @@ public:
     {
         return Positions(this->x + pos.x, this->y + pos.y);
     }
+    bool operator==(Positions const &pos) const
+    {
+        if (this->x == pos.x && this->y == pos.y)
+            return true;
+        return false;
+    }
     float x;
     float y;
 };

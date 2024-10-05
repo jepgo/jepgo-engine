@@ -12,6 +12,7 @@
 #include <any>
 #include <typeindex>
 #include "Text.hpp"
+#include "MoveTo.hpp"
 #include "SparseArray.hpp"
 #include "Enemy.hpp"
 #include "Components.hpp"

@@ -10,11 +10,12 @@
 static void SetModuleArm(Register &r, std::size_t entity)
 {
     auto &pos = r.getComp<Positions>();
-    pos[entity].value().x += 30;
+    pos[entity].value().x += 10;
     r.removeComponent<Module>(entity);
     r.removeComponent<Life>(entity);
     r.removeComponent<Type>(entity);
     r.removeComponent<Move>(entity);
+    r.emplace_comp(entity, MoveTo(Positions(pos[entity].value().x + 100, pos[entity].value().y), 2));
     r.emplace_comp(entity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(entity, Sprite_Animation(4, 32, 0.2));
     r.emplace_comp(entity, Hitable(64, 64));
@@ -29,11 +30,8 @@ void DetachModulesSystem::system(Register &r, float time, int key)
     auto &type = r.getComp<Type>();
 
     for (std::size_t i = 0; i < type.size(); i++) {
-        // if (type[i].has_value() && type[i].value().getType() == MODULE_ARM)
-        //     std::cout << "yep yep" << std::endl;
         if (type[i].has_value() && type[i].value().getType() == MODULE_ARM && key == KeyboardKey::KEY_SPACE) {
-            std::cout << "i detach" << std::endl;
-               SetModuleArm(r, i);
+            SetModuleArm(r, i);
         }
     }
 }
