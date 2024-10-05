@@ -46,6 +46,7 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/DetachModulesSystem.cpp	\
 		engine/src/MoveToSystem.cpp	\
 		engine/src/MoveTo.cpp	\
+		engine/src/DeathSystem.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)
