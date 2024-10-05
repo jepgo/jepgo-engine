@@ -13,6 +13,7 @@
 #include "MessageTimeSystem.hpp"
 #include "MessageSystem.hpp"
 #include "MoveToSystem.hpp"
+#include "AutoShootSystem.hpp"
 #include "DrawRebornSystem.hpp"
 #include "DrawPointsSystem.hpp"
 #include "MoveToPlayerSystem.hpp"
@@ -167,7 +168,7 @@ int main()
     Game::CreatePlanet(r);
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
-    Game::CreateMessageTime(r, Positions(300, 300), "Farm as you can !", 0);
+    Game::CreateMessageTime(r, Positions(300, 100), "Farm as you can !", 0);
     //Game::CreateArmorModule(r, Positions(300, 300));
     float startTime = GetTime();
     Game player = Game();
@@ -195,6 +196,7 @@ int main()
         SystemGame.system(r, time, playerEntity);
         LoopMoveSystem::system(r, height, width);
         MoveToPlayerTimeSystem::system(r, time);
+        AutoShootSystem::system(r, time);
         SystemMoveTo.system(r, time);
         movetoplayer.system(r, time);
         moveSys.system(r, time);

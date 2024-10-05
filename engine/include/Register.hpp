@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 #include <any>
+#include "AutoShoot.hpp"
 #include <typeindex>
 #include "Text.hpp"
 #include "MoveTo.hpp"
