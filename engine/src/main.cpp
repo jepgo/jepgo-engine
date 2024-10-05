@@ -95,6 +95,7 @@ int keySystem(Register &r, float time, std::vector<Sound> &sounds, int key)
         if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
             continue;
         if (key == KeyboardKey::KEY_A && shoot[i].has_value() && shoot[i].value().verif(time)) {
+            SetSoundVolume(sounds[shoot[i].value()._ind], 0.1);
             PlaySound(sounds[shoot[i].value()._ind]);
             shoot[i].value().shoot(r, pos[i].value());
             shoot[i].value()._time =  time;
@@ -169,7 +170,7 @@ int main()
     Game::CreatPlayer(r, height, width);
     playerEntity = r.currentEntity;
     Game::CreateMessageTime(r, Positions(300, 100), "Farm as you can !", 0, 5);
-    //Game::CreateArmorModule(r, Positions(300, 300));
+    Game::CreateArmorModule(r, Positions(300, 300));
     float startTime = GetTime();
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(0.1);

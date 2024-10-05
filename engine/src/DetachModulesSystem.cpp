@@ -27,9 +27,10 @@ static void SetModuleArm(Register &r, std::size_t entity, float time)
 void DetachModulesSystem::system(Register &r, float time, int key)
 {
     auto &type = r.getComp<Type>();
+    auto &mod = r.getComp<ModuleArmor>();
 
     for (std::size_t i = 0; i < type.size(); i++) {
-        if (type[i].has_value() && type[i].value().getType() == MODULE_ARM && key == KeyboardKey::KEY_SPACE) {
+        if (type[i].has_value() && type[i].value().getType() == MODULE_ARM && mod[i].has_value() == false && key == KeyboardKey::KEY_SPACE) {
             SetModuleArm(r, i, time);
         }
     }

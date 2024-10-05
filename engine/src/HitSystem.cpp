@@ -51,7 +51,6 @@ void HitSystem::system(Register &r)
     auto &hit = r.getComp<Hitable>();
     auto &pos = r.getComp<Positions>();
     auto &h = r.getComp<Hit>();
-    auto &type = r.getComp<Type>();
     std::map<std::size_t, Hitable *> list;
 
     for (std::size_t i = 0; i < hit.size(); i++) {
