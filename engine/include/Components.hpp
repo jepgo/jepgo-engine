@@ -204,6 +204,17 @@ class Message {
         Color _color;
 };
 
+class MessageTime {
+    public:
+        MessageTime(float time, float reset) : _time(time), _reset(reset) {};
+        ~MessageTime() {};
+        float &getTime() {return _time;};
+        float &getReset() {return _reset;};
+    private:
+        float _time;
+        float _reset;
+};
+
 class Reborn {
     public:
         Reborn(std::size_t live) : _live(live) {};
