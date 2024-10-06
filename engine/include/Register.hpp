@@ -57,7 +57,7 @@ public:
     //     }
     // };
 
-    int entity_nbr = -1;
+    int currentEntity = -1;
 private:
     std::map<std::type_index, std::any> regist;
 };

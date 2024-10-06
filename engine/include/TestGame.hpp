@@ -24,7 +24,7 @@ class TestGame {
          * 
          * @param r The Registry
          * @param time The current time
-         * @param entity_nbr The total of entity nbr
+         * @param currentEntity The total of entity nbr
          * @param textures The list of all the Texture
          */
         void Stages(Register &r, float time, std::size_t, std::vector<Sound> &sounds);
