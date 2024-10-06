@@ -30,6 +30,10 @@ namespace jgame {
             }
             auto host(asio::ip::port port) -> void;
 
+            struct {
+                std::size_t frequency = 0;
+            } settings;
+
             Register ecs;
             std::vector<std::string> const argv;
     };

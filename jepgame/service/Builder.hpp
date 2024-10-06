@@ -17,9 +17,13 @@
 
 namespace jgo {
     using u8 = std::uint8_t;
+    using s8 = std::int8_t;
     using u16 = std::uint16_t;
+    using s16 = std::int16_t;
     using u32 = std::uint32_t;
+    using s32 = std::int32_t;
     using u64 = std::uint64_t;
+    using s64 = std::int64_t;
 
     class Builder {
         public:
@@ -65,10 +69,14 @@ namespace jgo {
 
                 buf.fill(_vec.data());
                 e = Y(*buf);
+                std::cout << "===" << std::endl;
+                std::cout << _vec.size() << std::endl;
+                std::cout << sizeof(X) << std::endl;
                 _vec.erase(
                     _vec.begin(),
-                    _vec.begin() + std::min(std::size_t(4), _vec.size())
+                    _vec.begin() + std::min(sizeof(X), _vec.size())
                 );
+                std::cout << _vec.size() << std::endl;
                 return *this;
             }
             inline auto popFront(std::size_t n) -> Builder & {

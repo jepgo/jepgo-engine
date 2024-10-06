@@ -29,13 +29,10 @@ extern "C" void onUpdate(jgame::Client &client)
 {
     Vector2 vec = client.getDirection();
 
-    // check if user is pressing the arrows
-    if (vec.x != 0.0 or vec.y != 0.0) {
-        std::cout << vec.x << ", " << vec.y << std::endl;
-        client.sendToServer(jgo::Builder(jgo::enums::FromClient::Arrows)
-            << jgo::u8(int(vec.x)) << jgo::u8(int(vec.y))
-        );
-    }
+    // send the arrows positions
+    client.sendToServer(jgo::Builder(jgo::enums::FromClient::Arrows)
+        << jgo::u8(int(vec.x)) << jgo::u8(int(vec.y))
+    );
 }
 
 // this part will be hiden later
