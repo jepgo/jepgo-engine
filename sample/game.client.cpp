@@ -12,7 +12,7 @@
 extern "C" void onStart(jgame::Client &client)
 {
     client.connect("localhost", 1234);
-    client.sendToServer("hello server");
+    client.sendToServer(jgo::Builder(jgo::enums::FromClient::Connect));
 
     /// FIXME: hardcoded
     Game::CreateBackGround(client.ecs);
@@ -27,13 +27,15 @@ extern "C" void onServerMessage(jgame::Client &client, std::string const &msg)
 
 extern "C" void onUpdate(jgame::Client &client)
 {
-    std::string buf = "pos ";
-    Vector2 pos = client.getDirection();
+    Vector2 vec = client.getDirection();
 
-    buf += std::to_string(pos.x);
-    buf += " ";
-    buf += std::to_string(pos.y);
-    client.sendToServer(buf);
+    // check if user is pressing the arrows
+    if (vec.x != 0.0 or vec.y != 0.0) {
+        std::cout << vec.x << ", " << vec.y << std::endl;
+        client.sendToServer(jgo::Builder(jgo::enums::FromClient::Arrows)
+            << jgo::u8(int(vec.x)) << jgo::u8(int(vec.y))
+        );
+    }
 }
 
 // this part will be hiden later

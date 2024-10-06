@@ -25,7 +25,7 @@ namespace jgame {
             inline auto sendToServer(std::string const &str) -> void {
                 _udp->send(str);
             }
-            inline auto sentToServer(jgo::Builder const &builder) -> void {
+            inline auto sendToServer(jgo::Builder const &builder) -> void {
                 _udp->send(builder.toString());
             }
             auto connect(std::string ip, asio::ip::port port) -> void;

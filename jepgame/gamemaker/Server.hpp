@@ -25,7 +25,7 @@ namespace jgame {
             inline auto sendToAll(std::string const &str) -> void {
                 _udp->sendToAll(str);
             }
-            inline auto sentToAll(jgo::Builder const &builder) -> void {
+            inline auto sendToAll(jgo::Builder const &builder) -> void {
                 _udp->sendToAll(builder.toString());
             }
             auto host(asio::ip::port port) -> void;

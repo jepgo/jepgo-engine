@@ -12,56 +12,84 @@
 #include <vector>
 #include <iostream>
 
+#include "jepgame/toolbox/CBuf.hpp"
 #include "OpCodes.hpp"
 
 namespace jgo {
+    using u8 = std::uint8_t;
+    using u16 = std::uint16_t;
+    using u32 = std::uint32_t;
+    using u64 = std::uint64_t;
+
     class Builder {
         public:
             Builder(enums::FromAny op);
-            inline Builder &operator<<(uint64_t u) {
-                _caster.u64 = u;
-                for (std::uint8_t e : _caster.u8)
+            Builder(jgo::u8 op);
+            inline Builder &operator<<(u64 u) {
+                _caster.int64 = u;
+                for (u8 e : _caster.int8)
                     _vec.push_back(e);
                 return *this;
             }
-            inline Builder &operator<<(uint32_t u) {
-                _caster.u32[0] = u;
-                for (std::size_t n = 0; n < sizeof(std::uint32_t); ++n)
-                    _vec.push_back(_caster.u8[n]);
+            inline Builder &operator<<(u32 u) {
+                _caster.int32[0] = u;
+                for (std::size_t n = 0; n < sizeof(u32); ++n)
+                    _vec.push_back(_caster.int8[n]);
                 return *this;
             }
-            inline Builder &operator<<(uint16_t u) {
-                _caster.u16[0] = u;
-                for (std::size_t n = 0; n < sizeof(std::uint16_t); ++n)
-                    _vec.push_back(_caster.u8[n]);
+            inline Builder &operator<<(u16 u) {
+                _caster.int16[0] = u;
+                for (std::size_t n = 0; n < sizeof(u16); ++n)
+                    _vec.push_back(_caster.int8[n]);
                 return *this;
             }
-            inline Builder &operator<<(uint8_t u) {
+            inline Builder &operator<<(u8 u) {
                 _vec.push_back(u);
                 return *this;
             }
             inline Builder &operator<<(float f) {
                 _caster.f32 = f;
                 for (std::size_t n = 0; n < sizeof(float); ++n)
-                    _vec.push_back(_caster.u8[n]);
+                    _vec.push_back(_caster.int8[n]);
                 return *this;
             }
-            auto toString(void) const -> std::string;
-            auto reset(enums::FromAny op) -> void;
             inline auto display() -> void {
                 std::cout << "data: " << std::hex;
                 for (auto const &b : _vec)
                     std::cout << int(b) << " ";
                 std::cout << std::dec << std::endl;
             }
+            template <typename X, typename Y>
+            inline auto restore(Y &e) -> Builder & {
+                CBuffer<X> buf;
+
+                buf.fill(_vec.data());
+                e = Y(*buf);
+                _vec.erase(
+                    _vec.begin(),
+                    _vec.begin() + std::min(std::size_t(4), _vec.size())
+                );
+                return *this;
+            }
+            inline auto popFront(std::size_t n) -> Builder & {
+                _vec.erase(
+                    _vec.begin(),
+                    _vec.begin() + std::min(n, _vec.size())
+                );
+                return *this;
+            }
+            static auto fromString(std::string const &s) -> Builder;
+            auto toString(void) const -> std::string;
+            auto reset(enums::FromAny op) -> void;
+            auto reset(jgo::u8 op) -> void;
         private:
-            std::vector<std::uint8_t> _vec;
+            std::vector<jgo::u8> _vec;
             union {
                 float f32;
-                std::uint8_t u8[8];
-                std::uint16_t u16[4];
-                std::uint32_t u32[2];
-                std::uint64_t u64;
+                u8 int8[8];
+                u16 int16[4];
+                u32 int32[2];
+                u64 int64;
             } _caster;
     };
 }

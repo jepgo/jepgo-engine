@@ -14,6 +14,7 @@
 namespace jgo::enums {
     enum FromClient {
         Connect = 1,
+        Arrows,
     };
     enum FromServer {
         EntityCheck = 1,

@@ -6,22 +6,40 @@
 */
 
 #include <iostream>
+
 #include "jepgame/gamemaker/Server.hpp"
 #include "jepgame/gamemaker/hardcoded.hpp"
 
 extern "C" void onStart(jgame::Server &server)
 {
     server.host(1234);
-
-    // ...
 }
 
-extern "C" void onClientMessage(jgame::Server &server, std::string const &msg)
+extern "C" void onClientMessage
+(jgame::Server &server, std::string const &msg, jgo::Connection &client)
 {
-    std::cout << "i received a message: " << msg << std::endl;
-    if (msg == "hello server")
-        server.sendToAll("a new client connected !");
+    jgo::Builder builder = jgo::Builder::fromString(msg);
 
+    builder.popFront(1);
+    switch (jgo::enums::FromClient(msg[0])) {
+
+        case jgo::enums::Connect:
+            /// FIXME: hardcoded
+            Game::CreatPlayer(server.ecs, 600, 800);
+            server.sendToAll("a new client connected !");
+            break;
+
+        case jgo::enums::Arrows:
+            int nums[2];
+
+            builder.restore<jgo::u8>(nums[0])
+                .restore<jgo::u8>(nums[1]);
+            std::cout << nums[0] << ", " << nums[1] << std::endl;
+            break;
+
+        default:
+            return;
+    }
     // ...
 }
 
@@ -43,8 +61,8 @@ int main(int argc, char const *argv[])
         onUpdate(server);
         jgame::hardcodedSystems(server);
         for (auto &yap : server.getYapers()) {
-            auto [msg, _] = yap.get().getMessage();
-            onClientMessage(server, msg);
+            auto [msg, who] = yap.get().getMessage();
+            onClientMessage(server, msg, yap.get());
         }
     }
     server.sendToAll("im dying");
