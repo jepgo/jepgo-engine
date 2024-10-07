@@ -45,8 +45,6 @@ class AddDmgSystem {
             return false;     
         };
         void system(Register &r, float time){
-            // if (time - _time < _reset)
-            //     return;
             auto &hit = r.getComp<Hit>();
             auto &dmg = r.getComp<Dmg>();
             auto &doDmg = r.getComp<DoDmg>();
