@@ -3,6 +3,13 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.14) # pi
 # general
 
 SET(CMAKE_CXX_STANDARD 23)
+set(ENGINE_SRC_DIR engine/src)
+set(CLIENT_DIR games/rtype/client)
+set(SERVER_SRC_DIR games/rtype/server)
+set(JEPGAME_SRC_DIR jepgame/)
+set(JEPMOD_SRC_DIR jepmod/)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
 
 # packages
 
@@ -25,11 +32,6 @@ CPMAddPackage(
     GIT_TAG 3.7.7.1
 )
 
-CPMAddPackage(
-    NAME raylib
-    GIT_REPOSITORY https://github.com/raysan5/raylib
-    GIT_TAG 5.0
-)
 
 # libjepengine.a
 
