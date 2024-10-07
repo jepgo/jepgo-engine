@@ -153,14 +153,24 @@ std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
     return texture;
 }
 
+void deletAll(std::vector<Sound> sounds, std::vector<Texture2D> texture)
+{
+    for (auto &s : sounds) {
+        UnloadSound(s);
+    }
+
+    for (auto &t : texture) {
+        UnloadTexture(t);
+    }
+}
+
 void MainGame::mainGame()
 {
     int key;
     int playerEntity = 0;
     std::size_t height = 800;
     std::size_t width = 600;
-    InitWindow(height, width, "R-TYPE");
-    InitAudioDevice();
+    //InitWindow(height, width, "R-TYPE")
     Register r;
     Game::CreateBackGround(r);
     Game::CreatePlanet(r);
@@ -186,6 +196,10 @@ void MainGame::mainGame()
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
     while (!WindowShouldClose()) {
         key = GetKeyPressed();
+        if (key == KeyboardKey::KEY_P) {
+            deletAll(sounds, texture);
+            return;
+        }
         float time = GetTime() - startTime;
         keySystem(r, time, sounds, key);
         hitSys.system(r);
