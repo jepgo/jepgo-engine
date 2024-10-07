@@ -16,6 +16,7 @@ set(CLIENT_SRC_DIR sample)
 set(SERVER_SRC_DIR sample)
 set(JEPGAME_SRC_DIR jepgame/)
 set(JEPMOD_SRC_DIR jepmod/)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
 
 ### PACKAGE MANAGER #####################################
@@ -23,9 +24,9 @@ set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
 include(cmake/CPM.cmake)
 
 CPMAddPackage(
-    NAME SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML
-    GIT_TAG 2.6.1
+    NAME raylib
+    GIT_REPOSITORY https://github.com/raysan5/raylib
+    GIT_TAG 5.0
 )
 CPMAddPackage(
     NAME asio
