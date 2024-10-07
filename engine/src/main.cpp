@@ -166,7 +166,7 @@ int main()
     Game::CreatPlayer(r, height, width);
     playerEntity = r.entity_nbr;
     Game::CreateMessageTime(r, Positions(300, 100), "Farm as you can !", 0, 5);
-    Game::CreateArmorModule(r, Positions(300, 300));
+    //Game::CreateArmorModule(r, Positions(300, 300));
     float startTime = GetTime();
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(0.1);

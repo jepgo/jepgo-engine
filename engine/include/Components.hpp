@@ -681,7 +681,7 @@ public:
     int width;
     int height;
     std::optional<Positions> _pos;
-
+    Direction _dir;
 private:
 };
 
