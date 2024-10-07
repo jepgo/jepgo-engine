@@ -48,6 +48,11 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/MoveTo.cpp	\
 		engine/src/DeathSystem.cpp	\
 		engine/src/AutoShootSystem.cpp	\
+		engine/src/Menu.cpp	\
+		engine/src/AnimLine.cpp	\
+		engine/src/LogIcon.cpp	\
+		engine/src/Button.cpp	\
+		engine/src/MainGame.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)
