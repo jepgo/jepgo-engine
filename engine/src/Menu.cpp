@@ -46,8 +46,10 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight) :
 
 Menu::Menu::~Menu()
 {
-    UnloadFont(_font);
-    UnloadTexture(_bckgrnd);
+    //std::cout << "oki" << std::endl;
+    //UnloadFont(_font);
+    //std::cout << "oki" << std::endl;
+    //UnloadTexture(_bckgrnd);
 }
 
 void Menu::Menu::updateSize(const size_t screenWidth, const size_t screenHeight)
