@@ -44,6 +44,7 @@ int main(void)
 {
     size_t screenWidth = 800, screenHeight = 600;
     
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "rtype");
     InitAudioDevice();
     Register r;

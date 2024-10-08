@@ -8,6 +8,7 @@
 #include <iostream>
 #include "MainGame.hpp"
 #include "Menu.hpp"
+#include "RaylibPlus.hpp"
 
 Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight) :
     _screenWidth(screenWidth),
@@ -46,10 +47,6 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight) :
 
 Menu::Menu::~Menu()
 {
-    //std::cout << "oki" << std::endl;
-    //UnloadFont(_font);
-    //std::cout << "oki" << std::endl;
-    //UnloadTexture(_bckgrnd);
 }
 
 void Menu::Menu::updateSize(const size_t screenWidth, const size_t screenHeight)
@@ -106,7 +103,7 @@ void Menu::Menu::_drawEnterMenu()
 
 void Menu::Menu::drawMenu()
 {
-    DrawTexture(_bckgrnd, _screenWidth / 2 - _bckgrnd.width / 2, _screenHeight / 2 - _bckgrnd.height / 2, WHITE);
+    RaylibPlus::DrawImage(_bckgrnd, 0, 0, _screenWidth, _screenHeight);
 
     for (auto &line : _lines) {
         line.draw();
