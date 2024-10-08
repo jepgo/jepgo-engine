@@ -20,7 +20,7 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight) :
     _transitionOpacity(std::make_tuple(true, 0)),
     _CTransition(100),
     _playerName(""),
-    _logIcon(screenWidth - 400, 25, 400, 50, "Login / Register", _font)
+    _logIcon(_screenWidth - 400, 25, 400, 50, _screenWidth, _screenHeight, "Login / Register", _font)
 {
     _bckgrnd = LoadTexture("sprites/background-menu.png");
     _font = LoadFont("sprites/eurocine-regular.ttf");
@@ -79,6 +79,7 @@ void Menu::Menu::_drawInMenu()
         }
     }
 
+    _logIcon.updateSize(_screenWidth, _screenHeight);
     _logIcon.drawIcon();
 }
 
