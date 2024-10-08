@@ -170,7 +170,8 @@ void MainGame::mainGame()
     int playerEntity = 0;
     std::size_t height = 800;
     std::size_t width = 600;
-    //InitWindow(height, width, "R-TYPE")
+    //InitWindow(height, width, "R-TYPE");
+    
     Register r;
     Game::CreateBackGround(r);
     Game::CreatePlanet(r);
@@ -221,12 +222,12 @@ void MainGame::mainGame()
         DmgSystem::system(r, time);
         ExplosionSystem::system(r, sounds, 3);
         DeathSystem::system(r, playerEntity);
+        RebornSystem::system(r, playerEntity, time, key);
         DestoyersSystem::system(r, height, width);
         SoundLoopSystem::system(r, sounds, time);
         BombGenerationTimeSystem::system(r, time);
         BombGenerationSystem::system(r, time);
         game.Stages(r, time, playerEntity, sounds);
-        RebornSystem::system(r, playerEntity, time, key);
         MessageTimeSystem::system(r, time);
         BeginDrawing();
         ClearBackground(RAYWHITE);
