@@ -10,12 +10,26 @@
 #include <iostream>
 #include <string>
 
-class Error : public std::exception
-{
-    public:
-        Error(const std::string &msg) : _msg(msg){};
-        ~Error();
-        const char *what() const noexcept override;
-    private:
-        std::string _msg;
-};
+namespace caca::zizi {
+    class Error : public std::exception
+    {
+        public:
+            Error(const std::string &msg) : _msg(msg){};
+            ~Error();
+            const char *what() const noexcept override;
+        private:
+            std::string _msg;
+    };
+} // namespace caca::zizi
+
+namespace foo::bar {
+    class Error : public std::exception
+    {
+        public:
+            Error(const std::string &msg) : _msg(msg){};
+            ~Error();
+            const char *what() const noexcept override;
+        private:
+            std::string _msg;
+    };
+} // namespace caca::zizi
