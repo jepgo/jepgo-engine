@@ -38,11 +38,16 @@ auto UDP::listen(void) -> void
 void UDP::_handleReceive(void)
 {
     asio::ip::cppBuffer buf;
-    std::size_t size = this->_socket.receive_from(
-        asio::buffer(buf),
-        _endpoint
-    );
+    std::size_t size;
 
+    try {
+        size = this->_socket.receive_from(
+            asio::buffer(buf),
+            _endpoint
+        );
+    } catch(std::exception const &e) {
+        return;
+    }
     _mutex.lock();
     _pool.feed(_endpoint, buf, size);
     _mutex.unlock();

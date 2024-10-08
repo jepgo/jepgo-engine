@@ -63,20 +63,19 @@ namespace jgo {
                     std::cout << int(b) << " ";
                 std::cout << std::dec << std::endl;
             }
+            inline auto empty(void) const noexcept -> bool {
+                return _vec.empty();
+            }
             template <typename X, typename Y>
             inline auto restore(Y &e) -> Builder & {
                 CBuffer<X> buf;
 
                 buf.fill(_vec.data());
                 e = Y(*buf);
-                std::cout << "===" << std::endl;
-                std::cout << _vec.size() << std::endl;
-                std::cout << sizeof(X) << std::endl;
                 _vec.erase(
                     _vec.begin(),
                     _vec.begin() + std::min(sizeof(X), _vec.size())
                 );
-                std::cout << _vec.size() << std::endl;
                 return *this;
             }
             inline auto popFront(std::size_t n) -> Builder & {
@@ -88,6 +87,7 @@ namespace jgo {
             }
             static auto fromString(std::string const &s) -> Builder;
             auto toString(void) const -> std::string;
+            auto toBytes(void) const -> std::vector<jgo::u8>;
             auto reset(enums::FromAny op) -> void;
             auto reset(jgo::u8 op) -> void;
         private:

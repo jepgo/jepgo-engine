@@ -11,6 +11,7 @@
 
 #include "jepgame/gamemaker/Server.hpp"
 #include "jepgame/gamemaker/hardcoded.hpp"
+#include "jepgame/service/Components.hpp"
 
 extern "C" void onStart(jgame::Server &server)
 {
@@ -30,6 +31,7 @@ static void updatePosition
         return;
     
     // set the velocity and move
+    // std::cout << "set move to " << id << std::endl;
     vel[id].value().setVel(dir);
     server.ecs.emplace_comp(id, Move(vel[id].value().getVel()));
 }
@@ -39,14 +41,12 @@ extern "C" void onClientMessage
 {
     jgo::Builder builder = jgo::Builder::fromString(msg);
 
-    // builder.popFront(1);
     switch (jgo::enums::FromClient(msg[0])) {
 
         case jgo::enums::Connect:
             /// FIXME: hardcoded
-            Game::CreatPlayer(server.ecs, 600, 800);
+            Game::CreatPlayer(server.ecs, 800, 600);
             client.storage["id"] = server.ecs.currentEntity;
-            server.sendToAll("a new client connected !");
             break;
 
         case jgo::enums::Arrows:
@@ -54,7 +54,7 @@ extern "C" void onClientMessage
 
             builder.restore<jgo::s8>(direction.x)
                 .restore<jgo::s8>(direction.y);
-            std::cout << direction.x << ", " << direction.y << std::endl;
+            // std::cout << direction.x << ", " << direction.y << std::endl;
             updatePosition(server, direction,
                 std::any_cast<int>(client.storage["id"]));
             break;
@@ -65,9 +65,46 @@ extern "C" void onClientMessage
     // ...
 }
 
+template <typename T>
+static jgo::Builder generateTypeToSend
+(jgame::Server &server, jgo::enums::Components c)
+{
+    jgo::Builder build(jgo::enums::FromServer::Apply);
+    auto &elements = server.ecs.getComp<T>();
+    CBuffer<T> buf;
+
+    build << static_cast<jgo::u8>(c);
+    for (std::size_t n = 0; n < elements.size(); ++n) {
+        if (not elements[n]) {
+            build << static_cast<jgo::u8>(-1);
+            continue;
+        }
+        build << static_cast<jgo::u8>(0);
+        buf.fill(&elements[n].value());
+        for (jgo::u8 byte : buf.toBytes()) {
+            build << byte;
+        }
+    }
+    return build;
+}
+
 extern "C" void onUpdate(jgame::Server &server)
 {
-    // ...
+    /// FIXME: hardcoded
+    jgo::Builder build = generateTypeToSend<Positions>(
+        server,
+        jgo::enums::Components::Position
+    );
+
+    if (float(ClockPP()) - server.getTime() < .01)
+        return;
+    server.updateTime();
+    std::cout << std::hex;
+    for (jgo::u8 b : build.toBytes())
+        std::cout << int(b) << " ";
+    std::cout << std::dec << std::endl;
+
+    server.sendToAll(build);
 }
 
 // this part will be hiden later
@@ -79,7 +116,7 @@ int main(int argc, char const *argv[])
     if (not server.compile())
         return 84;
     while (true) {
-        server.updateTime();
+        // server.updateTime();
         std::this_thread::sleep_for(
             std::chrono::milliseconds(server.settings.frequency)
         );

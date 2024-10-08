@@ -21,7 +21,7 @@ class CBuffer {
             return;
         }
 
-        inline CBuffer(void): _ptr(new T[1]), _size(sizeof(T)) {
+        inline CBuffer(void): _ptr(new T), _size(sizeof(T)) {
             return;
         }
 
@@ -54,6 +54,12 @@ class CBuffer {
 
         inline auto size(void) const -> std::size_t {
             return _size;
+        }
+
+        inline auto toBytes(void) const -> std::vector<std::uint8_t> {
+            std::uint8_t *bytes = reinterpret_cast<std::uint8_t *>(_ptr);
+
+            return std::vector<std::uint8_t>(bytes, bytes + _size);
         }
 
     protected:

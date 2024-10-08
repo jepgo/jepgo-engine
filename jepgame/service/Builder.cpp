@@ -43,6 +43,11 @@ auto jgo::Builder::toString(void) const -> std::string
     return std::string(_vec.begin(), _vec.end());
 }
 
+auto jgo::Builder::toBytes(void) const -> std::vector<jgo::u8>
+{
+    return _vec;
+}
+
 auto jgo::Builder::fromString(std::string const &s) -> jgo::Builder
 {
     if (s.empty())

@@ -10,6 +10,7 @@
 #include <vector>
 #include <optional>
 #include <string>
+#include <ctime>
 
 #include "Builder.hpp"
 #include "Asio.hpp"
@@ -32,27 +33,25 @@ namespace jgo {
                 _udp->listen();
                 return true;
             }
-            inline auto getTime(void) const -> float {
+            auto getTime(void) const -> float {
                 return _time.current;
-            }
-            inline auto updateTime(void) -> void {
-                _time.current = GetTime() - _time.start;
             }
             inline auto getYapers() -> std::vector<jgo::ConnectionRef> {
                 return _udp->getYapers();
             }
+            virtual auto updateTime(void) -> void = 0;
             Register ecs;
             std::vector<std::string> const argv;
 
         protected:
             asio::io_service _service;
             std::optional<jgo::UDP> _udp;
-
-        private:
             struct {
                 float start = 0.f;
                 float current = 0.f;
             } _time;
+
+        private:
     };
 }
 

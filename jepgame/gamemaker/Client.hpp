@@ -28,6 +28,10 @@ namespace jgame {
             inline auto sendToServer(jgo::Builder const &builder) -> void {
                 _udp->send(builder.toString());
             }
+            inline void updateTime(void) override {
+                _time.current = GetTime() - _time.start;
+            }
+            
             auto connect(std::string ip, asio::ip::port port) -> void;
             auto getDirection(void) const -> Vector2;
 
