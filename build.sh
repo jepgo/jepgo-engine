@@ -81,6 +81,7 @@ echo -e "\e[33mCopying files.\e[0m"
 unameOut="$(uname -o)"
 if [[ $unameOut == "Msys" ]]; then
 <<<<<<< HEAD
+<<<<<<< HEAD
     cp Debug/r-type* ../
     cp Debug/libjep* ../
 elif [[ $unameOut == "GNU/Linux" ]]; then
@@ -91,6 +92,13 @@ elif [[ $unameOut == "GNU/Linux" ]]; then
 elif [[ $unameOut == "GNU/Linux" ]]; then
     cp r-type ../
 >>>>>>> d883100 (feat(build): Cross platform compilation via bash script)
+=======
+    cp Debug/r-type* ../
+    cp Debug/libjep* ../
+elif [[ $unameOut == "GNU/Linux" ]]; then
+    cp r-type* ../
+    cp libjep* ../
+>>>>>>> 7cc4013 (feat(build): update CMake with engine and client/server)
 fi
 if [[ $? -ne 0 ]]; then
     echo -e "\e[31mFailed to copy files.\e[0m"

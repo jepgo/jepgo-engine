@@ -146,12 +146,6 @@ TARGET_LINK_LIBRARIES(client PRIVATE
     sfml-system
     raylib
 )
-    
-if(MSVC)
-  target_compile_options(r-type PRIVATE /W4)
-else()
-  target_compile_options(r-type PRIVATE -Wall -Wextra -Wpedantic)
-endif()
 
 # game.server
 
