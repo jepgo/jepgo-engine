@@ -5,13 +5,14 @@
 *.so
 
 # Binary
-R-TYPE
+r-type
 r-type_client
 r-type_server
 
-# Trashy Folders
+# Trashh
 .vscode/
 build
+.Zone.Identifier
 
 # Unused Folders
 UDP
