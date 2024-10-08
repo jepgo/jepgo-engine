@@ -53,6 +53,7 @@ SRC =	engine/src/Register.cpp	\
 		engine/src/LogIcon.cpp	\
 		engine/src/Button.cpp	\
 		engine/src/MainGame.cpp	\
+		engine/src/RaylibPlus.cpp
 
 
 OBJS += $(SRC:.cpp=.o)

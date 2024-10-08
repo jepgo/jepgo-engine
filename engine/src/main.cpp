@@ -15,9 +15,9 @@ int main(void)
 {
     size_t screenWidth = 800, screenHeight = 600;
     
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "rtype");
     InitAudioDevice();
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
     Menu::Menu m(screenWidth, screenHeight);
 
