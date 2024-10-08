@@ -58,8 +58,11 @@ public:
     //         std::any_cast<SparseArray<tmp>&>(regist[std::type_index(typeid(Component))]);
     //     }
     // };
+    inline auto getComponents(void) -> std::map<std::type_index, std::any> & {
+        return regist;
+    }
 
-    int entity_nbr = -1;
+    int currentEntity = -1;
 private:
     std::map<std::type_index, std::any> regist;
 };

@@ -176,7 +176,7 @@ void MainGame::mainGame()
     Game::CreateBackGround(r);
     Game::CreatePlanet(r);
     Game::CreatPlayer(r, height, width);
-    playerEntity = r.entity_nbr;
+    playerEntity = r.currentEntity;
     Game::CreateMessageTime(r, Positions(300, 100), "Farm as you can !", 0, 5);
     //Game::CreateArmorModule(r, Positions(300, 300));
     float startTime = GetTime();
@@ -194,7 +194,7 @@ void MainGame::mainGame()
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
 
     r.creatEntity();
-    r.emplace_comp(r.entity_nbr, SoundLoop(1));
+    r.emplace_comp(r.currentEntity, SoundLoop(1));
     while (!WindowShouldClose()) {
         key = GetKeyPressed();
         if (key == KeyboardKey::KEY_P) {

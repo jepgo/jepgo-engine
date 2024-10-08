@@ -121,7 +121,7 @@ public:
      * @param x Position x of the object
      * @param y Position y of the Object
      */
-    Positions(float x, float y) : x(x), y(y) {}
+    Positions(float x = 0, float y = 0) : x(x), y(y) {}
     ~Positions() {};
     Positions operator+(Positions const &pos) const
     {

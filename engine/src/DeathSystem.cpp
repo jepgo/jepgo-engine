@@ -15,7 +15,7 @@ void DeathSystem::ControlDeath(Register &r, std::size_t entity)
     r.removeComponent<Hitable>(entity);
     r.removeComponent<Shoot>(entity);
     r.creatEntity();
-    r.emplace_comp(r.entity_nbr, Message("You are dead...", Positions(200, 200), 50, RED));
+    r.emplace_comp(r.currentEntity, Message("You are dead...", Positions(200, 200), 50, RED));
 }
 
 void DeathSystem::ModulesDeath(Register &r, std::size_t entity)

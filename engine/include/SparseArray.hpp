@@ -96,6 +96,56 @@ public:
         list.at(index) = std::nullopt;
     }
 
+    /**
+     * The sparse array iterator.
+     */
+    class Iterator {
+        using veciter = std::vector<std::optional<T>>::iterator;
+
+        public:
+            Iterator(veciter it) noexcept: _it(it) {
+                while (not (*_it).has_value())
+                    ++_it;
+            }
+            inline T operator*(void) const {
+                return (*_it).value();
+            }
+            inline Iterator &operator++(void) noexcept {
+                while (not (*_it).has_value())
+                    ++_it;
+                return *this;
+            }
+            inline bool operator==(Iterator const &other) const noexcept {
+                return _it == other._it;
+            }
+            inline bool operator!=(Iterator const &other) const noexcept {
+                return _it != other._it;
+            }
+            inline Iterator operator++(int) noexcept {
+                Iterator tmp = *this;
+
+                ++*this;
+                return tmp;
+            }
+         
+        private:
+            veciter _it;
+    };
+
+    /**
+     * The begin iterator.
+     */
+    inline Iterator begin(void) {
+        return Iterator(list.begin());
+    }
+
+    /**
+     * The end iterator.
+     */
+    inline Iterator end(void) {
+        return Iterator(list.end());
+    }
+
 private:
     std::vector<std::optional<T>> list;
 };

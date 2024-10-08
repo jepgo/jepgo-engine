@@ -72,7 +72,7 @@ Register::~Register()
 
 void Register::creatEntity()
 {
-    entity_nbr++;
+    currentEntity++;
     std::any_cast<SparseArray<Positions>&>(regist[std::type_index(typeid(Positions))]).add();
     std::any_cast<SparseArray<Drawable>&>(regist[std::type_index(typeid(Drawable))]).add();
     std::any_cast<SparseArray<Sprite_Animation>&>(regist[std::type_index(typeid(Sprite_Animation))]).add();
