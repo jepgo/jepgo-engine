@@ -20,6 +20,7 @@ class RebornSystem {
             for (std::size_t i = 0; i < reborn.size(); i++) {
                 if (key == KeyboardKey::KEY_SPACE && reborn[i].has_value() && reborn[i].value().getLive() > 0) {
                     reborn[i].value().getLive() -= 1;
+                    r.removeComponent<Sprite_Animation>(i);
                     r.emplace_comp(playerEntity, Controllable());
                     r.emplace_comp(playerEntity, Positions(100, 100));
                     r.emplace_comp(playerEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
