@@ -1,8 +1,9 @@
-# Out Files
+# Files
 *.o
 *.out
 *.a
 *.so
+*.Zone.Identifier
 
 # Binary
 r-type
@@ -13,10 +14,7 @@ openInclude
 client
 server
 
-# Trashh
+# Trashy folders
 .vscode/
-build
-.Zone.Identifier
-
-# Unused Folders
-UDP
+build/
+UDP/

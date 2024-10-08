@@ -80,11 +80,17 @@ echo -e "\e[32mTargets built.\e[0m"
 echo -e "\e[33mCopying files.\e[0m"
 unameOut="$(uname -o)"
 if [[ $unameOut == "Msys" ]]; then
+<<<<<<< HEAD
     cp Debug/r-type* ../
     cp Debug/libjep* ../
 elif [[ $unameOut == "GNU/Linux" ]]; then
     cp r-type* ../
     cp libjep* ../
+=======
+    cp Debug/r-type.exe ../
+elif [[ $unameOut == "GNU/Linux" ]]; then
+    cp r-type ../
+>>>>>>> d883100 (feat(build): Cross platform compilation via bash script)
 fi
 if [[ $? -ne 0 ]]; then
     echo -e "\e[31mFailed to copy files.\e[0m"
