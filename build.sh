@@ -4,8 +4,8 @@
 ## You need to have CMake installed.
 ## If you want to build on Windows, you need to install a bash interpreter like Git Bash.
 
-if [[ $1 == "clean" ]]; then
-    echo -e "\e[33mCleaning build directory.\e[0m"
+clean() {
+    echo -e "\e[33mRemoving r-type file.\e[0m"
     rm -f r-type
     if [[ $? -ne 0 ]]; then
         echo -e "\e[31mFailed to remove r-type file.\e[0m"
@@ -13,7 +13,33 @@ if [[ $1 == "clean" ]]; then
     else 
         echo -e "\e[32mr-type file removed.\e[0m"
     fi
+}
+
+fclean() {
+    clean
+    echo -e "\e[33mRemoving build directory.\e[0m"
+    rm -rf build
+    if [[ $? -ne 0 ]]; then
+        echo -e "\e[31mFailed to remove build directory.\e[0m"
+        exit 1
+    else 
+        echo -e "\e[32mBuild directory removed.\e[0m"
+    fi
+}
+
+
+if [[ $1 == "clean" ]]; then
+    clean
     exit 0
+fi
+
+if [[ $1 == "fclean" ]]; then
+    fclean
+    exit 0
+fi
+
+if [[ $1 == "re" ]]; then
+    fclean
 fi
 
 if [[ -d "build" ]]; then
