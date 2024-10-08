@@ -17,12 +17,11 @@ Menu::LogIcon::LogIcon(const size_t x, const size_t y, const size_t width, const
     _isOpen(false),
     _isSelect(false)
 {
-    _icon = LoadTexture("assets/account.png");
+    _icon = LoadTexture("sprites/account.png");
 }
 
 Menu::LogIcon::~LogIcon()
 {
-    UnloadTexture(_icon);
 }
 
 void Menu::LogIcon::drawIcon()
