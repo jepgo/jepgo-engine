@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.0)
 
 ### PROJECTS ############################################
 
@@ -17,7 +17,6 @@ set(CLIENT_DIR games/rtype/client)
 set(SERVER_SRC_DIR games/rtype/server)
 set(JEPGAME_SRC_DIR jepgame/)
 set(JEPMOD_SRC_DIR jepmod/)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
 
 ### PACKAGE MANAGER #####################################
@@ -34,7 +33,6 @@ CPMAddPackage(
     GIT_REPOSITORY https://github.com/chriskohlhoff/asio
     GIT_TAG asio-1-31-0
 )
-
 CPMAddPackage(
     NAME sqlite3
     GIT_REPOSITORY https://github.com/LuaDist/libsqlite3
@@ -80,6 +78,12 @@ add_executable(r-type
     ${ENGINE_SRC_DIR}/Button.cpp
     ${ENGINE_SRC_DIR}/MainGame.cpp
 )
+    
+if(MSVC)
+  target_compile_options(r-type PRIVATE /W4)
+else()
+  target_compile_options(r-type PRIVATE -Wall -Wextra -Wpedantic)
+endif()
 
 target_include_directories(r-type PRIVATE ./engine/include)
 target_link_libraries(r-type PRIVATE raylib)
