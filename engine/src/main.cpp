@@ -32,6 +32,7 @@ int main(void)
         m.drawMenu();
         EndDrawing();
     }
+    CloseAudioDevice();
     CloseWindow();
     return 0;
 }
