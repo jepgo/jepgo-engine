@@ -6,12 +6,12 @@
 
 clean() {
     echo -e "\e[33mRemoving r-type file.\e[0m"
-    rm -f r-type
+    rm -f r-type_* libjep*
     if [[ $? -ne 0 ]]; then
-        echo -e "\e[31mFailed to remove r-type file.\e[0m"
+        echo -e "\e[31mFailed to remove files.\e[0m"
         exit 1
     else 
-        echo -e "\e[32mr-type file removed.\e[0m"
+        echo -e "\e[32mFiles removed.\e[0m"
     fi
 }
 
@@ -80,9 +80,11 @@ echo -e "\e[32mTargets built.\e[0m"
 echo -e "\e[33mCopying files.\e[0m"
 unameOut="$(uname -o)"
 if [[ $unameOut == "Msys" ]]; then
-    cp Debug/r-type.exe ../
+    cp Debug/r-type* ../
+    cp Debug/libjep* ../
 elif [[ $unameOut == "GNU/Linux" ]]; then
-    cp r-type ../
+    cp r-type* ../
+    cp libjep* ../
 fi
 if [[ $? -ne 0 ]]; then
     echo -e "\e[31mFailed to copy files.\e[0m"
