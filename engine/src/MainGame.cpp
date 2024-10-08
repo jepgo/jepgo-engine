@@ -155,13 +155,13 @@ std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
 
 void deletAll(std::vector<Sound> sounds, std::vector<Texture2D> texture)
 {
-    for (auto &s : sounds) {
-        UnloadSound(s);
-    }
+    // for (auto &s : sounds) {
+    //     UnloadSound(s);
+    // }
 
-    for (auto &t : texture) {
-        UnloadTexture(t);
-    }
+    // for (auto &t : texture) {
+    //     UnloadTexture(t);
+    // }
 }
 
 void MainGame::mainGame()
@@ -198,7 +198,7 @@ void MainGame::mainGame()
     while (!WindowShouldClose()) {
         key = GetKeyPressed();
         if (key == KeyboardKey::KEY_P) {
-            deletAll(sounds, texture);
+            //deletAll(sounds, texture);
             return;
         }
         float time = GetTime() - startTime;
@@ -239,6 +239,4 @@ void MainGame::mainGame()
         MessageSystem::system(r);
         EndDrawing();
     }
-    CloseAudioDevice();
-    CloseWindow();
 }

@@ -106,6 +106,7 @@ int main(void)
 >>>>>>> 5f4ac64 (feat(Engine): add the Dead text)
         EndDrawing();
     }
+    CloseAudioDevice();
     CloseWindow();
     return 0;
 }
