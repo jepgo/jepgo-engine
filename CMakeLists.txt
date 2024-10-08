@@ -4,8 +4,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.14) # pi
 
 SET(CMAKE_CXX_STANDARD 23)
 set(ENGINE_SRC_DIR engine/src)
-set(CLIENT_DIR games/rtype/client)
-set(SERVER_SRC_DIR games/rtype/server)
+set(CLIENT_SRC_DIR sample)
+set(SERVER_SRC_DIR sample)
 set(JEPGAME_SRC_DIR jepgame/)
 set(JEPMOD_SRC_DIR jepmod/)
 set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
@@ -133,12 +133,6 @@ TARGET_LINK_LIBRARIES(client PRIVATE
     sfml-system
     raylib
 )
-    
-if(MSVC)
-  target_compile_options(r-type PRIVATE /W4)
-else()
-  target_compile_options(r-type PRIVATE -Wall -Wextra -Wpedantic)
-endif()
 
 # game.server
 

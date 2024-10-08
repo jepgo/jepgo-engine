@@ -31,7 +31,7 @@ void jgame::hardcodedSystems(EitherRef<Client, Server> something)
         InvinsibleSystem::system(base.ecs, base.getTime());
         ModuleSystem::system(base.ecs);
         DmgSystem::system(base.ecs, base.getTime());
-        ExplosionSystem::system(base.ecs);
+        // ExplosionSystem::system(base.ecs); TODO: update to use with sounds
         BombGenerationTimeSystem::system(base.ecs, base.getTime());
         BombGenerationSystem::system(base.ecs, base.getTime());
         // DeathSystem::system(base.ecs, playerEntity);
