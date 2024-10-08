@@ -7,6 +7,7 @@
 
 #pragma once
 #include "Register.hpp"
+#include <random>
 
 class Game {
     public:

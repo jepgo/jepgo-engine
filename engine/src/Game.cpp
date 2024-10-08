@@ -104,9 +104,13 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
 
 static int randomYPos()
 {
-    srand(time(0));
+    // srand(time(0));
+    // return 100 + rand() % (700 - 10 + 1);
 
-    return 100 + rand() % (700 - 10 + 1);
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<double> dist(10, 700);
+    return dist(mt) + 100;
 }
 
 void Game::CreateBomb(Register &r, Positions &&pos, float time, float reset)
