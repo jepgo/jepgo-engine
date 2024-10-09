@@ -71,7 +71,7 @@ static jgo::Builder generateTypeToSend
 {
     jgo::Builder build(jgo::enums::FromServer::Apply);
     auto &elements = server.ecs.getComp<T>();
-    CBuffer<T> buf;
+    CBuffer<jgo::u8> buf(sizeof(T));
 
     build << static_cast<jgo::u8>(c);
     for (std::size_t n = 0; n < elements.size(); ++n) {
@@ -91,19 +91,32 @@ static jgo::Builder generateTypeToSend
 extern "C" void onUpdate(jgame::Server &server)
 {
     /// FIXME: hardcoded
-    jgo::Builder build = generateTypeToSend<Positions>(
-        server,
-        jgo::enums::Components::Position
-    );
+    jgo::Builder build(0);
 
     if (float(ClockPP()) - server.getTime() < .01)
         return;
     server.updateTime();
+
+
+    build = generateTypeToSend<Positions>(
+        server,
+        jgo::enums::Components::Position
+    );
     std::cout << std::hex;
     for (jgo::u8 b : build.toBytes())
         std::cout << int(b) << " ";
     std::cout << std::dec << std::endl;
+    server.sendToAll(build);
 
+
+    build = generateTypeToSend<Drawable>(
+        server,
+        jgo::enums::Components::Drawable
+    );
+    std::cout << std::hex;
+    for (jgo::u8 b : build.toBytes())
+        std::cout << int(b) << " ";
+    std::cout << std::dec << std::endl;
     server.sendToAll(build);
 }
 
