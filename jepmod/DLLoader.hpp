@@ -12,6 +12,22 @@
 #include <memory>
 #ifdef WINDOWS
     #include <windows.h>
+
+    class WindowsRuntimeError : public std::runtime_error {
+        public: WindowsRuntimeError(DWORD errorCode)
+        : std::runtime_error(GetErrorMessage(errorCode)) {
+            return
+        }
+
+        private: static std::string GetErrorMessage(DWORD errorCode) {
+            char buffer[256];
+            FormatMessageA(
+                FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                NULL, errorCode, 0, buffer, sizeof(buffer), NULL
+            );
+            return buffer;
+        }
+    };
 #else
     #include <dlfcn.h>
 #endif
@@ -34,11 +50,7 @@ namespace jmod {
 
                 if (access == nullptr)
                     #ifdef WINDOWS
-                    throw std::runtime_error(std::string(FormatMessage(
-                        FORMAT_MESSAGE_FROM_SYSTEM,
-                        NULL, GetLastError(),
-                        0, NULL, 0, NULL
-                    )).c_str());
+                    throw WindowsRuntimeError(GetLastError());
                     #else
                     throw std::runtime_error(dlerror());
                     #endif
