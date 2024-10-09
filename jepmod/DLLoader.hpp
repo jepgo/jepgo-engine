@@ -34,11 +34,11 @@ namespace jmod {
 
                 if (access == nullptr)
                     #ifdef WINDOWS
-                    throw std::runtime_error(FormatMessage(
+                    throw std::runtime_error(std::string(FormatMessage(
                         FORMAT_MESSAGE_FROM_SYSTEM,
                         NULL, GetLastError(),
                         0, NULL, 0, NULL
-                    ));
+                    )).c_str());
                     #else
                     throw std::runtime_error(dlerror());
                     #endif
