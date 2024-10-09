@@ -26,7 +26,7 @@ class CBuffer {
         }
 
         inline ~CBuffer() {
-            delete _ptr;
+            this->reset();
         }
 
         inline auto fill
@@ -62,8 +62,22 @@ class CBuffer {
             return std::vector<std::uint8_t>(bytes, bytes + _size);
         }
 
+        template <typename X>
+        inline auto cast() const -> X {
+            if (_size < sizeof(X))
+                std::runtime_error("cast in invalid size.");
+            return *reinterpret_cast<X *>(_ptr);
+        }
+
+        inline auto reset(void) -> void {
+            if (_ptr) {
+                delete _ptr;
+                _ptr = nullptr;
+            }
+        }
+
     protected:
     private:
-        T *_ptr;
+        T *_ptr = nullptr;
         std::size_t _size;
 };

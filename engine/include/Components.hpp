@@ -277,7 +277,7 @@ public:
      * @param r optional rectangle for The Sprite to Draw
      * @param s A Optional Vector of 2 float for the Scale
      */
-    Drawable(std::size_t ind, std::optional<Rectangle> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r)
+    Drawable(std::size_t ind = 0, std::optional<Rectangle> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r)
     {
         if (r.has_value())
             start = r.value().x;

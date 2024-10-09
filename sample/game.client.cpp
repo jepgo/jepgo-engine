@@ -37,18 +37,23 @@ extern "C" void onStart(jgame::Client &client)
 template <typename T>
 static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
 {
-    CBuffer<T> buf;
+    CBuffer<jgo::u8> buf(sizeof(T));
     jgo::s8 num;
 
     for (std::size_t n = 0; not builder.empty(); ++n) {
+        std::cout << "zizi" << std::endl;
         if (n >= client.ecs.entityNbr())
             client.ecs.creatEntity();
+        std::cout << "zozo" << std::endl;
         builder.restore<jgo::s8>(num);
         if (num == -1)
             continue;
+        std::cout << "bachibouzouk" << std::endl;
         buf.fill(builder.toBytes().data());
         builder.popFront(sizeof(T));
-        client.ecs.emplace_comp(n, *buf);
+        std::cout << "foo" << std::endl;
+        client.ecs.emplace_comp(n, buf.cast<T>());
+        std::cout << "ban" << std::endl;
     }
 }
 
@@ -71,8 +76,9 @@ extern "C" void onServerMessage(jgame::Client &client, std::string const &msg)
 
             if (op == jgo::enums::Components::Position)
                 retrieveSomething<Positions>(client, builder);
-            // else if (op == jgo::enums::Components::Drawable)
-            //     retrieveSomething<Drawable>(client, builder);
+            else if (op == jgo::enums::Components::Drawable) {
+                retrieveSomething<Drawable>(client, builder);
+            }
             break;
 
         default:
