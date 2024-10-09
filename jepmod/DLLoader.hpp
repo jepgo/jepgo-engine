@@ -38,6 +38,10 @@ namespace jmod {
             }
 
         private:
+            #ifdef WINDOWS
+            HINSTANCE _ptr;
+            #else
             void *_ptr;
+            #endif
     };
 }
