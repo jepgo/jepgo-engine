@@ -37,10 +37,9 @@ DLLoader::DLLoader(std::string fullpath)
     #else
     filename = a + "lib" + b + ".so";
     _ptr = dlopen(filename.c_str(), RTLD_LAZY);
-    if (_ptr == nullptr) {
+    if (_ptr == nullptr)
         throw std::runtime_error(dlerror());
     #endif
-    }
 }
 
 DLLoader::~DLLoader()
