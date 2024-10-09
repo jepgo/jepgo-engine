@@ -20,144 +20,142 @@ set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
 
 ### PACKAGE MANAGER #####################################
 
-include(cmake/CPM.cmake)
+# include(cmake/CPM.cmake)
 
-CPMAddPackage(
-    NAME raylib
-    GIT_REPOSITORY https://github.com/raysan5/raylib
-    GIT_TAG 5.0
-)
-CPMAddPackage(
-    NAME asio
-    GIT_REPOSITORY https://github.com/chriskohlhoff/asio
-    GIT_TAG asio-1-31-0
-)
-CPMAddPackage(
-    NAME sqlite3
-    GIT_REPOSITORY https://github.com/LuaDist/libsqlite3
-    GIT_TAG 3.7.7.1
-)
-
-### JEPGO ENGINE ##############################################
-
-# add_executable(jepgo
-#     ${ENGINE_SRC_DIR}/main.cpp
-#     ${ENGINE_SRC_DIR}/MainGame.cpp
-#     ${ENGINE_SRC_DIR}/Register.cpp
-#     ${ENGINE_SRC_DIR}/Components.cpp
-#     ${ENGINE_SRC_DIR}/HitSystem.cpp
-#     ${ENGINE_SRC_DIR}/MoveSystem.cpp
-#     ${ENGINE_SRC_DIR}/DrawSystem.cpp
-#     ${ENGINE_SRC_DIR}/AnimationSpriteSystem.cpp
-#     ${ENGINE_SRC_DIR}/TestGame.cpp
-#     ${ENGINE_SRC_DIR}/Controllable.cpp
-#     ${ENGINE_SRC_DIR}/Module.cpp
-#     ${ENGINE_SRC_DIR}/Shoot.cpp
-#     ${ENGINE_SRC_DIR}/ExplosionSystem.cpp
-#     ${ENGINE_SRC_DIR}/Game.cpp
-#     ${ENGINE_SRC_DIR}/Enemy.cpp
-#     ${ENGINE_SRC_DIR}/Text.cpp
-#     ${ENGINE_SRC_DIR}/GameSystem.cpp
-#     ${ENGINE_SRC_DIR}/DestroyerSystem.cpp
-#     ${ENGINE_SRC_DIR}/LoopMoveSystem.cpp
-#     ${ENGINE_SRC_DIR}/ShortAnimationSystem.cpp
-#     ${ENGINE_SRC_DIR}/Animation2TimeSystem.cpp
-#     ${ENGINE_SRC_DIR}/MoveToPlayerSystem.cpp
-#     ${ENGINE_SRC_DIR}/MoveToPlayerTimeSystem.cpp
-#     ${ENGINE_SRC_DIR}/BombGenerationTimeSystem.cpp
-#     ${ENGINE_SRC_DIR}/BombGenerationSystem.cpp
-#     ${ENGINE_SRC_DIR}/Raylib.cpp
-#     ${ENGINE_SRC_DIR}/DetachModulesSystem.cpp
-#     ${ENGINE_SRC_DIR}/MoveToSystem.cpp
-#     ${ENGINE_SRC_DIR}/MoveTo.cpp
-#     ${ENGINE_SRC_DIR}/DeathSystem.cpp
-#     ${ENGINE_SRC_DIR}/AutoShootSystem.cpp
-#     ${ENGINE_SRC_DIR}/Menu.cpp
-#     ${ENGINE_SRC_DIR}/AnimLine.cpp
-#     ${ENGINE_SRC_DIR}/LogIcon.cpp
-#     ${ENGINE_SRC_DIR}/Button.cpp
+# CPMAddPackage(
+#     NAME SFML
+#     GIT_REPOSITORY https://github.com/SFML/SFML
+#     GIT_TAG 2.6.1
+# )
+# CPMAddPackage(
+#     NAME asio
+#     GIT_REPOSITORY https://github.com/chriskohlhoff/asio
+#     GIT_TAG asio-1-31-0
 # )
 
-add_library(jepgo STATIC
-    # ${ENGINE_SRC_DIR}/main.cpp
-    # ${ENGINE_SRC_DIR}/MainGame.cpp
-    ${ENGINE_SRC_DIR}/Register.cpp
-    ${ENGINE_SRC_DIR}/Components.cpp
-    ${ENGINE_SRC_DIR}/HitSystem.cpp
-    ${ENGINE_SRC_DIR}/MoveSystem.cpp
-    ${ENGINE_SRC_DIR}/DrawSystem.cpp
-    ${ENGINE_SRC_DIR}/AnimationSpriteSystem.cpp
-    ${ENGINE_SRC_DIR}/TestGame.cpp
-    ${ENGINE_SRC_DIR}/Controllable.cpp
-    ${ENGINE_SRC_DIR}/Module.cpp
-    ${ENGINE_SRC_DIR}/Shoot.cpp
-    ${ENGINE_SRC_DIR}/ExplosionSystem.cpp
-    ${ENGINE_SRC_DIR}/Game.cpp
-    ${ENGINE_SRC_DIR}/Enemy.cpp
-    ${ENGINE_SRC_DIR}/Text.cpp
-    ${ENGINE_SRC_DIR}/GameSystem.cpp
-    ${ENGINE_SRC_DIR}/DestroyerSystem.cpp
-    ${ENGINE_SRC_DIR}/LoopMoveSystem.cpp
-    ${ENGINE_SRC_DIR}/ShortAnimationSystem.cpp
-    ${ENGINE_SRC_DIR}/Animation2TimeSystem.cpp
-    ${ENGINE_SRC_DIR}/MoveToPlayerSystem.cpp
-    ${ENGINE_SRC_DIR}/MoveToPlayerTimeSystem.cpp
-    ${ENGINE_SRC_DIR}/BombGenerationTimeSystem.cpp
-    ${ENGINE_SRC_DIR}/BombGenerationSystem.cpp
-    ${ENGINE_SRC_DIR}/Raylib.cpp
-    ${ENGINE_SRC_DIR}/DetachModulesSystem.cpp
-    ${ENGINE_SRC_DIR}/MoveToSystem.cpp
-    ${ENGINE_SRC_DIR}/MoveTo.cpp
-    ${ENGINE_SRC_DIR}/DeathSystem.cpp
-    ${ENGINE_SRC_DIR}/AutoShootSystem.cpp
-    ${ENGINE_SRC_DIR}/Menu.cpp
-    ${ENGINE_SRC_DIR}/AnimLine.cpp
-    ${ENGINE_SRC_DIR}/LogIcon.cpp
-    ${ENGINE_SRC_DIR}/Button.cpp
+# CPMAddPackage(
+#     NAME sqlite3
+#     GIT_REPOSITORY https://github.com/LuaDist/libsqlite3
+#     GIT_TAG 3.7.7.1
+# )
+
+# CPMAddPackage(
+#     NAME raylib
+#     GIT_REPOSITORY https://github.com/raysan5/raylib
+#     GIT_TAG 5.0
+# )
+
+# libjepengine.a
+
+# PROJECT(jepengine)
+# SET(EngineSRC engine/src)
+# ADD_LIBRARY(jepengine STATIC
+#     ${EngineSRC}/Register.cpp
+#     ${EngineSRC}/Components.cpp
+#     ${EngineSRC}/HitSystem.cpp
+#     ${EngineSRC}/MoveSystem.cpp
+#     ${EngineSRC}/DrawSystem.cpp
+#     ${EngineSRC}/AnimationSpriteSystem.cpp
+#     ${EngineSRC}/TestGame.cpp
+#     ${EngineSRC}/Controllable.cpp
+#     ${EngineSRC}/Module.cpp
+#     ${EngineSRC}/Shoot.cpp
+#     ${EngineSRC}/ExplosionSystem.cpp
+#     ${EngineSRC}/Game.cpp
+#     ${EngineSRC}/Enemy.cpp
+#     ${EngineSRC}/Text.cpp
+#     ${EngineSRC}/GameSystem.cpp
+#     ${EngineSRC}/DestroyerSystem.cpp
+#     ${EngineSRC}/LoopMoveSystem.cpp
+#     ${EngineSRC}/ShortAnimationSystem.cpp
+#     ${EngineSRC}/Animation2TimeSystem.cpp
+#     ${EngineSRC}/MoveToPlayerSystem.cpp
+#     ${EngineSRC}/MoveToPlayerTimeSystem.cpp
+#     ${EngineSRC}/BombGenerationTimeSystem.cpp
+#     ${EngineSRC}/BombGenerationSystem.cpp
+#     ${EngineSRC}/Raylib.cpp
+# )
+# TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE engine/include ${raylib_SOURCE_DIR}/src)
+
+# libjepmod.a
+
+PROJECT(jepmod)
+SET(JepmodSRC jepmod/)
+
+
+ADD_LIBRARY(jepmod STATIC
+    ${JepmodSRC}/DLLoader.cpp
+    ${JepmodSRC}/Jepmodule.cpp
 )
 
-target_link_libraries(jepgo PRIVATE raylib)
-target_include_directories(jepgo PRIVATE ./engine/include)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  target_compile_definitions(jepmod PUBLIC "LINUX")
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  target_compile_definitions(jepmod PUBLIC "WINDOWS")
+endif()
 
-### JEPMOD LIBRARY ##############################################
 
-add_library(jepmod STATIC
-    ${JEPMOD_SRC_DIR}/DLLoader.cpp
-    ${JEPMOD_SRC_DIR}/Jepmodule.cpp
-    ${JEPMOD_SRC_DIR}/module.cpp
-)
+PROJECT(caca)
+add_executable(caca 
+    ${JepmodSRC}/main.cpp)
+TARGET_LINK_LIBRARIES(caca PRIVATE jepmod)
+target_include_directories(caca PRIVATE .)
 
-### JEPGAME LIBRARY ##############################################
 
-add_library(jepgame STATIC
-  ${JEPGAME_SRC_DIR}/service/UDP.cpp
-  ${JEPGAME_SRC_DIR}/service/Builder.cpp
-  ${JEPGAME_SRC_DIR}/service/Connections.cpp
-  ${JEPGAME_SRC_DIR}/gamemaker/hardcoded.cpp
-  ${JEPGAME_SRC_DIR}/gamemaker/Client.cpp
-  ${JEPGAME_SRC_DIR}/gamemaker/Server.cpp 
-)
+project(zizi)
+add_library(zizi SHARED
+    ${JepmodSRC}/module.cpp)
+TARGET_LINK_LIBRARIES(zizi PRIVATE jepmod)
+target_include_directories(zizi PRIVATE .)
 
-set_target_properties(jepgame PROPERTIES VERSION ${PROJECT_VERSION})
-target_include_directories(jepgame PRIVATE ./ ${asio_SOURCE_DIR}/asio/include)
-target_link_libraries(jepgame PRIVATE raylib)
 
-# ### SERVER ##############################################
+# libjepgame.a
 
-add_executable(r-type_server
-    ${SERVER_SRC_DIR}/game.server.cpp
-)
+# PROJECT(jepgame)
+# SET(JepgameSRC jepgame/)
+# ADD_LIBRARY(jepgame STATIC
+#     ${JepgameSRC}/service/UDP.cpp
+#     ${JepgameSRC}/service/Builder.cpp
+#     ${JepgameSRC}/service/Connections.cpp
+#     ${JepgameSRC}/gamemaker/hardcoded.cpp
+#     ${JepgameSRC}/gamemaker/Client.cpp
+#     ${JepgameSRC}/gamemaker/Server.cpp
+# )
+# TARGET_INCLUDE_DIRECTORIES(jepgame PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
 
-target_include_directories(r-type_server PRIVATE ./ ${asio_SOURCE_DIR}/asio/include)
-target_link_libraries(r-type_server PRIVATE jepgame jepgo jepmod raylib)
+# # game.client
 
-### CLIENT ##############################################
+# PROJECT(client)
+# SET(ClientSRC sample/)
+# ADD_EXECUTABLE(client
+#     ${ClientSRC}/game.client.cpp
+# )
+# TARGET_INCLUDE_DIRECTORIES(client PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
+# TARGET_LINK_LIBRARIES(client PRIVATE
+#     jepgame
+#     jepengine
+#     jepmod
+#     sfml-graphics
+#     sfml-window
+#     sfml-system
+#     raylib
+# )
 
-add_executable(r-type_client
-    ${CLIENT_SRC_DIR}/game.client.cpp
-)
+# # game.server
 
-target_include_directories(r-type_client PRIVATE ./ ${asio_SOURCE_DIR}/asio/include)
-target_link_libraries(r-type_client PRIVATE jepgame jepgo jepmod sfml-graphics sfml-system sfml-window raylib)
-
-#########################################################
+# PROJECT(server)
+# SET(ServerSRC sample/)
+# ADD_EXECUTABLE(server
+#     ${ServerSRC}/game.server.cpp
+# )
+# TARGET_INCLUDE_DIRECTORIES(server PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
+# TARGET_LINK_LIBRARIES(server PRIVATE
+#     jepgame
+#     jepengine
+#     jepmod
+#     sfml-graphics
+#     sfml-window
+#     sfml-system
+#     raylib
+# )
