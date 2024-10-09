@@ -16,20 +16,30 @@
 
 using namespace jmod;
 
-DLLoader::DLLoader(std::string const &filename)
+DLLoader::DLLoader(std::string fullpath)
 {
+    std::size_t slashIndex = fullpath.find_last_of('/');
+    std::string a, b, filename;
+
+    if (slashIndex == std::string::npos) {
+        a = "./";
+        b = fullpath;
+    } else {
+        a = fullpath.substr(0, slashIndex + 1);
+        b = fullpath.substr(slashIndex + 1);
+    }
+
     #if defined(WINDOWS) || defined(_WIN32)
+    filename = a + b + ".dll";
     _ptr = LoadLibrary((LPCSTR)(filename.c_str()));
-    #else
-    _ptr = dlopen(filename.c_str(), RTLD_LAZY);
-    #endif
-    std::cout << (LPCSTR)(filename.c_str()) << std::endl;
-    if (_ptr == nullptr) {
-        #if defined(WINDOWS) || defined(_WIN32)
+    if (_ptr == nullptr)
         throw WindowsRuntimeError(GetLastError());
-        #else
+    #else
+    filename = a + "lib" + b + ".so";
+    _ptr = dlopen(filename.c_str(), RTLD_LAZY);
+    if (_ptr == nullptr) {
         throw std::runtime_error(dlerror());
-        #endif
+    #endif
     }
 }
 

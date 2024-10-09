@@ -4,7 +4,7 @@
 
 int main(void)
 {
-    jmod::DLLoader loader("C:\\Users\\John\\source\\repos\\R-Type\\build\\Debug\\zizi.dll");
+    jmod::DLLoader loader("zizi");
     auto foo = loader.getFunc<int, int, int>("foo");
 
     std::cout << foo(2, 3) << std::endl;
