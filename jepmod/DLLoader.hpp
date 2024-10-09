@@ -35,7 +35,7 @@
 namespace jmod {
     class DLLoader {
         public:
-            DLLoader(std::string const &);
+            DLLoader(std::string);
             ~DLLoader();
 
             template <typename A, typename... B>
