@@ -10,13 +10,13 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
-#ifdef WINDOWS
+#if defined(WINDOWS) || defined(_WIN32)
     #include <windows.h>
 
     class WindowsRuntimeError : public std::runtime_error {
-        public: WindowsRuntimeError(DWORD errorCode)
-        : std::runtime_error(GetErrorMessage(errorCode)) {
-            return
+        public:
+        WindowsRuntimeError(DWORD errorCode) : std::runtime_error(GetErrorMessage(errorCode)) {
+            return;
         }
 
         private: static std::string GetErrorMessage(DWORD errorCode) {
@@ -41,7 +41,7 @@ namespace jmod {
             template <typename A, typename... B>
             inline auto getFunc(std::string const &sym) -> A(*)(B...) {
                 auto access = reinterpret_cast<A(*)(B...)>(
-                    #ifdef WINDOWS
+                    #if defined(WINDOWS) || defined(_WIN32)
                     GetProcAddress(_ptr, sym.c_str())
                     #else
                     dlsym(_ptr, sym.c_str())
@@ -49,7 +49,7 @@ namespace jmod {
                 );
 
                 if (access == nullptr)
-                    #ifdef WINDOWS
+                    #if defined(WINDOWS) || defined(_WIN32)
                     throw WindowsRuntimeError(GetLastError());
                     #else
                     throw std::runtime_error(dlerror());
@@ -58,7 +58,7 @@ namespace jmod {
             }
 
         private:
-            #ifdef WINDOWS
+            #if defined(WINDOWS) || defined(_WIN32)
             HINSTANCE _ptr;
             #else
             void *_ptr;

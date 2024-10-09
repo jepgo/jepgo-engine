@@ -1,3 +1,3 @@
-extern "C" int foo(void) {
-    return 42;
+extern "C" int foo(int a, int b) {
+    return a + b;
 }
