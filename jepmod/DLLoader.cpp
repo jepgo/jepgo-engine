@@ -17,16 +17,20 @@ using namespace jmod;
 
 DLLoader::DLLoader(std::string const &filename)
 {
-#ifdef WINDOWS
+    #ifdef WINDOWS
     _ptr = LoadLibrary(TEXT(filename.c_str()));
-#else
+    #else
     _ptr = dlopen(filename.c_str(), RTLD_LAZY);
-#endif
+    #endif
     if (_ptr == nullptr)
         throw std::runtime_error(dlerror());
 }
 
 DLLoader::~DLLoader()
 {
+    #ifdef WINDOWS
+    FreeLibrary(_ptr);
+    #else
     dlclose(_ptr);
+    #endif
 }
