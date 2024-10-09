@@ -10,7 +10,11 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
-#include <dlfcn.h>
+#ifdef WINDOWS
+    #include <windows.h>
+#else
+    #include <dlfcn.h>
+#endif
 
 namespace jmod {
     class DLLoader {
@@ -20,8 +24,13 @@ namespace jmod {
 
             template <typename A, typename... B>
             inline auto getFunc(std::string const &sym) -> A(*)(B...) {
-                auto access =
-                    reinterpret_cast<A(*)(B...)>(dlsym(_ptr, sym.c_str()));
+                auto access = reinterpret_cast<A(*)(B...)>(
+                    #ifdef WINDOWS
+                    GetProcAddress(_ptr, sym.c_str())
+                    #else
+                    dlsym(_ptr, sym.c_str())
+                    #endif
+                );
 
                 if (access == nullptr)
                     throw std::runtime_error(dlerror());
