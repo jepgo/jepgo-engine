@@ -7,6 +7,7 @@
 
 #include "MainGame.hpp"
 #include "Raylib.hpp"
+#include "Draw3DSystem.hpp"
 #include <iostream>
 #include "DrawKmSystem.hpp"
 #include "DrawLvlSystem.hpp"
@@ -188,17 +189,44 @@ void MainGame::mainGame()
     MoveSystem moveSys = MoveSystem(0.01);
     HitSystem hitSys = HitSystem();
     DrawSystem drawSys = DrawSystem();
+    Draw3DSystem draw3D = Draw3DSystem(0, 0.1);
+    Model mod = LoadModel("models/model/ship.obj");
+    Texture2D tex = LoadTexture("models/texture/texture_ship.png");
+    mod.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = tex;
     MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
     std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav", "sprites/explose.wav"});
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
 
+    Model model = LoadModelFromMesh(GenMeshCube(50.0f, 50.0f, 50.0f)); // Modèle simple : cube
+    // Model model = LoadModel("resources/my_model.obj"); // Utilisez ceci pour un modèle OBJ
+
+    // Charger la texture pour le modèle
+    //Texture2D textureModel = LoadTexture("resources/my_texture.png");
+    //model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureModel;
+
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
+    r.creatEntity();
+    r.emplace_comp(r.entity_nbr, Model3D(0));
+    r.emplace_comp(r.entity_nbr, Positions(200, 200));
+    r.emplace_comp(r.entity_nbr, Controllable());
+    r.emplace_comp(r.entity_nbr, Velocity({5, 5, 5, 5}));
+    Camera camera = { 0 };
+    camera.position = (Vector3){ height / 2.0f, width / 2.0f, 500.0f }; // Caméra centrée au milieu de l'écran
+    camera.target = (Vector3){ height / 2.0f, width / 2.0f, 0.0f };  // Regarde au centre de l'écran
+    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };     // L'axe "up" est vers le haut
+    camera.fovy = width;                           // Champ de vision (pas utilisé en orthographique)
+    camera.projection = CAMERA_ORTHOGRAPHIC;
+
+    float right = (float)height / 2.0f;
+    float left = -right;
+    float top = (float)width / 2.0f;
+    float bottom = -top;
+
     while (!WindowShouldClose()) {
         key = GetKeyPressed();
         if (key == KeyboardKey::KEY_P) {
-            //deletAll(sounds, texture);
             return;
         }
         float time = GetTime() - startTime;
@@ -227,16 +255,19 @@ void MainGame::mainGame()
         SoundLoopSystem::system(r, sounds, time);
         BombGenerationTimeSystem::system(r, time);
         BombGenerationSystem::system(r, time);
-        game.Stages(r, time, playerEntity, sounds);
+        //game.Stages(r, time, playerEntity, sounds);
         MessageTimeSystem::system(r, time);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);
-        DrawKmSystem::system(r);
-        DrawLvlSystem::system(r);
-        DrawPointsSystem::system(r);
-        DrawRebornSystem::system(r);
-        MessageSystem::system(r);
+        BeginMode3D(camera);
+        draw3D.system(r, time, mod);
+        EndMode3D();
+        // DrawKmSystem::system(r);
+        // DrawLvlSystem::system(r);
+        // DrawPointsSystem::system(r);
+        // DrawRebornSystem::system(r);
+        // MessageSystem::system(r);
         EndDrawing();
     }
 }

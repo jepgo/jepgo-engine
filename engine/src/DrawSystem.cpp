@@ -28,7 +28,11 @@ void DrawSystem::system(Register &r, std::vector<Texture2D> &texture)
     auto &draw = r.getComp<Drawable>();
 
     for (std::size_t i = 0; i < draw.size(); i++) {
-        if (draw[i].has_value() && pos[i].has_value()) {
+        if (draw[i].has_value() && pos[i].has_value())
+        {
+            if (i == 2)
+                std::cout << "ship1 = " << pos[i].value().x << " " << pos[i].value().y << std::endl;
+            // std::cout << "draw" << std::endl;
             draw[i].value().draw(texture, pos[i].value());
         }
     }

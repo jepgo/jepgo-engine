@@ -43,7 +43,7 @@ void Game::CreatePlanet(Register &r)
 void Game::CreatPlayer(Register &r, int height, int width)
 {
     r.creatEntity();
-    r.emplace_comp(r.currentEntity, Positions(100, 100));
+    r.emplace_comp(r.currentEntity, Positions(200, 200));
     r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.currentEntity, Velocity({5, 5, 5, 5}));
     r.emplace_comp(r.currentEntity, Colision(30, 18));
@@ -51,19 +51,19 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.emplace_comp(r.currentEntity, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
     r.emplace_comp(r.currentEntity, ScreenLimit(height * 2, width * 2));
     r.emplace_comp(r.currentEntity, Hitable(100, 40));
-    r.emplace_comp(r.currentEntity, Shoot(0.5, RIGHT, 20, 2));
     r.emplace_comp(r.currentEntity, Life(30));
+    r.emplace_comp(r.currentEntity, Reborn(3));
+    r.emplace_comp(r.currentEntity, DrawReborn(Positions(10, 560), 15, RED));
+    r.emplace_comp(r.currentEntity, Shoot(0.5, RIGHT, 20, 2));
     r.emplace_comp(r.currentEntity, Type(CONTRO));
     r.emplace_comp(r.currentEntity, Exp(0));
     r.emplace_comp(r.currentEntity, Points());
-    r.emplace_comp(r.currentEntity, Lvl(1));
-    r.emplace_comp(r.currentEntity, DistanceKm());
-    r.emplace_comp(r.currentEntity, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.currentEntity, Reborn(3));
     r.emplace_comp(r.currentEntity, DrawPoints(Positions(10, 500), 20, GREEN));
+    r.emplace_comp(r.currentEntity, Lvl(1));
     r.emplace_comp(r.currentEntity, DrawLvl(Positions(10, 540), 15, RED));
+    r.emplace_comp(r.currentEntity, DistanceKm());
     r.emplace_comp(r.currentEntity, DrawKm(Positions(650, 20), 30, GREEN));
-    r.emplace_comp(r.currentEntity, DrawReborn(Positions(10, 560), 15, RED));
+    r.emplace_comp(r.currentEntity, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 }
 
 void Game::CreateBoostModule(Register &r, std::size_t PlayerEntity) {
