@@ -625,6 +625,15 @@ class Death {
         ~Death() {};
 };
 
+class Model3D {
+    public:
+        Model3D(std::size_t ind) : _ind(ind) {};
+        ~Model3D() {};
+        std::size_t const &getInd() {return _ind;};
+    private:
+        std::size_t _ind;
+};
+
 class Dmg {
     public:
         /**

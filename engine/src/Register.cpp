@@ -65,11 +65,15 @@ Register::Register()
     regist.insert({std::type_index(typeid(MoveTo)), SparseArray<MoveTo>()});
     regist.insert({std::type_index(typeid(MessageTime)), SparseArray<MessageTime>()});
     regist.insert({std::type_index(typeid(AutoShoot)), SparseArray<AutoShoot>()});
+<<<<<<< HEAD
 =======
 >>>>>>> c351202 (feat(Engine): add the Text Components)
 =======
     regist.insert({std::type_index(typeid(Message)), SparseArray<Message>()});
 >>>>>>> 5f4ac64 (feat(Engine): add the Dead text)
+=======
+    regist.insert({std::type_index(typeid(Model3D)), SparseArray<Model3D>()});
+>>>>>>> a6ebe9d (feat(Engine): 3D position = 2D position)
 }
 
 Register::~Register()
@@ -130,8 +134,12 @@ void Register::creatEntity()
     std::any_cast<SparseArray<MoveTo>&>(regist[std::type_index(typeid(MoveTo))]).add();
     std::any_cast<SparseArray<MessageTime>&>(regist[std::type_index(typeid(MessageTime))]).add();
     std::any_cast<SparseArray<AutoShoot>&>(regist[std::type_index(typeid(AutoShoot))]).add();
+<<<<<<< HEAD
 =======
 >>>>>>> 5f4ac64 (feat(Engine): add the Dead text)
+=======
+    std::any_cast<SparseArray<Model3D>&>(regist[std::type_index(typeid(Model3D))]).add();
+>>>>>>> a6ebe9d (feat(Engine): 3D position = 2D position)
     for (auto const &cb : _rules) {
         cb(regist);
     }
