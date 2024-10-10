@@ -9,22 +9,65 @@
     #define WHACKAMOLE_HPP_
     #include "Register.hpp"
     #include "DrawSystem.hpp"
+    #include "AnimationSpriteSystem.hpp"
 
+/**
+ * @brief The namespace of the WhackAMole game
+ * 
+ */
 namespace WhackAMole {
 
+    /**
+     * @brief The WhackAMole class
+     * 
+     */
     class WhackAMole {
         public:
+            /**
+             * @brief Construct a new WhackAMole object
+             * 
+             */
             WhackAMole();
-            ~WhackAMole();
 
+            /**
+             * @brief Destroy the Whack A Mole object
+             * 
+             */
+            ~WhackAMole() = default;
+
+
+            /**
+             * @brief Start the game
+             * 
+             */
             void start();
 
         private:
+            /**
+             * @brief The Register object
+             * 
+             */
             Register _r;
+
+            /**
+             * @brief The DrawSystem object
+             * 
+             */
             DrawSystem _drawSys;
 
-            std::vector<Texture2D> _textures;
 
+            /**
+             * @brief The AnimationSpriteSystem object
+             * 
+             */
+            AnimationSpriteSystem _animSys;
+
+
+            /**
+             * @brief All the loaded textures of the game
+             * 
+             */
+            std::vector<Texture2D> _textures;
         private:
     };
 }

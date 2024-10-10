@@ -18,20 +18,26 @@ WhackAMole::WhackAMole::WhackAMole()
     }
 }
 
-WhackAMole::WhackAMole::~WhackAMole()
-{
-}
-
 void WhackAMole::WhackAMole::start()
 {
     Game::createBackground(_r);
+    float startTime = GetTime();
+
+    for (std::size_t y = 0; y < 4; y++) {
+        for (std::size_t x = 0; x < 7; x++) {
+            Game::createMole(_r, Positions(110 + (200) * x, 400 + (200) * y), GetTime(), 1);
+        }
+    }
 
     while (!WindowShouldClose()) {
+        float time = GetTime() - startTime;
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
+        _animSys.system(_r, time);
         _drawSys.system(_r, _textures);
-
+        
         EndDrawing();
     }
 }

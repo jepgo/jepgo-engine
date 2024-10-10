@@ -11,7 +11,6 @@
 
 int main(void)
 {    
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(WhackAMole::DEFFAULT_WIDTH, WhackAMole::DEFFAULT_HEIGHT, "whack-a-mole");
 
     WhackAMole::WhackAMole w;
