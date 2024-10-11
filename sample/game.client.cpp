@@ -41,14 +41,16 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
     CBuffer<jgo::u8> buf(sizeof(T));
     jgo::s8 num;
 
+    builder.display();
     for (std::size_t n = 0; not builder.empty(); ++n) {
         if (n >= client.ecs.entityNbr())
             client.ecs.creatEntity();
         builder.restore<jgo::s8>(num);
         if (num == -1)
             continue;
-        builder.popFront(sizeof(T));
+        buf.fill(builder.toBytes().data());
         client.ecs.emplace_comp(n, buf.cast<T>());
+        builder.popFront(sizeof(T));
     }
 }
 
@@ -64,20 +66,21 @@ exported(void) onServerMessage(jgame::Client &client, std::string const &msg)
 
             builder.restore<jgo::u8>(op);
 
-            // std::cout << std::hex;
-            // for (auto const &e : builder.toBytes())
-            //     std::cout << int(e) << " ";
-            // std::cout << std::dec << std::endl;
+            std::cout << client.ecs.entityNbr() << std::endl;
 
-            if (op == jgo::enums::Components::Position)
+            if (op == jgo::enums::Components::Position) {
                 retrieveSomething<Positions>(client, builder);
-            else if (op == jgo::enums::Components::Drawable) {
-                retrieveSomething<Drawable>(client, builder);
+                auto &e = client.ecs.getComp<Positions>();
+                for (size_t n = 0; n < e.size(); ++n)
+                    if (e[n])
+                        std::cout << e[n]->x << ", " << e[n]->y << std::endl;
             }
+            else if (op == jgo::enums::Components::Drawable)
+                retrieveSomething<Drawable>(client, builder);
             break;
 
         default:
-            return;
+            break;
     }
 }
 
@@ -90,6 +93,17 @@ exported(void) onUpdate(jgame::Client &client)
         << static_cast<jgo::u8>(static_cast<int>(vec.x))
         << static_cast<jgo::u8>(static_cast<int>(vec.y))
     );
+
+    // get positions and drawable
+    // std::cout << "have position ? have drawable ?" << std::endl;
+    // auto &a = client.ecs.getComp<Positions>();
+    // if (a.size() == 0)
+    //     return;
+    // std::cout << std::boolalpha << a[0].has_value() << std::endl;
+    // std::cout << std::boolalpha << a[0]->x << ", " << a[0]->y << std::endl;
+
+    // auto &b = client.ecs.getComp<Drawable>();
+    // std::cout << std::boolalpha << b[0].has_value() << std::endl;
 }
 
 // this part will be hiden later
