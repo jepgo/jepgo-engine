@@ -9,8 +9,9 @@
 #include "jepgame/gamemaker/Client.hpp"
 #include "jepgame/gamemaker/hardcoded.hpp"
 #include "jepgame/service/Components.hpp"
+#include "jepmod/exported.hpp"
 
-extern "C" void onStart(jgame::Client &client)
+exported(void) onStart(jgame::Client &client)
 {
     client.connect("localhost", 1234);
     client.sendToServer(jgo::Builder(jgo::enums::FromClient::Connect));
@@ -46,13 +47,12 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
         builder.restore<jgo::s8>(num);
         if (num == -1)
             continue;
-        auto foo = *((T *)(builder.toBytes().data()));
         builder.popFront(sizeof(T));
         client.ecs.emplace_comp(n, buf.cast<T>());
     }
 }
 
-extern "C" void onServerMessage(jgame::Client &client, std::string const &msg)
+exported(void) onServerMessage(jgame::Client &client, std::string const &msg)
 {
     jgo::Builder builder = jgo::Builder::fromString(msg);
 
@@ -64,10 +64,10 @@ extern "C" void onServerMessage(jgame::Client &client, std::string const &msg)
 
             builder.restore<jgo::u8>(op);
 
-            std::cout << std::hex;
-            for (auto const &e : builder.toBytes())
-                std::cout << int(e) << " ";
-            std::cout << std::dec << std::endl;
+            // std::cout << std::hex;
+            // for (auto const &e : builder.toBytes())
+            //     std::cout << int(e) << " ";
+            // std::cout << std::dec << std::endl;
 
             if (op == jgo::enums::Components::Position)
                 retrieveSomething<Positions>(client, builder);
@@ -81,13 +81,14 @@ extern "C" void onServerMessage(jgame::Client &client, std::string const &msg)
     }
 }
 
-extern "C" void onUpdate(jgame::Client &client)
+exported(void) onUpdate(jgame::Client &client)
 {
     Vector2 vec = client.getDirection();
 
     // send the arrows positions
     client.sendToServer(jgo::Builder(jgo::enums::FromClient::Arrows)
-        << jgo::u8(int(vec.x)) << jgo::u8(int(vec.y))
+        << static_cast<jgo::u8>(static_cast<int>(vec.x))
+        << static_cast<jgo::u8>(static_cast<int>(vec.y))
     );
 }
 

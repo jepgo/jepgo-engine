@@ -19,7 +19,13 @@ auto Client::connect(std::string ip, asio::ip::port port) -> void
 auto Client::getDirection(void) const -> Vector2
 {
     return {
-        float(int(IsKeyDown(KEY_RIGHT)) - int(IsKeyDown(KEY_LEFT))),
-        float(int(IsKeyDown(KEY_DOWN)) - int(IsKeyDown(KEY_UP)))
+        static_cast<float>(
+            static_cast<int>(IsKeyDown(KEY_RIGHT)) -
+            static_cast<int>(IsKeyDown(KEY_LEFT))
+        ),
+        static_cast<float>(
+            static_cast<int>(IsKeyDown(KEY_DOWN)) -
+            static_cast<int>(IsKeyDown(KEY_UP))
+        )
     };
 }
