@@ -11,6 +11,7 @@ void DeathSystem::ControlDeath(Register &r, std::size_t entity)
 {
     //r.removeComponent<Drawable>(entity);
     //r.removeComponent<Positions>(entity);
+    r.removeComponent<Model3D>(entity);
     r.removeComponent<Controllable>(entity);
     r.removeComponent<Hitable>(entity);
     r.removeComponent<Shoot>(entity);
@@ -22,6 +23,7 @@ void DeathSystem::ModulesDeath(Register &r, std::size_t entity)
 {
     //r.removeComponent<Drawable>(entity);
     //r.removeComponent<Positions>(entity);
+    r.removeComponent<Model3D>(entity);
     r.removeComponent<Controllable>(entity);
     r.removeComponent<Hitable>(entity);
 }
