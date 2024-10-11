@@ -49,18 +49,20 @@ namespace WhackAMole {
              */
             Register _r;
 
+
+
             /**
              * @brief The DrawSystem object
              * 
              */
-            DrawSystem _drawSys;
-
+            Systems::DrawSystem _drawSys;
 
             /**
              * @brief The AnimationSpriteSystem object
              * 
              */
-            AnimationSpriteSystem _animSys;
+            Systems::AnimationSpriteSystem _animSys;
+
 
 
             /**

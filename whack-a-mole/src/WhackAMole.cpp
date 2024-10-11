@@ -25,7 +25,7 @@ void WhackAMole::WhackAMole::start()
 
     for (std::size_t y = 0; y < 4; y++) {
         for (std::size_t x = 0; x < 7; x++) {
-            Game::createMole(_r, Positions(110 + (200) * x, 400 + (200) * y), GetTime(), 1);
+            Game::createMole(_r, Components::Positions(110 + (200) * x, 400 + (200) * y), GetTime(), 1);
         }
     }
 

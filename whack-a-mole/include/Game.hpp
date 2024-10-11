@@ -10,6 +10,7 @@
     #include <map>
     #include <string>
     #include "Register.hpp"
+    #include "Position.hpp"
 
 /**
  * @brief The namespace of the WhackAMole game
@@ -37,7 +38,7 @@ namespace WhackAMole {
              * @param time The time
              * @param reset The reset
              */
-            static void createMole(Register &r, Positions &&pos, float time, float reset);
+            static void createMole(Register &r, Components::Positions &&pos, float time, float reset);
         private:
     };
 }
