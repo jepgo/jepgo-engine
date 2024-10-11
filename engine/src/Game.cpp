@@ -73,7 +73,7 @@ void Game::CreateBoostModule(Register &r, std::size_t PlayerEntity) {
     r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{235, 20, 30, 30}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.currentEntity, Sprite_Animation(4, -33, 0.1));
     //r.emplace_comp(1, Hitable(17, 18));
-    r.emplace_comp(r.currentEntity, Module({{LEFT, 0}, {UP, 7}, {RIGHT, 45}, {DOWN, 0}}, PlayerEntity));
+    r.emplace_comp(r.currentEntity, Module({{LEFT, 0}, {UP, 15}, {RIGHT, 65}, {DOWN, 0}}, PlayerEntity));
     r.emplace_comp(r.currentEntity, Type(MODULE));
 }
 
@@ -85,7 +85,7 @@ void Game::CreateShootModule(Register &r, Positions &&pos)
     r.emplace_comp(r.currentEntity, Move(Positions(1, 0)));
     //r.emplace_comp(2, Sprite_Animation(10, 17, 0.05));
     r.emplace_comp(r.currentEntity, Hitable(20, 20));
-    r.emplace_comp(r.currentEntity, ModuleShoot({{LEFT, 0}, {UP, 60}, {RIGHT, 0}, {DOWN, 0}}, 0.25));
+    r.emplace_comp(r.currentEntity, ModuleShoot({{LEFT, 20}, {UP, 60}, {RIGHT, 0}, {DOWN, 0}}, 0.25));
     r.emplace_comp(r.currentEntity, Type(NEUTRAL));
 }
 
@@ -97,7 +97,7 @@ void Game::CreateArmorModule(Register &r, Positions &&pos)
     r.emplace_comp(r.currentEntity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.currentEntity, Sprite_Animation(4, 32, 0.2));
     r.emplace_comp(r.currentEntity, Hitable(64, 64));
-    r.emplace_comp(r.currentEntity, ModuleArmor({{LEFT, 120}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
+    r.emplace_comp(r.currentEntity, ModuleArmor({{LEFT, 150}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
     r.emplace_comp(r.currentEntity, Type(NEUTRAL));
     r.emplace_comp(r.currentEntity, DoDmg(30));
     r.emplace_comp(r.currentEntity, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
@@ -159,13 +159,6 @@ void Game::CreateShipShoot(Register &r, Positions && pos)
     r.emplace_comp(r.currentEntity, DoDmg(10));
     r.emplace_comp(r.currentEntity, Type(SHIPSHOOT));
     r.emplace_comp(r.currentEntity, Explosion(1, 4, -37, 0.2, 10, SHIPSHOOT, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
-}
-
-void Game::CreatText(Register &r, Positions &&pos, std::string text)
-{
-    r.creatEntity();
-    r.emplace_comp(r.currentEntity, pos);
-    //r.emplace_comp(r.currentEntity, Text(text, font, 30, sf::Color::Black));
 }
 
 void Game::CreateMessageTime(Register &r, Positions &&pos, std::string text, float time, float reset)
