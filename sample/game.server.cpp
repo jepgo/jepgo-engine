@@ -102,10 +102,11 @@ exported(void) onUpdate(jgame::Server &server)
         jgo::enums::Components::Position
     ));
 
-    server.sendToAll((
+    server.sendToAll(generateTypeToSend<Drawable>(
         server,
         jgo::enums::Components::Drawable
     ));
+
     // auto &comps = server.ecs.getComp<Drawable>();
     // if (server.ecs.entityNbr() and comps[0])
     //     comps[0]->showMem();

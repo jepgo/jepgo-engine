@@ -281,12 +281,10 @@ public:
      * @param r optional rectangle for The Sprite to Draw
      * @param s A Optional Vector of 2 float for the Scale
      */
-    Drawable(std::size_t ind = 0, std::optional<Rectangle> r = std::nullopt, std::vector<float> s = {}) : index(ind), rect(r)
+    Drawable(std::size_t ind = 0, std::optional<Rectangle> r = std::nullopt, std::vector<float> s = {1, 1}) : index(ind), rect(r)
     {
         if (r.has_value())
             start = r.value().x;
-        if (s.empty())
-            return;
         scale[0] = s[0];
         scale[1] = s[1];
     };
@@ -298,8 +296,9 @@ public:
             float a = (rect.value().width * scale[0]);
             float b = (rect.value().height * scale[1]);
             DrawTexturePro(textures[index], rect.value(), Rectangle{pos.x, pos.y, a, b}, {pos.x / 2, pos.y / 2}, 0, WHITE);
-        } else
+        } else {
             DrawTextureEx(textures[index], {pos.x, pos.y}, 0.0f, scale[0], WHITE);
+        }
     }
     void change_ind(std::size_t ind) { index = ind; };
     std::size_t getIndex() { return index; };

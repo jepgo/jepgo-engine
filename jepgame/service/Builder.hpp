@@ -60,7 +60,7 @@ namespace jgo {
             inline auto display() -> void {
                 std::cout << "data: " << std::hex;
                 for (auto const &b : _vec)
-                    std::cout << int(b) << " ";
+                    std::cout << static_cast<int>(b) << " ";
                 std::cout << std::dec << std::endl;
             }
             inline auto empty(void) const noexcept -> bool {
