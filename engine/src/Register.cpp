@@ -64,6 +64,8 @@ Register::Register()
     regist.insert({std::type_index(typeid(MessageTime)), SparseArray<MessageTime>()});
     regist.insert({std::type_index(typeid(AutoShoot)), SparseArray<AutoShoot>()});
     regist.insert({std::type_index(typeid(Model3D)), SparseArray<Model3D>()});
+    regist.insert({std::type_index(typeid(Rotation3D)), SparseArray<Rotation3D>()});
+    regist.insert({std::type_index(typeid(RotationTime)), SparseArray<RotationTime>()});
 }
 
 Register::~Register()
@@ -124,6 +126,8 @@ void Register::creatEntity()
     std::any_cast<SparseArray<MessageTime>&>(regist[std::type_index(typeid(MessageTime))]).add();
     std::any_cast<SparseArray<AutoShoot>&>(regist[std::type_index(typeid(AutoShoot))]).add();
     std::any_cast<SparseArray<Model3D>&>(regist[std::type_index(typeid(Model3D))]).add();
+    std::any_cast<SparseArray<Rotation3D>&>(regist[std::type_index(typeid(Rotation3D))]).add();
+    std::any_cast<SparseArray<RotationTime>&>(regist[std::type_index(typeid(RotationTime))]).add();
     for (auto const &cb : _rules) {
         cb(regist);
     }

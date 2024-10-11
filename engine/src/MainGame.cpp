@@ -45,6 +45,7 @@
 #include "SparseArray.hpp"
 #include "MoveSystem.hpp"
 #include "AnimationSpriteSystem.hpp"
+#include "Rotation3DSystem.hpp"
 
 /**
  * @brief Get the All Texture object
@@ -182,7 +183,7 @@ void MainGame::mainGame()
     playerEntity = r.entity_nbr;
     Game::CreateBoostModule(r, playerEntity);
     Game::CreateMessageTime(r, Positions(300, 100), "Farm as you can !", 0, 5);
-    //Game::CreateArmorModule(r, Positions(300, 300));
+    Game::CreateArmorModule(r, Positions(300, 300), 0);
     float startTime = GetTime();
     Game player = Game();
     AddDmgSystem addDmgSystem = AddDmgSystem(0.1);
@@ -197,7 +198,7 @@ void MainGame::mainGame()
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
     std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav", "sprites/explose.wav"});
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
-    std::vector<Model> models = getAllModel({{"models/model/ship.obj", "models/texture/texture_ship.png"}});
+    std::vector<Model> models = getAllModel({{"models/model/ship.obj", "models/texture/texture_ship.png"}, {"models/model/modul_armor.obj", "models/model/modul_armor.png"}});
 
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
@@ -269,6 +270,7 @@ void MainGame::mainGame()
         std::cout << "after stage" << std::endl;
         MessageTimeSystem::system(r, time);
         std::cout << "after messageTime" << std::endl;
+        Rotation3DSystem::system(r, time, models);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);

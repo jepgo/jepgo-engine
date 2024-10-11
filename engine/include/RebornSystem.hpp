@@ -23,7 +23,7 @@ class RebornSystem {
                     r.removeComponent<Sprite_Animation>(i);
                     r.emplace_comp(playerEntity, Controllable());
                     r.emplace_comp(playerEntity, Positions(100, 100));
-                    r.emplace_comp(playerEntity, Model3D(0, 70, 40, 10));
+                    r.emplace_comp(playerEntity, Model3D(1, 70, 40, 10));
                     r.emplace_comp(playerEntity, Hitable(100, 40));
                     r.emplace_comp(playerEntity, Life(30));
                     r.emplace_comp(playerEntity, Type(CONTRO));

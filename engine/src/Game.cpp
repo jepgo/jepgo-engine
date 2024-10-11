@@ -45,7 +45,7 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Positions(200, 200));
     //r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.currentEntity, Model3D(0, 70, 40, 10));
+    r.emplace_comp(r.currentEntity, Model3D(1, 70, 40, 10));
     r.emplace_comp(r.currentEntity, Velocity({10, 10, 10, 10}));
     r.emplace_comp(r.currentEntity, Colision(30, 18));
     r.emplace_comp(r.currentEntity, Controllable());
@@ -89,15 +89,17 @@ void Game::CreateShootModule(Register &r, Positions &&pos)
     r.emplace_comp(r.currentEntity, Type(NEUTRAL));
 }
 
-void Game::CreateArmorModule(Register &r, Positions &&pos)
+void Game::CreateArmorModule(Register &r, Positions &&pos, float time)
 {
     r.creatEntity();
     r.emplace_comp(r.currentEntity, std::move(pos));
     r.emplace_comp(r.currentEntity, Move(Positions(1, 0)));
-    r.emplace_comp(r.currentEntity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
+    //r.emplace_comp(r.currentEntity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(r.currentEntity, Model3D(0, 30, 10, 10, 80));
+    r.emplace_comp(r.currentEntity, RotationTime((Vector3){1, 0, 0}, 0, time, 0.1));
     r.emplace_comp(r.currentEntity, Sprite_Animation(4, 32, 0.2));
-    r.emplace_comp(r.currentEntity, Hitable(64, 64));
-    r.emplace_comp(r.currentEntity, ModuleArmor({{LEFT, 150}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
+    r.emplace_comp(r.currentEntity, Hitable(80, 90));
+    r.emplace_comp(r.currentEntity, ModuleArmor({{LEFT, 170}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
     r.emplace_comp(r.currentEntity, Type(NEUTRAL));
     r.emplace_comp(r.currentEntity, DoDmg(30));
     r.emplace_comp(r.currentEntity, Explosion(1, 4, -37, 0.2, 10, CONTRO, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));

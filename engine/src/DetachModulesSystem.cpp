@@ -15,7 +15,8 @@ static void SetModuleArm(Register &r, std::size_t entity, float time)
     //r.removeComponent<Life>(entity);
     r.removeComponent<Move>(entity);
     r.emplace_comp(entity, MoveTo(Positions(pos[entity].value().x + 100, pos[entity].value().y), 2));
-    r.emplace_comp(entity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
+    //r.emplace_comp(entity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
+    //r.emplace_comp(r.entity_nbr, Model3D(0, 30, 10, 10, 30));
     r.emplace_comp(entity, Sprite_Animation(4, 32, 0.2));
     r.emplace_comp(entity, Hitable(64, 64));
     r.emplace_comp(entity, ModuleArmor({{LEFT, 120}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));

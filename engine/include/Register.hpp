@@ -20,6 +20,7 @@
 #include "Enemy.hpp"
 #include "Components.hpp"
 #include "Module.hpp"
+#include "Rotation3D.hpp"
 
 class Register
 {

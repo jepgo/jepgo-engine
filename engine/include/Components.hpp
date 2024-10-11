@@ -625,19 +625,24 @@ class Death {
         ~Death() {};
 };
 
+
 class Model3D {
     public:
-        Model3D(std::size_t ind, float scale, float width, float height) : _ind(ind), _scale(scale), _width(width), _height(height) {};
+        Model3D(std::size_t ind, float scale, float width, float height, std::optional<float> angle = std::nullopt) : _ind(ind), _scale(scale), _width(width), _height(height), _angle(angle) {};
         ~Model3D() {};
         std::size_t const &getInd() {return _ind;};
         float getScale() {return _scale;};
         float getWidth() {return _width;};
         float getHeight(){return _height;};
+        std::optional<float> &getAngle() {return _angle;};
+        bool &getRotate() {return isRotate;};
     private:
         std::size_t _ind;
         float _scale;
         float _width;
         float _height;
+        std::optional<float> _angle;
+        bool isRotate = false;
 };
 
 class Dmg {
