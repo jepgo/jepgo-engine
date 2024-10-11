@@ -6,7 +6,7 @@
 ##
 
 CXX = g++
-BIN = whack-a-mole
+BIN = whack-a-mole-game
 
 FILES_UNIT	=	*.gc*
 
