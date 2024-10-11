@@ -32,9 +32,8 @@ static void updatePosition
         return;
     
     // set the velocity and move
-    // std::cout << "set move to " << id << std::endl;
-    vel[id].value().setVel(dir);
-    server.ecs.emplace_comp(id, Move(vel[id].value().getVel()));
+    vel[id]->setVel(dir);
+    server.ecs.emplace_comp(id, Move(vel[id]->getVel()));
 }
 
 exported(void) onClientMessage
@@ -94,7 +93,7 @@ exported(void) onUpdate(jgame::Server &server)
     /// FIXME: hardcoded
     jgo::Builder build(0);
 
-    if (float(ClockPP()) - server.getTime() < .01)
+    if (static_cast<float>(ClockPP()) - server.getTime() < .01)
         return;
     server.updateTime();
 

@@ -15,9 +15,9 @@ namespace asio::ip {
     #include <cstdint>
     #include <array>
 
-    static unsigned int const &&maxBufferSize = 128ul;
+    static unsigned int const &&MAX_BUFFER_SIZE = 128ul;
     using port = std::uint16_t;
-    using cppBuffer = std::array<char, maxBufferSize>;
+    using cppBuffer = std::array<char, MAX_BUFFER_SIZE>;
 }
 
 namespace jgo {

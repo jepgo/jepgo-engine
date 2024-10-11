@@ -27,8 +27,8 @@ auto jgo::Builder::reset(enums::FromAny op) -> void
 {
     enums::FromClient *clientOpPtr = std::get_if<enums::FromClient>(&op);
     jgo::u8 opNum = (clientOpPtr == nullptr) ?
-        jgo::u8{ std::get<enums::FromServer>(op) } :
-        jgo::u8{ *clientOpPtr };
+        static_cast<jgo::u8>(std::get<enums::FromServer>(op)):
+        static_cast<jgo::u8>(*clientOpPtr);
 
     this->reset(opNum);
 }
@@ -53,7 +53,7 @@ auto jgo::Builder::fromString(std::string const &s) -> jgo::Builder
     if (s.empty())
         throw std::runtime_error("invalid use of empty string.");
     
-    Builder foo = Builder(jgo::u8(s[0]));
+    Builder foo = Builder(static_cast<jgo::u8>(s[0]));
     if (s.length() == 1)
         return foo;
     foo._vec = std::vector<jgo::u8>(s.begin() + 1, s.end());

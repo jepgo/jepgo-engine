@@ -67,9 +67,7 @@ namespace jgame {
             void getAllTextures(std::vector<std::string> list) {
                 textures.reserve(list.size());
                 for (std::size_t i = 0; i < list.size(); i++) {
-                    std::cout << list[i].c_str() << std::endl;
                     Texture2D tmp = LoadTexture(list[i].c_str());
-                    //tmp.loadFromFile(list[i].c_str());
                     textures.push_back(std::move(tmp));
                 }
             }
