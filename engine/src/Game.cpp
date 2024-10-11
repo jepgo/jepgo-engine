@@ -45,8 +45,9 @@ void Game::CreatPlayer(Register &r, int height, int width)
 {
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Positions(200, 200));
-    r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.currentEntity, Velocity({5, 5, 5, 5}));
+    //r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
+    r.emplace_comp(r.currentEntity, Model3D(0));
+    r.emplace_comp(r.currentEntity, Velocity({10, 10, 10, 10}));
     r.emplace_comp(r.currentEntity, Colision(30, 18));
     r.emplace_comp(r.currentEntity, Controllable());
     r.emplace_comp(r.currentEntity, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
@@ -136,7 +137,7 @@ void Game::CreateAsteroid(Register &r)
 {
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Positions(0, 0));
-    r.emplace_comp(r.currentEntity, Move(Positions(-2, 0)));
+    r.emplace_comp(r.currentEntity, Move(Positions(-4, 0)));
     r.emplace_comp(r.currentEntity, Positions(1700, randomYPos()));
     r.emplace_comp(r.currentEntity, Drawable(0, Rectangle{0, 0, 17, 18}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.currentEntity, Sprite_Animation(10, 17, 0.05));
@@ -154,7 +155,7 @@ void Game::CreateShipShoot(Register &r, Positions &&pos)
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{229, 100, 20, 20}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.currentEntity, pos);
-    r.emplace_comp(r.currentEntity, Move(Positions(10, 0)));
+    r.emplace_comp(r.currentEntity, Move(Positions(20, 0)));
     r.emplace_comp(r.currentEntity, Hitable(40, 40));
     r.emplace_comp(r.currentEntity, Life(1));
     r.emplace_comp(r.currentEntity, DoDmg(10));

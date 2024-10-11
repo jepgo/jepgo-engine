@@ -23,7 +23,8 @@ class RebornSystem {
                     r.removeComponent<Sprite_Animation>(i);
                     r.emplace_comp(playerEntity, Controllable());
                     r.emplace_comp(playerEntity, Positions(100, 100));
-                    r.emplace_comp(playerEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
+                    //r.emplace_comp(playerEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
+                    r.emplace_comp(playerEntity, Model3D(0));
                     r.emplace_comp(playerEntity, Hitable(100, 40));
                     r.emplace_comp(playerEntity, Life(30));
                     r.emplace_comp(playerEntity, Type(CONTRO));

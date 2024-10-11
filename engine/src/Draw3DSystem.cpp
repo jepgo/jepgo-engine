@@ -20,15 +20,10 @@ void Draw3DSystem::system(Register &r, float &time, Model &mod)
     auto &draw = r.getComp<Model3D>();
     auto &pos = r.getComp<Positions>();
 
-    for (std::size_t i = 0; i < draw.size(); i++)
-    {
-        if (draw[i].has_value() && pos[i].has_value())
-        {
-            // std::cout << "draw" << std::endl;
+    for (std::size_t i = 0; i < draw.size(); i++) {
+        if (draw[i].has_value() && pos[i].has_value()) {
             Positions &p = pos[i].value();
-            //DrawModel(mod, (Vector3){0, 0, 0}, 0.2, WHITE);
-            std::cout << "ship2 = " << p.x << " " << p.y << std::endl;
-            DrawModel(mod, (Vector3){p.x / 2 + 50, 600 - p.y / 2 - 10, 0}, 100, WHITE);
+            DrawModel(mod, (Vector3){p.x / 2 + 40, 600 - p.y / 2 - 10, 0}, 70, WHITE);
         }
     }
 };

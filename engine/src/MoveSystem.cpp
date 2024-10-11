@@ -57,17 +57,12 @@ void MoveSystem::system(Register &r, float t) {
     auto &move = r.getComp<Move>();
     auto &pos = r.getComp<Positions>();
     auto &screen = r.getComp<ScreenLimit>();
-    auto &toto = r.getComp<Model3D>();
 
     if (t - time <= reset) {
         return;
     }
     for (std::size_t i = 0; i < move.size(); i++) {
-        if (move[i].has_value() && toto[i].has_value())
-            std::cout << "caca" << std::endl;
         if (move[i].has_value() && pos[i].has_value() && MoveSystem::checkMovement(r, i, move[i].value().getPos()) && checkScreen(screen[i],Positions(move[i].value().getPos() + pos[i].value()))) {
-                if (toto[i].has_value())
-                    std::cout << "yep" << std::endl;
                 r.emplace_comp(i, Positions(move[i].value().getPos() + pos[i].value()));
         }
     }

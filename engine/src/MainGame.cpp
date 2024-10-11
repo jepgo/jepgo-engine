@@ -198,13 +198,6 @@ void MainGame::mainGame()
     std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav", "sprites/explose.wav"});
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
 
-    Model model = LoadModelFromMesh(GenMeshCube(50.0f, 50.0f, 50.0f)); // Modèle simple : cube
-    // Model model = LoadModel("resources/my_model.obj"); // Utilisez ceci pour un modèle OBJ
-
-    // Charger la texture pour le modèle
-    //Texture2D textureModel = LoadTexture("resources/my_texture.png");
-    //model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = textureModel;
-
     r.creatEntity();
     r.emplace_comp(r.currentEntity, SoundLoop(1));
     while (!WindowShouldClose()) {
@@ -238,7 +231,7 @@ void MainGame::mainGame()
         SoundLoopSystem::system(r, sounds, time);
         BombGenerationTimeSystem::system(r, time);
         BombGenerationSystem::system(r, time);
-        //game.Stages(r, time, playerEntity, sounds);
+        game.Stages(r, time, playerEntity, sounds);
         MessageTimeSystem::system(r, time);
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -246,11 +239,11 @@ void MainGame::mainGame()
         BeginMode3D(camera);
         draw3D.system(r, time, mod);
         EndMode3D();
-        // DrawKmSystem::system(r);
-        // DrawLvlSystem::system(r);
-        // DrawPointsSystem::system(r);
-        // DrawRebornSystem::system(r);
-        // MessageSystem::system(r);
+        DrawKmSystem::system(r);
+        DrawLvlSystem::system(r);
+        DrawPointsSystem::system(r);
+        DrawRebornSystem::system(r);
+        MessageSystem::system(r);
         EndDrawing();
     }
 }
