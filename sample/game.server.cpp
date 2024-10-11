@@ -12,8 +12,9 @@
 #include "jepgame/gamemaker/Server.hpp"
 #include "jepgame/gamemaker/hardcoded.hpp"
 #include "jepgame/service/Components.hpp"
+#include "jepmod/exported.hpp"
 
-extern "C" void onStart(jgame::Server &server)
+exported(void) onStart(jgame::Server &server)
 {
     server.host(1234);
     // server.settings.frequency = 10;
@@ -36,7 +37,7 @@ static void updatePosition
     server.ecs.emplace_comp(id, Move(vel[id].value().getVel()));
 }
 
-extern "C" void onClientMessage
+exported(void) onClientMessage
 (jgame::Server &server, std::string const &msg, jgo::Connection &client)
 {
     jgo::Builder builder = jgo::Builder::fromString(msg);
@@ -88,7 +89,7 @@ static jgo::Builder generateTypeToSend
     return build;
 }
 
-extern "C" void onUpdate(jgame::Server &server)
+exported(void) onUpdate(jgame::Server &server)
 {
     /// FIXME: hardcoded
     jgo::Builder build(0);
@@ -97,27 +98,22 @@ extern "C" void onUpdate(jgame::Server &server)
         return;
     server.updateTime();
 
-
-    build = generateTypeToSend<Positions>(
+    server.sendToAll(generateTypeToSend<Positions>(
         server,
         jgo::enums::Components::Position
-    );
-    std::cout << std::hex;
-    for (jgo::u8 b : build.toBytes())
-        std::cout << int(b) << " ";
-    std::cout << std::dec << std::endl;
-    server.sendToAll(build);
+    ));
 
-
-    build = generateTypeToSend<Drawable>(
+    server.sendToAll((
         server,
         jgo::enums::Components::Drawable
-    );
-    std::cout << std::hex;
-    for (jgo::u8 b : build.toBytes())
-        std::cout << int(b) << " ";
-    std::cout << std::dec << std::endl;
-    server.sendToAll(build);
+    ));
+    // auto &comps = server.ecs.getComp<Drawable>();
+    // if (server.ecs.entityNbr() and comps[0])
+    //     comps[0]->showMem();
+    // std::cout << std::hex;
+    // for (jgo::u8 b : build.toBytes())
+    //     std::cout << int(b) << " ";
+    // std::cout << std::dec << std::endl;
 }
 
 // this part will be hiden later

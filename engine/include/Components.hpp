@@ -6,11 +6,15 @@
 */
 
 #pragma once
-#include "Raylib.hpp"
+
 #include <iostream>
 #include <optional>
 #include <vector>
 #include <map>
+
+#include <iomanip>
+
+#include "Raylib.hpp"
 
 class Register;
 
@@ -353,17 +357,14 @@ public:
      * @param r optional rectangle for The Sprite to Draw
      * @param s A Optional Vector of 2 float for the Scale
      */
-    Drawable(std::size_t ind = 0, std::optional<Rectangle> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : index(ind), rect(r)
+    Drawable(std::size_t ind = 0, std::optional<Rectangle> r = std::nullopt, std::vector<float> s = {}) : index(ind), rect(r)
     {
         if (r.has_value())
             start = r.value().x;
-        if (s.has_value())
-            scale = s.value();
-        else
-        {
-            scale.push_back(1);
-            scale.push_back(1);
-        }
+        if (s.empty())
+            return;
+        scale[0] = s[0];
+        scale[1] = s[1];
     };
     ~Drawable() {
     };
@@ -380,10 +381,39 @@ public:
     std::size_t getIndex() { return index; };
     std::optional<Rectangle> &getRect() { return rect; };
     int start;
+    /**
+     * @deprecated
+     * FIXME: to delete
+     */
+    void showMem(void) const {
+        std::uint8_t *ptr;
+        std::cout << "=== Drawable class memory ===" << std::endl;
+        std::cout << std::hex << std::setw(2) << std::setfill('0'); // set
+        
+        ptr = (std::uint8_t *)this;
+        for (std::size_t n = 0; n < sizeof(Drawable); ++n)
+            std::cout << int(ptr[n]) << " ";
+        std::cout << std::endl;
+        
+        ptr = (std::uint8_t *)&this->rect;
+        std::cout << "rect bytes: ";
+        for (std::size_t n = 0; n < sizeof(this->rect); ++n)
+            std::cout << int(ptr[n]) << " ";
+        std::cout << std::endl;
+        
+        ptr = (std::uint8_t *)&this->scale;
+        std::cout << "scale bytes: ";
+        for (std::size_t n = 0; n < sizeof(this->scale); ++n)
+            std::cout << int(ptr[n]) << " ";
+        std::cout << std::endl;
+
+        std::cout << std::setw(0) << std::setfill(' ') << std::dec; // reset
+        std::cout << "=============================" << std::endl;
+    }
 
 private:
     std::size_t index;
-    std::vector<float> scale;
+    float scale[2] = { 1, 1 };
     std::optional<Rectangle> rect;
 };
 
@@ -460,8 +490,10 @@ public:
 
 class Animation2Time {
     public:
-        Animation2Time(Short_Animation &&anim1, Short_Animation &&anim2, std::vector<float> &&animsTime, float time)
-        : _anim1(anim1), _anim2(anim2), _animsTime(animsTime), _time(time) {
+        Animation2Time(Short_Animation &&anim1, Short_Animation &&anim2, std::vector<float> const &animsTime, float time)
+        : _anim1(anim1), _anim2(anim2), _time(time) {
+            _animsTime[0] = animsTime[0];
+            _animsTime[1] = animsTime[1];
             _reset = 0;
         };
         ~Animation2Time() {};
@@ -476,7 +508,7 @@ class Animation2Time {
     private:
         Short_Animation _anim1;
         Short_Animation _anim2;
-        std::vector<float> _animsTime;
+        float _animsTime[2];
         float _time;
         bool _status = false;
 };
@@ -590,10 +622,14 @@ public:
      * @param r The optional rectangle
      * @param s The optional scale of the Sprite
      */
-    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, TYPE ty, std::optional<Rectangle> r = std::nullopt, std::optional<std::vector<float>> s = std::nullopt) : _dmg(dmg), type(ty), index(ind), rect(r), scale(s), stat(status), time(t)
-    {
-        value = val;
-    };
+    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, TYPE ty, std::optional<Rectangle> r = std::nullopt, std::vector<float> s = {})
+    : _dmg(dmg), type(ty), index(ind), rect(r), stat(status), time(t), value(val) {
+        if (s.empty())
+            return;
+        scale[0] = s[0];
+        scale[1] = s[1];
+        return;
+    }
     ~Explosion() {};
     /**
      * @brief The action for the explosion
@@ -607,7 +643,7 @@ public:
 private:
     std::size_t index;
     std::optional<Rectangle> rect;
-    std::optional<std::vector<float>> scale;
+    float scale[2] = {1, 1};
     int stat;
     double time;
     int value;
