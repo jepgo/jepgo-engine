@@ -18,7 +18,7 @@ extern "C" void onStart(jgame::Client &client)
     /// FIXME: hardcoded
     // Game::CreateBackGround(client.ecs);
     // Game::CreatePlanet(client.ecs);
-    Game::CreatPlayer(client.ecs, client.window.width, client.window.heigth);
+    // Game::CreatPlayer(client.ecs, client.window.width, client.window.heigth);
 
     // test
     // auto &drawables = client.ecs.getComp<Controllable>();
@@ -41,19 +41,14 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
     jgo::s8 num;
 
     for (std::size_t n = 0; not builder.empty(); ++n) {
-        std::cout << "zizi" << std::endl;
         if (n >= client.ecs.entityNbr())
             client.ecs.creatEntity();
-        std::cout << "zozo" << std::endl;
         builder.restore<jgo::s8>(num);
         if (num == -1)
             continue;
-        std::cout << "bachibouzouk" << std::endl;
-        buf.fill(builder.toBytes().data());
+        auto foo = *((T *)(builder.toBytes().data()));
         builder.popFront(sizeof(T));
-        std::cout << "foo" << std::endl;
         client.ecs.emplace_comp(n, buf.cast<T>());
-        std::cout << "ban" << std::endl;
     }
 }
 

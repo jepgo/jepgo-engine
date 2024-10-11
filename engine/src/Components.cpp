@@ -12,17 +12,13 @@ void Explosion::explose(Register &r, std::size_t entity)
 {
     auto &dmg = r.getComp<Dmg>();
 
-    if (rect.has_value() && scale.has_value())
-    {
-        r.emplace_comp(entity, Drawable(index, std::move(rect.value()), std::vector<float>{scale.value().front(), scale.value().back()}));
+    if (rect.has_value()) {
+        r.emplace_comp(entity, Drawable(index, std::move(rect.value()), {scale[0], scale[1]}));
         r.emplace_comp(entity, Sprite_Animation(stat, value, time, true));
-    }
-    else if (rect.has_value())
-    {
+    } else if (rect.has_value()) {
         r.emplace_comp(entity, Drawable(index, std::move(rect)));
         r.emplace_comp(entity, Sprite_Animation(stat, value, time, true));
-    }
-    else
+    } else
         r.emplace_comp(entity, Drawable(index));
 
     r.removeComponent<Hitable>(entity);
