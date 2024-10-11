@@ -627,11 +627,17 @@ class Death {
 
 class Model3D {
     public:
-        Model3D(std::size_t ind) : _ind(ind) {};
+        Model3D(std::size_t ind, float scale, float width, float height) : _ind(ind), _scale(scale), _width(width), _height(height) {};
         ~Model3D() {};
         std::size_t const &getInd() {return _ind;};
+        float getScale() {return _scale;};
+        float getWidth() {return _width;};
+        float getHeight(){return _height;};
     private:
         std::size_t _ind;
+        float _scale;
+        float _width;
+        float _height;
 };
 
 class Dmg {

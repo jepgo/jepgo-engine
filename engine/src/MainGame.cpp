@@ -154,15 +154,17 @@ std::vector<Texture2D> getAllTexture(std::vector<std::string> list)
     return texture;
 }
 
-void deletAll(std::vector<Sound> sounds, std::vector<Texture2D> texture)
+std::vector<Model> getAllModel(const std::map<std::string, std::string> models)
 {
-    // for (auto &s : sounds) {
-    //     UnloadSound(s);
-    // }
+    std::vector<Model> res;
 
-    // for (auto &t : texture) {
-    //     UnloadTexture(t);
-    // }
+    for (auto &mod : models) {
+        Model tmp = LoadModel(mod.first.c_str());
+        Texture2D tex = LoadTexture(mod.second.c_str());
+        tmp.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = tex;
+        res.push_back(std::move(tmp));
+    }
+    return res;
 }
 
 void MainGame::mainGame()
@@ -190,13 +192,14 @@ void MainGame::mainGame()
     HitSystem hitSys = HitSystem();
     DrawSystem drawSys = DrawSystem();
     Draw3DSystem draw3D = Draw3DSystem(0, 0.1);
-    Model mod = LoadModel("models/model/ship.obj");
-    Texture2D tex = LoadTexture("models/texture/texture_ship.png");
-    mod.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = tex;
+    // Model mod = LoadModel("models/model/ship.obj");
+    // Texture2D tex = LoadTexture("models/texture/texture_ship.png");
+    // mod.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = tex;
     MoveToPlayerSystem movetoplayer = MoveToPlayerSystem(0.3);
     AnimationSpriteSystem animSys = AnimationSpriteSystem();
     std::vector<Sound> sounds = getAllSound({"sprites/test.ogg", "sprites/level1.ogg", "sprites/laser.wav", "sprites/explose.wav"});
     std::vector<Texture2D> texture = getAllTexture({ "sprites/r-typesheet3.gif", "sprites/r-typesheet1.gif", "sprites/r-typesheet2.gif", "sprites/parallax-space-backgound.png", "sprites/parallax-space-big-planet.png", "sprites/r-typesheet32.gif", "sprites/r-typesheet14.gif"});
+    std::vector<Model> models = getAllModel({{"models/model/ship.obj", "models/texture/texture_ship.png"}});
 
     r.creatEntity();
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
@@ -246,7 +249,7 @@ void MainGame::mainGame()
         ClearBackground(RAYWHITE);
         drawSys.system(r, texture);
         BeginMode3D(camera);
-        draw3D.system(r, time, mod);
+        draw3D.system(r, time, models);
         EndMode3D();
         DrawKmSystem::system(r);
         DrawLvlSystem::system(r);

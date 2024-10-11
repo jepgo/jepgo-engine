@@ -12,7 +12,7 @@ class Draw3DSystem {
     public:
         Draw3DSystem(float time, float reset);
         ~Draw3DSystem();
-        void system(Register &r, float &time, Model &mod);
+        void system(Register &r, float &time, std::vector<Model> &mod);
     private:
         float _time;
         float _reset;
