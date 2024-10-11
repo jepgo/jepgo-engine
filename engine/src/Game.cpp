@@ -46,7 +46,7 @@ void Game::CreatPlayer(Register &r, int height, int width)
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Positions(200, 200));
     //r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.currentEntity, Model3D(0));
+    r.emplace_comp(r.currentEntity, Model3D(0, 70, 40, 10));
     r.emplace_comp(r.currentEntity, Velocity({10, 10, 10, 10}));
     r.emplace_comp(r.currentEntity, Colision(30, 18));
     r.emplace_comp(r.currentEntity, Controllable());
@@ -119,15 +119,15 @@ static int randomYPos()
 void Game::CreateBomb(Register &r, Positions &&pos, float time, float reset)
 {
     r.creatEntity();
-    r.emplace_comp(r.currentEntity, MoveToPlayer(2));
+    r.emplace_comp(r.currentEntity, MoveToPlayer(4));
     r.emplace_comp(r.currentEntity, std::move(pos));
     r.emplace_comp(r.currentEntity, Drawable(6, Rectangle{185, 140, 15, 15}, std::vector<float>{1, 1}));
     r.emplace_comp(r.currentEntity, MoveToPlayerTime(time, reset));
     r.emplace_comp(r.currentEntity, Short_Animation(4, 16, 1, 185));
     r.emplace_comp(r.currentEntity, Velocity({1, 1, 1, 1}));
-    r.emplace_comp(r.currentEntity, Hitable(15, 15, Positions(1, -1)));
+    r.emplace_comp(r.currentEntity, Hitable(30, 30, Positions(1, -1)));
     r.emplace_comp(r.currentEntity, Enemy(100, 10));
-    //r.emplace_comp(r.currentEntity, Life(30));
+    //r.emplace_comp(r.currentEntity  , Life(30));
     r.emplace_comp(r.currentEntity, DoDmg(10));
     r.emplace_comp(r.currentEntity, Type(BOMB));
     r.emplace_comp(r.currentEntity, Explosion(1, 4, -37, 0.2, 10, BOMB, Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
