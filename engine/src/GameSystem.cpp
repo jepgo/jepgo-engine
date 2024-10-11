@@ -39,6 +39,6 @@ void GameSystem::system(Register &r, float time, int entity) {
     if (lvl[entity].value()._lvl == 2 && lvlup != 0)
         Game::CreateShootModule(r, Positions(-10, 300));
     if (lvl[entity].value()._lvl == 3 && lvlup != 0) {
-        Game::CreateArmorModule(r, Positions(-10, 300));
+        Game::CreateArmorModule(r, Positions(-10, 300), time);
     }
 }

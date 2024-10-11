@@ -21,7 +21,7 @@ class Game {
         static void CreateShipShoot(Register &r, Positions &&);
         static void CreateMiniBoss1(Register &r, Positions &&);
         static void CreateShootModule(Register &r, Positions &&);
-        static void CreateArmorModule(Register &r, Positions &&);
+        static void CreateArmorModule(Register &r, Positions &&, float time);
         static void CreatPlayer(Register &r, int height, int width);
         static void CreateBoostModule(Register &r, std::size_t PlayerEntity);
         static void CreateMessageTime(Register &r, Positions &&, std::string text, float time, float reset);
