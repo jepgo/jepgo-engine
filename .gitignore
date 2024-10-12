@@ -8,6 +8,9 @@
 R-TYPE
 r-type_client
 r-type_server
+openInclude
+client
+server
 
 # Trashy Folders
 .vscode/

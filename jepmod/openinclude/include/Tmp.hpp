@@ -7,14 +7,16 @@
 
 #pragma once
 
-class Tmp {
-    public:
-        Tmp();
-        ~Tmp();
+namespace foo {
+    class Tmp {
+        public:
+            Tmp();
+            ~Tmp();
 
-    protected:
-    private:
-};
+        protected:
+        private:
+    };
+}
 
 class Ok {
     public:

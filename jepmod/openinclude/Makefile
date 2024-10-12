@@ -19,8 +19,7 @@ LDFLAGS += -lraylib
 
 MAIN	=	src/main.cpp \
 
-SRC =	src/Error.cpp	\
-		src/OpenInclude.cpp	\
+SRC =	src/OpenInclude.cpp	\
 
 
 OBJS += $(SRC:.cpp=.o)
