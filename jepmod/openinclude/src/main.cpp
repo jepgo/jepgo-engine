@@ -8,7 +8,24 @@
 #include <string>
 #include <iostream>
 
+#include "jepmod/exported.hpp"
 #include "OpenInclude.hpp"
+#include "FileBuilder.hpp"
+
+void generateServerModule(std::string const &hppFile)
+{
+    OpenInclude includes = OpenInclude(hppFile);
+    FileBuilder fb(includes, "out.cpp");
+
+    for (auto const &e : includes.getClasses())
+        std::cout << "class found: " << e << std::endl;
+    for (auto const &f : includes.getFiles())
+        std::cout << "file found: " << f << std::endl;
+    fb.writeHeader();
+    fb.writePreprocess();
+    fb.writeEnum();
+    fb.writeServer();
+}
 
 int main(int ac, char **av)
 {
@@ -17,9 +34,7 @@ int main(int ac, char **av)
     try {
         if (args.empty())
             throw OpenInclude::Error("bad argument numbers");
-        OpenInclude tmp = OpenInclude(args[0]);
-        for (auto const &e : tmp.getClasses())
-            std::cout << "class found: " << e << std::endl;
+        generateServerModule(args[0]);
     } catch(OpenInclude::Error const &e) {
         std::cerr << "failure: " << e.what() << std::endl;
     }

@@ -10,3 +10,10 @@
 #include "OpenInclude.hpp"
 #include "Tmp.hpp"
 
+class Foo {
+    public:
+        Foo();
+        ~Foo();
+    private:
+};
+
