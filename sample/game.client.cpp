@@ -41,7 +41,7 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
     CBuffer<jgo::u8> buf(sizeof(T));
     jgo::s8 num;
 
-    builder.display();
+    // builder.display();
     for (std::size_t n = 0; not builder.empty(); ++n) {
         if (n >= client.ecs.entityNbr())
             client.ecs.creatEntity();
@@ -68,13 +68,8 @@ exported(void) onServerMessage(jgame::Client &client, std::string const &msg)
 
             std::cout << client.ecs.entityNbr() << std::endl;
 
-            if (op == jgo::enums::Components::Position) {
+            if (op == jgo::enums::Components::Position)
                 retrieveSomething<Positions>(client, builder);
-                auto &e = client.ecs.getComp<Positions>();
-                for (size_t n = 0; n < e.size(); ++n)
-                    if (e[n])
-                        std::cout << e[n]->x << ", " << e[n]->y << std::endl;
-            }
             else if (op == jgo::enums::Components::Drawable)
                 retrieveSomething<Drawable>(client, builder);
             break;
@@ -95,15 +90,13 @@ exported(void) onUpdate(jgame::Client &client)
     );
 
     // get positions and drawable
-    // std::cout << "have position ? have drawable ?" << std::endl;
-    // auto &a = client.ecs.getComp<Positions>();
-    // if (a.size() == 0)
-    //     return;
-    // std::cout << std::boolalpha << a[0].has_value() << std::endl;
-    // std::cout << std::boolalpha << a[0]->x << ", " << a[0]->y << std::endl;
-
-    // auto &b = client.ecs.getComp<Drawable>();
-    // std::cout << std::boolalpha << b[0].has_value() << std::endl;
+    auto &a = client.ecs.getComp<Positions>();
+    auto &b = client.ecs.getComp<Drawable>();
+    for (size_t n = 0; n < a.size(); ++n) {
+        std::cout << n << ": [" << a[n].has_value()
+            << "] [" << b[n].has_value() << "]" << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 // this part will be hiden later

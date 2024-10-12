@@ -17,6 +17,9 @@
 exported(void) onStart(jgame::Server &server)
 {
     server.host(1234);
+
+    // Game::CreateBackGround(server.ecs);
+    // Game::CreatePlanet(server.ecs);
     // server.settings.frequency = 10;
 }
 
@@ -31,6 +34,7 @@ static void updatePosition
     if (not vel[id] or not control[id] or not pos[id])
         return;
     
+    // std::cout << dir.x << ", " << dir.y << ":: " << id << std::endl;
     // set the velocity and move
     vel[id]->setVel(dir);
     server.ecs.emplace_comp(id, Move(vel[id]->getVel()));
@@ -106,6 +110,10 @@ exported(void) onUpdate(jgame::Server &server)
         server,
         jgo::enums::Components::Drawable
     ));
+
+    // server.sendCustom([](jgo::Connection &client){
+    //     return "";
+    // });
 
     // auto &comps = server.ecs.getComp<Drawable>();
     // if (server.ecs.entityNbr() and comps[0])

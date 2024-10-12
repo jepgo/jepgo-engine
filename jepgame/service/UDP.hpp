@@ -8,6 +8,7 @@
 #pragma once
 
 #include <mutex>
+#include <functional>
 
 #include "Asio.hpp"
 #include "Connections.hpp"
@@ -15,6 +16,9 @@
 namespace jgo {
     class UDP {
         public:
+            using CustomCallback =
+                std::function<std::string(jgo::Connection &)>;
+
             UDP(asio::ip::port port, asio::io_service &service);
             UDP(std::string const &addr,
                 asio::ip::port port, asio::io_service &service);
@@ -22,6 +26,7 @@ namespace jgo {
             auto listen(void) -> void;
             auto send(std::string const &s) -> void;
             auto sendToAll(std::string const &s) -> void;
+            auto sendToAllCustom(CustomCallback callback) -> void;
 
             inline auto getYapers(void) -> std::vector<jgo::ConnectionRef> {
                 return _pool.getYapers();
