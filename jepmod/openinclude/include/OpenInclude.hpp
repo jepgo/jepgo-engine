@@ -8,13 +8,19 @@
 #pragma once
 
 #include <string>
+#include <stdexcept>
 #include <vector>
 
 class OpenInclude {
     public:
         OpenInclude(std::string const &file);
+
         inline auto getClasses(void) const noexcept -> std::vector<std::string> {
             return _allClasses;
+        }
+
+        inline auto getFiles(void) const noexcept -> std::vector<std::string> {
+            return _allFile;
         }
 
         class Error : public std::exception {

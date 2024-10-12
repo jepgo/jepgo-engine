@@ -12,14 +12,15 @@ BIN_TESTS	=	build_tests
 FILES_UNIT	=	*.gc*
 
 CFLAGS += -Wall -Wextra -Wpedantic -std=c++20
-CPPFLAGS += -iquote./include
+CPPFLAGS += -iquote./include -iquote../..
 LDFLAGS += -lraylib
 
 # Source files
 
 MAIN	=	src/main.cpp \
 
-SRC =	src/OpenInclude.cpp	\
+SRC = src/OpenInclude.cpp \
+	src/FileBuilder.cpp
 
 
 OBJS += $(SRC:.cpp=.o)

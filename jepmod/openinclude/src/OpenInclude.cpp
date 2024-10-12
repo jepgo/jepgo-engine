@@ -37,6 +37,7 @@ static void getAllFiles(std::string const &f, std::vector<std::string> &tmp)
     while (std::getline(file, line))
         final += line + "\n";
     file.close();
+    tmp.push_back(f);
     getFiles(final, tmp);
 }
 
