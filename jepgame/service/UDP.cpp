@@ -64,3 +64,9 @@ auto UDP::send(std::string const &s) -> void
 {
     _socket.send_to(asio::buffer(s), _endpoint);
 }
+
+auto UDP::sendToAllCustom(UDP::CustomCallback callback) -> void
+{
+    for (Connection &e : _pool.getEveryone())
+        _socket.send_to(asio::buffer(callback(e)), e.getEndpoint());
+}

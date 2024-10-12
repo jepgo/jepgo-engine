@@ -9,7 +9,9 @@
 
 #include <string>
 #include <optional>
+#include <functional>
 
+#include "jepgame/service/UDP.hpp"
 #include "jepgame/service/UDPBase.hpp"
 #include "engine/engine.hpp"
 #include "jepgame/toolbox/Clock++.hpp"
@@ -28,6 +30,9 @@ namespace jgame {
             }
             inline auto sendToAll(jgo::Builder const &builder) -> void {
                 _udp->sendToAll(builder.toString());
+            }
+            auto sendCustom(jgo::UDP::CustomCallback callback) -> void {
+                _udp->sendToAllCustom(callback);
             }
             inline void updateTime(void) override {
                 _time.current = static_cast<float>(_clock());
