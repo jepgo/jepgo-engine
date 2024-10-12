@@ -9,7 +9,7 @@
     #define WHACKAMOLE_HPP_
     #include "Register.hpp"
     #include "DrawSystem.hpp"
-    #include "AnimationSpriteSystem.hpp"
+    #include "Sprite2DMultiAnimSystem.hpp"
 
 /**
  * @brief The namespace of the WhackAMole game
@@ -58,12 +58,10 @@ namespace WhackAMole {
             Systems::DrawSystem _drawSys;
 
             /**
-             * @brief The AnimationSpriteSystem object
+             * @brief The Sprite2DMultiAnimSystem object
              * 
              */
-            Systems::AnimationSpriteSystem _animSys;
-
-
+            Systems::Sprite2DMultiAnimSystem _animSys;
 
             /**
              * @brief All the loaded textures of the game

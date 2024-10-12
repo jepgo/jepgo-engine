@@ -23,10 +23,11 @@ SYSTEMS_SRC_PARH = $(SRCPATH)/systems
 SRC =	$(SRCPATH)/Register.cpp							\
 		$(COMPONENTS_SRC_PARH)/Position.cpp 			\
 		$(COMPONENTS_SRC_PARH)/Drawable.cpp 			\
-		$(COMPONENTS_SRC_PARH)/Sprite_Animation.cpp		\
 		$(COMPONENTS_SRC_PARH)/Sprite2DMultiAnim.cpp	\
 		$(SYSTEMS_SRC_PARH)/DrawSystem.cpp				\
-		$(SYSTEMS_SRC_PARH)/AnimationSpriteSystem.cpp	\
+		$(SYSTEMS_SRC_PARH)/Sprite2DMultiAnimSystem.cpp	\
+		# $(COMPONENTS_SRC_PARH)/Sprite_Animation.cpp 	\
+		# $(SYSTEMS_SRC_PARH)/AnimationSpriteSystem.cpp	\
 
 OBJS = $(SRC:.cpp=.o)
 

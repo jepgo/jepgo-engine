@@ -10,6 +10,7 @@
     #include <map>
     #include <vector>
     #include <utility>
+    #include <raylib.h>
 
 namespace Components {
 
@@ -20,30 +21,19 @@ namespace Components {
     class Sprite2DMultiAnim {
         public:
             /**
-             * @brief A state
-             * 
-             */
-            typedef int state_t;
-            /**
-             * @brief A `x`, `y` location of a sprite in an spritesheet
-             * 
-             */
-            typedef std::pair<int, int> sploc_t;
-
-            /**
              * @brief Construct a new Sprite 2 D Multi Anim object
              * 
              * @param recSize The size of an sprite on a spritesheet
              * @param states The differents states whith this associate animation sprite location
              * @param currentState The current state
-             * @param speed The speed of the update
+             * @param time The time of the update
              * @param loop If at the end of an animation, the animation must be reset
              */
             Sprite2DMultiAnim(
-                std::pair<float, float> recSize,
-                std::map<state_t, std::vector<sploc_t>> states,
-                state_t currentState,
-                double speed,
+                Vector2 recSize,
+                std::map<int, std::vector<Vector2>> states,
+                int currentState,
+                float time,
                 bool loop = false
             );
 
@@ -60,31 +50,31 @@ namespace Components {
              * 
              * @param state The new current state
              */
-            void SetState(state_t state);
+            void SetState(int state);
 
             /**
              * @brief Get the State object
              * 
-             * @return state_t The state
+             * @return int The state
              */
-            state_t getState() const;
+            int getState() const;
 
 
 
             /**
              * @brief Update the sprite location
              * 
-             * @return sploc_t The new sprite location
+             * @return Vector2 The new sprite location
              */
-            sploc_t updateSpriteLocation();
+            Vector2 updateSpriteLocation();
     
 
             /**
              * @brief Set the Speed object
              * 
-             * @param speed The new speed
+             * @param time The new time
              */
-            void SetSpeed(double speed);
+            void SetSpeed(float time);
 
             /**
              * @brief If the animation is endend
@@ -94,30 +84,44 @@ namespace Components {
              */
             bool isEnded() const;
 
+            /**
+             * @brief Get the Rec Size object
+             * 
+             * @return Vector2 The size of an sprite on a spritesheet
+             */
+            Vector2 getRecSize() const { return _recSize; }
+
+            /**
+             * @brief Get the Time object
+             * 
+             * @return float The time of the update
+             */
+            float getTime() const { return _time; }
+
         private:
             /**
              * @brief The size of an sprite on a spritesheet
              * 
              */
-            std::pair<float, float> _recSize;
+            Vector2 _recSize;
 
             /**
              * @brief The differents states whith this associate animation sprite location
              * 
              */
-            std::map<state_t, std::vector<sploc_t>> _states;
+            std::map<int, std::vector<Vector2>> _states;
 
             /**
              * @brief The current state
              * 
              */
-            state_t _currentState;
+            int _currentState;
 
             /**
              * @brief The speed of the update
              * 
              */
-            double _speed;
+            float _time;
 
             /**
              * @brief If at the end of an animation, the animation must be reset

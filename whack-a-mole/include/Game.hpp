@@ -36,10 +36,20 @@ namespace WhackAMole {
              * @param r The Register object
              * @param pos The Positions object
              * @param time The time
-             * @param reset The reset
              */
-            static void createMole(Register &r, Components::Positions &&pos, float time, float reset);
+            static void createMole(
+                Register &r,
+                Components::Positions &&pos
+            );
         private:
+            enum MoleStates {
+                SLEEP,
+                WAKE_UP,
+                ATTACK,
+                DEAD,
+                SPAWN_BOMB,
+                LEAVE,
+            };
     };
 }
 

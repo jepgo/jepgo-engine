@@ -8,29 +8,29 @@
 #include "Sprite2DMultiAnim.hpp"
 
 Components::Sprite2DMultiAnim::Sprite2DMultiAnim(
-        std::pair<float, float> recSize,
-        std::map<state_t, std::vector<sploc_t>> states,
-        state_t currentState,
-        double speed,
+        Vector2 recSize,
+        std::map<int, std::vector<Vector2>> states,
+        int currentState,
+        float time,
         bool loop
     ) :
         _recSize(recSize),
         _states(states),
         _currentState(currentState),
-        _speed(speed),
+        _time(time),
         _loop(loop),
         _currentFrame(0),
         _ended(false)
 {
 }
 
-void Components::Sprite2DMultiAnim::SetState(state_t state)
+void Components::Sprite2DMultiAnim::SetState(int state)
 {
     _currentState = state;
     _currentFrame = 0;
 }
 
-Components::Sprite2DMultiAnim::sploc_t Components::Sprite2DMultiAnim::updateSpriteLocation()
+Vector2 Components::Sprite2DMultiAnim::updateSpriteLocation()
 {
     auto &frames = _states.at(_currentState);
 
@@ -43,9 +43,9 @@ Components::Sprite2DMultiAnim::sploc_t Components::Sprite2DMultiAnim::updateSpri
     return frames[_currentFrame];
 }
 
-void Components::Sprite2DMultiAnim::SetSpeed(double speed)
+void Components::Sprite2DMultiAnim::SetSpeed(float time)
 {
-    _speed = speed;
+    _time = time;
 }
 
 bool Components::Sprite2DMultiAnim::isEnded() const
@@ -53,7 +53,7 @@ bool Components::Sprite2DMultiAnim::isEnded() const
     return _ended;
 }
 
-Components::Sprite2DMultiAnim::state_t Components::Sprite2DMultiAnim::getState() const
+int Components::Sprite2DMultiAnim::getState() const
 {
     return _currentState;
 }

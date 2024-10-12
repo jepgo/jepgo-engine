@@ -10,14 +10,14 @@
 // Components
 #include "Position.hpp"
 #include "Drawable.hpp"
-#include "Sprite_Animation.hpp"
+#include "Sprite2DMultiAnim.hpp"
 //
 
 Register::Register()
 {
     regist.insert({std::type_index(typeid(Components::Positions)), SparseArray<Components::Positions>()});
     regist.insert({std::type_index(typeid(Components::Drawable)), SparseArray<Components::Drawable>()});
-    regist.insert({std::type_index(typeid(Components::Sprite_Animation)), SparseArray<Components::Sprite_Animation>()});
+    regist.insert({std::type_index(typeid(Components::Sprite2DMultiAnim)), SparseArray<Components::Sprite2DMultiAnim>()});
 }
 
 Register::~Register()
@@ -30,7 +30,7 @@ void Register::creatEntity()
     currentEntity++;
     std::any_cast<SparseArray<Components::Positions>&>(regist[std::type_index(typeid(Components::Positions))]).add();
     std::any_cast<SparseArray<Components::Drawable>&>(regist[std::type_index(typeid(Components::Drawable))]).add();
-    std::any_cast<SparseArray<Components::Sprite_Animation>&>(regist[std::type_index(typeid(Components::Sprite_Animation))]).add();
+    std::any_cast<SparseArray<Components::Sprite2DMultiAnim>&>(regist[std::type_index(typeid(Components::Sprite2DMultiAnim))]).add();
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()

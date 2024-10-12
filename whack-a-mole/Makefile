@@ -39,13 +39,12 @@ $(BIN): $(OBJS) $(MAIN_OBJ)
 	$(CXX) $(OBJS) $(MAIN_OBJ) -o $(BIN) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
 
 clean:
-	$(RM) $(OBJS)
-	$(RM) $(MAIN_OBJ)
-	$(RM) $(FILES_UNIT)
+	$(MAKE) -C ./engine clean
+	$(RM) $(OBJS) $(MAIN_OBJ) $(FILES_UNIT)
 
 fclean: clean
-	$(RM) $(BIN)
-	$(RM) $(BIN_TESTS)
+	$(MAKE) -C ./engine fclean
+	$(RM) $(BIN) $(BIN_TESTS)
 
 re: fclean all
 
