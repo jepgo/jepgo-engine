@@ -59,7 +59,7 @@ static void getGenerationFunction(std::ofstream &stream)
         << "static jgo::Builder generateTypeToSend\n"
         << "(jgame::Server &s, jgo::enums::Components c)\n"
         << "{\n"
-        << "    jgo::Builder build(jgo::enums::FromServer::Apply);\n"
+        << "    jgo::Builder build(jgo::enums::FromServer::ApplyExternal);\n"
         << "    auto &elements = s.ecs.getComp<T>();\n"
         << "    CBuffer<jgo::u8> buf(sizeof(T));\n"
         << "\n"

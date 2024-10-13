@@ -73,6 +73,10 @@ exported(void) onServerMessage(jgame::Client &client, std::string const &msg)
             else if (op == jgo::enums::Components::Drawable)
                 retrieveSomething<Drawable>(client, builder);
             break;
+        
+        case jgo::enums::ApplyExternal:
+            std::cout << "receiving externals !" << std::endl;
+            break;
 
         default:
             break;
@@ -90,13 +94,13 @@ exported(void) onUpdate(jgame::Client &client)
     );
 
     // get positions and drawable
-    auto &a = client.ecs.getComp<Positions>();
-    auto &b = client.ecs.getComp<Drawable>();
-    for (size_t n = 0; n < a.size(); ++n) {
-        std::cout << n << ": [" << a[n].has_value()
-            << "] [" << b[n].has_value() << "]" << std::endl;
-    }
-    std::cout << std::endl;
+    // auto &a = client.ecs.getComp<Positions>();
+    // auto &b = client.ecs.getComp<Drawable>();
+    // for (size_t n = 0; n < a.size(); ++n) {
+    //     std::cout << n << ": [" << a[n].has_value()
+    //         << "] [" << b[n].has_value() << "]" << std::endl;
+    // }
+    // std::cout << std::endl;
 }
 
 // this part will be hiden later

@@ -19,6 +19,7 @@ namespace jgo::enums {
     enum FromServer {
         EntityCheck = 1,
         Apply,
+        ApplyExternal,
     };
     using FromAny = Either<enums::FromClient, enums::FromServer>;
 }
