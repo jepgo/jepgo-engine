@@ -58,6 +58,31 @@ class VecPP {
             return _v;
         }
 
+        inline auto join(std::string const &sep = "") const -> std::string {
+            auto it = _v.begin();
+            std::string res;
+
+            if (it != _v.end())
+                res += *it++;
+            for (; it != _v.end(); ++it) {
+                if (it->empty())
+                    continue;
+                res += sep + *it;
+            }
+            return res;
+        }
+
+        inline auto extend(std::vector<T> const &other) -> std::vector<T> {
+            std::vector<T> res(_v);
+
+            res.insert(res.end(), other.begin(), other.end());
+            return res;
+        }
+
+        inline auto operator+(std::vector<T> const &other) -> std::vector<T> {
+            return extend(other);
+        }
+
     private:
         static std::size_t const npos = static_cast<std::size_t>(-1);
         std::vector<T> _v;
