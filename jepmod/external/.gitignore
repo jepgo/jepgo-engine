@@ -1,2 +1,3 @@
 # the jepgame generated file
-out.cpp
+external.*.cpp
+*.so

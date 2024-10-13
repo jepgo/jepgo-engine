@@ -17,10 +17,10 @@ LDFLAGS += -lraylib
 
 # Source files
 
-MAIN	=	src/main.cpp \
+MAIN	=	main.cpp \
 
-SRC = src/OpenInclude.cpp \
-	src/FileBuilder.cpp
+SRC = OpenInclude.cpp \
+	FileBuilder.cpp
 
 
 OBJS += $(SRC:.cpp=.o)
@@ -49,6 +49,8 @@ clean:
 fclean: clean
 	$(RM) $(BIN)
 	$(RM) $(BIN_TESTS)
+	$(RM) libexternal.*.so
+	$(RM) external.*.cpp
 
 build_tests:	fclean
 				$(CXX) -o $(BIN_TESTS) $(TRC) $(SRC) $(CFLAGS) $(CPPFLAGS) $(CFLAGS_CRITERION)

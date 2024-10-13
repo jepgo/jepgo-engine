@@ -9,20 +9,25 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <filesystem>
 
 #include "OpenInclude.hpp"
 #include "jepgame/toolbox/Vec++.hpp"
 
-static void getFiles(std::string const &code, std::vector<std::string> &tmp) {
+static void getFiles
+(std::string const &filename, std::string const &code, std::vector<std::string> &tmp)
+{
     std::regex includePattern(R"#(#include\s*<([^>]+)>|#include\s*"([^"]+)")#");
     std::smatch match;
+    std::filesystem::path dir(filename);
     std::string::const_iterator searchStart(code.cbegin());
 
+    dir = dir.parent_path();
     while (std::regex_search(searchStart, code.cend(), match, includePattern)) {
         if (match[1].matched)
-            tmp.push_back("include/" + match[1].str());
+            tmp.push_back(dir.string() + "/" + match[1].str());
         else if (match[2].matched)
-            tmp.push_back("include/" + match[2].str());
+            tmp.push_back(dir.string() + "/" + match[2].str());
         searchStart = match.suffix().first;
     }
 }
@@ -39,7 +44,7 @@ static void getAllFiles(std::string const &f, std::vector<std::string> &tmp)
         final += line + "\n";
     file.close();
     tmp.push_back(f);
-    getFiles(final, tmp);
+    getFiles(f, final, tmp);
 }
 
 static std::string striptease(std::string const &str)

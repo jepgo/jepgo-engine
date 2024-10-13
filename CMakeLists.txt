@@ -68,11 +68,14 @@ TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE engine/include ${raylib_SOURCE_DIR}
 PROJECT(jepmod)
 SET(JepmodSRC jepmod/)
 
-
 ADD_LIBRARY(jepmod STATIC
     ${JepmodSRC}/DLLoader.cpp
     ${JepmodSRC}/Jepmodule.cpp
+    ${JepmodSRC}/external/FileBuilder.cpp
+    ${JepmodSRC}/external/OpenInclude.cpp
+    ${JepmodSRC}/external/generation.cpp
 )
+TARGET_INCLUDE_DIRECTORIES(jepmod PRIVATE .)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   target_compile_definitions(jepmod PUBLIC "LINUX")
@@ -144,4 +147,26 @@ TARGET_LINK_LIBRARIES(server PRIVATE
     sfml-window
     sfml-system
     raylib
+)
+
+# copy the sprites
+
+SET(RessourceDir "${CMAKE_SOURCE_DIR}/sprites")
+SET(DestinationDir "${CMAKE_BINARY_DIR}/sprites")
+
+ADD_CUSTOM_TARGET(copy_resources ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${RessourceDir}"
+    "${DestinationDir}"
+)
+
+# copy the components
+
+SET(RessourceDir "${CMAKE_SOURCE_DIR}/components")
+SET(DestinationDir "${CMAKE_BINARY_DIR}/components")
+
+ADD_CUSTOM_TARGET(copy_components ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${RessourceDir}"
+    "${DestinationDir}"
 )

@@ -9,6 +9,7 @@
 #include <chrono>
 #include <thread>
 
+#include "jepmod/external/external.hpp"
 #include "jepgame/gamemaker/Server.hpp"
 #include "jepgame/gamemaker/hardcoded.hpp"
 #include "jepgame/service/Components.hpp"
@@ -17,6 +18,7 @@
 exported(void) onStart(jgame::Server &server)
 {
     server.host(1234);
+    server.useExternal("components/Stamina.hpp");
 
     // Game::CreateBackGround(server.ecs);
     // Game::CreatePlanet(server.ecs);
@@ -111,17 +113,7 @@ exported(void) onUpdate(jgame::Server &server)
         jgo::enums::Components::Drawable
     ));
 
-    // server.sendCustom([](jgo::Connection &client){
-    //     return "";
-    // });
-
-    // auto &comps = server.ecs.getComp<Drawable>();
-    // if (server.ecs.entityNbr() and comps[0])
-    //     comps[0]->showMem();
-    // std::cout << std::hex;
-    // for (jgo::u8 b : build.toBytes())
-    //     std::cout << int(b) << " ";
-    // std::cout << std::dec << std::endl;
+    // server.sendAllExternals();
 }
 
 // this part will be hiden later
