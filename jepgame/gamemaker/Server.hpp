@@ -70,7 +70,7 @@ namespace jgame {
 
             #ifdef JEPGO_USE_EXTERNAL
             auto useExternal(std::string const &hppFile) -> void {
-                std::string soPath = jgame::generateServerModule(hppFile);
+                std::string soPath = jgame::generateServerModule(argv[0], hppFile);
 
                 _loader.emplace(soPath);
                 // std::remove(soPath.c_str());
