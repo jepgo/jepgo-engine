@@ -12,5 +12,5 @@
 #define JEPGO_USE_EXTERNAL
 
 namespace jgame {
-    std::string generateServerModule(std::string const &hppFile);
+    std::string generateServerModule(std::string const &, std::string const &);
 }

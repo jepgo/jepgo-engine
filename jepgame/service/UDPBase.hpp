@@ -23,7 +23,7 @@ namespace jgo {
             inline UDPBase(void) {
                 return;
             }
-            inline UDPBase(int ac, char const *av[]): argv(av + 1, av + ac) {
+            inline UDPBase(int ac, char const *av[]): argv(av, av + ac) {
                 return;
             }
             inline auto compile(void) -> bool {
