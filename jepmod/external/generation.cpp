@@ -32,7 +32,8 @@ std::string jgame::generateServerModule
     fb.writeHeader();
     fb.writePreprocess();
     fb.writeEnum();
-    fb.writeServer();
+    fb.writeServerSender();
+    fb.writeServerBuilder();
 
     #if defined(WINDOWS) || defined(_WIN32)
     destFile = EasyLife(firstArg) / base + ".dll";
@@ -42,7 +43,7 @@ std::string jgame::generateServerModule
     command = "g++ -shared -fpic " + sourceFile + \
         " -o " + destFile + " -iquote" + EasyLife(firstArg) / "..";
     std::cout << command << std::endl;
-    std::cout << Execute(command).status << std::endl;
+    // std::cout << Execute(command).status << std::endl;
     // std::cout << std::system(command.c_str()) << std::endl;
     // std::remove((base + ".cpp").c_str());
     return EasyLife(firstArg) / base;

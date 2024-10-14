@@ -16,6 +16,7 @@ static std::string const &HEADER =
     "**/\n\n";
 
 static std::string const &INCLUDES =
+    "#include <iostream>\n" \
     "#include \"jepmod/exported.hpp\"\n" \
     "#include \"jepgame/gamemaker/Client.hpp\"\n" \
     "#include \"jepgame/gamemaker/Server.hpp\"\n" \
@@ -57,10 +58,11 @@ static void getGenerationFunction(std::ofstream &stream)
 {
     stream << "template <typename T>\n"
         << "static jgo::Builder generateTypeToSend\n"
-        << "(jgame::Server &s, jgo::enums::Components c)\n"
+        << "(jgame::Server *s, jgo::enums::Components c)\n"
         << "{\n"
+        << "    Register *reg = (Register *)(reinterpret_cast<char *>(&s->ecs) + 40);\n"
         << "    jgo::Builder build(jgo::enums::FromServer::ApplyExternal);\n"
-        << "    auto &elements = s.ecs.getComp<T>();\n"
+        << "    auto &elements = reg->getComp<T>();\n"
         << "    CBuffer<jgo::u8> buf(sizeof(T));\n"
         << "\n"
         << "    build << static_cast<jgo::u8>(c);\n"
@@ -78,17 +80,42 @@ static void getGenerationFunction(std::ofstream &stream)
         << "}\n\n";
 }
 
-void FileBuilder::writeServer(void)
+// std::cout << "inside" << std::endl;
+// std::cout << "pointer is " << s << std::endl;
+// std::cout << "pointer of ecs is " << &s->ecs << std::endl;
+// std::cout << "pointer of ecs + 40 is " << (void *)(reinterpret_cast<char *>(&s->ecs) + 40) << std::endl;
+// std::cout << "num is " << ((Register *)(reinterpret_cast<char *>(&s->ecs) + 40))->currentEntity << std::endl;
+// std::cout << "size is " << sizeof(jgame::Server) << std::endl;
+// std::cout << ((Register *)(reinterpret_cast<char *>(&s->ecs) + 40))->entityNbr() << std::endl;
+
+void FileBuilder::writeServerSender(void)
 {
     getGenerationFunction(_stream);
-    _stream << "exported(void) entrypoint(jgame::Server &s)\n{\n";
+    _stream << "exported(void) sender(jgame::Server *s)\n{\n";
     for (std::string const &s : _classes) {
-        _stream << "\ts.sendToAll(generateTypeToSend<" << s
+        _stream << "\ts->sendToAll(generateTypeToSend<" << s
             << ">(\n\t\ts,\n\t\tjgo::enums::Components::"
             << replaceByUnderscore(s)
             << "\n\t));\n";
     }
-    _stream << "}\n\n";
+    _stream << "}" << std::endl << std::endl;
+}
+
+void FileBuilder::writeServerBuilder(void)
+{
+    _stream << "exported(void) builder(jgame::Server *s)\n{\n"
+        << "\tRegister *reg = (Register *)"
+        << "(reinterpret_cast<char *>(&s->ecs) + 40);\n";
+    _stream << std::endl;
+    for (std::string const s : _classes) {
+        _stream << "\treg->runTimeInsert<" << s << ">();\n";
+        _stream << "\treg->addRule([](Register::RuleMap &r) {\n"
+            "\t\tstd::any_cast<SparseArray<StaminaComponent>&>(\n"
+            "\t\t\tr[std::type_index(typeid(StaminaComponent))]).add();\n"
+            "\t});\n";
+        _stream << std::endl;
+    }
+    _stream << "}" << std::endl << std::endl;
 }
 
 void FileBuilder::writeClient(void)

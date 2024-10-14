@@ -9,8 +9,6 @@
 
 #include <string>
 
-#define JEPGO_USE_EXTERNAL
-
 namespace jgame {
     std::string generateServerModule(std::string const &, std::string const &);
 }

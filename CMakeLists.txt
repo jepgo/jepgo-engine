@@ -75,6 +75,7 @@ ADD_LIBRARY(jepengine STATIC
     ${EngineSRC}/BombGenerationSystem.cpp
     ${EngineSRC}/Raylib.cpp
 )
+TARGET_COMPILE_OPTIONS(jepengine PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE engine/include ${raylib_SOURCE_DIR}/src)
 
 # libjepmod.a
@@ -89,6 +90,7 @@ ADD_LIBRARY(jepmod STATIC
     ${JepmodSRC}/external/OpenInclude.cpp
     ${JepmodSRC}/external/generation.cpp
 )
+TARGET_COMPILE_OPTIONS(jepmod PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(jepmod PRIVATE .)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -125,6 +127,7 @@ ADD_LIBRARY(jepgame STATIC
     ${JepgameSRC}/gamemaker/Client.cpp
     ${JepgameSRC}/gamemaker/Server.cpp
 )
+TARGET_COMPILE_OPTIONS(jepgame PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(jepgame PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
 
 # game.client
@@ -152,6 +155,7 @@ SET(ServerSRC sample/)
 ADD_EXECUTABLE(server
     ${ServerSRC}/game.server.cpp
 )
+TARGET_COMPILE_OPTIONS(jepmod PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(server PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
 TARGET_LINK_LIBRARIES(server PRIVATE
     jepgame
@@ -162,6 +166,23 @@ TARGET_LINK_LIBRARIES(server PRIVATE
     sfml-system
     raylib
 )
+
+# external.server
+
+PROJECT(external.server)
+ADD_LIBRARY(external.server SHARED
+    external.server.cpp
+)
+TARGET_COMPILE_OPTIONS(external.server PRIVATE -fPIC)
+TARGET_INCLUDE_DIRECTORIES(
+    external.server PRIVATE .
+)
+TARGET_LINK_LIBRARIES(external.server PUBLIC
+    jepgame
+    jepengine
+    jepmod
+)
+
 
 # copy the sprites
 

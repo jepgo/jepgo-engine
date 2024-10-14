@@ -58,6 +58,10 @@ exported(void) onServerMessage(jgame::Client &client, std::string const &msg)
 {
     jgo::Builder builder = jgo::Builder::fromString(msg);
 
+    builder.display();
+
+    return;
+
     switch (jgo::enums::FromServer(msg[0])) {
 
         case jgo::enums::Apply:

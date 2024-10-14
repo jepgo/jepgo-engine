@@ -14,11 +14,14 @@
 #include "jepgame/gamemaker/hardcoded.hpp"
 #include "jepgame/service/Components.hpp"
 #include "jepmod/exported.hpp"
+#include "components/Stamina.hpp"
 
 exported(void) onStart(jgame::Server &server)
 {
     server.host(1234);
     server.useExternal("components/Stamina.hpp");
+
+    std::cout << sizeof(jgame::Server) << std::endl;
 
     // Game::CreateBackGround(server.ecs);
     // Game::CreatePlanet(server.ecs);
@@ -53,6 +56,7 @@ exported(void) onClientMessage
             /// FIXME: hardcoded
             Game::CreatPlayer(server.ecs, 800, 600);
             client.storage["id"] = server.ecs.currentEntity;
+            server.ecs.add_comp<StaminaComponent>(server.ecs.currentEntity, 10);
             break;
 
         case jgo::enums::Arrows:
@@ -103,17 +107,17 @@ exported(void) onUpdate(jgame::Server &server)
         return;
     server.updateTime();
 
-    server.sendToAll(generateTypeToSend<Positions>(
-        server,
-        jgo::enums::Components::Position
-    ));
+    // server.sendToAll(generateTypeToSend<Positions>(
+    //     server,
+    //     jgo::enums::Components::Position
+    // ));
 
-    server.sendToAll(generateTypeToSend<Drawable>(
-        server,
-        jgo::enums::Components::Drawable
-    ));
+    // server.sendToAll(generateTypeToSend<Drawable>(
+    //     server,
+    //     jgo::enums::Components::Drawable
+    // ));
 
-    // server.sendAllExternals();
+    server.sendAllExternals();
 }
 
 // this part will be hiden later

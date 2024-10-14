@@ -9,13 +9,10 @@
 
 #include <string>
 #include <functional>
-
-#ifdef JEPGO_USE_EXTERNAL
 #include <optional>
+
 #include "jepmod/external/external.hpp"
 #include "jepmod/DLLoader.hpp"
-#endif
-
 #include "jepgame/service/UDP.hpp"
 #include "jepgame/service/UDPBase.hpp"
 #include "engine/engine.hpp"
@@ -68,24 +65,22 @@ namespace jgame {
 
             Register ecs;
 
-            #ifdef JEPGO_USE_EXTERNAL
             auto useExternal(std::string const &hppFile) -> void {
                 std::string soPath = jgame::generateServerModule(argv[0], hppFile);
 
                 _loader.emplace(soPath);
+                _loader->getFunc<int, void *>("builder")(this);
                 // std::remove(soPath.c_str());
             }
 
             auto sendAllExternals(void) -> void {
-                auto f = _loader->getFunc<void, Server &>("entrypoint");
-                f(*this);
+                if (not _loader)
+                    return;
+                _loader->getFunc<int, void *>("sender")(this);
             }
-            #endif
 
         private:
-            #ifdef JEPGO_USE_EXTERNAL
             std::optional<jmod::DLLoader> _loader;
-            #endif
             ClockPP _clock;
     };
 }

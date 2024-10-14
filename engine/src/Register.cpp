@@ -122,6 +122,9 @@ void Register::creatEntity()
     std::any_cast<SparseArray<MoveTo>&>(regist[std::type_index(typeid(MoveTo))]).add();
     std::any_cast<SparseArray<MessageTime>&>(regist[std::type_index(typeid(MessageTime))]).add();
     std::any_cast<SparseArray<AutoShoot>&>(regist[std::type_index(typeid(AutoShoot))]).add();
+    for (auto const &cb : _rules) {
+        cb(regist);
+    }
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()
