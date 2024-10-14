@@ -11,6 +11,8 @@
 #include <utility>
 #include <any>
 #include <typeindex>
+#include <vector>
+#include <functional>
 #include "Text.hpp"
 #include "SparseArray.hpp"
 #include "Enemy.hpp"
@@ -19,11 +21,29 @@
 
 class Register
 {
+
 public:
+    using RuleMap = std::map<std::type_index, std::any>;
+    using RuleCB = std::function<void(RuleMap &)>;
     Register();
     ~Register();
     void creatEntity();
     std::map<std::type_index, std::any> &getRegister();
+
+    template <typename T>
+    inline auto runTimeInsert() -> void {
+        regist.insert({std::type_index(typeid(T)), SparseArray<T>()});
+    }
+
+    inline auto addRule(RuleCB cb) -> void {
+        _rules.push_back(cb);
+    }
+
+    // template <typename T>
+    // inline auto applyCreateRule() -> void {
+    //     std::any_cast<SparseArray<T>&>(regist[std::type_index(typeid(T))]).add();
+    // }
+
     template <typename Component, class ...Params>
     void add_comp(std::size_t id, Params &&... par)
     {
@@ -63,4 +83,5 @@ public:
     int currentEntity = -1;
 private:
     std::map<std::type_index, std::any> regist;
+    std::vector<RuleCB> _rules;
 };
