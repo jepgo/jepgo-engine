@@ -44,6 +44,11 @@ CPMAddPackage(
     GIT_REPOSITORY https://github.com/fnc12/sqlite_orm
     GIT_TAG v1.9
 )
+CPMAddPackage(
+    NAME libconfig
+    GIT_REPOSITORY https://github.com/hyperrealm/libconfig
+    GIT_TAG v1.7.3
+)
 
 CPMAddPackage(
     NAME raylib
