@@ -96,7 +96,7 @@ void Game::CreateArmorModule(Register &r, Positions &&pos, float time)
     r.emplace_comp(r.currentEntity, Move(Positions(1, 0)));
     //r.emplace_comp(r.currentEntity, Drawable(2, Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
     r.emplace_comp(r.currentEntity, Model3D(0, 30, 10, 10, 80));
-    r.emplace_comp(r.currentEntity, RotationTime((Vector3){1, 0, 0}, 0, time, 0.1));
+    r.emplace_comp(r.currentEntity, RotationTime({1, 0, 0}, 0, time, 0.1));
     r.emplace_comp(r.currentEntity, Sprite_Animation(4, 32, 0.2));
     r.emplace_comp(r.currentEntity, Hitable(80, 90));
     r.emplace_comp(r.currentEntity, ModuleArmor({{LEFT, 170}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));

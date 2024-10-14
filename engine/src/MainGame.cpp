@@ -71,11 +71,10 @@
  */
 static Vector2 getDirectionVector(void)
 {
-    Vector2 vec(
+    Vector2 vec = {
         IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT),
         IsKeyDown(KEY_DOWN) - IsKeyDown(KEY_UP)
-    );
-
+    };
     return vec;
 }
 
@@ -94,8 +93,9 @@ int keySystem(Register &r, float time, std::vector<Sound> &sounds, int key)
     auto &draw = r.getComp<Drawable>();
     auto &shoot = r.getComp<Shoot>();
 
-    for (std::size_t i = 0; i < control.size(); i++) {
-        if (!control[i].has_value() or !vel[i].has_value() or !pos[i].has_value())
+    for (std::size_t i = 0; i < control.size(); i++)
+    {
+        if (!control[i].has_value() || !vel[i].has_value() || !pos[i].has_value())
             continue;
         if (key == KeyboardKey::KEY_A && shoot[i].has_value() && shoot[i].value().verif(time)) {
             SetSoundVolume(sounds[shoot[i].value()._ind], 0.1);
@@ -104,7 +104,7 @@ int keySystem(Register &r, float time, std::vector<Sound> &sounds, int key)
             shoot[i].value()._time =  time;
             return 2;
         }
-        if (stat[i].has_value() and draw[i].has_value())
+        if (stat[i].has_value() && draw[i].has_value())
             control[i].value().moveStatus(stat[i], draw[i], key);
         vel[i].value().setVel(getDirectionVector());
         r.emplace_comp(i, Move(vel[i].value().getVel()));
@@ -204,9 +204,9 @@ void MainGame::mainGame()
     r.emplace_comp(r.entity_nbr, SoundLoop(1));
 
     Camera camera = { 0 };
-    camera.position = (Vector3){ height / 2.0f, width / 2.0f, 500.0f };
-    camera.target = (Vector3){ height / 2.0f, width / 2.0f, 0.0f };
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    camera.position = { height / 2.0f, width / 2.0f, 500.0f };
+    camera.target = { height / 2.0f, width / 2.0f, 0.0f };
+    camera.up = { 0.0f, 1.0f, 0.0f };
     camera.fovy = width;
     camera.projection = CAMERA_ORTHOGRAPHIC;
     SetTargetFPS(60);
@@ -219,57 +219,57 @@ void MainGame::mainGame()
         float time = GetTime() - startTime;
         keySystem(r, time, sounds, key);
         hitSys.system(r);
-        std::cout << "after hit" << std::endl;
+        //std::cout << "after hit" << std::endl;
         DetachModulesSystem::system(r, time, key);
-        std::cout << "after detattach" << std::endl;
+        //std::cout << "after detattach" << std::endl;
         AttachModuleSystem::system(r);
-        std::cout << "after attach" << std::endl;
+        //std::cout << "after attach" << std::endl;
         SystemGame.system(r, time, playerEntity);
-        std::cout << "after systemGame" << std::endl;
+        //std::cout << "after systemGame" << std::endl;
         LoopMoveSystem::system(r, height, width);
-        std::cout << "after loop" << std::endl;
+        //std::cout << "after loop" << std::endl;
         MoveToPlayerTimeSystem::system(r, time);
-        std::cout << "after MoveTOPLAYERTime" << std::endl;
+        //std::cout << "after MoveTOPLAYERTime" << std::endl;
         AutoShootSystem::system(r, time);
-        std::cout << "after autoshoot" << std::endl;
+        //std::cout << "after autoshoot" << std::endl;
         SystemMoveTo.system(r, time);
-        std::cout << "after systemMoveTo" << std::endl;
+        //std::cout << "after systemMoveTo" << std::endl;
         movetoplayer.system(r, time);
-        std::cout << "after movetoplayer" << std::endl;
+        //std::cout << "after movetoplayer" << std::endl;
         moveSys.system(r, time);
-        std::cout << "after movesys" << std::endl;
+        //std::cout << "after movesys" << std::endl;
         Animation2TimeSystem::system(r, time);
-        std::cout << "after animation2time" << std::endl;
+        //std::cout << "after animation2time" << std::endl;
         animSys.system(r, time);
-        std::cout << "after anim" << std::endl;
+        //std::cout << "after anim" << std::endl;
         ShortAnimationSystem::system(r, time);
-        std::cout << "after shortAnim" << std::endl;
+        //std::cout << "after shortAnim" << std::endl;
         InvinsibleSystem::system(r, time);
-        std::cout << "after invinsible" << std::endl;
+        //std::cout << "after invinsible" << std::endl;
         addDmgSystem.system(r, time);
-        std::cout << "after addDmg" << std::endl;
+        //std::cout << "after addDmg" << std::endl;
         ModuleSystem::system(r);
-        std::cout << "after Module" << std::endl;
+        //std::cout << "after Module" << std::endl;
         DmgSystem::system(r, time);
-        std::cout << "after dmg" << std::endl;
+        //std::cout << "after dmg" << std::endl;
         ExplosionSystem::system(r, sounds, 3);
-        std::cout << "after sound" << std::endl;
+        //std::cout << "after sound" << std::endl;
         DeathSystem::system(r, playerEntity);
-        std::cout << "after death" << std::endl;
+        //std::cout << "after death" << std::endl;
         RebornSystem::system(r, playerEntity, time, key);
-        std::cout << "after reborn" << std::endl;
+        //std::cout << "after reborn" << std::endl;
         DestoyersSystem::system(r, height, width);
-        std::cout << "after destroyer" << std::endl;
+        //std::cout << "after destroyer" << std::endl;
         SoundLoopSystem::system(r, sounds, time);
-        std::cout << "after soundloop" << std::endl;
+        //std::cout << "after soundloop" << std::endl;
         BombGenerationTimeSystem::system(r, time);
-        std::cout << "after bombgeneratortime" << std::endl;
+        //std::cout << "after bombgeneratortime" << std::endl;
         BombGenerationSystem::system(r, time);
-        std::cout << "after bombgenertor" << std::endl;
+        //std::cout << "after bombgenertor" << std::endl;
         game.Stages(r, time, playerEntity, sounds);
-        std::cout << "after stage" << std::endl;
+        //std::cout << "after stage" << std::endl;
         MessageTimeSystem::system(r, time);
-        std::cout << "after messageTime" << std::endl;
+        //std::cout << "after messageTime" << std::endl;
         Rotation3DSystem::system(r, time, models);
         BeginDrawing();
         ClearBackground(RAYWHITE);

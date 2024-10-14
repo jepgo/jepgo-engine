@@ -32,9 +32,9 @@ void Draw3DSystem::system(Register &r, float &time, std::vector<Model> &mod)
             }
             if (rot[i].has_value()) {
                 RotationTime &tmp = rot[i].value();
-                DrawModelEx(mod[model.getInd()], (Vector3){p.x / 2 + model.getWidth(), 600 - p.y / 2 - model.getHeight(), 0}, tmp.getRotation(), tmp.getVal(), {model.getScale(), model.getScale(), model.getScale()}, WHITE);
+                DrawModelEx(mod[model.getInd()], {p.x / 2 + model.getWidth(), 600 - p.y / 2 - model.getHeight(), 0}, tmp.getRotation(), tmp.getVal(), {model.getScale(), model.getScale(), model.getScale()}, WHITE);
             } else {
-                DrawModel(mod[model.getInd()], (Vector3){p.x / 2 + model.getWidth(), 600 - p.y / 2 - model.getHeight(), 0}, model.getScale(), WHITE);
+                DrawModel(mod[model.getInd()], {p.x / 2 + model.getWidth(), 600 - p.y / 2 - model.getHeight(), 0}, model.getScale(), WHITE);
             }
         }
     }

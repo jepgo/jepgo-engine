@@ -10,7 +10,7 @@
 static void checkRules(std::optional<Animation2Time> &anim, std::optional<InvincibleTime> &inv, float time, std::size_t i, Register &r)
 {
     if ((anim.has_value() == false) || inv.has_value()) {
-        std::cout << "yep yes" << std::endl;
+        //std::cout << "yep yes" << std::endl;
             return;
     }
     if (time - anim.value()._lastTime < anim.value()._reset)
