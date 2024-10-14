@@ -25,9 +25,16 @@ CPMAddPackage(
     GIT_TAG asio-1-31-0
 )
 CPMAddPackage(
-    NAME sqlite3
+    NAME SQLite3
     GIT_REPOSITORY https://github.com/LuaDist/libsqlite3
     GIT_TAG 3.7.7.1
+    )
+list(APPEND CMAKE_MODULE_PATH "${SQLite3_SOURCE_DIR}/cmake")
+
+CPMAddPackage(
+    NAME sqliteorm
+    GIT_REPOSITORY https://github.com/fnc12/sqlite_orm
+    GIT_TAG v1.9
 )
 
 
