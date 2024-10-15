@@ -15,7 +15,7 @@ namespace asio::ip {
     #include <cstdint>
     #include <array>
 
-    static unsigned int const &&MAX_BUFFER_SIZE = 128ul;
+    static unsigned int const &&MAX_BUFFER_SIZE = 32768ul;
     using port = std::uint16_t;
     using cppBuffer = std::array<char, MAX_BUFFER_SIZE>;
 }
