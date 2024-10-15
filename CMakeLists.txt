@@ -16,7 +16,6 @@ set(CLIENT_SRC_DIR sample)
 set(SERVER_SRC_DIR sample)
 set(JEPGAME_SRC_DIR jepgame/)
 set(JEPMOD_SRC_DIR jepmod/)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
 
 ### PACKAGE MANAGER #####################################
@@ -33,7 +32,6 @@ CPMAddPackage(
     GIT_REPOSITORY https://github.com/chriskohlhoff/asio
     GIT_TAG asio-1-31-0
 )
-
 CPMAddPackage(
     NAME sqlite3
     GIT_REPOSITORY https://github.com/LuaDist/libsqlite3
@@ -148,6 +146,12 @@ TARGET_LINK_LIBRARIES(client PRIVATE
     sfml-system
     raylib
 )
+    
+if(MSVC)
+  target_compile_options(r-type PRIVATE /W4)
+else()
+  target_compile_options(r-type PRIVATE -Wall -Wextra -Wpedantic)
+endif()
 
 # game.server
 
