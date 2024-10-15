@@ -42,6 +42,8 @@ namespace WhackAMole {
              */
             void start();
 
+            void setStateMole();
+
         private:
             /**
              * @brief The Register object

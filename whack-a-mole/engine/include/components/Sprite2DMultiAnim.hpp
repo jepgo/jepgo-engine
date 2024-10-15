@@ -27,13 +27,15 @@ namespace Components {
              * @param states The differents states whith this associate animation sprite location
              * @param currentState The current state
              * @param time The time of the update
+             * @param speed The speed of the update
              * @param loop If at the end of an animation, the animation must be reset
              */
             Sprite2DMultiAnim(
-                Vector2 recSize,
-                std::map<int, std::vector<Vector2>> states,
+                Vector2 const &recSize,
+                std::map<int, std::vector<Vector2>> const &states,
                 int currentState,
                 float time,
+                float speed,
                 bool loop = false
             );
 
@@ -74,7 +76,9 @@ namespace Components {
              * 
              * @param time The new time
              */
-            void SetSpeed(float time);
+            void setTime(float time);
+
+            void setSpeed(float speed);
 
             /**
              * @brief If the animation is endend
@@ -98,6 +102,13 @@ namespace Components {
              */
             float getTime() const { return _time; }
 
+            /**
+             * @brief Get the Speed object
+             * 
+             * @return float The speed
+             */
+            float getSpeed() const { return _speed; }
+
         private:
             /**
              * @brief The size of an sprite on a spritesheet
@@ -118,10 +129,16 @@ namespace Components {
             int _currentState;
 
             /**
-             * @brief The speed of the update
+             * @brief The time of the update
              * 
              */
             float _time;
+
+            /**
+             * @brief The speed of the update
+             * 
+             */
+            float _speed;
 
             /**
              * @brief If at the end of an animation, the animation must be reset

@@ -12,6 +12,17 @@
 #include "Drawable.hpp"
 #include "Sprite2DMultiAnim.hpp"
 
+const Vector2 WhackAMole::Game::RECSIZE = {WIDTH_MOLE_SPRITE, HEIGHT_MOLE_SPRITE};
+
+const std::map<int, std::vector<Vector2>> WhackAMole::Game::MOLES_ANIM = {
+    {(int)MoleStates::SLEEP, {{0, 0}}},
+    {(int)MoleStates::WAKE_UP, {{1, 0}, {2, 0}, {3, 0}, {4, 0}}},
+    {(int)MoleStates::ATTACK, {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {1, 1}, {0, 1}}}
+};
+
+const float WhackAMole::Game::WIDTH_MOLE_SPRITE = 190;
+const float WhackAMole::Game::HEIGHT_MOLE_SPRITE = 144;
+
 void WhackAMole::Game::createBackground(Register &r)
 {
     Rectangle REC = {0, 50, DEFFAULT_WIDTH, DEFFAULT_HEIGHT};
@@ -23,22 +34,10 @@ void WhackAMole::Game::createBackground(Register &r)
 
 void WhackAMole::Game::createMole(Register &r, Components::Positions &&pos)
 {
-    const float WIDTH_MOLE_SPRITE = 190;
-    const float HEIGHT_MOLE_SPRITE = 144;
-
-
     const Rectangle REC = {WIDTH_MOLE_SPRITE * 0, HEIGHT_MOLE_SPRITE * 0, WIDTH_MOLE_SPRITE, HEIGHT_MOLE_SPRITE};
-
-
-    const Vector2 RECSIZE = {WIDTH_MOLE_SPRITE, HEIGHT_MOLE_SPRITE};
-    const std::map<int, std::vector<Vector2>> MOLES_ANIM = {
-        {(int)MoleStates::SLEEP, {{0, 0}}},
-        {(int)MoleStates::WAKE_UP, {{1, 0}, {2, 0}, {3, 0}, {4, 0}}},
-        {(int)MoleStates::ATTACK, {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {1, 1}, {0, 1}}},
-    };
 
     r.creatEntity();
     r.emplace_comp(r.currentEntity, std::move(pos));
     r.emplace_comp(r.currentEntity, Components::Drawable(MOLE_SPRITE, REC, std::vector<float>{0.5, 0.5}));
-    r.emplace_comp(r.currentEntity, Components::Sprite2DMultiAnim(RECSIZE, MOLES_ANIM, (int)MoleStates::WAKE_UP, 0.02f));
+    r.emplace_comp(r.currentEntity, Components::Sprite2DMultiAnim(RECSIZE, MOLES_ANIM, MoleStates::SLEEP, 0.2f, 11));
 }

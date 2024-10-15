@@ -8,6 +8,7 @@
 #include "Game.hpp"
 #include "Global.hpp"
 #include "WhackAMole.hpp"
+#include "Sprite2DMultiAnim.hpp"
 
 WhackAMole::WhackAMole::WhackAMole()
 {
@@ -16,6 +17,13 @@ WhackAMole::WhackAMole::WhackAMole()
     for (const auto &path : TEXTURES_PATH) {
         _textures.push_back(LoadTexture(path.second.c_str()));
     }
+}
+
+void WhackAMole::WhackAMole::setStateMole()
+{
+    auto &rec = _r.getComp<Components::Sprite2DMultiAnim>();
+
+    rec[3].value().SetState(2);
 }
 
 void WhackAMole::WhackAMole::start()
@@ -28,6 +36,8 @@ void WhackAMole::WhackAMole::start()
             Game::createMole(_r, Components::Positions(110 + (200) * x, 400 + (200) * y));
         }
     }
+
+    setStateMole();
 
     while (!WindowShouldClose()) {
         float time = GetTime() - startTime;

@@ -8,16 +8,18 @@
 #include "Sprite2DMultiAnim.hpp"
 
 Components::Sprite2DMultiAnim::Sprite2DMultiAnim(
-        Vector2 recSize,
-        std::map<int, std::vector<Vector2>> states,
+        Vector2 const &recSize,
+        std::map<int, std::vector<Vector2>> const &states,
         int currentState,
         float time,
+        float speed,
         bool loop
     ) :
         _recSize(recSize),
         _states(states),
         _currentState(currentState),
         _time(time),
+        _speed(1 / speed),
         _loop(loop),
         _currentFrame(0),
         _ended(false)
@@ -43,9 +45,14 @@ Vector2 Components::Sprite2DMultiAnim::updateSpriteLocation()
     return frames[_currentFrame];
 }
 
-void Components::Sprite2DMultiAnim::SetSpeed(float time)
+void Components::Sprite2DMultiAnim::setTime(float time)
 {
     _time = time;
+}
+
+void Components::Sprite2DMultiAnim::setSpeed(float speed)
+{
+    _speed = 1 / speed;
 }
 
 bool Components::Sprite2DMultiAnim::isEnded() const

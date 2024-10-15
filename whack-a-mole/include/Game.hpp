@@ -9,6 +9,7 @@
     #define GAME_HPP_
     #include <map>
     #include <string>
+    #include <raylib.h>
     #include "Register.hpp"
     #include "Position.hpp"
 
@@ -41,7 +42,7 @@ namespace WhackAMole {
                 Register &r,
                 Components::Positions &&pos
             );
-        private:
+            
             enum MoleStates {
                 SLEEP,
                 WAKE_UP,
@@ -50,6 +51,13 @@ namespace WhackAMole {
                 SPAWN_BOMB,
                 LEAVE,
             };
+        private:
+            static const float WIDTH_MOLE_SPRITE;
+            static const float HEIGHT_MOLE_SPRITE;
+        
+            static const Vector2 RECSIZE;
+        
+            static const std::map<int, std::vector<Vector2>> MOLES_ANIM;
     };
 }
 
