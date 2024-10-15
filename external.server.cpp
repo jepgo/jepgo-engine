@@ -17,9 +17,11 @@ namespace jgo::enums {
 
 template <typename T>
 static jgo::Builder generateTypeToSend
-(jgame::Server *s, jgo::enums::Components c)
+(jgame::Server *s, void *ptr, jgo::enums::Components c)
 {
-    Register *reg = (Register *)(reinterpret_cast<char *>(&s->ecs) + 40);
+    std::size_t diff = reinterpret_cast<std::uintptr_t>(ptr)
+        - reinterpret_cast<std::uintptr_t>(&s->ecs);
+	Register *reg = (Register *)(reinterpret_cast<char *>(&s->ecs) + diff);
     jgo::Builder build(jgo::enums::FromServer::ApplyExternal);
     auto &elements = reg->getComp<T>();
     CBuffer<jgo::u8> buf(sizeof(T));
@@ -38,16 +40,20 @@ static jgo::Builder generateTypeToSend
     return build;
 }
 
-exported(void) sender(jgame::Server *s)
+exported(void) sender(jgame::Server *s, void *ptr)
 {
 	s->sendToAll(generateTypeToSend<StaminaComponent>(
-		s,
+		s, ptr,
 		jgo::enums::Components::StaminaComponent
 	));
 }
-exported(void) builder(jgame::Server *s)
+
+exported(void) builder(jgame::Server *s, void *ptr)
 {
-	Register *reg = (Register *)(reinterpret_cast<char *>(&s->ecs) + 40);
+    std::size_t diff = reinterpret_cast<std::uintptr_t>(ptr)
+        - reinterpret_cast<std::uintptr_t>(&s->ecs);
+	Register *reg = (Register *)(reinterpret_cast<char *>(&s->ecs) + diff);
+
 	reg->runTimeInsert<StaminaComponent>();
 	reg->addRule([](Register::RuleMap &r) {
 		std::any_cast<SparseArray<StaminaComponent>&>(
@@ -55,3 +61,4 @@ exported(void) builder(jgame::Server *s)
 	});
 
 }
+

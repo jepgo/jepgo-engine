@@ -69,14 +69,18 @@ namespace jgame {
                 std::string soPath = jgame::generateServerModule(argv[0], hppFile);
 
                 _loader.emplace(soPath);
-                _loader->getFunc<int, void *>("builder")(this);
+                _loader->getFunc<void, jgame::Server *, void *>("builder")(
+                    this, &this->ecs
+                );
                 // std::remove(soPath.c_str());
             }
 
             auto sendAllExternals(void) -> void {
                 if (not _loader)
                     return;
-                _loader->getFunc<int, void *>("sender")(this);
+                _loader->getFunc<void, jgame::Server *, void *>("sender")(
+                    this, &this->ecs
+                );
             }
 
         private:
