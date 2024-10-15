@@ -58,9 +58,12 @@ static void getGenerationFunction(std::ofstream &stream)
 {
     stream << "template <typename T>\n"
         << "static jgo::Builder generateTypeToSend\n"
-        << "(jgame::Server *s, jgo::enums::Components c)\n"
+        << "(jgame::Server *s, void *ptr, jgo::enums::Components c)\n"
         << "{\n"
-        << "    Register *reg = (Register *)(reinterpret_cast<char *>(&s->ecs) + 40);\n"
+        << "    std::size_t diff = reinterpret_cast<std::uintptr_t>(ptr)\n"
+        << "        - reinterpret_cast<std::uintptr_t>(&s->ecs);\n"
+	    << "    Register *reg = (Register *)"
+        << "(reinterpret_cast<char *>(&s->ecs) + diff);\n"
         << "    jgo::Builder build(jgo::enums::FromServer::ApplyExternal);\n"
         << "    auto &elements = reg->getComp<T>();\n"
         << "    CBuffer<jgo::u8> buf(sizeof(T));\n"
@@ -91,10 +94,10 @@ static void getGenerationFunction(std::ofstream &stream)
 void FileBuilder::writeServerSender(void)
 {
     getGenerationFunction(_stream);
-    _stream << "exported(void) sender(jgame::Server *s)\n{\n";
+    _stream << "exported(void) sender(jgame::Server *s, void *ptr)\n{\n";
     for (std::string const &s : _classes) {
         _stream << "\ts->sendToAll(generateTypeToSend<" << s
-            << ">(\n\t\ts,\n\t\tjgo::enums::Components::"
+            << ">(\n\t\ts, ptr,\n\t\tjgo::enums::Components::"
             << replaceByUnderscore(s)
             << "\n\t));\n";
     }
@@ -103,9 +106,11 @@ void FileBuilder::writeServerSender(void)
 
 void FileBuilder::writeServerBuilder(void)
 {
-    _stream << "exported(void) builder(jgame::Server *s)\n{\n"
+    _stream << "exported(void) builder(jgame::Server *s, void *ptr)\n{\n"
+        << "\tstd::size_t diff = reinterpret_cast<std::uintptr_t>(ptr)\n"
+        << "\t\t- reinterpret_cast<std::uintptr_t>(&s->ecs);\n"
         << "\tRegister *reg = (Register *)"
-        << "(reinterpret_cast<char *>(&s->ecs) + 40);\n";
+        << "(reinterpret_cast<char *>(&s->ecs) + diff);\n\n";
     _stream << std::endl;
     for (std::string const s : _classes) {
         _stream << "\treg->runTimeInsert<" << s << ">();\n";

@@ -380,35 +380,6 @@ public:
     std::size_t getIndex() { return index; };
     std::optional<Rectangle> &getRect() { return rect; };
     int start;
-    /**
-     * @deprecated
-     * FIXME: to delete
-     */
-    void showMem(void) const {
-        std::uint8_t *ptr;
-        std::cout << "=== Drawable class memory ===" << std::endl;
-        std::cout << std::hex << std::setw(2) << std::setfill('0'); // set
-        
-        ptr = (std::uint8_t *)this;
-        for (std::size_t n = 0; n < sizeof(Drawable); ++n)
-            std::cout << int(ptr[n]) << " ";
-        std::cout << std::endl;
-        
-        ptr = (std::uint8_t *)&this->rect;
-        std::cout << "rect bytes: ";
-        for (std::size_t n = 0; n < sizeof(this->rect); ++n)
-            std::cout << int(ptr[n]) << " ";
-        std::cout << std::endl;
-        
-        ptr = (std::uint8_t *)&this->scale;
-        std::cout << "scale bytes: ";
-        for (std::size_t n = 0; n < sizeof(this->scale); ++n)
-            std::cout << int(ptr[n]) << " ";
-        std::cout << std::endl;
-
-        std::cout << std::setw(0) << std::setfill(' ') << std::dec; // reset
-        std::cout << "=============================" << std::endl;
-    }
 
 private:
     std::size_t index;
