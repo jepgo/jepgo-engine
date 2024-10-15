@@ -16,6 +16,7 @@
 #include <any>
 #include <ostream>
 
+#include "jepgame/toolbox/SizedQueue.hpp"
 #include "Asio.hpp"
 
 using asio::ip::udp;
@@ -51,7 +52,7 @@ namespace jgo {
         private:
 
             std::string _ip;
-            std::queue<std::string> _queue;
+            SizedQueue<std::string> _queue;
             udp::endpoint _end;
     };
 
