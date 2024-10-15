@@ -71,8 +71,16 @@ static std::vector<std::string> extractClasses(std::string const &filename)
     // std::regex pattern(R"((namespace\s+([^{}:]+)\s*\{)|(class\s+([^:{]+)\s*\{)|(\{)|(\}))");
     // std::regex pattern(R"((namespace\s+([^{}:\s]+)\s*\{)|(class\s+([a-zA-Z_][\w]*)(?:\s*:\s*[^{}]*|)\s*\{)|(\{)|(\}))");
     // std::regex pattern(R"((namespace\s+([^{}:\s]+)\s*\{)|(class\s+([a-zA-Z_][\w]*)\s*(?:::[\w:]+)?\s*\{)|(\{)|(\}))");
+    // std::regex pattern(R"((namespace\s+([^{}]+)\s*\{)|(class\s+([^;{}]+)\s*\{)|(class\s+([^{}]+);\s*)|(\{)|(\}))");
     std::regex pattern(R"((namespace\s+([^{}]+)\s*\{)|(class\s+([^{}]+)\s*\{)|(\{)|(\}))");
-    std::string input(readFileContent(filename));
+    std::regex classRegex(R"(\bclass\s+(\w+))");
+    std::smatch miniMatch;
+    std::string input;
+    try {
+        input = readFileContent(filename);
+    } catch (std::exception const &) {
+        return {};
+    }
     std::smatch matches;
     std::string::const_iterator searchStart(input.cbegin());
     std::vector<std::string> context;
@@ -81,20 +89,32 @@ static std::vector<std::string> extractClasses(std::string const &filename)
     std::size_t index;
 
     while (std::regex_search(searchStart, input.cend(), matches, pattern)) {
+
         if (matches[2].matched) { // namespace
             context.push_back(striptease(matches[2]));
+
         } else if (matches[4].matched) { // class
             tmp = matches[4];
             index = tmp.find_first_of(':');
             if (index != std::string::npos)
                 tmp = tmp.substr(0, index);
+            index = tmp.find_last_of(';');
+            if (index != std::string::npos) {
+                tmp = tmp.substr(index + 1);
+                if (std::regex_search(tmp, miniMatch, classRegex))
+                    tmp = miniMatch[1];
+            }
             context.push_back(striptease(tmp));
             res.push_back(VecPP(context).join("::"));
+
         } else if (matches[5].matched) { // lbra
             context.push_back("");
+
         } else if (matches[6].matched) { // rbra
             context.pop_back();
+
         }
+        std::cout << "num " << context.size() << ", " << VecPP(context).join("::") << std::endl;
         searchStart = matches.suffix().first;
     }
     return res;
@@ -102,8 +122,8 @@ static std::vector<std::string> extractClasses(std::string const &filename)
 
 OpenInclude::OpenInclude(std::string const &file): _file(file)
 {
-    getAllFiles(file, _allFile);
-    for (auto const &file : _allFile)
-        _allClasses = VecPP(_allClasses) + extractClasses(file);
+    // getAllFiles(file, _allFile);
+    // for (auto const &file : _allFile)
+    _allClasses = VecPP(_allClasses) + extractClasses(file);
     // extractClassNames(file, _allClasses);
 }

@@ -19,6 +19,7 @@ static std::string const &INCLUDES =
     "#include <iostream>\n" \
     "#include \"jepmod/exported.hpp\"\n" \
     "#include \"jepgame/gamemaker/Client.hpp\"\n" \
+    "#include \"jepgame/toolbox/CBuf.hpp\"\n" \
     "#include \"jepgame/gamemaker/Server.hpp\"\n" \
     "#include \"jepgame/service/Builder.hpp\"\n";
 
@@ -39,7 +40,7 @@ static std::string replaceByUnderscore(std::string const &input)
 
 void FileBuilder::writeEnum(void)
 {
-    _stream << "namespace jgo::enums {\n\tenum Components {\n";
+    _stream << "namespace jgo::enums {\n\tenum ExternalComponents {\n";
     for (std::string const &e : _classes) {
         _stream << "\t\t" + replaceByUnderscore(e) + ",\n";
     }
@@ -58,7 +59,7 @@ static void getGenerationFunction(std::ofstream &stream)
 {
     stream << "template <typename T>\n"
         << "static jgo::Builder generateTypeToSend\n"
-        << "(jgame::Server *s, void *ptr, jgo::enums::Components c)\n"
+        << "(jgame::Server *s, void *ptr, jgo::enums::ExternalComponents c)\n"
         << "{\n"
         << "    std::size_t diff = reinterpret_cast<std::uintptr_t>(ptr)\n"
         << "        - reinterpret_cast<std::uintptr_t>(&s->ecs);\n"
@@ -97,14 +98,53 @@ void FileBuilder::writeServerSender(void)
     _stream << "exported(void) sender(jgame::Server *s, void *ptr)\n{\n";
     for (std::string const &s : _classes) {
         _stream << "\ts->sendToAll(generateTypeToSend<" << s
-            << ">(\n\t\ts, ptr,\n\t\tjgo::enums::Components::"
+            << ">(\n\t\ts, ptr,\n\t\tjgo::enums::ExternalComponents::"
             << replaceByUnderscore(s)
             << "\n\t));\n";
     }
     _stream << "}" << std::endl << std::endl;
 }
 
-void FileBuilder::writeServerBuilder(void)
+static void getReceiverFunction(std::ofstream &stream)
+{
+    stream << "template <typename T>\n"
+        << "static void retrieveSomething"
+        << "(jgame::Client *client, jgo::Builder &builder)\n"
+        << "{\n"
+        << "    CBuffer<jgo::u8> buf(sizeof(T));\n"
+        << "    jgo::s8 num;\n"
+        << "\n"
+        << "    for (std::size_t n = 0; not builder.empty(); ++n) {\n"
+        << "        if (n >= client->ecs.entityNbr())\n"
+        << "            client->ecs.creatEntity();\n"
+        << "        builder.restore<jgo::s8>(num);\n"
+        << "        if (num == -1)\n"
+        << "            continue;\n"
+        << "        buf.fill(builder.toBytes().data());\n"
+        << "        client->ecs.emplace_comp(n, buf.cast<T>());\n"
+        << "        builder.popFront(sizeof(T));\n"
+        << "    }\n"
+        << "}\n";
+}
+
+void FileBuilder::writeClientReceiver(void)
+{
+    getReceiverFunction(_stream);
+    _stream << "exported(void) receiver"
+        << "(jgame::Client *c, jgo::Builder &b)\n{\n";
+    _stream << "\tjgo::enums::ExternalComponents op;\n"
+        << "\tb.restore<jgo::u8>(op);\n\n";
+    _stream << "\tswitch (op) {\n";
+    for (std::string const c : _classes)
+        _stream << "\t\tcase jgo::enums::ExternalComponents::"
+            << replaceByUnderscore(c) << ":\n"
+            << "\t\t\tretrieveSomething<" << c << ">(c, b);\n"
+            << "\t\t\tbreak;\n";
+    _stream << "\t\tdefault:\n"
+        << "\t\t\tbreak;\n\t}\n}" << std::endl << std::endl;
+}
+
+void FileBuilder::writeBuilder(void)
 {
     _stream << "exported(void) builder(jgame::Server *s, void *ptr)\n{\n"
         << "\tstd::size_t diff = reinterpret_cast<std::uintptr_t>(ptr)\n"
@@ -115,17 +155,12 @@ void FileBuilder::writeServerBuilder(void)
     for (std::string const s : _classes) {
         _stream << "\treg->runTimeInsert<" << s << ">();\n";
         _stream << "\treg->addRule([](Register::RuleMap &r) {\n"
-            "\t\tstd::any_cast<SparseArray<StaminaComponent>&>(\n"
-            "\t\t\tr[std::type_index(typeid(StaminaComponent))]).add();\n"
+            "\t\tstd::any_cast<SparseArray<" << s << ">&>(\n"
+            "\t\t\tr[std::type_index(typeid(" << s << "))]).add();\n"
             "\t});\n";
         _stream << std::endl;
     }
     _stream << "}" << std::endl << std::endl;
-}
-
-void FileBuilder::writeClient(void)
-{
-    /// TODO: later
 }
 
 void FileBuilder::writeHeader(void)

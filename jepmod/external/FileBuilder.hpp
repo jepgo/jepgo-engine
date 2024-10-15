@@ -21,9 +21,9 @@ class FileBuilder {
             return;
         }
         void writeHeader(void);
+        void writeBuilder(void);
         void writeServerSender(void);
-        void writeServerBuilder(void);
-        void writeClient(void);
+        void writeClientReceiver(void);
         void writePreprocess(void);
         void writeEnum(void);
 

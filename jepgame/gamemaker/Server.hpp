@@ -31,6 +31,7 @@ namespace jgame {
                 _udp->sendToAll(str);
             }
             inline auto sendToAll(jgo::Builder const &builder) -> void {
+                builder.display();
                 _udp->sendToAll(builder.toString());
             }
             auto sendCustom(jgo::UDP::CustomCallback callback) -> void {
