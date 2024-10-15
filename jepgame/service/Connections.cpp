@@ -13,7 +13,7 @@
 // signel connection
 
 jgo::Connection::Connection(asio::ip::address const &a, asio::ip::port p)
-: _ip(jgo::Connection::makeIP(a, p)), _end(a, p)
+: _ip(jgo::Connection::makeIP(a, p)), _end(a, p), _queue(10)
 {
     std::cout << "new connection at " << _ip << std::endl;
 }
