@@ -50,172 +50,136 @@ namespace jgo::enums {
 }
 
 template <typename T>
-static jgo::Builder generateTypeToSend
-(jgame::Server *s, void *ptr, jgo::enums::ExternalComponents c)
+static void retrieveSomething(jgame::Client *client, jgo::Builder &builder)
 {
-    std::size_t diff = reinterpret_cast<std::uintptr_t>(ptr)
-        - reinterpret_cast<std::uintptr_t>(&s->ecs);
-    Register *reg = (Register *)(reinterpret_cast<char *>(&s->ecs) + diff);
-    jgo::Builder build(jgo::enums::FromServer::ApplyExternal);
-    auto &elements = reg->getComp<T>();
     CBuffer<jgo::u8> buf(sizeof(T));
+    jgo::s8 num;
 
-    build << static_cast<jgo::u8>(c);
-    for (std::size_t n = 0; n < elements.size(); ++n) {
-        if (not elements[n]) {
-            build << static_cast<jgo::u8>(-1);
+    for (std::size_t n = 0; not builder.empty(); ++n) {
+        if (n >= client->ecs.entityNbr())
+            client->ecs.creatEntity();
+        builder.restore<jgo::s8>(num);
+        if (num == -1)
             continue;
-        }
-        build << static_cast<jgo::u8>(0);
-        buf.fill(&elements[n].value());
-        for (jgo::u8 byte : buf.toBytes())
-            build << byte;
+        buf.fill(builder.toBytes().data());
+        client->ecs.emplace_comp(n, buf.cast<T>());
+        builder.popFront(sizeof(T));
     }
-    return build;
 }
-
-exported(void) sender(jgame::Server *s, void *ptr)
+exported(void) receiver(jgame::Client *c, jgo::Builder &b)
 {
-	// s->sendToAll(generateTypeToSend<Stage>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Stage
-	// ));
-	// s->sendToAll(generateTypeToSend<DistanceKm>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::DistanceKm
-	// ));
-	// s->sendToAll(generateTypeToSend<Exp>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Exp
-	// ));
-	// s->sendToAll(generateTypeToSend<Points>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Points
-	// ));
-	// s->sendToAll(generateTypeToSend<Lvl>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Lvl
-	// ));
-	// s->sendToAll(generateTypeToSend<Life>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Life
-	// ));
-	// s->sendToAll(generateTypeToSend<SoundEffect>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::SoundEffect
-	// ));
-	// s->sendToAll(generateTypeToSend<SoundLoop>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::SoundLoop
-	// ));
-	s->sendToAll(generateTypeToSend<Positions>(
-		s, ptr,
-		jgo::enums::ExternalComponents::Positions
-	));
-	// s->sendToAll(generateTypeToSend<Move>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Move
-	// ));
-	// s->sendToAll(generateTypeToSend<LoopMove>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::LoopMove
-	// ));
-	// s->sendToAll(generateTypeToSend<MoveToPlayer>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::MoveToPlayer
-	// ));
-	// s->sendToAll(generateTypeToSend<BombGeneration>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::BombGeneration
-	// ));
-	// s->sendToAll(generateTypeToSend<BombGenerationTime>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::BombGenerationTime
-	// ));
-	// s->sendToAll(generateTypeToSend<MoveToPlayerTime>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::MoveToPlayerTime
-	// ));
-	// s->sendToAll(generateTypeToSend<Velocity>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Velocity
-	// ));
-	// s->sendToAll(generateTypeToSend<ScreenLimit>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::ScreenLimit
-	// ));
-	s->sendToAll(generateTypeToSend<Drawable>(
-		s, ptr,
-		jgo::enums::ExternalComponents::Drawable
-	));
-	// s->sendToAll(generateTypeToSend<Sprite_Animation>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Sprite_Animation
-	// ));
-	// s->sendToAll(generateTypeToSend<Short_Animation>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Short_Animation
-	// ));
-	// s->sendToAll(generateTypeToSend<Animation2Time>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Animation2Time
-	// ));
-	// s->sendToAll(generateTypeToSend<Sprite_Status>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Sprite_Status
-	// ));
-	// s->sendToAll(generateTypeToSend<Shoot>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Shoot
-	// ));
-	// s->sendToAll(generateTypeToSend<Hit>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Hit
-	// ));
-	// s->sendToAll(generateTypeToSend<Type>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Type
-	// ));
-	// s->sendToAll(generateTypeToSend<Explosion>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Explosion
-	// ));
-	// s->sendToAll(generateTypeToSend<Death>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Death
-	// ));
-	// s->sendToAll(generateTypeToSend<Dmg>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Dmg
-	// ));
-	// s->sendToAll(generateTypeToSend<Hitable>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Hitable
-	// ));
-	// s->sendToAll(generateTypeToSend<DoDmg>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::DoDmg
-	// ));
-	// s->sendToAll(generateTypeToSend<Colision>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Colision
-	// ));
-	// s->sendToAll(generateTypeToSend<Controllable>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Controllable
-	// ));
-	// s->sendToAll(generateTypeToSend<Invincible>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::Invincible
-	// ));
-	// s->sendToAll(generateTypeToSend<LvLUp>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::LvLUp
-	// ));
-	// s->sendToAll(generateTypeToSend<InvincibleTime>(
-	// 	s, ptr,
-	// 	jgo::enums::ExternalComponents::InvincibleTime
-	// ));
+	jgo::enums::ExternalComponents op;
+	b.restore<jgo::u8>(op);
+
+	switch (op) {
+		// case jgo::enums::ExternalComponents::Stage:
+		// 	retrieveSomething<Stage>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::DistanceKm:
+		// 	retrieveSomething<DistanceKm>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Exp:
+		// 	retrieveSomething<Exp>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Points:
+		// 	retrieveSomething<Points>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Lvl:
+		// 	retrieveSomething<Lvl>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Life:
+		// 	retrieveSomething<Life>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::SoundEffect:
+		// 	retrieveSomething<SoundEffect>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::SoundLoop:
+		// 	retrieveSomething<SoundLoop>(c, b);
+		// 	break;
+		case jgo::enums::ExternalComponents::Positions:
+			retrieveSomething<Positions>(c, b);
+			break;
+		// case jgo::enums::ExternalComponents::Move:
+		// 	retrieveSomething<Move>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::LoopMove:
+		// 	retrieveSomething<LoopMove>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::MoveToPlayer:
+		// 	retrieveSomething<MoveToPlayer>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::BombGeneration:
+		// 	retrieveSomething<BombGeneration>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::BombGenerationTime:
+		// 	retrieveSomething<BombGenerationTime>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::MoveToPlayerTime:
+		// 	retrieveSomething<MoveToPlayerTime>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Velocity:
+		// 	retrieveSomething<Velocity>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::ScreenLimit:
+		// 	retrieveSomething<ScreenLimit>(c, b);
+		// 	break;
+		case jgo::enums::ExternalComponents::Drawable:
+			retrieveSomething<Drawable>(c, b);
+			break;
+		// case jgo::enums::ExternalComponents::Sprite_Animation:
+		// 	retrieveSomething<Sprite_Animation>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Short_Animation:
+		// 	retrieveSomething<Short_Animation>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Animation2Time:
+		// 	retrieveSomething<Animation2Time>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Sprite_Status:
+		// 	retrieveSomething<Sprite_Status>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Shoot:
+		// 	retrieveSomething<Shoot>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Hit:
+		// 	retrieveSomething<Hit>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Type:
+		// 	retrieveSomething<Type>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Explosion:
+		// 	retrieveSomething<Explosion>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Death:
+		// 	retrieveSomething<Death>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Dmg:
+		// 	retrieveSomething<Dmg>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Hitable:
+		// 	retrieveSomething<Hitable>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::DoDmg:
+		// 	retrieveSomething<DoDmg>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Colision:
+		// 	retrieveSomething<Colision>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Controllable:
+		// 	retrieveSomething<Controllable>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::Invincible:
+		// 	retrieveSomething<Invincible>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::LvLUp:
+		// 	retrieveSomething<LvLUp>(c, b);
+		// 	break;
+		// case jgo::enums::ExternalComponents::InvincibleTime:
+		// 	retrieveSomething<InvincibleTime>(c, b);
+		// 	break;
+		// default:
+		// 	break;
+	}
 }
 
 exported(void) builder(jgame::Server *s, void *ptr)

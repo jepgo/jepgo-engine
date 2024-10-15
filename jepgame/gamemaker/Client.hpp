@@ -12,6 +12,7 @@
 
 #include "engine/engine.hpp"
 #include "jepgame/service/UDPBase.hpp"
+#include "jepmod/DLLoader.hpp"
 
 namespace jgame {
     class Client: public jgo::UDPBase {
@@ -72,8 +73,12 @@ namespace jgame {
                 }
             }
 
+            auto useExternal(std::string const &str) -> void;
+
+            auto getExternalComponent(std::string const &str) -> bool;
+
         private:
-            /// FIXME: hardcoded
+            std::optional<jmod::DLLoader> _loader;
     };
 }
 

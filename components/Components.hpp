@@ -49,7 +49,6 @@ class Points {
         std::size_t _point;
 };
 
-
 class Lvl {
     public:
         Lvl(std::size_t lvl) : _lvl(lvl) {};
@@ -68,7 +67,7 @@ class Life {
 class SoundEffect {
     public:
         SoundEffect(std::size_t ind) : _ind(ind) {};
-        ~SoundEffect() {};
+        ~SoundEffect() {std::cout << "del" << std::endl;};
         void Play(std::vector<Sound> &buffer) {
             PlaySound(buffer[_ind]);
         };
@@ -80,8 +79,10 @@ class SoundEffect {
 class SoundLoop {
     public:
         SoundLoop(std::size_t ind) : _ind(ind) {
+            std::cout << "ctor" << std::endl;
         };
         ~SoundLoop() {
+            std::cout << "delete" << std::endl;
         };
         SoundLoop(const SoundLoop &s) {
             _time = s._time;
@@ -91,11 +92,15 @@ class SoundLoop {
         SoundLoop(SoundLoop &&s) {
             _time = s._time;
             _ind = s._ind;
+            // _sound = std::move(s._sound);
+            std::cout << "move ctor" << std::endl;
         };
         SoundLoop &operator=(const SoundLoop &s)
         {
-            _time = s._time;
-            _ind = s._ind;
+                    _time = s._time;
+        _ind = s._ind;
+        // _sound = s._sound;
+            std::cout << "equal optor" << std::endl;
             return *this;
         }
         void Play(std::vector<Sound> &buffer) {
@@ -116,7 +121,6 @@ class SoundLoop {
         // sf::Sound _sound;
 };
 
-
 class Positions {
 public:
     /**
@@ -130,12 +134,6 @@ public:
     Positions operator+(Positions const &pos) const
     {
         return Positions(this->x + pos.x, this->y + pos.y);
-    }
-    bool operator==(Positions const &pos) const
-    {
-        if (this->x == pos.x && this->y == pos.y)
-            return true;
-        return false;
     }
     float x;
     float y;
@@ -156,81 +154,6 @@ public:
 
 private:
     Positions _pos;
-};
-
-class DrawKm {
-    public:
-        DrawKm(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
-        ~DrawKm() {};
-        Positions _pos;
-        std::size_t _size;
-        Color _color;
-};
-
-class DrawPoints {
-    public:
-        DrawPoints(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
-        ~DrawPoints() {};
-        Positions _pos;
-        std::size_t _size;
-        Color _color;
-};
-
-class DrawLvl {
-    public:
-        DrawLvl(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
-        ~DrawLvl() {};
-        Positions _pos;
-        std::size_t _size;
-        Color _color;
-};
-
-class DrawReborn {
-    public:
-        DrawReborn(Positions &&pos, std::size_t size, Color color) : _pos(pos), _size(size), _color(color) {};
-        ~DrawReborn() {};
-        Positions _pos;
-        std::size_t _size;
-        Color _color;
-};
-
-class Message {
-    public:
-        Message(std::string mess, Positions &&pos, std::size_t size, Color color) : _mess(mess), _pos(pos), _size(size), _color(color) {};
-        ~Message() {};
-        std::string _mess;
-        Positions _pos;
-        std::size_t _size;
-        Color _color;
-};
-
-class MessageTime {
-    public:
-        MessageTime(float time, float reset) : _time(time), _reset(reset) {};
-        ~MessageTime() {};
-        float &getTime() {return _time;};
-        float &getReset() {return _reset;};
-    private:
-        float _time;
-        float _reset;
-};
-
-class Reborn {
-    public:
-        Reborn(std::size_t live) : _live(live) {};
-        ~Reborn() {};
-        std::size_t &getLive() {return _live;};
-    private:
-        std::size_t _live;
-};
-
-class GameLvl {
-    public:
-        GameLvl(std::size_t lvl) : _lvl(lvl) {};
-        ~GameLvl() {};
-        std::size_t &GetLvl() {return _lvl;};
-    private:
-        std::size_t _lvl;
 };
 
 class LoopMove {
@@ -565,7 +488,6 @@ enum TYPE {
     CONTRO,
     COLISION,
     MODULE,
-    MODULE_ARM,
     MINIBOSS,
     NEUTRAL,
 };
@@ -687,7 +609,7 @@ public:
     int width;
     int height;
     std::optional<Positions> _pos;
-    Direction _dir;
+
 private:
 };
 

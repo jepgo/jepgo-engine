@@ -9,12 +9,14 @@
 #include "jepgame/gamemaker/Client.hpp"
 #include "jepgame/gamemaker/hardcoded.hpp"
 #include "jepgame/service/Components.hpp"
+#include "jepmod/external/external.hpp"
 #include "jepmod/exported.hpp"
 
 exported(void) onStart(jgame::Client &client)
 {
     client.connect("localhost", 1234);
     client.sendToServer(jgo::Builder(jgo::enums::FromClient::Connect));
+    client.useExternal("components/Components.hpp");
 
     /// FIXME: hardcoded
     // Game::CreateBackGround(client.ecs);
@@ -56,35 +58,30 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
 
 exported(void) onServerMessage(jgame::Client &client, std::string const &msg)
 {
-    jgo::Builder builder = jgo::Builder::fromString(msg);
+    // jgo::Builder builder = jgo::Builder::fromString(msg);
 
-    builder.display();
+    if (client.getExternalComponent(msg))
+        return;
 
-    return;
+    // switch (jgo::enums::FromServer(msg[0])) {
 
-    switch (jgo::enums::FromServer(msg[0])) {
+    //     case jgo::enums::Apply:
+    //         /// FIXME: hardcoded
+    //         jgo::enums::Components op;
 
-        case jgo::enums::Apply:
-            /// FIXME: hardcoded
-            jgo::enums::Components op;
+    //         builder.restore<jgo::u8>(op);
 
-            builder.restore<jgo::u8>(op);
+    //         std::cout << client.ecs.entityNbr() << std::endl;
 
-            std::cout << client.ecs.entityNbr() << std::endl;
-
-            if (op == jgo::enums::Components::Position)
-                retrieveSomething<Positions>(client, builder);
-            else if (op == jgo::enums::Components::Drawable)
-                retrieveSomething<Drawable>(client, builder);
-            break;
-        
-        case jgo::enums::ApplyExternal:
-            std::cout << "receiving externals !" << std::endl;
-            break;
-
-        default:
-            break;
-    }
+    //         if (op == jgo::enums::Components::Position)
+    //             retrieveSomething<Positions>(client, builder);
+    //         else if (op == jgo::enums::Components::Drawable)
+    //             retrieveSomething<Drawable>(client, builder);
+    //         break;
+    
+    //     default:
+    //         break;
+    // }
 }
 
 exported(void) onUpdate(jgame::Client &client)

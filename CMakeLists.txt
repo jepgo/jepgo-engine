@@ -183,6 +183,21 @@ TARGET_LINK_LIBRARIES(external.server PUBLIC
     jepmod
 )
 
+# external.client
+
+PROJECT(external.client)
+ADD_LIBRARY(external.client SHARED
+    external.client.cpp
+)
+TARGET_COMPILE_OPTIONS(external.client PRIVATE -fPIC)
+TARGET_INCLUDE_DIRECTORIES(
+    external.client PRIVATE .
+)
+TARGET_LINK_LIBRARIES(external.client PUBLIC
+    jepgame
+    jepengine
+    jepmod
+)
 
 # copy the sprites
 

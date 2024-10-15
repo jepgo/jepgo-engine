@@ -11,4 +11,5 @@
 
 namespace jgame {
     std::string generateServerModule(std::string const &, std::string const &);
+    std::string generateClientModule(std::string const &, std::string const &);
 }

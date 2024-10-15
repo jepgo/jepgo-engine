@@ -57,7 +57,7 @@ namespace jgo {
                     _vec.push_back(_caster.int8[n]);
                 return *this;
             }
-            inline auto display() -> void {
+            inline auto display() const -> void {
                 std::cout << "data: " << std::hex;
                 for (auto const &b : _vec)
                     std::cout << static_cast<int>(b) << " ";

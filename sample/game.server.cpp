@@ -14,12 +14,11 @@
 #include "jepgame/gamemaker/hardcoded.hpp"
 #include "jepgame/service/Components.hpp"
 #include "jepmod/exported.hpp"
-#include "components/Stamina.hpp"
 
 exported(void) onStart(jgame::Server &server)
 {
     server.host(1234);
-    server.useExternal("components/Stamina.hpp");
+    server.useExternal("components/Components.hpp");
 
     std::cout << sizeof(jgame::Server) << std::endl;
 
@@ -56,7 +55,6 @@ exported(void) onClientMessage
             /// FIXME: hardcoded
             Game::CreatPlayer(server.ecs, 800, 600);
             client.storage["id"] = server.ecs.currentEntity;
-            server.ecs.add_comp<StaminaComponent>(server.ecs.currentEntity, 10);
             break;
 
         case jgo::enums::Arrows:

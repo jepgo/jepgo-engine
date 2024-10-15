@@ -5,7 +5,10 @@
 ** Client
 */
 
+#include <iostream>
+
 #include "Client.hpp"
+#include "jepmod/external/external.hpp"
 
 using namespace jgame;
 
@@ -28,4 +31,26 @@ auto Client::getDirection(void) const -> Vector2
             static_cast<int>(IsKeyDown(KEY_UP))
         )
     };
+}
+
+auto Client::useExternal(std::string const &str) -> void
+{
+    std::string soPath = jgame::generateClientModule(argv[0], str);
+
+    _loader.emplace(soPath);
+    _loader->getFunc<void, jgame::Client *, void *>("builder")(
+        this, &this->ecs
+    );
+}
+
+auto Client::getExternalComponent(std::string const &msg) -> bool
+{
+    if (msg[0] != jgo::enums::FromServer::ApplyExternal)
+        return false;
+
+    jgo::Builder builder = jgo::Builder::fromString(msg);
+    _loader->getFunc<void, jgame::Client *, jgo::Builder &>("receiver")(
+        this, builder
+    );
+    return true;
 }
