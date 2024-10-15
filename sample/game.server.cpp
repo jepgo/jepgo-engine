@@ -14,17 +14,20 @@
 #include "jepgame/gamemaker/hardcoded.hpp"
 #include "jepgame/service/Components.hpp"
 #include "jepmod/exported.hpp"
+#include "jepgame/toolbox/Random.hpp"
 
 exported(void) onStart(jgame::Server &server)
 {
     server.host(1234);
     server.useExternal("components/Components.hpp");
 
-    std::cout << sizeof(jgame::Server) << std::endl;
-
-    // Game::CreateBackGround(server.ecs);
-    // Game::CreatePlanet(server.ecs);
-    // server.settings.frequency = 10;
+    Game::CreateBackGround(server.ecs);
+    Game::CreatePlanet(server.ecs);
+    // Game::CreateArmorModule(server.ecs, Positions(200, 200), 0.0);
+    // Game::CreateArmorModule(server.ecs, Positions(300, 200), 0.0);
+    // Game::CreateArmorModule(server.ecs, Positions(400, 200), 0.0);
+    // Game::CreateArmorModule(server.ecs, Positions(500, 200), 0.0);
+    // Game::CreateArmorModule(server.ecs, Positions(600, 200), 0.0);
 }
 
 static void updatePosition
@@ -104,6 +107,8 @@ exported(void) onUpdate(jgame::Server &server)
     if (static_cast<float>(ClockPP()) - server.getTime() < .01)
         return;
     server.updateTime();
+
+    // std::cout << "entities:" << server.ecs.entityNbr() << std::endl;
 
     // server.sendToAll(generateTypeToSend<Positions>(
     //     server,

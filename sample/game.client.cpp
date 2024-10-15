@@ -17,24 +17,6 @@ exported(void) onStart(jgame::Client &client)
     client.connect("localhost", 1234);
     client.sendToServer(jgo::Builder(jgo::enums::FromClient::Connect));
     client.useExternal("components/Components.hpp");
-
-    /// FIXME: hardcoded
-    // Game::CreateBackGround(client.ecs);
-    // Game::CreatePlanet(client.ecs);
-    // Game::CreatPlayer(client.ecs, client.window.width, client.window.heigth);
-
-    // test
-    // auto &drawables = client.ecs.getComp<Controllable>();
-    // for (int n = 0; n < drawables.size(); ++n) {
-    //     if (drawables[n].has_value())
-    //         std::cout << n << std::endl;
-    // }
-    // int n = 0;
-    // for (auto const &e : drawables) {
-    //     std::cout << n << std::endl;
-    //     n++;
-    //     std::cout << "hell" << std::endl;
-    // }
 }
 
 template <typename T>
@@ -45,7 +27,7 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
 
     // builder.display();
     for (std::size_t n = 0; not builder.empty(); ++n) {
-        if (n >= client.ecs.entityNbr())
+        if (n > client.ecs.entityNbr())
             client.ecs.creatEntity();
         builder.restore<jgo::s8>(num);
         if (num == -1)
@@ -93,6 +75,8 @@ exported(void) onUpdate(jgame::Client &client)
         << static_cast<jgo::u8>(static_cast<int>(vec.x))
         << static_cast<jgo::u8>(static_cast<int>(vec.y))
     );
+
+    // std::cout << "=> entities:" << client.ecs.entityNbr() << std::endl;
 
     // get positions and drawable
     // auto &a = client.ecs.getComp<Positions>();
