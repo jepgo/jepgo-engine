@@ -44,8 +44,8 @@ void Game::CreatPlayer(Register &r, int height, int width)
 {
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Positions(200, 200));
-    //r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
-    r.emplace_comp(r.currentEntity, Model3D(1, 70, 40, 10));
+    r.emplace_comp(r.currentEntity, Drawable(1, Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
+    // r.emplace_comp(r.currentEntity, Model3D(1, 70, 40, 10));
     r.emplace_comp(r.currentEntity, Velocity({10, 10, 10, 10}));
     r.emplace_comp(r.currentEntity, Colision(30, 18));
     r.emplace_comp(r.currentEntity, Controllable());

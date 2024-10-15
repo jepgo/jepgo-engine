@@ -72,8 +72,8 @@
 static Vector2 getDirectionVector(void)
 {
     Vector2 vec = {
-        IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT),
-        IsKeyDown(KEY_DOWN) - IsKeyDown(KEY_UP)
+        static_cast<float>(IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT)),
+        static_cast<float>(IsKeyDown(KEY_DOWN) - IsKeyDown(KEY_UP))
     };
     return vec;
 }
@@ -180,7 +180,7 @@ void MainGame::mainGame()
     Game::CreateBackGround(r);
     Game::CreatePlanet(r);
     Game::CreatPlayer(r, height, width);
-    playerEntity = r.entity_nbr;
+    playerEntity = r.currentEntity;
     Game::CreateBoostModule(r, playerEntity);
     Game::CreateMessageTime(r, Positions(300, 100), "Farm as you can !", 0, 5);
     Game::CreateArmorModule(r, Positions(300, 300), 0);
@@ -201,7 +201,7 @@ void MainGame::mainGame()
     std::vector<Model> models = getAllModel({{"models/model/ship.obj", "models/texture/texture_ship.png"}, {"models/model/modul_armor.obj", "models/model/modul_armor.png"}});
 
     r.creatEntity();
-    r.emplace_comp(r.entity_nbr, SoundLoop(1));
+    r.emplace_comp(r.currentEntity, SoundLoop(1));
 
     Camera camera = { 0 };
     camera.position = { height / 2.0f, width / 2.0f, 500.0f };
