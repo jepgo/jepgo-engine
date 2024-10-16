@@ -26,13 +26,12 @@ class RotationTime {
 
 class Rotation3D {
     public:
-        Rotation3D(float rotation, float time, float reset) : _rotation(rotation), _time(time), _reset(reset) {};
+        Rotation3D(Vector3 rotation, float angle) : _rotation(rotation), _angle(angle) {};
         ~Rotation3D() {};
-        float &getRotation() {return _rotation;};
-        float &getTime(){return _time;};
-        float &getReset() {return _reset;};
+        Vector3 &getRotation() {return _rotation;};
+        float &getAngle() {return _angle;};
     private:
-        float _rotation;
-        float _time;
-        float _reset;
+        Vector3 _rotation;
+        float _angle;
+
 };

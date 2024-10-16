@@ -55,7 +55,7 @@ static void retrieveSomething(jgame::Client *client, jgo::Builder &builder)
     CBuffer<jgo::u8> buf(sizeof(T));
     jgo::s8 num;
 
-	builder.display();
+	// builder.display();
     for (std::size_t n = 0; not builder.empty(); ++n) {
         if (n >= client->ecs.entityNbr())
             client->ecs.creatEntity();

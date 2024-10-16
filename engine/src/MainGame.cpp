@@ -252,7 +252,7 @@ void MainGame::mainGame()
         //std::cout << "after Module" << std::endl;
         DmgSystem::system(r, time);
         //std::cout << "after dmg" << std::endl;
-        ExplosionSystem::system(r, sounds, 3);
+        // ExplosionSystem::system(r, sounds, 3);
         //std::cout << "after sound" << std::endl;
         DeathSystem::system(r, playerEntity);
         //std::cout << "after death" << std::endl;
@@ -266,7 +266,7 @@ void MainGame::mainGame()
         //std::cout << "after bombgeneratortime" << std::endl;
         BombGenerationSystem::system(r, time);
         //std::cout << "after bombgenertor" << std::endl;
-        game.Stages(r, time, playerEntity, sounds);
+        // game.Stages(r, time, playerEntity, sounds);
         //std::cout << "after stage" << std::endl;
         MessageTimeSystem::system(r, time);
         //std::cout << "after messageTime" << std::endl;

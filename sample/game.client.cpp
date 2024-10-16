@@ -17,6 +17,7 @@ exported(void) onStart(jgame::Client &client)
     client.connect("localhost", 1234);
     client.sendToServer(jgo::Builder(jgo::enums::FromClient::Connect));
     client.useExternal("components/Components.hpp");
+    client.settings.use3D = true;
 }
 
 template <typename T>
@@ -25,7 +26,6 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
     CBuffer<jgo::u8> buf(sizeof(T));
     jgo::s8 num;
 
-    // builder.display();
     for (std::size_t n = 0; not builder.empty(); ++n) {
         if (n > client.ecs.entityNbr())
             client.ecs.creatEntity();
@@ -40,30 +40,8 @@ static void retrieveSomething(jgame::Client &client, jgo::Builder &builder)
 
 exported(void) onServerMessage(jgame::Client &client, std::string const &msg)
 {
-    // jgo::Builder builder = jgo::Builder::fromString(msg);
-
     if (client.getExternalComponent(msg))
         return;
-
-    // switch (jgo::enums::FromServer(msg[0])) {
-
-    //     case jgo::enums::Apply:
-    //         /// FIXME: hardcoded
-    //         jgo::enums::Components op;
-
-    //         builder.restore<jgo::u8>(op);
-
-    //         std::cout << client.ecs.entityNbr() << std::endl;
-
-    //         if (op == jgo::enums::Components::Position)
-    //             retrieveSomething<Positions>(client, builder);
-    //         else if (op == jgo::enums::Components::Drawable)
-    //             retrieveSomething<Drawable>(client, builder);
-    //         break;
-    
-    //     default:
-    //         break;
-    // }
 }
 
 exported(void) onUpdate(jgame::Client &client)
@@ -75,17 +53,6 @@ exported(void) onUpdate(jgame::Client &client)
         << static_cast<jgo::u8>(static_cast<int>(vec.x))
         << static_cast<jgo::u8>(static_cast<int>(vec.y))
     );
-
-    // std::cout << "=> entities:" << client.ecs.entityNbr() << std::endl;
-
-    // get positions and drawable
-    // auto &a = client.ecs.getComp<Positions>();
-    // auto &b = client.ecs.getComp<Drawable>();
-    // for (size_t n = 0; n < a.size(); ++n) {
-    //     std::cout << n << ": [" << a[n].has_value()
-    //         << "] [" << b[n].has_value() << "]" << std::endl;
-    // }
-    // std::cout << std::endl;
 }
 
 // this part will be hiden later
@@ -99,6 +66,8 @@ int main(int argc, char const *argv[])
     InitWindow(client.window.width, client.window.heigth,
         client.window.name.c_str());
     InitAudioDevice();
+
+    // get the models and stuff
     client.getAllTextures({
         "sprites/r-typesheet3.gif",
         "sprites/r-typesheet1.gif",
@@ -108,6 +77,18 @@ int main(int argc, char const *argv[])
         "sprites/r-typesheet32.gif",
         "sprites/r-typesheet14.gif"
     });
+    client.getAllModels({
+        {"models/model/ship.obj", "models/texture/texture_ship.png"},
+        {"models/model/modul_armor.obj", "models/model/modul_armor.png"}
+    });
+
+    // initialize 3D
+    client.models[0].transform =
+        MatrixMultiply(client.models[0].transform, MatrixRotateY(90));
+    if (client.settings.use3D)
+        client.tools3D.init(client.window.heigth, client.window.width);
+
+    // main loop
     while (not WindowShouldClose()) {
         client.updateTime();
         onUpdate(client);

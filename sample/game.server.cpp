@@ -23,11 +23,6 @@ exported(void) onStart(jgame::Server &server)
 
     Game::CreateBackGround(server.ecs);
     Game::CreatePlanet(server.ecs);
-    // Game::CreateArmorModule(server.ecs, Positions(200, 200), 0.0);
-    // Game::CreateArmorModule(server.ecs, Positions(300, 200), 0.0);
-    // Game::CreateArmorModule(server.ecs, Positions(400, 200), 0.0);
-    // Game::CreateArmorModule(server.ecs, Positions(500, 200), 0.0);
-    // Game::CreateArmorModule(server.ecs, Positions(600, 200), 0.0);
 }
 
 static void updatePosition
@@ -41,7 +36,6 @@ static void updatePosition
     if (not vel[id] or not control[id] or not pos[id])
         return;
     
-    // std::cout << dir.x << ", " << dir.y << ":: " << id << std::endl;
     // set the velocity and move
     vel[id]->setVel(dir);
     server.ecs.emplace_comp(id, Move(vel[id]->getVel()));
@@ -51,6 +45,7 @@ exported(void) onClientMessage
 (jgame::Server &server, std::string const &msg, jgo::Connection &client)
 {
     jgo::Builder builder = jgo::Builder::fromString(msg);
+    Vector2 direction;
 
     switch (jgo::enums::FromClient(msg[0])) {
 
@@ -61,11 +56,8 @@ exported(void) onClientMessage
             break;
 
         case jgo::enums::Arrows:
-            Vector2 direction;
-
             builder.restore<jgo::s8>(direction.x)
                 .restore<jgo::s8>(direction.y);
-            // std::cout << direction.x << ", " << direction.y << std::endl;
             updatePosition(server, direction,
                 std::any_cast<int>(client.storage["id"]));
             break;
@@ -73,7 +65,6 @@ exported(void) onClientMessage
         default:
             return;
     }
-    // ...
 }
 
 template <typename T>
@@ -107,19 +98,6 @@ exported(void) onUpdate(jgame::Server &server)
     if (static_cast<float>(ClockPP()) - server.getTime() < .01)
         return;
     server.updateTime();
-
-    // std::cout << "entities:" << server.ecs.entityNbr() << std::endl;
-
-    // server.sendToAll(generateTypeToSend<Positions>(
-    //     server,
-    //     jgo::enums::Components::Position
-    // ));
-
-    // server.sendToAll(generateTypeToSend<Drawable>(
-    //     server,
-    //     jgo::enums::Components::Drawable
-    // ));
-
     server.sendAllExternals();
 }
 
@@ -132,7 +110,6 @@ int main(int argc, char const *argv[])
     if (not server.compile())
         return 84;
     while (true) {
-        // server.updateTime();
         std::this_thread::sleep_for(
             std::chrono::milliseconds(server.settings.frequency)
         );

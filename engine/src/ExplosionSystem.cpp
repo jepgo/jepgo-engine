@@ -7,7 +7,7 @@
 
 #include "ExplosionSystem.hpp"
 
-void ExplosionSystem::system(Register &r, std::vector<Sound> &sounds, std::size_t ind)
+void ExplosionSystem::system(Register &r, std::size_t ind)
 {
     auto &death = r.getComp<Death>();
     auto &explosion = r.getComp<Explosion>();
@@ -15,7 +15,7 @@ void ExplosionSystem::system(Register &r, std::vector<Sound> &sounds, std::size_
     for (std::size_t i = 0; i < death.size(); i++) {
         if (death[i].has_value() && explosion[i].has_value()) {
             explosion[i].value().explose(r, i);
-            PlaySound(sounds[ind]);   
+            // PlaySound(sounds[ind]);
         }
     }
 }

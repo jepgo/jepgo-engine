@@ -27,6 +27,11 @@ namespace jgo {
             auto send(std::string const &s) -> void;
             auto sendToAll(std::string const &s) -> void;
             auto sendToAllCustom(CustomCallback callback) -> void;
+            auto getFirstClient(void) -> std::optional<jgo::ConnectionRef> {
+                if (_pool.getEveryone().empty())
+                    return std::nullopt;
+                return _pool.getEveryone()[0];
+            }
 
             inline auto getYapers(void) -> std::vector<jgo::ConnectionRef> {
                 return _pool.getYapers();
