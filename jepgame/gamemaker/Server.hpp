@@ -51,7 +51,7 @@ namespace jgame {
                 : addDmg(.1), test(1), game(.1), move(.01), moveTo(.3) {
                     return;
                 }
-                AllSystems(double a, double b, double c, double d, double e)
+                AllSystems(double a, double b, double c, double d, double e, double f, double g)
                 : addDmg(a), test(b), game(c), move(d), moveTo(e) {
                     return;
                 }

@@ -19,7 +19,7 @@ TestGame::~TestGame()
 {
 }
 
-static void Stage2(Register &r, SparseArray<SoundLoop> &sound, std::vector<Sound> &sounds)
+static void Stage2(Register &r, SparseArray<SoundLoop> &sound)
 {
     auto &type = r.getComp<Type>();
 
@@ -31,8 +31,8 @@ static void Stage2(Register &r, SparseArray<SoundLoop> &sound, std::vector<Sound
     //Game::CreateArmorModule(r, Positions(600, 300));
     for (std::size_t i = 0; i < sound.size(); i++) {
         if (sound[i].has_value()) {
-            sound[i].value().Stop(sounds[sound[i].value().getInd()]);
-            sound[i].value().ChangeSong(0);
+            // sound[i].value().Stop(sounds[sound[i].value().getInd()]);
+            // sound[i].value().ChangeSong(0);
         }
     }
         // sound.stop();
@@ -46,7 +46,7 @@ static void Stage1(Register &r)
     Game::CreateAsteroid(r);
 }
 
-void TestGame::Stages(Register &r, float time, std::size_t entity, std::vector<Sound> &sounds)
+void TestGame::Stages(Register &r, float time, std::size_t entity)
 {
     auto &km = r.getComp<DistanceKm>();
     auto &sound = r.getComp<SoundLoop>();
@@ -54,7 +54,7 @@ void TestGame::Stages(Register &r, float time, std::size_t entity, std::vector<S
     if (time - _time <= _reset)
         return;
     if (km[entity].value()._dist >= 700) {
-        Stage2(r, sound, sounds);
+        Stage2(r, sound);
     } 
     else
         Stage1(r);

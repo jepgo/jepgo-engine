@@ -36,6 +36,9 @@ namespace jgo {
             auto getTime(void) const -> float {
                 return _time.current;
             }
+            auto getFirstClient(void) -> std::optional<jgo::ConnectionRef> {
+                return _udp->getFirstClient();
+            }
             inline auto getYapers() -> std::vector<jgo::ConnectionRef> {
                 return _udp->getYapers();
             }

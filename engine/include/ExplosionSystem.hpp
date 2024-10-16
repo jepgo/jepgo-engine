@@ -16,7 +16,7 @@ class ExplosionSystem {
          * 
          * @param r The Register of the entities
          */
-        static void system(Register &r, std::vector<Sound> &sounds, std::size_t ind);
+        static void system(Register &r, std::size_t ind);
     protected:
     private:
 };

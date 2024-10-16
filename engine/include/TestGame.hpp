@@ -27,7 +27,7 @@ class TestGame {
          * @param currentEntity The total of entity nbr
          * @param textures The list of all the Texture
          */
-        void Stages(Register &r, float time, std::size_t, std::vector<Sound> &sounds);
+        void Stages(Register &r, float time, std::size_t);
     private:
         float _reset;
         float _time;

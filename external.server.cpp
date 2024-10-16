@@ -71,7 +71,7 @@ static jgo::Builder generateTypeToSend
         for (jgo::u8 byte : buf.toBytes())
             build << byte;
     }
-	build.display();
+	// build.display();
     return build;
 }
 

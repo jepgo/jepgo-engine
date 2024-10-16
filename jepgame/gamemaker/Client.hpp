@@ -37,6 +37,22 @@ namespace jgame {
             auto getDirection(void) const -> Vector2;
 
             struct {
+                bool use3D = false;
+            } settings;
+
+            struct {
+                Camera camera = { 0 };
+                inline auto init(unsigned int h, unsigned int w) -> void {
+                    camera.position = { h / 2.0f, w / 2.0f, 500.0f };
+                    camera.target = { h / 2.0f, w / 2.0f, 0.0f };
+                    camera.up = { 0.0f, 1.0f, 0.0f };
+                    camera.fovy = w;
+                    camera.projection = CAMERA_ORTHOGRAPHIC;
+                    SetTargetFPS(60);
+                }
+            } tools3D;
+
+            struct {
                 unsigned int width = 800;
                 unsigned int heigth = 600;
                 std::string name = "Can you consider giving me a name ?";
@@ -45,11 +61,11 @@ namespace jgame {
             /// FIXME: hardcoded
             struct AllSystems {
                 AllSystems(void)
-                : addDmg(.1), test(1), game(.1), move(.01), moveTo(.3) {
+                : addDmg(.1), test(1), game(.1), move(.01), moveTo(.3), draw3D(0, 0.1) {
                     return;
                 }
-                AllSystems(double a, double b, double c, double d, double e)
-                : addDmg(a), test(b), game(c), move(d), moveTo(e) {
+                AllSystems(double a, double b, double c, double d, double e, double f, double g)
+                : addDmg(a), test(b), game(c), move(d), moveTo(e), draw3D(f, g) {
                     return;
                 }
                 Game player;
@@ -61,9 +77,10 @@ namespace jgame {
                 DrawSystem draw;
                 MoveToPlayerSystem moveTo;
                 AnimationSpriteSystem anim;
+                Draw3DSystem draw3D;
             } systems;
 
-            /// FIXME: hardcoded
+            /* The 2D Textures. */
             std::vector<Texture2D> textures;
             void getAllTextures(std::vector<std::string> list) {
                 textures.reserve(list.size());
@@ -72,6 +89,18 @@ namespace jgame {
                     textures.push_back(std::move(tmp));
                 }
             }
+
+            /* The 3D Textures. */
+            std::vector<Model> models;
+            void getAllModels(std::map<std::string, std::string> const &mods) {
+                for (auto const &mod : mods) {
+                    Model tmp = LoadModel(mod.first.c_str());
+                    Texture2D tex = LoadTexture(mod.second.c_str());
+                    tmp.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = tex;
+                    models.push_back(std::move(tmp));
+                }
+            }
+
 
             auto useExternal(std::string const &str) -> void;
 
