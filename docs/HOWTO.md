@@ -37,6 +37,17 @@ cd build
 cmake ../
 cmake --build .
 ```
+
+#### build.sh script
+
+You can use the 'build.sh' script to compile the project, it automatically creates a 'build' folder and compiles the project in it. There is also a flag 'fclean' to remove entirely the 'build' folder if you need.
+> If you're on Windows, you'll need a bash interpreter like Git Bash to run the script.
+```bash	
+./build.sh # Create build dir, configure and compile the project
+
+./build.sh fclean # Remove entirely the build dir
+```
+
 ## Usage
 To launch the server, you can use the following command:
 ```bash

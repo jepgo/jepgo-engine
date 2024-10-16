@@ -4,19 +4,7 @@
 ## You need to have CMake installed.
 ## If you want to build on Windows, you need to install a bash interpreter like Git Bash.
 
-clean() {
-    echo -e "\e[33mRemoving r-type file.\e[0m"
-    rm -f r-type_* libjep*
-    if [[ $? -ne 0 ]]; then
-        echo -e "\e[31mFailed to remove files.\e[0m"
-        exit 1
-    else 
-        echo -e "\e[32mFiles removed.\e[0m"
-    fi
-}
-
 fclean() {
-    clean
     echo -e "\e[33mRemoving build directory.\e[0m"
     rm -rf build
     if [[ $? -ne 0 ]]; then
@@ -26,12 +14,6 @@ fclean() {
         echo -e "\e[32mBuild directory removed.\e[0m"
     fi
 }
-
-
-if [[ $1 == "clean" ]]; then
-    clean
-    exit 0
-fi
 
 if [[ $1 == "fclean" ]]; then
     fclean
@@ -77,17 +59,17 @@ if [[ $? -ne 0 ]]; then
 fi
 echo -e "\e[32mTargets built.\e[0m"
 
-echo -e "\e[33mCopying files.\e[0m"
-unameOut="$(uname -o)"
-if [[ $unameOut == "Msys" ]]; then
-    cp Debug/r-type* ../
-    cp Debug/libjep* ../
-elif [[ $unameOut == "GNU/Linux" ]]; then
-    cp r-type* ../
-    cp libjep* ../
-fi
-if [[ $? -ne 0 ]]; then
-    echo -e "\e[31mFailed to copy files.\e[0m"
-    exit 1
-fi
-echo -e "\e[32mFiles copied.\e[0m"
+# echo -e "\e[33mCopying files.\e[0m"
+# unameOut="$(uname -o)"
+# if [[ $unameOut == "Msys" ]]; then
+#     cp Debug/r-type* ../
+#     cp Debug/libjep* ../
+# elif [[ $unameOut == "GNU/Linux" ]]; then
+#     cp r-type* ../
+#     cp libjep* ../
+# fi
+# if [[ $? -ne 0 ]]; then
+#     echo -e "\e[31mFailed to copy files.\e[0m"
+#     exit 1
+# fi
+# echo -e "\e[32mFiles copied.\e[0m"
