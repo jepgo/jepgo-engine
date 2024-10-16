@@ -111,21 +111,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   target_compile_definitions(jepmod PUBLIC "WINDOWS")
 endif()
 
-
-# PROJECT(caca)
-# add_executable(caca 
-#     ${JepmodSRC}/main.cpp)
-# TARGET_LINK_LIBRARIES(caca PRIVATE jepmod)
-# target_include_directories(caca PRIVATE .)
-
-
-# project(zizi)
-# add_library(zizi SHARED
-#     ${JepmodSRC}/module.cpp)
-# TARGET_LINK_LIBRARIES(zizi PRIVATE jepmod)
-# target_include_directories(zizi PRIVATE .)
-
-
 # libjepgame.a
 
 PROJECT(jepgame)
