@@ -138,9 +138,6 @@ TARGET_LINK_LIBRARIES(client PRIVATE
     jepgame
     jepengine
     jepmod
-    sfml-graphics
-    sfml-window
-    sfml-system
     raylib
 )
 
@@ -157,9 +154,6 @@ TARGET_LINK_LIBRARIES(server PRIVATE
     jepgame
     jepengine
     jepmod
-    sfml-graphics
-    sfml-window
-    sfml-system
     raylib
 )
 
@@ -172,6 +166,8 @@ ADD_LIBRARY(external.server SHARED
 TARGET_COMPILE_OPTIONS(external.server PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(
     external.server PRIVATE .
+    ${raylib_SOURCE_DIR}/src
+    ${asio_SOURCE_DIR}/asio/include
 )
 TARGET_LINK_LIBRARIES(external.server PUBLIC
     jepgame
@@ -188,6 +184,8 @@ ADD_LIBRARY(external.client SHARED
 TARGET_COMPILE_OPTIONS(external.client PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(
     external.client PRIVATE .
+    ${raylib_SOURCE_DIR}/src
+    ${asio_SOURCE_DIR}/asio/include
 )
 TARGET_LINK_LIBRARIES(external.client PUBLIC
     jepgame
