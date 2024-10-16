@@ -2,7 +2,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.14) # pi
 
 # general
 
-SET(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(FETCHCONTENT_QUIET FALSE)
 set(ENGINE_SRC_DIR engine/src)
 set(CLIENT_SRC_DIR sample)
 set(SERVER_SRC_DIR sample)
@@ -28,7 +30,7 @@ CPMAddPackage(
     NAME SQLite3
     GIT_REPOSITORY https://github.com/LuaDist/libsqlite3
     GIT_TAG 3.7.7.1
-    )
+)
 list(APPEND CMAKE_MODULE_PATH "${SQLite3_SOURCE_DIR}/cmake")
 
 CPMAddPackage(
@@ -86,7 +88,6 @@ ADD_LIBRARY(jepengine STATIC
 	${EngineSRC}/Draw3DSystem.cpp
 	${EngineSRC}/Rotation3DSystem.cpp
 )
-TARGET_COMPILE_OPTIONS(jepengine PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE engine/include ${raylib_SOURCE_DIR}/src)
 
 # libjepmod.a
@@ -101,7 +102,6 @@ ADD_LIBRARY(jepmod STATIC
     ${JepmodSRC}/external/OpenInclude.cpp
     ${JepmodSRC}/external/generation.cpp
 )
-TARGET_COMPILE_OPTIONS(jepmod PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(jepmod PRIVATE .)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -123,18 +123,17 @@ ADD_LIBRARY(jepgame STATIC
     ${JepgameSRC}/gamemaker/Client.cpp
     ${JepgameSRC}/gamemaker/Server.cpp
 )
-TARGET_COMPILE_OPTIONS(jepgame PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(jepgame PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
 
 # game.client
 
-PROJECT(client)
+PROJECT(r-type_client)
 SET(ClientSRC sample/)
-ADD_EXECUTABLE(client
+ADD_EXECUTABLE(r-type_client
     ${ClientSRC}/game.client.cpp
 )
-TARGET_INCLUDE_DIRECTORIES(client PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
-TARGET_LINK_LIBRARIES(client PRIVATE
+TARGET_INCLUDE_DIRECTORIES(r-type_client PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
+TARGET_LINK_LIBRARIES(r-type_client PRIVATE
     jepgame
     jepengine
     jepmod
@@ -143,14 +142,13 @@ TARGET_LINK_LIBRARIES(client PRIVATE
 
 # game.server
 
-PROJECT(server)
+PROJECT(r-type_server)
 SET(ServerSRC sample/)
-ADD_EXECUTABLE(server
+ADD_EXECUTABLE(r-type_server
     ${ServerSRC}/game.server.cpp
 )
-TARGET_COMPILE_OPTIONS(jepmod PRIVATE -fPIC)
-TARGET_INCLUDE_DIRECTORIES(server PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
-TARGET_LINK_LIBRARIES(server PRIVATE
+TARGET_INCLUDE_DIRECTORIES(r-type_server PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
+TARGET_LINK_LIBRARIES(r-type_server PRIVATE
     jepgame
     jepengine
     jepmod
@@ -163,7 +161,6 @@ PROJECT(external.server)
 ADD_LIBRARY(external.server SHARED
     external.server.cpp
 )
-TARGET_COMPILE_OPTIONS(external.server PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(
     external.server PRIVATE .
     ${raylib_SOURCE_DIR}/src
@@ -181,7 +178,6 @@ PROJECT(external.client)
 ADD_LIBRARY(external.client SHARED
     external.client.cpp
 )
-TARGET_COMPILE_OPTIONS(external.client PRIVATE -fPIC)
 TARGET_INCLUDE_DIRECTORIES(
     external.client PRIVATE .
     ${raylib_SOURCE_DIR}/src
