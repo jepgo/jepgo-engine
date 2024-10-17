@@ -1,7 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.14) # pi
 
-PROJECT(jepengine)
-
 ADD_LIBRARY(jepengine STATIC
     src/Register.cpp
 	src/Components.cpp
@@ -42,9 +40,9 @@ ADD_LIBRARY(jepengine STATIC
 	src/Rotation3DSystem.cpp
 )
 
-TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE ./include ${raylib_SOURCE_DIR}/src)
+TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE ./include)
+TARGET_LINK_LIBRARIES(jepengine raylib)
 
-PROJECT(solo)
 add_executable(solo
     src/Register.cpp
     src/Components.cpp
@@ -92,5 +90,5 @@ target_link_libraries(solo PRIVATE raylib)
 ADD_CUSTOM_COMMAND(TARGET solo POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     "$<TARGET_FILE:solo>"
-    "${CMAKE_BINARY_DIR}"
+    "${CMAKE_SOURCE_DIR}"
 )
