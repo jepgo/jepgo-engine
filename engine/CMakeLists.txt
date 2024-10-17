@@ -45,7 +45,6 @@ ADD_LIBRARY(jepengine STATIC
 TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE ./include ${raylib_SOURCE_DIR}/src)
 
 PROJECT(solo)
-
 add_executable(solo
     src/Register.cpp
     src/Components.cpp
@@ -89,3 +88,9 @@ add_executable(solo
 
 target_include_directories(solo PRIVATE include ${raylib_SOURCE_DIR}/src)
 target_link_libraries(solo PRIVATE raylib)
+
+ADD_CUSTOM_COMMAND(TARGET solo POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "$<TARGET_FILE:solo>"
+    "${CMAKE_BINARY_DIR}"
+)
