@@ -210,3 +210,5 @@ ADD_CUSTOM_TARGET(copy_components ALL
     "${RessourceDir}"
     "${DestinationDir}"
 )
+
+# add_custom_command(co PRE_BUILD)
