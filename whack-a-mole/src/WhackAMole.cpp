@@ -5,6 +5,7 @@
 ** WhackAMole
 */
 
+
 #include "Game.hpp"
 #include "Global.hpp"
 #include "WhackAMole.hpp"
@@ -19,13 +20,6 @@ WhackAMole::WhackAMole::WhackAMole()
     }
 }
 
-void WhackAMole::WhackAMole::setStateMole()
-{
-    auto &rec = _r.getComp<Components::Sprite2DMultiAnim>();
-
-    rec[3].value().SetState(2);
-}
-
 void WhackAMole::WhackAMole::start()
 {
     Game::createBackground(_r);
@@ -37,14 +31,14 @@ void WhackAMole::WhackAMole::start()
         }
     }
 
-    setStateMole();
-
     while (!WindowShouldClose()) {
         float time = GetTime() - startTime;
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
+        Game::setWhack(_r);
+        Game::setStateMole(_r);
         _animSys.system(_r, time);
         _drawSys.system(_r, _textures);
         
