@@ -9,6 +9,7 @@
 
 #include <string>
 #include <cstdint>
+#include "jepmod/EasyLife.hpp"
 #include "jepmod/Clock++.hpp"
 #include "jepmod/DLLoader.hpp"
 #include "jepengine/Register.hpp"
@@ -89,7 +90,23 @@ namespace jgo {
              * `game.useComponent("health");`
              */
             template <typename T>
-            auto useComponent(std::string const &name) -> bool;
+            auto useComponent(std::string const &sys = "") -> void {
+                std::string realLib;
+
+                if (not sys.empty()) {
+                    realLib = jmod::EasyLife(argv[0])/"jepgo.component." + sys;
+                    _systems[sys] = jmod::DLLoader(realLib);
+                }
+                this->ecs.runTimeInsert<T>();
+                this->ecs.addRule([](Register::RuleMap &r) {
+                    std::any_cast<SparseArray<T>&>(r[std::type_index(typeid(T))]).add();
+                });
+            }
+
+            /**
+             * Call all systems.
+             */
+            auto callSystems(void) -> void;
 
             /**
              * Get the time from the beginning of the game.
@@ -124,5 +141,10 @@ namespace jgo {
              * The dynamic libraries map.
              */
             std::map<std::string, std::optional<jmod::DLLoader>> _libs;
+
+            /**
+             * The components.
+             */
+            std::map<std::string, std::optional<jmod::DLLoader>> _systems;
     };
 }

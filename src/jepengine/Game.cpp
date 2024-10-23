@@ -35,13 +35,14 @@ auto jgo::Game::loadGraphic(std::string const &lib) -> void
     _libs["graphic"] = jmod::DLLoader(realLib);
 }
 
-template <typename T>
-auto jgo::Game::useComponent(std::string const &str) -> bool
-{
-    
-}
-
 auto jgo::Game::getTime(void) -> float
 {
     return static_cast<float>(_clock());
+}
+
+auto jgo::Game::callSystems(void) -> void
+{
+    for (auto &e : _systems)
+        if (e.second)
+            e.second->getFunc<int, jgo::Game &>("jepgoSystem")(*this);
 }

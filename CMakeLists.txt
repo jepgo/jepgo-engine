@@ -75,104 +75,13 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   target_compile_definitions(jepmod PUBLIC "WINDOWS")
 endif()
 
-# libjepgame.a
+# jepgo.component.Poison.so
 
-# PROJECT(jepgame)
-# SET(JepgameSRC jepgame/)
-# ADD_LIBRARY(jepgame STATIC
-#     ${JepgameSRC}/service/UDP.cpp
-#     ${JepgameSRC}/service/Builder.cpp
-#     ${JepgameSRC}/service/Connections.cpp
-#     ${JepgameSRC}/gamemaker/hardcoded.cpp
-#     ${JepgameSRC}/gamemaker/Client.cpp
-#     ${JepgameSRC}/gamemaker/Server.cpp
-# )
-# TARGET_INCLUDE_DIRECTORIES(jepgame PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
-
-# # game.client
-
-# PROJECT(r-type_client)
-# SET(ClientSRC sample/)
-# ADD_EXECUTABLE(r-type_client
-#     ${ClientSRC}/game.client.cpp
-# )
-# TARGET_INCLUDE_DIRECTORIES(r-type_client PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
-# TARGET_LINK_LIBRARIES(r-type_client PRIVATE
-#     jepgame
-#     jepengine
-#     jepmod
-#     raylib
-# )
-
-# # game.server
-
-# PROJECT(r-type_server)
-# SET(ServerSRC sample/)
-# ADD_EXECUTABLE(r-type_server
-#     ${ServerSRC}/game.server.cpp
-# )
-# TARGET_INCLUDE_DIRECTORIES(r-type_server PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
-# TARGET_LINK_LIBRARIES(r-type_server PRIVATE
-#     jepgame
-#     jepengine
-#     jepmod
-#     raylib
-# )
-
-# # external.server
-
-# PROJECT(external.server)
-# ADD_LIBRARY(external.server SHARED
-#     external.server.cpp
-# )
-# TARGET_INCLUDE_DIRECTORIES(
-#     external.server PRIVATE .
-#     ${raylib_SOURCE_DIR}/src
-#     ${asio_SOURCE_DIR}/asio/include
-# )
-# TARGET_LINK_LIBRARIES(external.server PUBLIC
-#     jepgame
-#     jepengine
-#     jepmod
-# )
-
-# # external.client
-
-# PROJECT(external.client)
-# ADD_LIBRARY(external.client SHARED
-#     external.client.cpp
-# )
-# TARGET_INCLUDE_DIRECTORIES(
-#     external.client PRIVATE .
-#     ${raylib_SOURCE_DIR}/src
-#     ${asio_SOURCE_DIR}/asio/include
-# )
-# TARGET_LINK_LIBRARIES(external.client PUBLIC
-#     jepgame
-#     jepengine
-#     jepmod
-# )
-
-# # copy the sprites
-
-# SET(RessourceDir "${CMAKE_SOURCE_DIR}/sprites")
-# SET(DestinationDir "${CMAKE_BINARY_DIR}/sprites")
-
-# ADD_CUSTOM_TARGET(copy_resources ALL
-#     COMMAND ${CMAKE_COMMAND} -E copy_directory
-#     "${RessourceDir}"
-#     "${DestinationDir}"
-# )
-
-# # copy the components
-
-# SET(RessourceDir "${CMAKE_SOURCE_DIR}/components")
-# SET(DestinationDir "${CMAKE_BINARY_DIR}/components")
-
-# ADD_CUSTOM_TARGET(copy_components ALL
-#     COMMAND ${CMAKE_COMMAND} -E copy_directory
-#     "${RessourceDir}"
-#     "${DestinationDir}"
-# )
-
-# add_custom_command(co PRE_BUILD)
+PROJECT(jepgo.component.Poison)
+SET(JepmodSRC src/jepmaker/services)
+ADD_LIBRARY(jepgo.component.Poison SHARED
+    ${JepmodSRC}/Poison.cpp
+)
+ADD_COMPILE_OPTIONS(-fPIC)
+TARGET_LINK_LIBRARIES(jepgo.component.Poison jepmod jepengine)
+TARGET_INCLUDE_DIRECTORIES(jepgo.component.Poison PRIVATE include)

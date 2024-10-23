@@ -94,8 +94,8 @@ your component like any other, by including your file:
 
 exported(void) onStart(jgo::Client &client)
 {
-    client.ecs.creatEntity();
-    client.ecs.emplace_comp(client.ecs.currentEntity, Stamina());
+    client.ecs.createEntity();
+    client.ecs.emplaceComp(client.ecs.currentEntity, Stamina());
 }
 ```
 
