@@ -43,11 +43,19 @@ namespace jgo {
     };
 
     /**
+     * Just a vector with 2 floats.
+     */
+    struct Vector2 {
+        float x, y;
+    };
+
+    /**
      * Same as rectangle, but in 3D so it have a pos and size.
      */
     struct HitBox {
         Vector3 pos;
         Vector3 size;
+        Vector3 rotation;
     };
 
     /**
