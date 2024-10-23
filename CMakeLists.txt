@@ -1,87 +1,135 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.14) # pi
 
+PROJECT(jepengine)
+PROJECT(jepgame)
+PROJECT(jepmod)
+PROJECT(r-type_client)
+PROJECT(r-type_server)
+PROJECT(solo)
 # general
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(FETCHCONTENT_QUIET FALSE)
-set(ENGINE_SRC_DIR engine/src)
-set(CLIENT_SRC_DIR sample)
-set(SERVER_SRC_DIR sample)
-set(JEPGAME_SRC_DIR jepgame/)
-set(JEPMOD_SRC_DIR jepmod/)
-set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
 
-# packages
+# find_packages
+find_package(raylib QUIET)
+find_package(SQLite3 QUIET)
+find_package(SqliteOrm QUIET)
 
+# package manager
 include(cmake/CPM.cmake)
+include(cmake/dependencies.cmake)
 
-CPMAddPackage(
-    NAME raylib
-    GIT_REPOSITORY https://github.com/raysan5/raylib
-    GIT_TAG 5.0
-)
-CPMAddPackage(
-    NAME asio
-    GIT_REPOSITORY https://github.com/chriskohlhoff/asio
-    GIT_TAG asio-1-31-0
-)
-CPMAddPackage(
-    NAME SQLite3
-    GIT_REPOSITORY https://github.com/LuaDist/libsqlite3
-    GIT_TAG 3.7.7.1
-)
-list(APPEND CMAKE_MODULE_PATH "${SQLite3_SOURCE_DIR}/cmake")
+add_subdirectory(engine)
+add_subdirectory(jepmod)
+add_subdirectory(jepgame)
 
-CPMAddPackage(
-    NAME sqliteorm
-    GIT_REPOSITORY https://github.com/fnc12/sqlite_orm
-    GIT_TAG v1.9
+# game.client
+
+SET(ClientSRC sample/)
+ADD_EXECUTABLE(r-type_client
+    ${ClientSRC}/game.client.cpp
 )
-CPMAddPackage(
-    NAME libconfig
-    GIT_REPOSITORY https://github.com/hyperrealm/libconfig
-    GIT_TAG v1.7.3
+TARGET_INCLUDE_DIRECTORIES(r-type_client PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
+TARGET_LINK_LIBRARIES(r-type_client PRIVATE
+    jepgame
+    jepengine
+    jepmod
+    raylib
 )
 
+# game.server
 
-# libjepengine.a
-
-PROJECT(jepengine)
-SET(EngineSRC src/jepengine)
-ADD_LIBRARY(jepengine STATIC
-    ${EngineSRC}/Register.cpp
-	${EngineSRC}/Game.cpp
+SET(ServerSRC sample/)
+ADD_EXECUTABLE(r-type_server
+    ${ServerSRC}/game.server.cpp
 )
-TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE include)
-
-# libjepmod.a
-
-PROJECT(jepmod)
-SET(JepmodSRC src/jepmod)
-ADD_LIBRARY(jepmod STATIC
-    ${JepmodSRC}/DLLoader.cpp
-    # ${JepmodSRC}/Jepmodule.cpp
-    # ${JepmodSRC}/external/FileBuilder.cpp
-    # ${JepmodSRC}/external/OpenInclude.cpp
-    # ${JepmodSRC}/external/generation.cpp
+TARGET_INCLUDE_DIRECTORIES(r-type_server PRIVATE . ${raylib_SOURCE_DIR}/src ${asio_SOURCE_DIR}/asio/include)
+TARGET_LINK_LIBRARIES(r-type_server PRIVATE
+    jepgame
+    jepengine
+    jepmod
+    raylib
 )
-TARGET_INCLUDE_DIRECTORIES(jepmod PRIVATE include)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  target_compile_definitions(jepmod PUBLIC "LINUX")
-endif()
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  target_compile_definitions(jepmod PUBLIC "WINDOWS")
-endif()
+# external.server
 
-# jepgo.component.Poison.so
-
-PROJECT(jepgo.component.Poison)
-SET(JepmodSRC src/jepmaker/services)
-ADD_LIBRARY(jepgo.component.Poison SHARED
-    ${JepmodSRC}/Poison.cpp
+PROJECT(external.server)
+ADD_LIBRARY(external.server SHARED
+    external.server.cpp
 )
-ADD_COMPILE_OPTIONS(-fPIC)
-TARGET_LINK_LIBRARIES(jepgo.component.Poison jepmod jepengine)
-TARGET_INCLUDE_DIRECTORIES(jepgo.component.Poison PRIVATE include)
+TARGET_INCLUDE_DIRECTORIES(
+    external.server PRIVATE .
+    ${raylib_SOURCE_DIR}/src
+    ${asio_SOURCE_DIR}/asio/include
+)
+TARGET_LINK_LIBRARIES(external.server PUBLIC
+    jepgame
+    jepengine
+    jepmod
+)
+
+# external.client
+
+PROJECT(external.client)
+ADD_LIBRARY(external.client SHARED
+    external.client.cpp
+)
+TARGET_INCLUDE_DIRECTORIES(
+    external.client PRIVATE .
+    ${raylib_SOURCE_DIR}/src
+    ${asio_SOURCE_DIR}/asio/include
+)
+TARGET_LINK_LIBRARIES(external.client PUBLIC
+    jepgame
+    jepengine
+    jepmod
+)
+
+# copy the sprites
+
+# SET(RessourceDir "${CMAKE_SOURCE_DIR}/sprites")
+# SET(DestinationDir "${CMAKE_BINARY_DIR}/sprites")
+
+# ADD_CUSTOM_TARGET(copy_resources ALL
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory
+#     "${RessourceDir}"
+#     "${DestinationDir}"
+# )
+
+# # copy the components
+
+# SET(RessourceDir "${CMAKE_SOURCE_DIR}/components")
+# SET(DestinationDir "${CMAKE_BINARY_DIR}/components")
+
+# ADD_CUSTOM_TARGET(copy_components ALL
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory
+#     "${RessourceDir}"
+#     "${DestinationDir}"
+# )
+
+ADD_CUSTOM_COMMAND(TARGET r-type_server POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "$<TARGET_FILE:r-type_server>"
+    "${CMAKE_SOURCE_DIR}"
+)
+
+
+ADD_CUSTOM_COMMAND(TARGET r-type_client POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "$<TARGET_FILE:r-type_client>"
+    "${CMAKE_SOURCE_DIR}"
+)
+
+ADD_CUSTOM_COMMAND(TARGET external.client POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "$<TARGET_FILE:external.client>"
+    "${CMAKE_SOURCE_DIR}"
+)
+
+ADD_CUSTOM_COMMAND(TARGET external.server POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "$<TARGET_FILE:external.server>"
+    "${CMAKE_SOURCE_DIR}"
+)
