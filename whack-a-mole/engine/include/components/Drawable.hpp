@@ -65,6 +65,11 @@ namespace Components {
             std::optional<Rectangle> &getRect();
 
 
+            /**
+             * @brief The scale of the texture
+             * 
+             */
+            std::vector<float> scale;
 
             /**
              * @brief The start of the rectangle
@@ -78,11 +83,6 @@ namespace Components {
              */
             std::size_t index;
 
-            /**
-             * @brief The scale of the texture
-             * 
-             */
-            std::vector<float> scale;
 
             /**
              * @brief The rectangle of the texture

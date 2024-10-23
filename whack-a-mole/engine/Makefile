@@ -26,8 +26,6 @@ SRC =	$(SRCPATH)/Register.cpp							\
 		$(COMPONENTS_SRC_PARH)/Sprite2DMultiAnim.cpp	\
 		$(SYSTEMS_SRC_PARH)/DrawSystem.cpp				\
 		$(SYSTEMS_SRC_PARH)/Sprite2DMultiAnimSystem.cpp	\
-		# $(COMPONENTS_SRC_PARH)/Sprite_Animation.cpp 	\
-		# $(SYSTEMS_SRC_PARH)/AnimationSpriteSystem.cpp	\
 
 OBJS = $(SRC:.cpp=.o)
 

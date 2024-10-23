@@ -31,7 +31,6 @@ void Systems::Sprite2DMultiAnimSystem::system(Register &r, float time)
             draw[i].value().getRect().value().x = loc.x * rec[i].value().getRecSize().x;
             draw[i].value().getRect().value().y = loc.y * rec[i].value().getRecSize().y;
             rec[i].value().setTime(time + rec[i].value().getSpeed());
-
         }
     }
 }

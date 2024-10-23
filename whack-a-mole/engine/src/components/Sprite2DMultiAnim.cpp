@@ -30,6 +30,7 @@ void Components::Sprite2DMultiAnim::SetState(int state)
 {
     _currentState = state;
     _currentFrame = 0;
+    _ended = false;
 }
 
 Vector2 Components::Sprite2DMultiAnim::updateSpriteLocation()
