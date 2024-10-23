@@ -17,16 +17,16 @@ Register::~Register()
     return;
 }
 
-void Register::creatEntity()
+void Register::createEntity()
 {
     currentEntity++;
     for (auto const &cb : _rules)
-        cb(regist);
+        cb(_regist);
 }
 
 std::map<std::type_index, std::any> &Register::getRegister()
 {
-    return regist;
+    return _regist;
 }
 
 std::size_t Register::entityNbr(void) const

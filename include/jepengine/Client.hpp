@@ -17,7 +17,10 @@ namespace jgo {
      */
     class Client: public Game {
         public:
-            Client() = default;
+            Client(int ac, char const *const av[]): Game(ac, av) {
+                return;
+            }
+
             ~Client() = default;
 
             /**
