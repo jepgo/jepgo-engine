@@ -22,6 +22,7 @@ include(cmake/dependencies.cmake)
 
 add_subdirectory(src/jepengine)
 add_subdirectory(src/jepmod)
+add_subdirectory(src/jepmaker/services)
 
 # # game.client
 
