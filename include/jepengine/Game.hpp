@@ -29,10 +29,10 @@ namespace jgo {
      * A Rectangle that have x, y width and height.
      */
     struct Rectangle {
-        int x;
-        int y;
-        int width;
-        int height;
+        float x;
+        float y;
+        float width;
+        float height;
     };
 
     /**
