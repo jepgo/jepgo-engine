@@ -13,7 +13,6 @@
 #include "Position.hpp"
 #include "Drawable.hpp"
 #include "Clickable2D.hpp"
-#include "Sprite2DMultiAnim.hpp"
 
 const Vector2 WhackAMole::Game::RECSIZE = {WIDTH_MOLE_SPRITE, HEIGHT_MOLE_SPRITE};
 
@@ -34,6 +33,21 @@ const std::map<int, std::vector<Vector2>> WhackAMole::Game::MOLES_ANIM = {
 
 const float WhackAMole::Game::WIDTH_MOLE_SPRITE = 190;
 const float WhackAMole::Game::HEIGHT_MOLE_SPRITE = 144;
+
+const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &)>>> WhackAMole::Game::MOLE_BEHAVIOR = {
+    {{WhackAMole::Game::SLEEP}, 8000, false, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::WAKE_UP);}},
+    {{WhackAMole::Game::SLEEP}, 30000, false, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::SPAWN_BOMB);}},
+    {{WhackAMole::Game::SLEEP}, 80000, false, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::IMMORTAL);}},
+    {{WhackAMole::Game::IMMORTAL}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::IMMORTAL_WAIT); e.value().setTime(GetTime() + 1);}},
+    {{WhackAMole::Game::IMMORTAL_WAIT}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::STOP_IMMORTAL);}},
+    {{WhackAMole::Game::STOP_IMMORTAL}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::WAIT); e.value().setTime(GetTime() + 1);}},
+    {{WhackAMole::Game::LEAVE, WhackAMole::Game::LEAVE_BOMB}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::SLEEP);}},
+    {{WhackAMole::Game::WAKE_UP}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::WAIT); e.value().setTime(GetTime() + 1);}},
+    {{WhackAMole::Game::SPAWN_BOMB}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::WAIT_BOMB); e.value().setTime(GetTime() + 1);}},
+    {{WhackAMole::Game::WAIT}, 10, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::ATTACK);}},
+    {{WhackAMole::Game::ATTACK, WhackAMole::Game::WAIT}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::LEAVE);}},
+    {{WhackAMole::Game::WAIT_BOMB}, -1, true, [](std::optional<Components::Sprite2DMultiAnim> &e) {e.value().SetState(WhackAMole::Game::LEAVE_BOMB);}},
+};
 
 int WhackAMole::Game::randomgen(int min, int max)
 {
@@ -94,34 +108,13 @@ void WhackAMole::Game::setStateMole(Register &r)
 
     for (std::size_t i = 0; i < rec.size(); i++) {
         if (rec[i].has_value() && GetTime() >= rec[i].value().getTime()) {
-            if (rec[i].value().getState() == SLEEP && randomgen(0, 8000) == 1) {
-                rec[i].value().SetState(WAKE_UP);
-            } else if (rec[i].value().getState() == SLEEP && randomgen(0, 30000) == 1) {
-                rec[i].value().SetState(SPAWN_BOMB);
-            } else if (rec[i].value().getState() == SLEEP && randomgen(0, 80000) == 1) {
-                rec[i].value().SetState(IMMORTAL);
-            } else if (rec[i].value().getState() == IMMORTAL && rec[i].value().isEnded()) {
-                rec[i].value().SetState(IMMORTAL_WAIT);
-                rec[i].value().setTime(GetTime() + 1);
-            } else if (rec[i].value().getState() == IMMORTAL_WAIT && rec[i].value().isEnded()) {
-                rec[i].value().SetState(STOP_IMMORTAL);
-            } else if (rec[i].value().getState() == STOP_IMMORTAL && rec[i].value().isEnded()) {
-                rec[i].value().SetState(WAIT);
-                rec[i].value().setTime(GetTime() + 1);
-            } else if ((rec[i].value().getState() == LEAVE || rec[i].value().getState() == LEAVE_BOMB) && rec[i].value().isEnded()) {
-                rec[i].value().SetState(SLEEP);
-            } else if (rec[i].value().getState() == WAKE_UP && rec[i].value().isEnded()) {
-                rec[i].value().SetState(WAIT);
-                rec[i].value().setTime(GetTime() + 1);
-            } else if (rec[i].value().getState() == SPAWN_BOMB && rec[i].value().isEnded()) {
-                rec[i].value().SetState(WAIT_BOMB);
-                rec[i].value().setTime(GetTime() + 1);
-            } else if (rec[i].value().getState() == WAIT && rec[i].value().isEnded() && randomgen(0, 10) == 1) {
-                rec[i].value().SetState(ATTACK);
-            } else if ((rec[i].value().getState() == ATTACK || rec[i].value().getState() == WAIT) && rec[i].value().isEnded()) {
-                rec[i].value().SetState(LEAVE);
-            } else if (rec[i].value().getState() == WAIT_BOMB && rec[i].value().isEnded()) {
-                rec[i].value().SetState(LEAVE_BOMB);
+            for (auto &behavior : MOLE_BEHAVIOR) {
+                for (auto &s : std::get<0>(behavior)) {
+                    if (rec[i].value().getState() == s
+                    && (std::get<1>(behavior) == -1 || randomgen(0, std::get<1>(behavior)) == 1)
+                    && (!std::get<2>(behavior) || (rec[i].value().isEnded())))
+                        std::get<3>(behavior)(rec[i]); 
+                }
             }
         }
     }

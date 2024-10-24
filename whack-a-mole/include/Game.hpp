@@ -11,8 +11,10 @@
     #include <tuple>
     #include <string>
     #include <raylib.h>
+    #include <functional>
     #include "Register.hpp"
     #include "Position.hpp"
+    #include "Sprite2DMultiAnim.hpp"
 
 /**
  * @brief The namespace of the WhackAMole game
@@ -84,6 +86,7 @@ namespace WhackAMole {
                 WAIT,
                 WAIT_BOMB
             };
+
         private:
             static const float WIDTH_MOLE_SPRITE;
             static const float HEIGHT_MOLE_SPRITE;
@@ -91,6 +94,7 @@ namespace WhackAMole {
             static const Vector2 RECSIZE;
         
             static const std::map<int, std::vector<Vector2>> MOLES_ANIM;
+            static const std::vector<std::tuple<std::vector<MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &)>>> MOLE_BEHAVIOR;
     };
 }
 
