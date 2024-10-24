@@ -58,7 +58,7 @@ namespace jgo {
              * Preload all images.
              */
             virtual void
-            preloadModels(std::vector<std::string> const &models) = 0;
+            preloadModels(std::map<std::string, std::string> const &models) = 0;
 
             /**
              * Preaload all sounds.
@@ -121,7 +121,8 @@ namespace jgo {
                 std::string const &path,
                 jgo::HitBox const &where,
                 float angle,
-                jgo::u32 color
+                jgo::u32 color,
+                jgo::Vector2 const &scale
             ) = 0;
 
             /**
@@ -133,7 +134,8 @@ namespace jgo {
             drawModel(
                 std::string const &path,
                 jgo::HitBox const &where,
-                jgo::u32 color
+                jgo::u32 color,
+                jgo::Vector2 const &scale
             ) = 0;
 
             /**
@@ -141,6 +143,20 @@ namespace jgo {
              */
             virtual void
             playSound(std::string const &sound, float volume) = 0;
+
+            /**
+             * @brief To Know if the window still opened
+             * 
+             * @return true 
+             * @return false 
+             */
+            virtual bool isWindowOpen(void) = 0;
+
+            /**
+             * @brief To be able to init the audio system
+             * 
+             */
+            virtual void InitAudio() = 0;
 
             /**
              * Should close all the ressources and the window.
