@@ -78,9 +78,11 @@ namespace WhackAMole {
                 ATTACK,
                 IMMORTAL,
                 IMMORTAL_WAIT,
+                IMMORTAL_LEAVE,
                 STOP_IMMORTAL,
                 DEAD,
                 SPAWN_BOMB,
+                BOMB_EXPLOSION,
                 LEAVE,
                 LEAVE_BOMB,
                 WAIT,
@@ -90,6 +92,8 @@ namespace WhackAMole {
         private:
             static const float WIDTH_MOLE_SPRITE;
             static const float HEIGHT_MOLE_SPRITE;
+
+            static const int NO_RANDOM_GEN;
         
             static const Vector2 RECSIZE;
         
