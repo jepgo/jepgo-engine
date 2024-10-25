@@ -9,55 +9,16 @@
 
 #include <string>
 #include <cstdint>
+#include <optional>
+#include "jepmaker/graphic/IGraphic.hpp"
 #include "jepmod/EasyLife.hpp"
 #include "jepmod/Clock++.hpp"
 #include "jepmod/DLLoader.hpp"
 #include "jepengine/Register.hpp"
 
+#define onlyOnExistPtr(x) if (x) x->get()
+
 namespace jgo {
-
-    using u8 = std::uint8_t;
-    using s8 = std::int8_t;
-    using u16 = std::uint16_t;
-    using s16 = std::int16_t;
-    using u32 = std::uint32_t;
-    using s32 = std::int32_t;
-    using u64 = std::uint64_t;
-    using s64 = std::int64_t;
-
-    /**
-     * A Rectangle that have x, y width and height.
-     */
-    struct Rectangle {
-        float x;
-        float y;
-        float width;
-        float height;
-    };
-
-    /**
-     * Just a vector with 3 float positions.
-     */
-    struct Vector3 {
-        float x, y, z;
-    };
-
-    /**
-     * Just a vector with 2 floats.
-     */
-    struct Vector2 {
-        float x, y;
-    };
-
-    /**
-     * Same as rectangle, but in 3D so it have a pos and size.
-     */
-    struct HitBox {
-        Vector3 pos;
-        Vector3 size;
-        Vector3 rotation;
-    };
-
     /**
      * A Game is a file structure that can load modules and contains the
      * engine.
@@ -103,7 +64,7 @@ namespace jgo {
 
                 if (not sys.empty()) {
                     realLib = jmod::EasyLife(argv[0])/"jepgo.system." + sys;
-                    _systems[sys] = jmod::DLLoader(realLib);
+                    _systems[sys] = std::make_shared<jmod::DLLoader>(realLib);
                 }
                 this->ecs.runTimeInsert<T>();
                 this->ecs.addRule([](Register::RuleMap &r) {
@@ -121,13 +82,10 @@ namespace jgo {
              */
             auto getTime(void) -> float;
 
-            /**
-             * Requires `loadGraphic()`.
-             * 
-             * Draw something on the graphic library.
-             * Example: `drawSomething("assets/foo.png", {0, 0, 100, 100});`
-             */
-            auto drawSomething(std::string const &, Rectangle const &);
+            inline auto getGraphicLib(void) ->
+                std::optional<std::unique_ptr<jgo::IGraphic>> & {
+                return _graphicLib;
+            }
 
             /**
              * The engine manager for components.
@@ -146,13 +104,13 @@ namespace jgo {
             jmod::ClockPP _clock;
 
             /**
-             * The dynamic libraries map.
+             * The graphic library (if any)
              */
-            std::map<std::string, std::optional<jmod::DLLoader>> _libs;
+            std::optional<std::unique_ptr<jgo::IGraphic>> _graphicLib;
 
             /**
              * The components.
              */
-            std::map<std::string, std::optional<jmod::DLLoader>> _systems;
+            std::map<std::string, std::optional<jmod::DLLoaderPtr>> _systems;
     };
 }

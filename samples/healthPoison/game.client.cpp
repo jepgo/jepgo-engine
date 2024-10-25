@@ -16,6 +16,8 @@
 
 exported(void) onStart(jgo::Client &game)
 {
+    game.loadGraphic("Raylib");
+
     game.useComponent<Health>();
     game.useComponent<Poison>("Poison");
 
@@ -35,13 +37,17 @@ exported(void) onUpdate(jgo::Client &game)
 
 int main(int ac, char const *const av[])
 {
-    /* setup the game */
     jgo::Client game(ac, av);
 
     onStart(game);
-    while (true) {
+    onlyOnExistPtr(game.getGraphicLib())->openWindow(
+        "window", jgo::Rectangle(0, 0, 800, 600)
+    );
+    while (game.getGraphicLib() ? game.getGraphicLib()->get()->isWindowOpen() : true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         onUpdate(game);
+        onlyOnExistPtr(game.getGraphicLib())->update();
         game.callSystems();
     }
+    onlyOnExistPtr(game.getGraphicLib())->closeWindow();
 }

@@ -7,7 +7,6 @@
 
 #include "raylib.h"
 #include "jepmod/exported.hpp"
-#include "jepengine/Game.hpp"
 #include "jepmaker/graphic/IGraphic.hpp"
 
 class Raylib: public jgo::IGraphic {
@@ -115,12 +114,16 @@ class Raylib: public jgo::IGraphic {
          */
         bool isWindowOpen() override;
 
-        void InitAudio() override;
-
         /**
          * Should close all the ressources and the window.
          */
         void closeWindow(void) override;
+
+        /**
+         * Just an update to see if your library is alive.
+         */
+        void update(void) override;
+
     private:
         std::map<std::string, Texture2D> _images;
         std::map<std::string, Model> _models;
@@ -130,6 +133,7 @@ class Raylib: public jgo::IGraphic {
 void Raylib::openWindow(std::string const &name, jgo::Rectangle const &rect)
 {
     InitWindow(rect.width, rect.height, name.c_str());
+    InitAudioDevice();
 }
 
 jgo::GraphicSettings Raylib::getSettings(void) const
@@ -238,9 +242,10 @@ bool Raylib::isWindowOpen()
     return !WindowShouldClose();
 }
 
-void Raylib::InitAudio()
+void Raylib::update()
 {
-    InitAudioDevice();
+    BeginDrawing();
+    EndDrawing();
 }
 
 void Raylib::closeWindow(void)
@@ -248,6 +253,6 @@ void Raylib::closeWindow(void)
     CloseWindow();
 }
 
-exported(std::unique_ptr<jgo::IGraphic>) generate(void) {
+exported(std::unique_ptr<jgo::IGraphic>) createLibrary(void) {
     return std::make_unique<Raylib>(Raylib());
 }

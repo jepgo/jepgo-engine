@@ -5,10 +5,14 @@
 ** IGraphic
 */
 
+#pragma once
+
 #include <memory>
+#include <vector>
+#include <map>
 // #include <cwchar>
 #include "jepmod/exported.hpp"
-#include "jepengine/Game.hpp"
+#include "jepengine/types.hpp"
 
 /**
  * Your library class need to inherit from the IGraphic interface.
@@ -31,6 +35,8 @@ namespace jgo {
 
     class IGraphic {
         public:
+            IGraphic() {}
+
             /**
              * Should open a window in the library.
              * 
@@ -153,10 +159,9 @@ namespace jgo {
             virtual bool isWindowOpen(void) = 0;
 
             /**
-             * @brief To be able to init the audio system
-             * 
+             * Just a little check to asure if your window is still alive.
              */
-            virtual void InitAudio() = 0;
+            virtual void update(void) = 0;
 
             /**
              * Should close all the ressources and the window.
