@@ -45,8 +45,8 @@ namespace jgo {
             /**
              * Get the settings of your graphic library.
              */
-            virtual jgo::GraphicSettings const &
-            getSettings(void) = 0;
+            virtual jgo::GraphicSettings
+            getSettings(void) const = 0;
 
             /**
              * Preload all images.
