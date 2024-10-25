@@ -14,21 +14,21 @@ namespace Components {
 
     class Score {
         public:
-            Score(std::string const &title, std::size_t const &score, Positions &&pos) : _title(title), _score(score), _pos(pos) {};
+            Score(std::string const &title, long int const &score, Positions &&pos) : _title(title), _score(score), _pos(pos) {};
             ~Score() = default;
 
             void setTitle(std::string const &title);
             std::string const &getTitle() const;
     
-            void setScore(std::size_t const &score);
-            std::size_t const &getScore() const;
+            void setScore(long int const &score);
+            long int const &getScore() const;
 
             void setPos(Positions &&pos);
             Positions const &getPosition() const;
 
         private:
             std::string _title;
-            std::size_t _score;
+            long int _score;
             Positions _pos;
     };
 

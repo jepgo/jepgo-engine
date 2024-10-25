@@ -17,12 +17,12 @@ std::string const &Components::Score::getTitle() const
     return _title;
 }
 
-void Components::Score::setScore(std::size_t const &score)
+void Components::Score::setScore(long int const &score)
 {
     _score = score;
 }
 
-std::size_t const &Components::Score::getScore() const
+long int const &Components::Score::getScore() const
 {
     return _score;
 }

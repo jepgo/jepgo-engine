@@ -23,20 +23,20 @@ const int WhackAMole::Game::NO_RANDOM_GEN = -1;
 const Vector2 WhackAMole::Game::RECSIZE = {WIDTH_MOLE_SPRITE, HEIGHT_MOLE_SPRITE};
 
 const std::map<int, std::vector<Vector2>> WhackAMole::Game::MOLES_ANIM = {
-    {(int)MoleStates::SLEEP, {{0, 0}}},
-    {(int)MoleStates::WAKE_UP, {{1, 0}, {2, 0}, {3, 0}, {4, 0}}},
+    {(int)MoleStates::SLEEP, {{3, 7}}},
+    {(int)MoleStates::WAKE_UP, {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}}},
     {(int)MoleStates::ATTACK, {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {1, 1}, {0, 1}}},
-    {(int)MoleStates::DEAD, {{0, 6}, {1, 6}, {2, 6}, {0, 7}, {1, 7}, {2, 7}}},
-    {(int)MoleStates::SPAWN_BOMB, {{5, 2}, {0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}}},
-    {(int)MoleStates::LEAVE_BOMB, {{5, 3}, {4, 3}, {3, 3}, {2, 3}, {1, 3}, {0, 3}, {5, 2}}},
-    {(int)MoleStates::LEAVE, {{4, 0}, {3, 0}, {2, 0}, {1, 0}}},
+    {(int)MoleStates::DEAD, {{0, 6}, {1, 6}, {2, 6}, {0, 7}, {1, 7}, {2, 7}, {0, 0}}},
+    {(int)MoleStates::SPAWN_BOMB, {{0, 0}, {5, 2}, {0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}}},
+    {(int)MoleStates::LEAVE_BOMB, {{5, 3}, {4, 3}, {3, 3}, {2, 3}, {1, 3}, {0, 3}, {5, 2}, {0, 0}}},
+    {(int)MoleStates::LEAVE, {{4, 0}, {3, 0}, {2, 0}, {1, 0}, {0, 0}}},
     {(int)MoleStates::WAIT, {{4, 0}}},
     {(int)MoleStates::WAIT_BOMB, {{5, 3}}},
     {(int)MoleStates::IMMORTAL_WAIT, {{3, 5}}},
-    {(int)MoleStates::IMMORTAL_LEAVE, {{5, 5}, {4, 0}, {3, 0}, {2, 0}, {1, 0}}},
+    {(int)MoleStates::IMMORTAL_LEAVE, {{5, 5}, {4, 0}, {3, 0}, {2, 0}, {1, 0}, {0, 0}}},
     {(int)MoleStates::IMMORTAL, {{0, 4}, {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {0, 5}, {1, 5}, {2, 5}, {3, 5}}},
     {(int)MoleStates::STOP_IMMORTAL, {{4, 5}, {5, 5}, {4, 5}, {5, 0}}},
-    {(int)MoleStates::BOMB_EXPLOSION, {{4, 3}, {4, 3}, {4, 3}, {5, 6}, {4, 6}, {3, 6}, {3, 6}, {4, 6}, {5, 6}}}
+    {(int)MoleStates::BOMB_EXPLOSION, {{4, 3}, {4, 3}, {4, 3}, {5, 6}, {4, 6}, {3, 6}, {3, 6}, {4, 6}, {5, 6}, {0, 0}}}
 };
 
 const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &, std::optional<Components::TextDrawable> &, std::optional<Components::Score> &)>>> WhackAMole::Game::MOLE_BEHAVIOR = {
