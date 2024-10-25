@@ -41,6 +41,7 @@ void WhackAMole::WhackAMole::start()
         Game::setStateMole(_r);
         _animSys.system(_r, time);
         _drawSys.system(_r, _textures);
+        _textSys.system(_r);
         
         EndDrawing();
     }

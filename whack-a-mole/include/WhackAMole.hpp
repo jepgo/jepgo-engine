@@ -9,6 +9,7 @@
     #define WHACKAMOLE_HPP_
     #include "Register.hpp"
     #include "DrawSystem.hpp"
+    #include "TextDrawableSystem.hpp"
     #include "Sprite2DMultiAnimSystem.hpp"
 
 /**
@@ -42,8 +43,6 @@ namespace WhackAMole {
              */
             void start();
 
-            void setStateMole();
-
         private:
             /**
              * @brief The Register object
@@ -65,6 +64,8 @@ namespace WhackAMole {
              */
             Systems::Sprite2DMultiAnimSystem _animSys;
 
+            Systems::TextDrawableSystem _textSys;
+        
             /**
              * @brief All the loaded textures of the game
              * 

@@ -14,6 +14,7 @@
     #include <functional>
     #include "Register.hpp"
     #include "Position.hpp"
+    #include "TextDrawable.hpp"
     #include "Sprite2DMultiAnim.hpp"
 
 /**
@@ -42,6 +43,8 @@ namespace WhackAMole {
              * @param time The time
              */
             static void createMole(Register &r, Components::Positions &&pos);
+
+            static void createScore(Register &r);
             
             static void setStateMole(Register &r);
 
@@ -98,7 +101,7 @@ namespace WhackAMole {
             static const Vector2 RECSIZE;
         
             static const std::map<int, std::vector<Vector2>> MOLES_ANIM;
-            static const std::vector<std::tuple<std::vector<MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &)>>> MOLE_BEHAVIOR;
+            static const std::vector<std::tuple<std::vector<MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &, std::optional<Components::TextDrawable> &)>>> MOLE_BEHAVIOR;
     };
 }
 

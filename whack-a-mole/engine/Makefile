@@ -24,8 +24,10 @@ SRC =	$(SRCPATH)/Register.cpp							\
 		$(COMPONENTS_SRC_PARH)/Position.cpp 			\
 		$(COMPONENTS_SRC_PARH)/Drawable.cpp 			\
 		$(COMPONENTS_SRC_PARH)/Sprite2DMultiAnim.cpp	\
+		$(COMPONENTS_SRC_PARH)/TextDrawable.cpp			\
 		$(SYSTEMS_SRC_PARH)/DrawSystem.cpp				\
 		$(SYSTEMS_SRC_PARH)/Sprite2DMultiAnimSystem.cpp	\
+		$(SYSTEMS_SRC_PARH)/TextDrawableSystem.cpp		\
 
 OBJS = $(SRC:.cpp=.o)
 
