@@ -102,7 +102,7 @@ namespace jgo {
                 std::string realLib;
 
                 if (not sys.empty()) {
-                    realLib = jmod::EasyLife(argv[0])/"jepgo.component." + sys;
+                    realLib = jmod::EasyLife(argv[0])/"jepgo.system." + sys;
                     _systems[sys] = jmod::DLLoader(realLib);
                 }
                 this->ecs.runTimeInsert<T>();
