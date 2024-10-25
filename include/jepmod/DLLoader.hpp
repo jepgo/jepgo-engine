@@ -10,6 +10,8 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
+#include <functional>
+
 #if defined(WINDOWS) || defined(_WIN32)
     #include <windows.h>
 
@@ -105,4 +107,10 @@ namespace jmod {
             void *_ptr;
             #endif
     };
+
+    /**
+     * The DLLoader reference.
+     */
+    using DLLoaderPtr = std::shared_ptr<DLLoader>;
+
 }

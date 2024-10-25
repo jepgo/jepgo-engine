@@ -24,15 +24,15 @@ auto jgo::Game::compile(void) -> bool
 auto jgo::Game::loadNetwork(std::string const &lib) -> void
 {
     std::string realLib = jmod::EasyLife(argv[0])/"jepgo.network." + lib;
-
-    _libs["network"] = jmod::DLLoader(realLib);
 }
+    // _libs["network"] = jmod::DLLoader(realLib);
 
 auto jgo::Game::loadGraphic(std::string const &lib) -> void
 {
     std::string realLib = jmod::EasyLife(argv[0])/"jepgo.graphic." + lib;
+    jmod::DLLoader loader(realLib);
 
-    _libs["graphic"] = jmod::DLLoader(realLib);
+    _graphicLib = loader.getFunc<std::unique_ptr<jgo::IGraphic>>("createLibrary")();
 }
 
 auto jgo::Game::getTime(void) -> float
@@ -43,6 +43,8 @@ auto jgo::Game::getTime(void) -> float
 auto jgo::Game::callSystems(void) -> void
 {
     for (auto &e : _systems)
-        if (e.second)
-            e.second->getFunc<int, jgo::Game &>("jepgoSystem")(*this);
+        if (e.second) {
+            auto f = e.second->get()->getFunc<int, jgo::Game &>("jepgoSystem");
+            f(*this);
+        }
 }

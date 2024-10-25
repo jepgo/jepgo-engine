@@ -44,9 +44,10 @@ DLLoader::DLLoader(std::string fullpath)
 
 DLLoader::~DLLoader()
 {
-    #if defined(WINDOWS) || defined(_WIN32)
-    FreeLibrary(_ptr);
-    #else
-    dlclose(_ptr);
-    #endif
+    if (_ptr)
+        #if defined(WINDOWS) || defined(_WIN32)
+        FreeLibrary(_ptr);
+        #else
+        dlclose(_ptr);
+        #endif
 }
