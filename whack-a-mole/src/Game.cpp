@@ -39,12 +39,16 @@ const std::map<int, std::vector<Vector2>> WhackAMole::Game::MOLES_ANIM = {
     {(int)MoleStates::BOMB_EXPLOSION, {{4, 3}, {4, 3}, {4, 3}, {5, 6}, {4, 6}, {3, 6}, {3, 6}, {4, 6}, {5, 6}}}
 };
 
-const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &, std::optional<Components::TextDrawable> &)>>> WhackAMole::Game::MOLE_BEHAVIOR = {
+const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &, std::optional<Components::TextDrawable> &, std::optional<Components::Score> &)>>> WhackAMole::Game::MOLE_BEHAVIOR = {
     {
         {MoleStates::SLEEP},
         80000,
         false,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(WhackAMole::Game::IMMORTAL);
         }
     },
@@ -52,7 +56,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::SLEEP},
         50000,
         false,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(WhackAMole::Game::SPAWN_BOMB);
         }
     },
@@ -60,7 +68,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::SLEEP},
         4000,
         false,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(WhackAMole::Game::WAKE_UP);
         }
     },
@@ -68,16 +80,25 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::WAIT},
         2,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &p) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &p,
+                std::optional<Components::Score> &s
+            ) {
             e.value().SetState(MoleStates::ATTACK);
             p.value().mess = "-100";
+            s.value().setScore(s.value().getScore() - 100);
         }
     },
     {
         {MoleStates::IMMORTAL},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::IMMORTAL_WAIT);
             e.value().setTime(GetTime() + 1);
         }
@@ -86,7 +107,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::STOP_IMMORTAL},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::WAIT);
             e.value().setTime(GetTime() + 1);
         }
@@ -95,7 +120,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::DEAD, MoleStates::LEAVE, MoleStates::LEAVE_BOMB, MoleStates::IMMORTAL_LEAVE},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &p) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &p,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::SLEEP);
             p.value().mess = "";
         }
@@ -104,7 +133,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::WAKE_UP},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::WAIT);
             e.value().setTime(GetTime() + 1);
         }
@@ -113,7 +146,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::SPAWN_BOMB},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::WAIT_BOMB);
             e.value().setTime(GetTime() + 1);
         }
@@ -122,7 +159,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::ATTACK, MoleStates::WAIT},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::LEAVE);
         }
     },
@@ -130,7 +171,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::WAIT_BOMB},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::LEAVE_BOMB);
         }
     },
@@ -138,7 +183,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::BOMB_EXPLOSION},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &p) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &p,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::SLEEP);
             p.value().mess = "";
         }
@@ -147,7 +196,11 @@ const std::vector<std::tuple<std::vector<WhackAMole::Game::MoleStates>, int, boo
         {MoleStates::IMMORTAL_WAIT},
         NO_RANDOM_GEN,
         true,
-        [](std::optional<Components::Sprite2DMultiAnim> &e, std::optional<Components::TextDrawable> &) {
+        [](
+                std::optional<Components::Sprite2DMultiAnim> &e,
+                std::optional<Components::TextDrawable> &,
+                std::optional<Components::Score> &
+            ) {
             e.value().SetState(MoleStates::IMMORTAL_LEAVE);
         }
     }
@@ -183,6 +236,12 @@ void WhackAMole::Game::createMole(Register &r, Components::Positions &&pos)
     r.emplace_comp(r.currentEntity, Components::TextDrawable("", Components::Positions(pos.x * 0.5, pos.y * 0.5), 20, BLUE));
 }
 
+void WhackAMole::Game::createScore(Register &r)
+{
+    r.creatEntity();
+    r.emplace_comp(r.currentEntity, Components::Score("Score", 0, Components::Positions(10, 10)));
+}
+
 void WhackAMole::Game::setWhack(Register &r)
 {
     auto &rec = r.getComp<Components::Clickable2D>();
@@ -190,10 +249,13 @@ void WhackAMole::Game::setWhack(Register &r)
     auto &draw = r.getComp<Components::Drawable>();
     auto &anim = r.getComp<Components::Sprite2DMultiAnim>();
     auto &point = r.getComp<Components::TextDrawable>();
+    auto &score = r.getComp<Components::Score>();
+    auto scorei = 0;
 
+    for (; !score[scorei].has_value(); ++scorei);
     for (std::size_t i = 0; i < rec.size(); i++) {
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && rec[i].has_value() && pos[i].has_value() && anim[i].has_value()
-        && draw[i].has_value() && draw[i].value().getRect().has_value() && point[i].has_value()) {
+        && draw[i].has_value() && draw[i].value().getRect().has_value() && point[i].has_value() && score[scorei].has_value()) {
             Rectangle const hitbox = {
                 pos[i].value().x * draw[i].value().scale[0],
                 pos[i].value().y * draw[i].value().scale[1],
@@ -206,16 +268,20 @@ void WhackAMole::Game::setWhack(Register &r)
             if (anim[i].value().getState() == WAKE_UP || anim[i].value().getState() == WAIT) {
                 anim[i].value().SetState(DEAD);
                 anim[i].value().setTime(0);
+                score[scorei].value().setScore(score[scorei].value().getScore() + 150);
                 point[i].value().mess = "+150";
             }
             if (anim[i].value().getState() == SPAWN_BOMB || anim[i].value().getState() == WAIT_BOMB) {
                 anim[i].value().SetState(BOMB_EXPLOSION);
                 anim[i].value().setTime(0);
+                score[scorei].value().setScore(score[scorei].value().getScore() - 300);
                 point[i].value().mess = "-300";
             }
             if (anim[i].value().getState() == IMMORTAL || anim[i].value().getState() == IMMORTAL_WAIT) {
                 anim[i].value().SetState(STOP_IMMORTAL);
                 anim[i].value().setTime(0);
+                score[scorei].value().setScore(score[scorei].value().getScore() + 100);
+                point[i].value().mess = "+100";
             }
         }
     }
@@ -227,15 +293,18 @@ void WhackAMole::Game::setStateMole(Register &r)
 {
     auto &rec = r.getComp<Components::Sprite2DMultiAnim>();
     auto &point = r.getComp<Components::TextDrawable>();
+    auto &score = r.getComp<Components::Score>();
+    auto scorei = 0;
 
+    for (; !score[scorei].has_value(); ++scorei);
     for (std::size_t i = 0; i < rec.size(); i++) {
-        if (rec[i].has_value() && point[i].has_value() && GetTime() >= rec[i].value().getTime()) {
+        if (score[scorei].has_value() && rec[i].has_value() && point[i].has_value() && GetTime() >= rec[i].value().getTime()) {
             for (auto &behavior : MOLE_BEHAVIOR) {
                 for (auto &s : std::get<0>(behavior)) {
                     if (rec[i].value().getState() == s
                     && (std::get<1>(behavior) == NO_RANDOM_GEN || randomgen(0, std::get<1>(behavior)) == 1)
                     && (!std::get<2>(behavior) || (rec[i].value().isEnded()))) {
-                        std::get<3>(behavior)(rec[i], point[i]);
+                        std::get<3>(behavior)(rec[i], point[i], score[scorei]);
                     }
                 }
             }

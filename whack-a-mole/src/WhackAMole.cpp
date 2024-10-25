@@ -23,6 +23,7 @@ WhackAMole::WhackAMole::WhackAMole()
 void WhackAMole::WhackAMole::start()
 {
     Game::createBackground(_r);
+    Game::createScore(_r);
     float startTime = GetTime();
 
     for (std::size_t y = 0; y < 4; y++) {
@@ -42,6 +43,7 @@ void WhackAMole::WhackAMole::start()
         _animSys.system(_r, time);
         _drawSys.system(_r, _textures);
         _textSys.system(_r);
+        _scoreSys.system(_r);
         
         EndDrawing();
     }

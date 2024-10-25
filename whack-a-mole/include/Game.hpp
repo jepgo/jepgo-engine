@@ -12,6 +12,7 @@
     #include <string>
     #include <raylib.h>
     #include <functional>
+    #include "Score.hpp"
     #include "Register.hpp"
     #include "Position.hpp"
     #include "TextDrawable.hpp"
@@ -101,7 +102,7 @@ namespace WhackAMole {
             static const Vector2 RECSIZE;
         
             static const std::map<int, std::vector<Vector2>> MOLES_ANIM;
-            static const std::vector<std::tuple<std::vector<MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &, std::optional<Components::TextDrawable> &)>>> MOLE_BEHAVIOR;
+            static const std::vector<std::tuple<std::vector<MoleStates>, int, bool, std::function<void(std::optional<Components::Sprite2DMultiAnim> &, std::optional<Components::TextDrawable> &, std::optional<Components::Score> &)>>> MOLE_BEHAVIOR;
     };
 }
 
