@@ -58,18 +58,3 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 echo -e "\e[32mTargets built.\e[0m"
-
-# echo -e "\e[33mCopying files.\e[0m"
-# unameOut="$(uname -o)"
-# if [[ $unameOut == "Msys" ]]; then
-#     cp Debug/r-type* ../
-#     cp Debug/libjep* ../
-# elif [[ $unameOut == "GNU/Linux" ]]; then
-#     cp r-type* ../
-#     cp libjep* ../
-# fi
-# if [[ $? -ne 0 ]]; then
-#     echo -e "\e[31mFailed to copy files.\e[0m"
-#     exit 1
-# fi
-# echo -e "\e[32mFiles copied.\e[0m"
