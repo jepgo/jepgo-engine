@@ -12,12 +12,35 @@
 #include "jepengine/Client.hpp"
 #include "jepmaker/components/Health.hpp"
 #include "jepmaker/components/Poison.hpp"
+#include "jepmaker/components/Position.hpp"
+#include "jepmaker/components/Drawable2D.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
 exported(void) onStart(jgo::Client &game)
 {
     game.loadGraphic("Raylib");
+    game.useComponent<Positions>();
+    game.useComponent<Drawable>();
+
+    game.getGraphicLib()->preloadImages({
+        "sprites/r-typesheet3.gif",
+        "sprites/r-typesheet1.gif",
+        "sprites/r-typesheet2.gif",
+        "sprites/parallax-space-backgound.png",
+        "sprites/parallax-space-big-planet.png",
+        "sprites/r-typesheet32.gif",
+        "sprites/r-typesheet14.gif",
+        "sprites/parallax-space-far-planets.png",
+        "sprites/parallax-space-ring-planet.png",
+        "sprites/parallax-space-stars.png",
+        "sprites/asteroid.png",
+        "sprites/spaceship.png"
+    });
+    
+    game.ecs.createEntity();
+    game.ecs.emplaceComp<Positions>(game.ecs.currentEntity, Positions(200, 200));
+    game.ecs.emplaceComp<Drawable>(game.ecs.currentEntity, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
 }
 
 // this is the function that will be called each tick BEFORE rendering and
