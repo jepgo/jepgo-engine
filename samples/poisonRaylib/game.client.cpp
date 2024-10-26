@@ -27,8 +27,8 @@ exported(void) onStart(jgo::Client &game)
     // we then create an entity, that have Health (100 hp)
     // and then we create the poison component, that deals 5 damage each second
     game.ecs.createEntity();
-    game.ecs.emplaceComp<Health>(game.ecs.currentEntity, Health(5));
-    game.ecs.emplaceComp<Poison>(game.ecs.currentEntity, Poison(5, 1.0));
+    game.ecs.emplaceComp<Health>(game.ecs.currentEntity, Health(100));
+    game.ecs.emplaceComp<Poison>(game.ecs.currentEntity, Poison(5, 0.1));
 
     // and finally, we preload the account image.
     game.getGraphicLib()->preloadImages({
