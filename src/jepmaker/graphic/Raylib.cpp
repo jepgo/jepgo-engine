@@ -131,7 +131,23 @@ class Raylib: public jgo::IGraphic {
         std::vector<std::string> _imagesToLoad;
         std::map<std::string, Model> _models;
         std::map<std::string, Sound> _sounds;
-        std::vector<std::function<void()>> _actions;
+
+        struct _Argument {
+            enum {
+                AT_Image,
+                AT_Text,
+                AT_Model,
+                AT_Rectangle,
+            } type;
+            std::string path;
+            jgo::Rectangle rect;
+            jgo::Vector2 vec;
+            std::string text;
+            Color color;
+            std::size_t size;
+        };
+
+        std::vector<_Argument> _actions;
 };
 
 void Raylib::openWindow(std::string const &name, jgo::Rectangle const &rect)
@@ -157,12 +173,6 @@ jgo::GraphicSettings Raylib::getSettings(void) const
 void Raylib::preloadImages(std::vector<std::string> const &images)
 {
     _imagesToLoad = images;
-    // for (std::size_t i = 0; i < images.size(); i++) {
-    //     std::cout << images[i].c_str() << std::endl;
-    //     Texture2D tmp = LoadTexture(images[i].c_str());
-    //     std::cout << "retest" << std::endl;
-    //     _images[images[i]] = std::move(tmp);
-    // }
 }
 
 void Raylib::preloadModels(std::map<std::string, std::string> const &models)
@@ -191,22 +201,6 @@ std::vector<jgo::u32> Raylib::getKeyPressed(void)
     return tmp;
 }
 
-void Raylib::drawImage(std::string const &path, jgo::Rectangle const &where, jgo::Vector2 const &scale)
-{
-    _actions.push_back([&](){
-        // tofix:
-        // mon errerur c'est que path, where et scale deviennent undefined ici
-        float a = (where.width * scale.x);
-        float b = (where.height * scale.y);
-        DrawTexturePro(_images[path], Rectangle{where.x, where.y, where.width, where.height}, Rectangle{where.x, where.y, a, b}, {where.x / 2, where.y / 2}, 0, WHITE);
-    });
-}
-
-void Raylib::drawRectangle(jgo::Rectangle const &rect, jgo::u32 color)
-{
-    return;
-}
-
 jgo::Vector2 Raylib::getMousePos(void)
 {
     return {0, 0};
@@ -217,37 +211,62 @@ bool Raylib::isMousePressing(jgo::MouseButton const &button)
     return false;
 }
 
-static Color ConvertToColor(std::uint32_t color)
+static Color u32tocolor(jgo::u32 i) {
+    return {
+        static_cast<jgo::u8>((i >> 16) & 0xff),
+        static_cast<jgo::u8>((i >> 8) & 0xff),
+        static_cast<jgo::u8>(i & 0xff),
+        static_cast<jgo::u8>((i >> 24) & 0xff)
+    };
+}
+
+void Raylib::drawImage(std::string const &path, jgo::Rectangle const &where, jgo::Vector2 const &scale)
 {
-    Color raylibColor;
+    _Argument e {
+        .type = _Argument::AT_Image,
+        .path = path,
+        .rect = where,
+        .vec = scale,
+    };
+    _actions.push_back(e);
+}
 
-    raylibColor.r = (color >> 24) & 0xFF;
-    raylibColor.g = (color >> 16) & 0xFF;
-    raylibColor.b = (color >> 8) & 0xFF;
-    raylibColor.a = color & 0xFF;
-
-    return raylibColor;
+void Raylib::drawRectangle(jgo::Rectangle const &rect, jgo::u32 color)
+{
+    _Argument e {
+        .type = _Argument::AT_Rectangle,
+        .rect = rect,
+        .color = u32tocolor(color)
+    };
+    _actions.push_back(e);
 }
 
 void Raylib::drawText(std::string const &text, jgo::Rectangle const &where, jgo::u32 color, std::string const &fontPath, std::size_t fontSize)
 {
-    _actions.push_back([&](){
-        DrawText(text.c_str(), (int)where.x, (int)where.y, fontSize, ConvertToColor(color));
-    });
+    _Argument arg {
+        .type = _Argument::AT_Text,
+        .path = fontPath,
+        .rect = where,
+        .text = text,
+        .color = u32tocolor(color),
+        .size = fontSize
+    };
+
+    _actions.push_back(arg);
 }
 
 void Raylib::drawModelEx(std::string const &path, jgo::HitBox const &where, float angle, jgo::u32 color, jgo::Vector2 const &scale)
 {
-    _actions.push_back([&](){
-        DrawModelEx(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, Vector3{where.rotation.x, where.rotation.y, where.rotation.z}, angle, {scale.x, scale.y, scale.x}, WHITE);
-    });
+    // _actions.push_back([&](){
+    //     DrawModelEx(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, Vector3{where.rotation.x, where.rotation.y, where.rotation.z}, angle, {scale.x, scale.y, scale.x}, WHITE);
+    // });
 }
 
 void Raylib::drawModel(std::string const &path, jgo::HitBox const &where, jgo::u32 color, jgo::Vector2 const &scale)
 {
-    _actions.push_back([&](){
-        DrawModel(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, scale.x, WHITE);
-    });
+    // _actions.push_back([&](){
+    //     DrawModel(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, scale.x, WHITE);
+    // });
 }
 
 void Raylib::playSound(std::string const &sound, float volume)
@@ -263,11 +282,39 @@ bool Raylib::isWindowOpen()
 void Raylib::update()
 {
     BeginDrawing();
-    std::cout << "before" << std::endl;
-    for (auto const &a : _actions)
-        a();
+    ClearBackground(BLACK);
+    for (_Argument const &e : _actions)
+        switch (e.type) {
+
+            // draw image
+            case _Argument::AT_Image:
+            DrawTexturePro(
+                _images[e.path],
+                Rectangle{e.rect.x, e.rect.y, e.rect.width, e.rect.height},
+                Rectangle{e.rect.x, e.rect.y, (e.rect.width * e.vec.x), (e.rect.height * e.vec.y)},
+                {e.rect.x / 2, e.rect.y / 2},
+                0,
+                WHITE
+            );
+            break;
+
+            // draw rectangle
+            case _Argument::AT_Rectangle:
+            DrawRectangle(
+                static_cast<int>(e.rect.x),
+                static_cast<int>(e.rect.y),
+                static_cast<int>(e.rect.width),
+                static_cast<int>(e.rect.height),
+                e.color
+            );
+            break;
+
+            // the rest im lazy to handle
+            default:
+            break;
+            
+        }
     _actions.clear();
-    std::cout << "after" << std::endl;
     EndDrawing();
 }
 

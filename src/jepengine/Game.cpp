@@ -44,7 +44,7 @@ auto jgo::Game::callSystems(void) -> void
 {
     for (auto &e : _systems)
         if (e.second) {
-            auto f = e.second->get()->getFunc<int, jgo::Game &>("jepgoSystem");
-            f(*this);
+            auto f = e.second->first.get()->getFunc<int, jgo::Game &, float &>("jepgoSystem");
+            f(*this, e.second->second);
         }
 }
