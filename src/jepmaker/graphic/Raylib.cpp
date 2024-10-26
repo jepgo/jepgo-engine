@@ -122,15 +122,21 @@ class Raylib: public jgo::IGraphic {
         void closeWindow(void) override;
 
         /**
-         * Just an update to see if your library is alive.
+         * Update all textures and draw them here.
          */
         void update(void) override;
 
-        std::map<std::string, Texture2D> _images;
+        /**
+         * Set the background color
+         */
+        void setBackgroundColor(jgo::u32 color) override;
+
     private:
+        std::map<std::string, Texture2D> _images;
         std::vector<std::string> _imagesToLoad;
         std::map<std::string, Model> _models;
         std::map<std::string, Sound> _sounds;
+        Color _backgroundColor = BLACK;
 
         struct _Argument {
             enum {
@@ -279,10 +285,15 @@ bool Raylib::isWindowOpen()
     return !WindowShouldClose();
 }
 
+void Raylib::setBackgroundColor(jgo::u32 i)
+{
+    _backgroundColor = u32tocolor(i);
+}
+
 void Raylib::update()
 {
     BeginDrawing();
-    ClearBackground(BLACK);
+    ClearBackground(_backgroundColor);
     for (_Argument const &e : _actions)
         switch (e.type) {
 
