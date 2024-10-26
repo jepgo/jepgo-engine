@@ -168,5 +168,10 @@ namespace jgo {
              */
             virtual void
             closeWindow(void) = 0;
+
+            /**
+             * Set the background color
+             */
+            virtual void setBackgroundColor(jgo::u32 color) = 0;
     };
 }

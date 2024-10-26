@@ -34,6 +34,8 @@ exported(void) onStart(jgo::Client &game)
     game.getGraphicLib()->preloadImages({
         "sprites/account.png"
     });
+
+    game.getGraphicLib()->setBackgroundColor(0xffff0000);
 }
 
 // this is the function that will be called each tick BEFORE rendering and
