@@ -5,6 +5,8 @@
 ** Raylib
 */
 
+#include <functional>
+#include <iostream>
 #include "raylib.h"
 #include "jepmod/exported.hpp"
 #include "jepmaker/graphic/IGraphic.hpp"
@@ -124,16 +126,23 @@ class Raylib: public jgo::IGraphic {
          */
         void update(void) override;
 
-    private:
         std::map<std::string, Texture2D> _images;
+    private:
+        std::vector<std::string> _imagesToLoad;
         std::map<std::string, Model> _models;
         std::map<std::string, Sound> _sounds;
+        std::vector<std::function<void()>> _actions;
 };
 
 void Raylib::openWindow(std::string const &name, jgo::Rectangle const &rect)
 {
     InitWindow(rect.width, rect.height, name.c_str());
     InitAudioDevice();
+
+    for (std::size_t i = 0; i < _imagesToLoad.size(); i++) {
+        Texture2D tmp = LoadTexture(_imagesToLoad[i].c_str());
+        _images[_imagesToLoad[i]] = std::move(tmp);
+    }
 }
 
 jgo::GraphicSettings Raylib::getSettings(void) const
@@ -147,10 +156,13 @@ jgo::GraphicSettings Raylib::getSettings(void) const
 
 void Raylib::preloadImages(std::vector<std::string> const &images)
 {
-    for (std::size_t i = 0; i < images.size(); i++) {
-        Texture2D tmp = LoadTexture(images[i].c_str());
-        _images[images[i]] = std::move(tmp);
-    }
+    _imagesToLoad = images;
+    // for (std::size_t i = 0; i < images.size(); i++) {
+    //     std::cout << images[i].c_str() << std::endl;
+    //     Texture2D tmp = LoadTexture(images[i].c_str());
+    //     std::cout << "retest" << std::endl;
+    //     _images[images[i]] = std::move(tmp);
+    // }
 }
 
 void Raylib::preloadModels(std::map<std::string, std::string> const &models)
@@ -181,13 +193,13 @@ std::vector<jgo::u32> Raylib::getKeyPressed(void)
 
 void Raylib::drawImage(std::string const &path, jgo::Rectangle const &where, jgo::Vector2 const &scale)
 {
-    for (auto &image : _images) {
-        if (image.first.compare(path) == 0) {
-            float a = (where.width * scale.x);
-            float b = (where.height * scale.y);
-            DrawTexturePro(_images[path], Rectangle{where.x, where.y, where.width, where.height}, Rectangle{where.x, where.y, a, b}, {where.x / 2, where.y / 2}, 0, WHITE);
-        }
-    }
+    _actions.push_back([&](){
+        // tofix:
+        // mon errerur c'est que path, where et scale deviennent undefined ici
+        float a = (where.width * scale.x);
+        float b = (where.height * scale.y);
+        DrawTexturePro(_images[path], Rectangle{where.x, where.y, where.width, where.height}, Rectangle{where.x, where.y, a, b}, {where.x / 2, where.y / 2}, 0, WHITE);
+    });
 }
 
 void Raylib::drawRectangle(jgo::Rectangle const &rect, jgo::u32 color)
@@ -219,17 +231,23 @@ static Color ConvertToColor(std::uint32_t color)
 
 void Raylib::drawText(std::string const &text, jgo::Rectangle const &where, jgo::u32 color, std::string const &fontPath, std::size_t fontSize)
 {
-    DrawText(text.c_str(), (int)where.x, (int)where.y, fontSize, ConvertToColor(color));
+    _actions.push_back([&](){
+        DrawText(text.c_str(), (int)where.x, (int)where.y, fontSize, ConvertToColor(color));
+    });
 }
 
 void Raylib::drawModelEx(std::string const &path, jgo::HitBox const &where, float angle, jgo::u32 color, jgo::Vector2 const &scale)
 {
-    DrawModelEx(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, Vector3{where.rotation.x, where.rotation.y, where.rotation.z}, angle, {scale.x, scale.y, scale.x}, WHITE);
+    _actions.push_back([&](){
+        DrawModelEx(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, Vector3{where.rotation.x, where.rotation.y, where.rotation.z}, angle, {scale.x, scale.y, scale.x}, WHITE);
+    });
 }
 
 void Raylib::drawModel(std::string const &path, jgo::HitBox const &where, jgo::u32 color, jgo::Vector2 const &scale)
 {
-    DrawModel(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, scale.x, WHITE);
+    _actions.push_back([&](){
+        DrawModel(_models[path], (Vector3){where.pos.x / 2 + where.size.x, 600 - where.pos.x / 2 - where.size.y, 0}, scale.x, WHITE);
+    });
 }
 
 void Raylib::playSound(std::string const &sound, float volume)
@@ -245,6 +263,11 @@ bool Raylib::isWindowOpen()
 void Raylib::update()
 {
     BeginDrawing();
+    std::cout << "before" << std::endl;
+    for (auto const &a : _actions)
+        a();
+    _actions.clear();
+    std::cout << "after" << std::endl;
     EndDrawing();
 }
 

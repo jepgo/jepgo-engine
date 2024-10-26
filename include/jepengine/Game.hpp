@@ -16,8 +16,6 @@
 #include "jepmod/DLLoader.hpp"
 #include "jepengine/Register.hpp"
 
-#define onlyOnExistPtr(x) if (x) x->get()
-
 namespace jgo {
     /**
      * A Game is a file structure that can load modules and contains the
@@ -82,9 +80,21 @@ namespace jgo {
              */
             auto getTime(void) -> float;
 
+            /**
+             * Get the graphic lib (throw if not exists)
+             */
             inline auto getGraphicLib(void) ->
-                std::optional<std::unique_ptr<jgo::IGraphic>> & {
-                return _graphicLib;
+                std::unique_ptr<jgo::IGraphic> & {
+                if (not _graphicLib)
+                    throw std::runtime_error("no graphic lib.");
+                return *_graphicLib;
+            }
+
+            /**
+             * Returns true if you have a graphic lib.
+             */
+            inline auto hasGraphicLib(void) const noexcept -> bool {
+                return static_cast<bool>(_graphicLib);
             }
 
             /**
