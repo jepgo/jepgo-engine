@@ -14,34 +14,58 @@
 #include "jepmaker/components/Poison.hpp"
 #include "jepmod/exported.hpp"
 
+// this is the function that will be called when starting
 exported(void) onStart(jgo::Client &game)
 {
+    // we first load the 'raylib' graphic library
     game.loadGraphic("Raylib");
 
+    // then, we say we are using Health and Poison
     game.useComponent<Health>();
     game.useComponent<Poison>("Poison");
 
+    // we then create an entity, that have Health (100 hp)
+    // and then we create the poison component, that deals 5 damage each second
     game.ecs.createEntity();
-    game.ecs.emplaceComp<Health>(game.ecs.currentEntity, Health(100));
+    game.ecs.emplaceComp<Health>(game.ecs.currentEntity, Health(5));
     game.ecs.emplaceComp<Poison>(game.ecs.currentEntity, Poison(5, 1.0));
 
+    // and finally, we preload the account image.
     game.getGraphicLib()->preloadImages({
         "sprites/account.png"
     });
 }
 
+// this is the function that will be called each tick BEFORE rendering and
+// system's call.
 exported(void) onUpdate(jgo::Client &game)
 {
+    // we get our unique entity's health
     auto &healthComponents = game.ecs.getComp<Health>();
     auto &health = healthComponents[game.ecs.currentEntity];
 
-    if (health and not health->isDead()) {
+    // if it have the component health, we just return.
+    if (not health)
+        return;
+
+    // if he is still not dead, we can display him, else, we just remove
+    // the health and poison component.
+    if (not health->isDead()) {
         game.getGraphicLib()->drawImage(
             "sprites/account.png",
-            {100, 100, 230, 250},
-            {0.5, 0.5}
+            {1, 1, 230, 250},
+            {1, 1}
         );
-        std::cout << health->get() << std::endl;
+    } else {
+        std::cout << std::boolalpha;
+        std::cout
+            << static_cast<bool>(healthComponents[game.ecs.currentEntity])
+            << std::endl;
+        game.ecs.removeComponents<Health, Poison>(game.ecs.currentEntity);
+        std::cout
+            << static_cast<bool>(healthComponents[game.ecs.currentEntity])
+            << std::endl;
+        std::cout << std::dec;
     }
 }
 

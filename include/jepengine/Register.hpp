@@ -84,6 +84,11 @@ public:
         std::any_cast<SparseArray<Component>&>(_regist[std::type_index(typeid(Component))]).erase(entity);
     }
 
+    template <typename... Components>
+    void removeComponents(std::size_t entity) {
+        (std::any_cast<SparseArray<Components>&>(_regist[std::type_index(typeid(Components))]).erase(entity), ...);
+    }
+
     /**
      * Get an array of all entities that have the component.
      */
