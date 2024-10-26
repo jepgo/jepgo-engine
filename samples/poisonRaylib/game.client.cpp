@@ -35,6 +35,7 @@ exported(void) onStart(jgo::Client &game)
         "sprites/account.png"
     });
 
+    // and i set the background color to red
     game.getGraphicLib()->setBackgroundColor(0xffff0000);
 }
 
