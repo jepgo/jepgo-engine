@@ -62,7 +62,10 @@ namespace jgo {
 
                 if (not sys.empty()) {
                     realLib = jmod::EasyLife(argv[0])/"jepgo.system." + sys;
-                    _systems[sys] = std::make_shared<jmod::DLLoader>(realLib);
+                    _systems[sys] = std::make_pair(
+                        std::make_shared<jmod::DLLoader>(realLib),
+                        getTime()
+                    );
                 }
                 this->ecs.runTimeInsert<T>();
                 this->ecs.addRule([](Register::RuleMap &r) {
@@ -121,6 +124,6 @@ namespace jgo {
             /**
              * The components.
              */
-            std::map<std::string, std::optional<jmod::DLLoaderPtr>> _systems;
+            std::map<std::string, std::optional<std::pair<jmod::DLLoaderPtr, float>>> _systems;
     };
 }
