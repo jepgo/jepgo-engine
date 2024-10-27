@@ -56,7 +56,8 @@ exported(void) onUpdate(jgo::Client &game)
     if (not health->isDead()) {
         game.getGraphicLib()->drawImage(
             "sprites/account.png",
-            {1, 1, 230, 250},
+            {0, 0, 230, 250},
+            {100, 100, 200, 200},
             {1, 1}
         );
     } else {

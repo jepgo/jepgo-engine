@@ -28,10 +28,10 @@ namespace jgo {
         : x(xA), y(yA), width(wA), height(hA) {
             return;
         };
-        float x;
-        float y;
-        float width;
-        float height;
+        float x = 0;
+        float y = 0;
+        float width = 0;
+        float height = 0;
     };
 
     /**
