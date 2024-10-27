@@ -147,9 +147,8 @@ class Raylib: public jgo::IGraphic {
                 AT_Rectangle,
             } type;
             std::string path;
-            jgo::Rectangle rect;
+            jgo::Rectangle rects[2];
             jgo::Vector2 vec;
-            jgo::Rectangle r;
             std::string text;
             Color color;
             std::size_t size;
@@ -233,9 +232,8 @@ void Raylib::drawImage(std::string const &path, jgo::Rectangle const &rect, jgo:
     _Argument e {
         .type = _Argument::AT_Image,
         .path = path,
-        .rect = where,
+        .rects = {rect, where},
         .vec = scale,
-        .r = rect,
     };
     _actions.push_back(e);
 }
@@ -244,7 +242,7 @@ void Raylib::drawRectangle(jgo::Rectangle const &rect, jgo::u32 color)
 {
     _Argument e {
         .type = _Argument::AT_Rectangle,
-        .rect = rect,
+        .rects = { rect, rect },
         .color = u32tocolor(color)
     };
     _actions.push_back(e);
@@ -255,7 +253,7 @@ void Raylib::drawText(std::string const &text, jgo::Rectangle const &where, jgo:
     _Argument arg {
         .type = _Argument::AT_Text,
         .path = fontPath,
-        .rect = where,
+        .rects = { where, where },
         .text = text,
         .color = u32tocolor(color),
         .size = fontSize
@@ -304,9 +302,9 @@ void Raylib::update()
             case _Argument::AT_Image:
             DrawTexturePro(
                 _images[e.path],
-                Rectangle{e.rect.x, e.rect.y, e.rect.width, e.rect.height},
-                Rectangle{e.r.x, e.r.y, e.r.width, e.r.height},
-                {e.rect.x / 2, e.rect.y / 2},
+                Rectangle{e.rects[0].x, e.rects[0].y, e.rects[0].width, e.rects[0].height},
+                Rectangle{e.rects[1].x, e.rects[1].y, e.rects[1].width, e.rects[1].height},
+                {e.rects[0].x / 2, e.rects[0].y / 2},
                 0,
                 WHITE
             );
@@ -315,10 +313,10 @@ void Raylib::update()
             // draw rectangle
             case _Argument::AT_Rectangle:
             DrawRectangle(
-                static_cast<int>(e.rect.x),
-                static_cast<int>(e.rect.y),
-                static_cast<int>(e.rect.width),
-                static_cast<int>(e.rect.height),
+                static_cast<int>(e.rects[0].x),
+                static_cast<int>(e.rects[0].y),
+                static_cast<int>(e.rects[0].width),
+                static_cast<int>(e.rects[0].height),
                 e.color
             );
             break;
