@@ -84,6 +84,8 @@ namespace jgo {
             virtual void
             drawImage(
                 std::string const &path,
+                
+                jgo::Rectangle const &rect,
                 jgo::Rectangle const &where,
                 jgo::Vector2 const &scale
             ) = 0;
