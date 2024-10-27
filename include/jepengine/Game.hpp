@@ -15,6 +15,7 @@
 #include "jepmod/Clock++.hpp"
 #include "jepmod/DLLoader.hpp"
 #include "jepengine/Register.hpp"
+#include "jeplua/Lua.hpp"
 
 namespace jgo {
     /**
@@ -104,6 +105,11 @@ namespace jgo {
              * The engine manager for components.
              */
             Register ecs;
+
+            /**
+             * The lua state.
+             */
+            // lua::State luaState;
 
             /**
              * The argument vector (input given).
