@@ -21,7 +21,7 @@ exported(void) onStart(jgo::Client &game)
 {
     game.loadGraphic("Raylib");
     game.useComponent<Positions>();
-    game.useComponent<Drawable>();
+    game.useComponent<Drawable>("Draw2DSystem");
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
@@ -37,9 +37,9 @@ exported(void) onStart(jgo::Client &game)
         "sprites/asteroid.png",
         "sprites/spaceship.png"
     });
-    
+
     game.ecs.createEntity();
-    game.ecs.emplaceComp<Positions>(game.ecs.currentEntity, Positions(200, 200));
+    game.ecs.emplaceComp<Positions>(game.ecs.currentEntity, Positions(200, 400));
     game.ecs.emplaceComp<Drawable>(game.ecs.currentEntity, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
 }
 

@@ -50,6 +50,7 @@ class Raylib: public jgo::IGraphic {
          */
         void drawImage(
             std::string const &path,
+            jgo::Rectangle const &rect,
             jgo::Rectangle const &where,
             jgo::Vector2 const &scale
         ) override;
@@ -148,6 +149,7 @@ class Raylib: public jgo::IGraphic {
             std::string path;
             jgo::Rectangle rect;
             jgo::Vector2 vec;
+            jgo::Rectangle r;
             std::string text;
             Color color;
             std::size_t size;
@@ -226,13 +228,14 @@ static Color u32tocolor(jgo::u32 i) {
     };
 }
 
-void Raylib::drawImage(std::string const &path, jgo::Rectangle const &where, jgo::Vector2 const &scale)
+void Raylib::drawImage(std::string const &path, jgo::Rectangle const &rect, jgo::Rectangle const &where, jgo::Vector2 const &scale)
 {
     _Argument e {
         .type = _Argument::AT_Image,
         .path = path,
         .rect = where,
         .vec = scale,
+        .r = rect,
     };
     _actions.push_back(e);
 }
@@ -302,7 +305,7 @@ void Raylib::update()
             DrawTexturePro(
                 _images[e.path],
                 Rectangle{e.rect.x, e.rect.y, e.rect.width, e.rect.height},
-                Rectangle{e.rect.x, e.rect.y, (e.rect.width * e.vec.x), (e.rect.height * e.vec.y)},
+                Rectangle{e.r.x, e.r.y, e.r.width, e.r.height},
                 {e.rect.x / 2, e.rect.y / 2},
                 0,
                 WHITE

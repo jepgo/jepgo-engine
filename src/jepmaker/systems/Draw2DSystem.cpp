@@ -15,7 +15,7 @@ static void Todraw(jgo::Game &game, Positions &pos, std::optional<jgo::Rectangle
         if (rect.has_value()) {
             float a = (rect.value().width * scale[0]);
             float b = (rect.value().height * scale[1]);
-            game.getGraphicLib()->drawImage(index, rect.value(), jgo::Vector2{scale[0], scale[1]});
+            game.getGraphicLib()->drawImage(index, rect.value(), jgo::Rectangle{pos.x, pos.y, a, b}, jgo::Vector2{scale[0], scale[1]});
             //DrawTexturePro(textures[index], rect.value(), Rectangle{pos.x, pos.y, a, b}, {pos.x / 2, pos.y / 2}, 0, WHITE);
         } else {
             
