@@ -28,6 +28,15 @@ if(NOT SqliteOrm_FOUND)
         GIT_TAG v1.9
     )
 endif()
+
+if(NOT Lua_FOUND)
+    CPMAddPackage(
+        NAME Lua
+        GIT_REPOSITORY https://github.com/lua/lua
+        GIT_TAG v5.4.4
+    )
+endif()
+
 # CPMAddPackage(
 #     NAME libconfig
 #     GIT_REPOSITORY https://github.com/hyperrealm/libconfig
