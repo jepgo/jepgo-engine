@@ -29,12 +29,10 @@ public:
      * @return false: The curent time not respect the reset timer
      */
     bool verif(float time) {
-        if (time - _time >= _fireRate)
-        {
+        if (time - _time >= _fireRate) {
             _time = time;
             return true;
-        }
-        else
+        } else
             return false;
     };
     float _fireRate;
