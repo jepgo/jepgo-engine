@@ -30,7 +30,7 @@ class AsioConnection: public jgo::IConnection {
         udp::endpoint _endpoint;
 };
 
-class AsioServer: public jgo::INetwork {
+class AsioServer: public jgo::IServer {
     using Buffer = std::shared_ptr<std::array<char, jgo::BUFFER_SIZE>>;
 
     public:
@@ -51,6 +51,38 @@ class AsioServer: public jgo::INetwork {
         std::map<udp::endpoint, std::string> _buffers;
         std::vector<jgo::NetMessage> _messages;
 };
+
+class AsioClient: public jgo::IClient {
+    public:
+        inline AsioClient(): _socket(_context) {
+            return;
+        }
+        void connect(std::string const &ip, jgo::u16 port);
+        void sendMessage(std::string const &message);
+        void stop(void);
+        void run(void);
+
+    private:
+        void _handleSend(std::error_code const &err, std::size_t bytes);
+        void _receiveResponse();
+        asio::io_context _context;
+        udp::socket _socket;
+        udp::endpoint _serverEndpoint;
+};
+
+/* Connection */
+
+jgo::u16 AsioConnection::getPort(void) const
+{
+    return _endpoint.port();
+}
+
+std::string AsioConnection::getIP(void) const
+{
+    return _endpoint.address().to_string();
+}
+
+/* Server */
 
 void AsioServer::_processMessage(udp::endpoint const &endpoint)
 {
@@ -76,20 +108,6 @@ void AsioServer::_processMessage(udp::endpoint const &endpoint)
         start = 0;
     }
 }
-
-/* Connection */
-
-jgo::u16 AsioConnection::getPort(void) const
-{
-    return _endpoint.port();
-}
-
-std::string AsioConnection::getIP(void) const
-{
-    return _endpoint.address().to_string();
-}
-
-/* Server */
 
 void AsioServer::_handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf)
 {
@@ -132,14 +150,58 @@ std::vector<jgo::NetMessage> AsioServer::getAllMessages(void)
     return tmp;
 }
 
+/* Client */
+
+void AsioClient::connect(std::string const &ip, jgo::u16 port) {
+    udp::resolver resolver(_context);
+    udp::resolver::results_type endpoints = resolver.resolve(ip, std::to_string(port));
+    _serverEndpoint = *endpoints.begin();
+    _socket.open(udp::v4());
+    _context.run();
+}
+
+void AsioClient::sendMessage(std::string const &message) {
+    std::string fullMessage = jgo::MAGIC_START + message + jgo::MAGIC_END;
+    _socket.async_send_to(asio::buffer(fullMessage), _serverEndpoint,
+        [this](std::error_code err, std::size_t bytes) {
+            _handleSend(err, bytes);
+        });
+}
+
+void AsioClient::_handleSend(std::error_code const &err, std::size_t bytes) {
+    if (err) {
+        std::cerr << "Send error: " << err.message() << std::endl;
+    } else {
+        std::cout << "Sent " << bytes << " bytes." << std::endl;
+        _receiveResponse();
+    }
+}
+
+void AsioClient::_receiveResponse() {
+    auto buf = std::make_shared<std::array<char, jgo::BUFFER_SIZE>>();
+    _socket.async_receive_from(asio::buffer(*buf), _serverEndpoint,
+        [this, buf](std::error_code err, std::size_t bytes) {
+            if (!err) {
+                std::string response(reinterpret_cast<char *>(buf->data()), bytes);
+                std::cout << "Received response: " << response << std::endl;
+            } else {
+                std::cerr << "Receive error: " << err.message() << std::endl;
+            }
+        });
+}
+
+void AsioClient::stop() {
+    _context.stop();
+}
+
 int main(void)
 {
-    std::shared_ptr<jgo::INetwork> server = std::make_shared<AsioServer>();
+    std::shared_ptr<jgo::IServer> server = std::make_shared<AsioServer>();
     
     std::thread serverThread([&server]() {
         server->host(8080);
     });
-    std::cout << "hello" << std::endl;
+    std::cout << jgo::MAGIC_START << std::endl;
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
         for (auto const &msg : server->getAllMessages())
