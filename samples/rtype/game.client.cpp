@@ -10,18 +10,87 @@
 #include <thread>
 
 #include "jepengine/Client.hpp"
-#include "jepmaker/components/Health.hpp"
-#include "jepmaker/components/Poison.hpp"
+#include "jepmaker/components/Game.hpp"
 #include "jepmaker/components/Position.hpp"
+#include "jepmaker/components/SoundLoop.hpp"
+#include "jepmaker/components/Move.hpp"
+#include "jepmaker/components/Life.hpp"
+#include "jepmaker/components/Hitable2D.hpp"
 #include "jepmaker/components/Drawable2D.hpp"
+#include "jepmaker/components/SpriteAnimation.hpp"
+#include "jepmaker/components/SpriteStatus.hpp"
+#include "jepmaker/components/Velocity.hpp"
+#include "jepmaker/components/Type.hpp"
+#include "jepmaker/components/Enemy.hpp"
+#include "jepmaker/components/DoDmg.hpp"
+#include "jepmaker/components/Explosion.hpp"
+#include "jepmaker/components/MoveToPlayer.hpp"
+#include "jepmaker/components/MoveToPlayerTime.hpp"
+#include "jepmaker/components/ShortAnimation.hpp"
+#include "jepmaker/components/Colision.hpp"
+#include "jepmaker/components/ScreenLimit.hpp"
+#include "jepmaker/components/Shoot.hpp"
+#include "jepmaker/components/LoopMove.hpp"
+#include "jepmaker/components/Modules.hpp"
+#include "jepmaker/components/Controllable.hpp"
+#include "jepmaker/components/Reborn.hpp"
+#include "jepmaker/components/DrawReborn.hpp"
+#include "jepmaker/components/Exp.hpp"
+#include "jepmaker/components/Points.hpp"
+#include "jepmaker/components/DrawPoints.hpp"
+#include "jepmaker/components/Lvl.hpp"
+#include "jepmaker/components/DrawLvl.hpp"
+#include "jepmaker/components/DistanceKm.hpp"
+#include "jepmaker/components/DrawDistanceKm.hpp"
+#include "jepmaker/components/Message.hpp"
+#include "jepmaker/components/MessageTime.hpp"
+#include "jepmaker/components/Invincible.hpp"
+#include "jepmaker/components/InvincibleTime.hpp"
+#include "jepmaker/components/Hit.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
 exported(void) onStart(jgo::Client &game)
 {
     game.loadGraphic("Raylib");
-    game.useComponent<Positions>();
+    game.useComponent<Positions>("KeySystem");
     game.useComponent<Drawable>("Draw2DSystem");
+    game.useComponent<Velocity>();
+    game.useComponent<Type>();
+    game.useComponent<Sprite_Status>();
+    game.useComponent<Sprite_Animation>();
+    game.useComponent<SoundLoop>();
+    game.useComponent<Short_Animation>();
+    game.useComponent<Shoot>();
+    game.useComponent<ScreenLimit>();
+    game.useComponent<MoveToPlayerTime>();
+    game.useComponent<MoveToPlayer>();
+    game.useComponent<Move>("MoveSystem");
+    game.useComponent<Life>();
+    game.useComponent<Enemy>();
+    game.useComponent<DoDmg>();
+    game.useComponent<Explosion>();
+    game.useComponent<MoveToPlayer>();
+    game.useComponent<MoveToPlayerTime>();
+    game.useComponent<LoopMove>();
+    game.useComponent<Module>();
+    game.useComponent<ModuleArmor>();
+    game.useComponent<ModuleShoot>();
+    game.useComponent<Reborn>();
+    game.useComponent<DrawReborn>();
+    game.useComponent<Exp>();
+    game.useComponent<Points>();
+    game.useComponent<DrawPoints>();
+    game.useComponent<Lvl>();
+    game.useComponent<DrawLvl>();
+    game.useComponent<DistanceKm>();
+    game.useComponent<DrawKm>();
+    game.useComponent<Invincible>();
+    game.useComponent<InvincibleTime>();
+    game.useComponent<Hitable>();
+    game.useComponent<Hit>();
+    game.useComponent<Colision>();
+    game.useComponent<Controllable>();
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
@@ -33,14 +102,10 @@ exported(void) onStart(jgo::Client &game)
         "sprites/r-typesheet14.gif",
         "sprites/parallax-space-far-planets.png",
         "sprites/parallax-space-ring-planet.png",
-        "sprites/parallax-space-stars.png",
-        "sprites/asteroid.png",
-        "sprites/spaceship.png"
+        "sprites/parallax-space-stars.png"
     });
-
-    game.ecs.createEntity();
-    game.ecs.emplaceComp<Positions>(game.ecs.currentEntity, Positions(200, 400));
-    game.ecs.emplaceComp<Drawable>(game.ecs.currentEntity, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
+    
+    Game::CreatePlayer(game, 800, 600);
 }
 
 // this is the function that will be called each tick BEFORE rendering and
