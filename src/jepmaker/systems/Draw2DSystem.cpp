@@ -35,7 +35,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &t)
     auto &pos = game.ecs.getComp<Positions>();
     auto &draw = game.ecs.getComp<Drawable>();
 
-    std::cout << "caca" << std::endl;
     for (std::size_t i = 0; i < draw.size(); ++i) {
         if (draw[i].has_value() && pos[i].has_value()) {
             Drawable &tmp = draw[i].value();

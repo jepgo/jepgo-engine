@@ -153,7 +153,6 @@ class Raylib: public jgo::IGraphic {
             Color color;
             std::size_t size;
         };
-
         std::vector<_Argument> _actions;
 };
 
@@ -200,11 +199,20 @@ void Raylib::preloadSounds(std::vector<std::string> const &sounds)
     }
 }
 
+static std::vector<int> Keys(void)
+{
+    return {KeyboardKey::KEY_A, KeyboardKey::KEY_B, KeyboardKey::KEY_C, KeyboardKey::KEY_D, KeyboardKey::KEY_SPACE, KeyboardKey::KEY_UP, KeyboardKey::KEY_DOWN, KeyboardKey::KEY_LEFT, KeyboardKey::KEY_RIGHT};
+}
+
 std::vector<jgo::u32> Raylib::getKeyPressed(void)
 {
+    std::vector<int> t = Keys();
     std::vector<jgo::u32> tmp;
 
-    tmp.push_back(static_cast<jgo::u32>(GetKeyPressed()));
+    for (auto &i : t) {
+        if (IsKeyDown(i))
+            tmp.push_back(static_cast<jgo::u32>(i));
+    }
     return tmp;
 }
 
@@ -304,7 +312,7 @@ void Raylib::update()
                 _images[e.path],
                 Rectangle{e.rects[0].x, e.rects[0].y, e.rects[0].width, e.rects[0].height},
                 Rectangle{e.rects[1].x, e.rects[1].y, e.rects[1].width, e.rects[1].height},
-                {e.rects[0].x / 2, e.rects[0].y / 2},
+                {e.rects[1].x / 2, e.rects[1].y / 2},
                 0,
                 WHITE
             );

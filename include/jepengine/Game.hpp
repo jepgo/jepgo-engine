@@ -15,7 +15,7 @@
 #include "jepmod/Clock++.hpp"
 #include "jepmod/DLLoader.hpp"
 #include "jepengine/Register.hpp"
-#include "jeplua/Lua.hpp"
+//#include "jeplua/Lua.hpp"
 
 namespace jgo {
     /**
