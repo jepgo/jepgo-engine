@@ -16,7 +16,7 @@
 namespace jgo {
 
     static int const BUFFER_SIZE = 1024;
-    static jgo::u32 const MAGIC_NUMBER = 0x697a697a;
+    static jgo::u32 const MAGIC_NUMBER = 1769630074;
     static std::string const MAGIC_START(reinterpret_cast<char const *>(&MAGIC_NUMBER), 4);
     static std::string const MAGIC_END(reinterpret_cast<char const *>(&MAGIC_NUMBER), 4);
 
