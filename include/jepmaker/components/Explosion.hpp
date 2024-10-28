@@ -23,7 +23,7 @@ public:
      * @param r The optional rectangle
      * @param s The optional scale of the Sprite
      */
-    Explosion(std::size_t ind, int status, int val, double t, std::size_t dmg, std::optional<jgo::Rectangle> r = std::nullopt, std::vector<float> s = {})
+    Explosion(std::string ind, int status, int val, double t, std::size_t dmg, std::optional<jgo::Rectangle> r = std::nullopt, std::vector<float> s = {})
     : _dmg(dmg), index(ind), rect(r), stat(status), time(t), value(val) {
         if (s.empty())
             return;
@@ -33,7 +33,7 @@ public:
     }
     ~Explosion() {};
     std::size_t _dmg;
-    std::size_t index;
+    std::string index;
     std::optional<jgo::Rectangle> rect;
     float scale[2] = {1, 1};
     int stat;

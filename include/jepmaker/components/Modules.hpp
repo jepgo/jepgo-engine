@@ -13,7 +13,7 @@
 
 class Module {
     public:
-        Module(std::map<Direction, int> space, int entity) {};
+        Module(std::map<Direction, int> space, int entity) : _space(space), _entity(entity) {};
         ~Module() {};
         int getEntityToModule() {
             return _entity;
@@ -27,8 +27,8 @@ class Module {
             }
         };
         int _entity;
-    private:
         std::map<Direction, int> _space;
+    private:
 };
 
 class ModuleArmor
