@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.14) # pi
 
 PROJECT(mylua)
 
-ADD_LIBRARY(mylua STATIC
+ADD_LIBRARY(mylua SHARED
     lapi.c
     lauxlib.c
     lbaselib.c

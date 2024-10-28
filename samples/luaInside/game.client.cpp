@@ -16,7 +16,8 @@
 
 exported(void) onStart(jgo::Client &game)
 {
-    game.luaState.execute("print('hello world !')");
+    game.loadLua();
+    game.lua->execute("print('hello world !')");
 }
 
 exported(void) onUpdate(jgo::Client &game)

@@ -57,11 +57,14 @@ namespace jgo {
              * 
              * `game.loadLua();`
              */
-            auto loadLua(void) -> void;
+            auto loadLua(void) -> void {
+                lua.emplace(jmod::EasyLife(argv[0])/"mylua");
+            }
 
             /**
-             * 
+             * Access lua
              */
+            std::optional<lua::State> lua = std::nullopt;
 
             /**
              * Use a component from a .hpp and .so file.
@@ -116,11 +119,6 @@ namespace jgo {
              * The engine manager for components.
              */
             Register ecs;
-
-            /**
-             * The lua state.
-             */
-            lua::State luaState;
 
             /**
              * The argument vector (input given).
