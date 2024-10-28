@@ -10,8 +10,8 @@ PROJECT(jepmod)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(FETCHCONTENT_QUIET FALSE)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 
 # find_packages
 find_package(raylib QUIET)
@@ -26,6 +26,7 @@ add_subdirectory(src/jepengine)
 add_subdirectory(src/jepmod)
 add_subdirectory(src/jepmaker/systems)
 add_subdirectory(src/jepmaker/graphic)
+add_subdirectory(src/jep3rdparty/lua)
 
 # # game.client
 
