@@ -24,6 +24,9 @@ extern "C" {
     || \
     ldr.getFunc<int, lua_State *, int, int, int, lua_KContext, lua_KFunction>("lua_pcallk")(L, 0, LUA_MULTRET, 0, 0, NULL)
 
+#define my_lua_openlibs(L, ldr) \
+    ldr.getFunc<void, lua_State *, int, int>("luaL_openselectedlibs")(L, (~0), 0)
+
 namespace lua {
     using number = lua_Number;
     using string = std::string;
@@ -37,7 +40,7 @@ namespace lua {
             inline State(std::string const &str)
             : _loader(str) {
                 L = _loader.getFunc<lua_State *>("luaL_newstate")();
-                _loader.getFunc<void, lua_State *>("luaL_openlibs")(L);
+                my_lua_openlibs(L, _loader);
             }
             // inline State(lua_State *st): L(st), _isCopy(true) {
             //     return;

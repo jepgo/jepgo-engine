@@ -29,6 +29,15 @@ if(NOT SqliteOrm_FOUND)
     )
 endif()
 
+CPMAddPackage(
+    NAME sharedlua
+    GITHUB_REPOSITORY paulogarithm/lua.so
+    GIT_TAG master
+)
+
+# set(SHARED_LUA_LIB "${CMAKE_BINARY_DIR}")
+
+
 # if(NOT Lua_FOUND)
 #     CPMAddPackage(
 #         NAME Lua

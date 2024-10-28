@@ -58,7 +58,7 @@ namespace jgo {
              * `game.loadLua();`
              */
             auto loadLua(void) -> void {
-                lua.emplace(jmod::EasyLife(argv[0])/"mylua");
+                lua.emplace(jmod::EasyLife(argv[0])/"sharedlua");
             }
 
             /**
