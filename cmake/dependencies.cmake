@@ -29,13 +29,13 @@ if(NOT SqliteOrm_FOUND)
     )
 endif()
 
-if(NOT Lua_FOUND)
-    CPMAddPackage(
-        NAME Lua
-        GIT_REPOSITORY https://github.com/lua/lua
-        GIT_TAG v5.4.4
-    )
-endif()
+# if(NOT Lua_FOUND)
+#     CPMAddPackage(
+#         NAME Lua
+#         GIT_REPOSITORY https://github.com/lua/lua
+#         GIT_TAG v5.4.4
+#     )
+# endif()
 
 # CPMAddPackage(
 #     NAME libconfig

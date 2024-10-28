@@ -37,11 +37,8 @@ class AsioServer: public jgo::INetwork {
         inline AsioServer() : _socket(_context) {
             return;
         }
-
         void host(jgo::u16 port);
-
         void stop(void);
-
         std::vector<jgo::NetMessage> getAllMessages(void);
 
     private:

@@ -1,6 +1,11 @@
 #pragma once
 
-#include "lua.hpp"
+extern "C" {
+    #include "./lua.h"
+    #include "./lualib.h"
+    #include "./lauxlib.h"
+}
+
 #include <string>
 #include <stdexcept>
 
@@ -15,6 +20,7 @@ namespace lua {
     class State {
         public:
             inline State(): L(luaL_newstate()) {
+
                 luaL_openlibs(L);
             }
             inline State(lua_State *st): L(st), _isCopy(true) {
@@ -90,5 +96,6 @@ namespace lua {
         private:
             bool _isCopy = false;
             lua_State *L;
+
     };
 }

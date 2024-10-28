@@ -53,6 +53,17 @@ namespace jgo {
             auto loadGraphic(std::string const &name) -> void;
 
             /**
+             * Load Lua.
+             * 
+             * `game.loadLua();`
+             */
+            auto loadLua(void) -> void;
+
+            /**
+             * 
+             */
+
+            /**
              * Use a component from a .hpp and .so file.
              * 
              * `game.useComponent("health");`
@@ -109,7 +120,7 @@ namespace jgo {
             /**
              * The lua state.
              */
-            // lua::State luaState;
+            lua::State luaState;
 
             /**
              * The argument vector (input given).
