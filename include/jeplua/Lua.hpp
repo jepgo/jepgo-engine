@@ -39,7 +39,7 @@ namespace lua {
     using number = lua_Number;
     using string = std::string;
     using integer = lua_Integer;
-    using function = lua_CFunction;
+    using cfunction = lua_CFunction;
     using boolean = bool;
     using userdata = void *;
 
@@ -64,12 +64,12 @@ namespace lua {
                 _loader.getFunc<void, lua_State *, integer>("lua_pushinteger")(L, arg);
             }
 
-            void push(string arg) {
-                _loader.getFunc<void, lua_State *, string>("lua_pushstring")(L, arg.c_str());
-            }
-
             void push(number arg) {
                 _loader.getFunc<void, lua_State *, number>("lua_pushnumber")(L, arg);
+            }
+
+            void push(string arg) {
+                _loader.getFunc<void, lua_State *, string>("lua_pushstring")(L, arg.c_str());
             }
 
             void push(boolean arg) {
@@ -80,12 +80,16 @@ namespace lua {
                 _loader.getFunc<void, lua_State *, userdata>("lua_pushlightuserdata")(L, arg);
             }
 
-            void push(function arg) {
-                _loader.getFunc<void, lua_State *, function>("lua_pushcfunction")(L, arg);
+            void push(cfunction arg) {
+                _loader.getFunc<void, lua_State *, cfunction>("lua_pushcfunction")(L, arg);
             }
 
             void push(char const *arg) {
                 _loader.getFunc<void, lua_State *, char const *>("lua_pushstring")(L, arg);
+            }
+
+            void pushvalue(int dup = -1) {
+                _loader.getFunc<void, lua_State *, int>("lua_pushvalue")(L, dup);
             }
 
             /* Create a new empty table */
@@ -103,22 +107,9 @@ namespace lua {
                 _loader.getFunc<void, lua_State *, int>("lua_setmetatable")(L, index);
             }
 
-            /* Execute a file */
-            void execute(std::string const &str) {
+            /* Execute a line of code */
+            void dostring(std::string const &str) {
                 my_luadostring(this, str.c_str());
-            }
-
-            /* Use a file */
-            void useFile(std::string const &filename) {
-                if (my_luadofile(this, filename.c_str()) != LUA_OK) {
-                    pop();
-                    throw std::runtime_error(get<char const *>(-1));
-                }
-                push(static_cast<lua::number>(3));
-                pcall(1, 1);
-                lua::number n = get<lua::number>(-1);
-                std::cout << "got " << n << std::endl;
-                pop();
             }
 
             /* Call a function */
@@ -139,7 +130,6 @@ namespace lua {
                     return _loader.getFunc<T, lua_State *, int>("lua_tointeger")(L, arg);
                 } else if constexpr (std::is_same<T, char const *>()) {
                     auto ptr = _loader.getFunc<T, lua_State *, int, size_t *>("lua_tolstring")(L, arg, nullptr);
-                    std::cout << arg << ", " << (void *)ptr << std::endl;
                     return (ptr == nullptr) ? "null" : ptr;
                 } else if constexpr (std::is_same<T, number>()) {
                     return _loader.getFunc<T, lua_State *, int, size_t *>("lua_tonumberx")(L, arg, nullptr);
@@ -147,16 +137,50 @@ namespace lua {
                     return _loader.getFunc<T, lua_State *, int>("lua_toboolean")(L, arg);
                 } else if constexpr (std::is_same<T, userdata>()) {
                     return _loader.getFunc<T, lua_State *, int>("lua_touserdata")(L, arg);
-                } else if constexpr (std::is_same<T, function>()) {
+                } else if constexpr (std::is_same<T, cfunction>()) {
                     return _loader.getFunc<T, lua_State *, int>("lua_tocfunction")(L, arg);
                 } else {
                     throw std::runtime_error("invalid type");
                 }
             }
 
-        private:
+            /* Get a raw integer */
+            inline void rawgeti(integer n, int index = LUA_REGISTRYINDEX) {
+                return _loader.getFunc<void, lua_State *, int, integer>("lua_rawgeti")(L, index, n);
+            }
+
+            /* Reference something */
+            inline int ref(int index = LUA_REGISTRYINDEX) {
+                return _loader.getFunc<int, lua_State *, int>("luaL_ref")(L, index);
+            }
+
+
+        protected:
             bool _isCopy = false;
             lua_State *L = nullptr;
             jmod::DLLoader _loader;
     };
+}
+
+namespace jgo {
+
+    class LuaHelper: public lua::State {
+        public:
+
+            LuaHelper(std::string const &where): State(where) {
+                return;
+            }
+
+            /* Use a file to call a system. */
+            void useSystem(std::string const &filename);
+
+            /**
+             * Call all lua systems.
+             */
+            void callAllSystems(void);
+        
+        private:
+            std::vector<int> _refs;
+    };
+
 }
