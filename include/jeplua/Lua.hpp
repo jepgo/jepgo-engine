@@ -15,8 +15,6 @@
 
 extern "C" {
     #include "./lua.h"
-    #include "./lualib.h"
-    #include "./lauxlib.h"
 }
 
 #define my_luadostring(this, str) (\
@@ -45,20 +43,30 @@ namespace lua {
 
     class State {
         public:
-            inline State(std::string const &str)
-            : _loader(str) {
+            static std::string PATH;
+
+            inline State(std::string const &str): _loader(str) {
                 L = _loader.getFunc<lua_State *>("luaL_newstate")();
                 my_luaopenlibs(this);
+                PATH = str;
             }
-            // inline State(lua_State *st): L(st), _isCopy(true) {
-            //     return;
-            // }
+            inline State(lua_State *st): L(st), _isCopy(true), _loader(PATH) {
+                return;
+            }
             inline ~State() {
                 if (not _isCopy)
                     _loader.getFunc<void, lua_State *>("lua_close")(L);
             }
 
             /* Push */
+
+            void setGlobal(string const &str) {
+                _loader.getFunc<void, lua_State *, char const *>("lua_setglobal")(L, str.c_str());
+            }
+
+            void getGlobal(string const &str) {
+                _loader.getFunc<void, lua_State *, char const *>("lua_getglobal")(L, str.c_str());
+            }
 
             void push(integer arg) {
                 _loader.getFunc<void, lua_State *, integer>("lua_pushinteger")(L, arg);
@@ -81,7 +89,7 @@ namespace lua {
             }
 
             void push(cfunction arg) {
-                _loader.getFunc<void, lua_State *, cfunction>("lua_pushcfunction")(L, arg);
+                _loader.getFunc<void, lua_State *, cfunction, int>("lua_pushcclosure")(L, arg, 0);
             }
 
             void push(char const *arg) {
@@ -92,9 +100,13 @@ namespace lua {
                 _loader.getFunc<void, lua_State *, int>("lua_pushvalue")(L, dup);
             }
 
+            int size() {
+                return _loader.getFunc<int, lua_State *>("lua_gettop")(L);
+            }
+
             /* Create a new empty table */
             void newTable() {
-                _loader.getFunc<void, lua_State *>("lua_newtable")(L);
+                _loader.getFunc<void, lua_State *, int, int>("lua_createtable")(L, 0, 0);
             }
 
             /* Set a table field */
@@ -154,6 +166,10 @@ namespace lua {
                 return _loader.getFunc<int, lua_State *, int>("luaL_ref")(L, index);
             }
 
+            /* Unreference something */
+            inline int unref(int ref, int index = LUA_REGISTRYINDEX) {
+                return _loader.getFunc<int, lua_State *, int, int>("luaL_unref")(L, index, ref);
+            }
 
         protected:
             bool _isCopy = false;
@@ -167,9 +183,9 @@ namespace jgo {
     class LuaHelper: public lua::State {
         public:
 
-            LuaHelper(std::string const &where): State(where) {
-                return;
-            }
+            LuaHelper(std::string const &where);
+
+            ~LuaHelper();
 
             /* Use a file to call a system. */
             void useSystem(std::string const &filename);
@@ -181,6 +197,7 @@ namespace jgo {
         
         private:
             std::vector<int> _refs;
+            int _gameIndex;
     };
 
 }
