@@ -14,6 +14,7 @@
 #include <thread>
 #include <chrono>
 #include "jepengine/types.hpp"
+#include "jepengine/exceptions.hpp"
 #include "jepmaker/network/INetwork.hpp"
 
 using udp = asio::ip::udp;
@@ -112,7 +113,7 @@ void AsioServer::_processMessage(udp::endpoint const &endpoint)
 void AsioServer::_handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf)
 {
     if (err)
-        throw std::runtime_error(err.message());
+        throw jgo::errors::NetworkError("asio", err.message());
     std::string data(reinterpret_cast<char *>(buf->data()), bytes);
     _buffers[_endpoint].append(data);
     _processMessage(_endpoint);

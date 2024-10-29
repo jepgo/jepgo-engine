@@ -15,7 +15,8 @@
 #include "jepmod/Clock++.hpp"
 #include "jepmod/DLLoader.hpp"
 #include "jepengine/Register.hpp"
-//#include "jeplua/Lua.hpp"
+#include "jeplua/Lua.hpp"
+#include "jepengine/exceptions.hpp"
 
 namespace jgo {
     /**
@@ -104,7 +105,7 @@ namespace jgo {
             inline auto getGraphicLib(void) ->
                 std::unique_ptr<jgo::IGraphic> & {
                 if (not _graphicLib)
-                    throw std::runtime_error("no graphic lib.");
+                    throw jgo::errors::NoGraphic();
                 return *_graphicLib;
             }
 
