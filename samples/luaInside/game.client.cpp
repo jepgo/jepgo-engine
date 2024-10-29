@@ -18,6 +18,7 @@ exported(void) onStart(jgo::Client &game)
 {
     game.loadLua();
     game.lua->execute("print('hello world !')");
+    game.lua->useFile("caca.lua");
 }
 
 exported(void) onUpdate(jgo::Client &game)

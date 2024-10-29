@@ -58,7 +58,7 @@ namespace jgo {
              * `game.loadLua();`
              */
             auto loadLua(void) -> void {
-                lua.emplace(jmod::EasyLife(argv[0])/"sharedlua");
+                lua.emplace(jmod::EasyLife()/"sharedlua");
             }
 
             /**
@@ -76,7 +76,7 @@ namespace jgo {
                 std::string realLib;
 
                 if (not sys.empty()) {
-                    realLib = jmod::EasyLife(argv[0])/"jepgo.system." + sys;
+                    realLib = jmod::EasyLife()/"jepgo.system." + sys;
                     _systems[sys] = std::make_pair(
                         std::make_shared<jmod::DLLoader>(realLib),
                         getTime()
