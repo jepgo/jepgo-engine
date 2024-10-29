@@ -23,13 +23,13 @@ auto jgo::Game::compile(void) -> bool
 
 auto jgo::Game::loadNetwork(std::string const &lib) -> void
 {
-    std::string realLib = jmod::EasyLife(argv[0])/"jepgo.network." + lib;
+    std::string realLib = jmod::EasyLife()/"jepgo.network." + lib;
 }
     // _libs["network"] = jmod::DLLoader(realLib);
 
 auto jgo::Game::loadGraphic(std::string const &lib) -> void
 {
-    std::string realLib = jmod::EasyLife(argv[0])/"jepgo.graphic." + lib;
+    std::string realLib = jmod::EasyLife()/"jepgo.graphic." + lib;
     jmod::DLLoader loader(realLib);
 
     _graphicLib = loader.getFunc<std::unique_ptr<jgo::IGraphic>>("createLibrary")();

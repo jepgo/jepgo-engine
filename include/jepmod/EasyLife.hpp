@@ -12,6 +12,7 @@
 #include <map>
 #include <functional>
 #include <stdexcept>
+#include <cstdlib>
 
 namespace jmod {
     /**
@@ -25,6 +26,13 @@ namespace jmod {
      */
     class EasyLife {
         public:
+            inline EasyLife() {
+                char const *str = std::getenv("JEPGO_BUILD");
+
+                if (str == nullptr)
+                    throw std::runtime_error("build variable not found");
+                _wd.assign(std::filesystem::absolute(str));
+            }
             inline EasyLife(std::string const &firstArg)
             : _wd(std::filesystem::absolute(firstArg).parent_path()) {
                 if (*--_wd.string().end() == '.')

@@ -14,9 +14,13 @@
 
 class Color {
     public:
-        Color();
-        ~Color();
-        inline auto luaFriend() -> std::map<std::string, lua_CFunction> {
+        Color() {
+            return;
+        };
+        ~Color() {
+            return;
+        };
+        inline auto luaFriend() -> std::map<std::string, lua::function> {
             return {
                 { "setColor", Color::_luaSetColor },
                 { "getColor", Color::_luaSetColor },
