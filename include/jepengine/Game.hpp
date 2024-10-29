@@ -67,7 +67,7 @@ namespace jgo {
             /**
              * Access lua
              */
-            std::optional<lua::State> lua = std::nullopt;
+            std::optional<jgo::LuaHelper> lua = std::nullopt;
 
             /**
              * Use a component from a .hpp and .so file.

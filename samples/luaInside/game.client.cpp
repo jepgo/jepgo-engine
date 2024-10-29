@@ -17,8 +17,10 @@
 exported(void) onStart(jgo::Client &game)
 {
     game.loadLua();
-    game.lua->execute("print('hello world !')");
-    game.lua->useFile("caca.lua");
+    game.loadGraphic("Raylib");
+
+    game.lua->dostring("print('hello, jepgo !')");
+    game.lua->useSystem("caca");
 }
 
 exported(void) onUpdate(jgo::Client &game)
@@ -34,10 +36,10 @@ int main(int ac, char const *const av[])
     if (game.hasGraphicLib()) game.getGraphicLib()->openWindow(
         "my windows", {0, 0, 800, 600});
     while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
-        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
         onUpdate(game);
         if (game.hasGraphicLib()) game.getGraphicLib()->update();
         game.callSystems();
+        if (game.lua) game.lua->callAllSystems();
     }
     if (game.hasGraphicLib()) game.getGraphicLib()->closeWindow();
 }
