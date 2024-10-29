@@ -10,6 +10,8 @@
 #include <string>
 #include <cstdint>
 #include <optional>
+#include <map>
+#include <any>
 #include "jepmaker/graphic/IGraphic.hpp"
 #include "jepmod/EasyLife.hpp"
 #include "jepmod/Clock++.hpp"
@@ -125,6 +127,11 @@ namespace jgo {
              * The argument vector (input given).
              */
             std::vector<std::string> const argv;
+
+            /**
+             * The internal storage (if you wanna store stuff)
+             */
+            std::map<std::string, std::any> storage;
 
         private:
             /**
