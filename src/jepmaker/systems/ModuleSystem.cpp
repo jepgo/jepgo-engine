@@ -14,16 +14,12 @@
 #include "jepmaker/components/Hitable2D.hpp"
 
 static void Myupdate(std::optional<Positions> &me, std::optional<Positions> &pos, std::size_t entity, std::map<Direction, int> _space) {
-            std::cout << "hihi" << std::endl;
             if (!(me.has_value()))
                 return;
-            std::cout << "hihi" << std::endl;
             if (pos.has_value()) {
-                std::cout << "hihi" << std::endl;
                 me.value().x = pos.value().x + _space[LEFT] - _space[RIGHT];
                 me.value().y = pos.value().y - _space[UP] + _space[DOWN];   
             }
-            std::cout << "hihi" << std::endl;
         };
 
 exported(void) jepgoSystem(jgo::Game &game, float &t)

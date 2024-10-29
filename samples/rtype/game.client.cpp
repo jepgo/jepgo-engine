@@ -47,6 +47,10 @@
 #include "jepmaker/components/Invincible.hpp"
 #include "jepmaker/components/InvincibleTime.hpp"
 #include "jepmaker/components/Hit.hpp"
+#include "jepmaker/components/Death.hpp"
+#include "jepmaker/components/Dmg.hpp"
+#include "jepmaker/components/BombGeneration.hpp"
+#include "jepmaker/components/BombGenerationTime.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
@@ -54,26 +58,32 @@ exported(void) onStart(jgo::Client &game)
 {
     game.loadGraphic("Raylib");
     game.useComponent<Positions>("KeySystem");
+    game.useComponent<Move>("MoveSystem");
+    game.useComponent<Sprite_Animation>("AnimationSpriteSystem");
+    game.useComponent<Invincible>("InvincibleSystem");
+    game.useComponent<Hitable>("HitSystem");
+    game.useComponent<Module>("ModuleSystem");
+    game.useComponent<DoDmg>("DoDmgSystem");
+    game.useComponent<Dmg>("DmgSystem");
+    game.useComponent<Death>("DeathSystem");
+    game.useComponent<Explosion>("ExplosionSystem");
+    game.useComponent<BombGeneration>("BombGenerationSystem");
+    game.useComponent<BombGenerationTime>("BombGenerationTimeSystem");
     game.useComponent<Drawable>("Draw2DSystem");
     game.useComponent<Velocity>();
     game.useComponent<Type>();
     game.useComponent<Sprite_Status>();
-    game.useComponent<Sprite_Animation>();
     game.useComponent<SoundLoop>();
     game.useComponent<Short_Animation>();
     game.useComponent<Shoot>();
     game.useComponent<ScreenLimit>();
     game.useComponent<MoveToPlayerTime>();
     game.useComponent<MoveToPlayer>();
-    game.useComponent<Move>("MoveSystem");
     game.useComponent<Life>();
     game.useComponent<Enemy>();
-    game.useComponent<DoDmg>();
-    game.useComponent<Explosion>();
     game.useComponent<MoveToPlayer>();
     game.useComponent<MoveToPlayerTime>();
     game.useComponent<LoopMove>();
-    game.useComponent<Module>();
     game.useComponent<ModuleArmor>();
     game.useComponent<ModuleShoot>();
     game.useComponent<Reborn>();
@@ -85,9 +95,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<DrawLvl>();
     game.useComponent<DistanceKm>();
     game.useComponent<DrawKm>();
-    game.useComponent<Invincible>();
     game.useComponent<InvincibleTime>();
-    game.useComponent<Hitable>();
     game.useComponent<Hit>();
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
@@ -106,6 +114,9 @@ exported(void) onStart(jgo::Client &game)
     });
     
     Game::CreatePlayer(game, 800, 600);
+    Game::CreateBoostModule(game, 0);
+    Game::CreateEasyEnemies(game);
+    //Game::CreateObstacle(game);
 }
 
 // this is the function that will be called each tick BEFORE rendering and
