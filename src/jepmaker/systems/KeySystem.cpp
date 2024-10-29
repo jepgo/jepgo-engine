@@ -37,10 +37,15 @@ static std::array<float, 2> getDirectionVector(std::vector<jgo::u32> &vec)
 
 static void ToShoot(jgo::Game &game, Positions &pos, Direction &_direction, int &_decal)
 {
-    if (_direction == LEFT)
+    std::cout << "directionnnnnnnnnnnnnnnnnnnn ============== " << _direction << std::endl;
+    if (_direction == LEFT) {
+        std::cout << "shhooooooooooooooooot" << std::endl;
         Game::CreateShipShoot(game, pos + Positions(0 - _decal, 0));
-    else if (_direction == RIGHT)
+    }
+    else if (_direction == RIGHT) {
+        std::cout << "shhooooooooooooooooot" << std::endl;
         Game::CreateShipShoot(game, pos + Positions(0 + _decal, 0));
+    }
     else if (_direction == UP)
         Game::CreateShipShoot(game, pos + Positions(0, 0 - _decal));
     else if (_direction == DOWN)
@@ -85,12 +90,16 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     {
         if (!control[i].has_value() || !vel[i].has_value() || !pos[i].has_value())
             continue;
-        if (SearchKey(65, key) && shoot[i].has_value() && shoot[i].value().verif(time)) {
+            for (auto &i : key) {
+                std::cout << "val = " << i << std::endl;
+            }
+        if (SearchKey(65, key) && shoot[i].has_value() && shoot[i].value().verif(game.getTime())) {
+            std::cout << "yeah" << std::endl;
             //SetSoundVolume(sounds[shoot[i].value()._ind], 0.1);
             //PlaySound(sounds[shoot[i].value()._ind]);
             ToShoot(game, pos[i].value(), shoot[i].value()._direction, shoot[i].value()._decal);
-            // shoot[i].value().shoot(r, pos[i].value());
-            shoot[i].value()._time =  time;
+            //shoot[i].value().shoot(r, pos[i].value());
+            shoot[i].value()._time = game.getTime();
         }
         if (stat[i].has_value() && draw[i].has_value() && !key.empty())
             moveStatus(stat[i], draw[i], key[0]);

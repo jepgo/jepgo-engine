@@ -17,7 +17,7 @@ public:
      * @param dir The direction of the shoot
      * @param decal The decal of the shoot and the obj who are shooting
      */
-    Shoot(float fireRate, Direction dir, int decal, std::size_t ind) {
+    Shoot(float fireRate, Direction dir, int decal, std::size_t ind) : _fireRate(fireRate), _direction(dir), _decal(decal), _ind(ind) {
         _time = 0;
     };
     ~Shoot() {};
