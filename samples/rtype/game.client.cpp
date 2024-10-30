@@ -116,11 +116,15 @@ exported(void) onStart(jgo::Client &game)
         "sprites/r-typesheet14.gif",
         "sprites/parallax-space-far-planets.png",
         "sprites/parallax-space-ring-planet.png",
-        "sprites/parallax-space-stars.png"
+        "sprites/parallax-space-stars.png",
+        "sprites/asteroid.png",
+        "sprites/spaceship.png"
     });
+    Game::CreateBackGround(game);
+    //Game::CreateStars(game);
     Game::CreatePlayer(game, 800, 600);
-    Game::CreateBoostModule(game, 0);
-    Game::CreateEasyEnemies(game);
+    //Game::CreateBoostModule(game, 1);
+    //Game::CreateEasyEnemies(game);
     //Game::CreateObstacle(game);
 }
 

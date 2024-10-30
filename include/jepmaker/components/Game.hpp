@@ -57,10 +57,10 @@ class Game {
         static void CreateEasyEnemies(jgo::Game &r) {
             r.ecs.createEntity();
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(0, 0));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-1.5, 0)));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-1, 0)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(1700, randomYPos()));
             r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet3.gif", jgo::Rectangle{0, 0, 17, 18}, std::vector<float>{1.5, 1.5}));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(10, 17, 0.1));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(10, 17, 0.5));
             r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({0.5, 0.5}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(35, 35, Positions(0, -1)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Enemy(100, 10));
@@ -72,7 +72,7 @@ class Game {
         static void CreateObstacle(jgo::Game &r) {
             r.ecs.createEntity();
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(0, 0));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-4, 0)));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-2, 0)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(1700, randomYPos()));
             r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/parallax-space-stars.png", jgo::Rectangle{0, 0, 840, 859}, std::vector<float>{0.05, 0.05}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({2, 2}));
@@ -85,7 +85,7 @@ class Game {
         };
         static void CreateBackGround(jgo::Game &r) {
             r.ecs.createEntity();
-            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("", std::nullopt, std::vector<float>{4, 4}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/parallax-space-backgound.png", std::nullopt, std::vector<float>{4, 4}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(0, 0));
         };
         static void CreateSpaceShip(jgo::Game &r, float time) {
@@ -139,7 +139,7 @@ class Game {
             int screenWidth = 600;
             for (int i = 0; i < 2; ++i) {
                 r.ecs.createEntity();
-                r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("", std::nullopt, std::vector<float>{3, 3}));
+                r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/parallax-space-stars.png", std::nullopt, std::vector<float>{3, 3}));
                 r.ecs.emplaceComp(r.ecs.currentEntity, Positions(screenWidth - 400, 0));
                 r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-1, 0)));
                 r.ecs.emplaceComp(r.ecs.currentEntity, LoopMove(Positions(screenWidth - 400, 0)));
@@ -170,7 +170,7 @@ class Game {
         static void CreateShootModule(jgo::Game &r, Positions &&pos) {
             r.ecs.createEntity();
             r.ecs.emplaceComp(r.ecs.currentEntity, std::move(pos));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("", jgo::Rectangle{208, 32, 20, 20}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet2.gif", jgo::Rectangle{208, 32, 20, 20}, std::vector<float>{1.5, 1.5}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(1, 0)));
             //r.ecs.emplaceComp(2, Sprite_Animation(10, 17, 0.05));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(20, 20));
@@ -182,7 +182,7 @@ class Game {
             r.ecs.createEntity();
             r.ecs.emplaceComp(r.ecs.currentEntity, std::move(pos));
             r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(1, 0)));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("", jgo::Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet2.gif", jgo::Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
             //r.ecs.emplaceComp(r.ecs.currentEntity, Model3D(0, 30, 10, 10, 80));
             //r.ecs.emplaceComp(r.ecs.currentEntity, RotationTime((Vector3){1, 0, 0}, 0, time, 0.1));
             r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(4, 32, 0.5));

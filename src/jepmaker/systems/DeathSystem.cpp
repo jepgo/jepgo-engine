@@ -17,6 +17,7 @@
 #include "jepmaker/components/Death.hpp"
 #include "jepmaker/components/Points.hpp"
 #include "jepmaker/components/Exp.hpp"
+#include "jepmaker/components/Move.hpp"
 
 static void ControlDeath(jgo::Game &game, std::size_t entity)
 {
@@ -26,6 +27,7 @@ static void ControlDeath(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Controllable>(entity);
     game.ecs.removeComponent<Hitable>(entity);
     game.ecs.removeComponent<Shoot>(entity);
+    game.ecs.removeComponent<Move>(entity);
     //game.ecs.creatEntity();
     //game.ecs.emplace_comp(game.ecs.currentEntity, Message("You are dead...", Positions(200, 200), 50, RED));
 }
@@ -35,6 +37,7 @@ static void ModulesDeath(jgo::Game &game, std::size_t entity)
     //game.ecs.removeComponent<Drawable>(entity);
     //game.ecs.removeComponent<Positions>(entity);
     //game.ecs.removeComponent<Model3D>(entity);
+    game.ecs.removeComponent<Move>(entity);
     game.ecs.removeComponent<Controllable>(entity);
     game.ecs.removeComponent<Hitable>(entity);
 }
@@ -46,6 +49,7 @@ static void DeletAll(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Hitable>(entity);
     game.ecs.removeComponent<Life>(entity);
     game.ecs.removeComponent<Colision>(entity);
+    game.ecs.removeComponent<Move>(entity);
     //game.ecs.removeComponent<Model3D>(entity);
 }
 
