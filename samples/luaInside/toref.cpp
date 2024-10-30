@@ -8,26 +8,16 @@ int game_tostring(lua_State *L)
     return 1;
 }
 
+class Foo {
+    public:
+        int n = 0;
+};
+
 int main() {
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
 
-    // Create metatable
-    luaL_newmetatable(L, "MyDataMeta");
-
-    // Set __tostring method
-    lua_pushcfunction(L, game_tostring);
-    lua_setfield(L, -2, "__tostring");
-
-    // Create userdata
-    lua_pushlightuserdata(L, nullptr);
-
-    // Set the metatable for the userdata
-    lua_setmetatable(L, -2);
-
-    // Store userdata in the registry
-    int userdata_ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-    luaL_unref(L, LUA_REGISTRYINDEX, userdata_ref);
+    Foo *ptr = (Foo *)lua_newuserdata(L, sizeof(Foo));
+    ptr->n = 3;
     lua_close(L);
 }

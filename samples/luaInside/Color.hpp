@@ -20,7 +20,11 @@ class Color {
         ~Color() {
             return;
         };
-        inline auto luaFriend() -> std::map<std::string, lua::function> {
+        static inline auto luaName() -> std::string {
+            return "Color";
+        }
+
+        static inline auto luaFunctions() -> std::map<std::string, lua::cfunction> {
             return {
                 { "setColor", Color::_luaSetColor },
                 { "getColor", Color::_luaSetColor },
@@ -30,24 +34,28 @@ class Color {
     private:
         jgo::u8 r, g, b;
 
-        static auto _luaSetColor(lua_State *L) -> int {
-            Color *color = *(Color **)lua_touserdata(L, 1);
+        static auto _luaSetColor(lua_State *l) -> int {
+            lua::State L(l);
+            Color *color = *(Color **)L.get<lua::userdata>(1);
             jgo::u8 nums[3] = {
-                luaL_checkinteger(L, 2),
-                luaL_checkinteger(L, 3),
-                luaL_checkinteger(L, 4),
+                static_cast<jgo::u8>(L.get<lua::integer>(2)),
+                static_cast<jgo::u8>(L.get<lua::integer>(3)),
+                static_cast<jgo::u8>(L.get<lua::integer>(4)),
             };
+
             color->r = nums[0];
             color->g = nums[1];
             color->b = nums[2];
             return 0;
         }
 
-        static auto _luaGetColor(lua_State *L) -> int {
-            Color *color = *(Color **)lua_touserdata(L, 1);
-            lua_pushinteger(L, color->r);
-            lua_pushinteger(L, color->g);
-            lua_pushinteger(L, color->b);
+        static auto _luaGetColor(lua_State *l) -> int {
+            lua::State L(l);
+            Color *color = *(Color **)L.get<lua::userdata>(1);
+
+            L.push(static_cast<lua::integer>(color->r));
+            L.push(static_cast<lua::integer>(color->g));
+            L.push(static_cast<lua::integer>(color->b));
             return 3;
         }
 };

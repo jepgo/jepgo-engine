@@ -44,7 +44,7 @@ public:
     /**
      * Get the register map.
      */
-    std::map<std::type_index, std::any> &getRegister();
+    RuleMap &getRegister();
 
     /**
      * ## DO NOT USE ###
@@ -92,9 +92,9 @@ public:
     /**
      * Get an array of all entities that have the component.
      */
-    template <typename Component>
-    SparseArray<Component> &getComp() {
-        return std::any_cast<SparseArray<Component>&>(_regist[std::type_index(typeid(Component))]);
+    template <typename T>
+    SparseArray<T> &getComp() {
+        return std::any_cast<SparseArray<T>&>(_regist[std::type_index(typeid(T))]);
     }
 
     /**
@@ -105,6 +105,6 @@ public:
     int currentEntity = -1;
 
 private:
-    std::map<std::type_index, std::any> _regist;
+    RuleMap _regist;
     std::vector<RuleCB> _rules;
 };

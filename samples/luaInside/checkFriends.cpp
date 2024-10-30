@@ -17,6 +17,13 @@ class Burnable {
         }
 };
 
+class Scoobidoo {
+    public:
+        void bidoobidoo() {
+            return;
+        }
+};
+
 template <typename T>
 concept LuaFriend = requires(T a) {
     { a.luaFriend(std::declval<int>()) } -> std::same_as<std::vector<int>>;
@@ -30,6 +37,9 @@ void loadLuafriendlyComponent(int n) {
 }
 
 int main() {
-    loadLuafriendlyComponent<Burnable>(3);
+    // loadLuafriendlyComponent<Burnable>(3);
+    if constexpr (LuaFriend<Scoobidoo>) {
+        std::cout << "wahoo !" << std::endl;
+    }
     return 0;
 }
