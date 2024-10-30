@@ -13,6 +13,7 @@
 #include "jepmaker/components/Health.hpp"
 #include "jepmaker/components/Poison.hpp"
 #include "jepmod/exported.hpp"
+#include "Color.hpp"
 
 exported(void) onStart(jgo::Client &game)
 {
@@ -21,6 +22,7 @@ exported(void) onStart(jgo::Client &game)
 
     game.lua->dostring("print('hello, jepgo !')");
     game.lua->useSystem("caca");
+    game.useComponent<Color>();
 }
 
 exported(void) onUpdate(jgo::Client &game)

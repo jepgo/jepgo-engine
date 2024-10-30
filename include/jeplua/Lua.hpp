@@ -10,6 +10,7 @@
 #include <string>
 #include <stdexcept>
 #include <optional>
+#include <utility>
 #include "jepmod/DLLoader.hpp"
 #include "jepmod/EasyLife.hpp"
 
@@ -41,6 +42,20 @@ namespace lua {
     using boolean = bool;
     using userdata = void *;
 
+    using friend_res = std::map<std::string, lua::cfunction>;
+
+    /**
+     * Check if a class is a lua friend
+     */
+    template <typename T>
+    concept LuaFriend = requires {
+        { T::luaFunctions() } -> std::same_as<friend_res>;
+        { T::luaName() } -> std::same_as<std::string>;
+    };
+
+    /**
+     * lua_State encapsulation
+     */
     class State {
         public:
             static std::string PATH;
@@ -100,6 +115,7 @@ namespace lua {
                 _loader.getFunc<void, lua_State *, int>("lua_pushvalue")(L, dup);
             }
 
+            /* Get the size of the stack. */
             int size() {
                 return _loader.getFunc<int, lua_State *>("lua_gettop")(L);
             }
@@ -109,14 +125,30 @@ namespace lua {
                 _loader.getFunc<void, lua_State *, int, int>("lua_createtable")(L, 0, 0);
             }
 
+            /* Create a new user data type. */
+            template <typename T>
+            userdata newUserdata() {
+                return _loader.getFunc<lua::userdata, lua_State *, std::size_t, int>
+                    ("lua_newuserdatav")(L, sizeof(T), 1);
+            }
+
             /* Set a table field */
             void setField(std::string const &name, int index = -2) {
                 _loader.getFunc<void, lua_State *, int, char const *>("lua_setfield")(L, index, name.c_str());
             }
 
+            void setTable(int index = -3) {
+                _loader.getFunc<void, lua_State *, int>("lua_settable")(L, index);
+            }
+
             /* Set the metatable */
             void setMetatable(int index = -2) {
                 _loader.getFunc<void, lua_State *, int>("lua_setmetatable")(L, index);
+            }
+
+            /* Get the metatable */
+            void getMetatable(int index = -1) {
+                _loader.getFunc<void, lua_State *, int>("lua_getmetatable")(L, index);
             }
 
             /* Execute a line of code */
@@ -183,7 +215,7 @@ namespace jgo {
     class LuaHelper: public lua::State {
         public:
 
-            LuaHelper(std::string const &where);
+            LuaHelper(std::string const &where, Register &reg);
 
             ~LuaHelper();
 
@@ -194,8 +226,30 @@ namespace jgo {
              * Call all lua systems.
              */
             void callAllSystems(void);
+
+            /**
+             * Apply the lua friend function.
+             */
+            template <lua::LuaFriend T>
+            void applyComponent() {
+                std::cout << "apply component" << std::endl;
+            }
         
         private:
+            struct {
+                std::function<std::vector<int>()> f;
+            } _Wrapper;
+
+            void ivector2table(std::vector<int> const &v) {
+                newTable();
+                for (size_t n = 0; n < v.size(); ++n) {
+                    push(static_cast<lua::integer>(n + 1));
+                    push(static_cast<lua::integer>(v[n]));
+                    setTable();
+                }
+            }
+
+            Register &_reg;
             std::vector<int> _refs;
             int _gameIndex;
     };

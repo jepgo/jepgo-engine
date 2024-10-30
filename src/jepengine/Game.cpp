@@ -35,9 +35,9 @@ auto jgo::Game::loadGraphic(std::string const &lib) -> void
     _graphicLib = loader.getFunc<std::unique_ptr<jgo::IGraphic>>("createLibrary")();
 }
 
-auto jgo::Game::getTime(void) -> float
+auto jgo::Game::getTime(void) -> double
 {
-    return static_cast<float>(_clock());
+    return _clock().get();
 }
 
 auto jgo::Game::callSystems(void) -> void

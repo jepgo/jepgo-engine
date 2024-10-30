@@ -14,7 +14,7 @@ class Poison {
     public:
         inline Poison(int dmg = 10, float freq = 1.0f)
         : _damage(dmg), _frequency(freq),
-            _stamp(static_cast<float>(jmod::ClockPP())) {
+            _stamp(jmod::ClockPP().get()) {
             return;
         }
         inline auto getDamage() const noexcept -> int {
@@ -29,5 +29,5 @@ class Poison {
     private:
         int _damage;
         float _frequency;
-        float _stamp;
+        double _stamp;
 };
