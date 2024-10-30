@@ -12,6 +12,8 @@
 #include <memory>
 #include <functional>
 
+#include "jepengine/exceptions.hpp"
+
 #if defined(WINDOWS) || defined(_WIN32)
     #include <windows.h>
 
@@ -95,7 +97,7 @@ namespace jmod {
                     #if defined(WINDOWS) || defined(_WIN32)
                     throw WindowsRuntimeError(GetLastError());
                     #else
-                    throw std::runtime_error(dlerror());
+                    throw jgo::errors::DLError(dlerror());
                     #endif
                 return access;
             }
