@@ -61,7 +61,7 @@ namespace jgo {
              * `game.loadLua();`
              */
             auto loadLua(void) -> void {
-                lua.emplace(jmod::EasyLife()/"sharedlua");
+                lua.emplace(jmod::EasyLife()/"sharedlua", ecs);
             }
 
             /**
@@ -89,6 +89,8 @@ namespace jgo {
                 this->ecs.addRule([](Register::RuleMap &r) {
                     std::any_cast<SparseArray<T>&>(r[std::type_index(typeid(T))]).add();
                 });
+                if constexpr (lua::LuaFriend<T>) if (lua)
+                    lua->applyComponent<T>();
             }
 
             /**
@@ -99,7 +101,7 @@ namespace jgo {
             /**
              * Get the time from the beginning of the game.
              */
-            auto getTime(void) -> float;
+            auto getTime(void) -> double;
 
             /**
              * Get the graphic lib (throw if not exists)
