@@ -18,7 +18,7 @@ static void Todraw(jgo::Game &game, Positions &pos, std::optional<jgo::Rectangle
             game.getGraphicLib()->drawImage(index, rect.value(), jgo::Rectangle{pos.x, pos.y, a, b}, jgo::Vector2{scale[0], scale[1]});
             //DrawTexturePro(textures[index], rect.value(), Rectangle{pos.x, pos.y, a, b}, {pos.x / 2, pos.y / 2}, 0, WHITE);
         } else {
-            
+            game.getGraphicLib()->drawImage(index, jgo::Rectangle{-1, -1, -1, -1}, jgo::Rectangle{pos.x, pos.y, 0, 0}, jgo::Vector2{scale[0], scale[1]});
             //DrawTextureEx(textures[index], {pos.x, pos.y}, 0.0f, scale[0], WHITE);
         }
 }
@@ -38,6 +38,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &t)
     for (std::size_t i = 0; i < draw.size(); ++i) {
         if (draw[i].has_value() && pos[i].has_value()) {
             Drawable &tmp = draw[i].value();
+            std::cout << "i Draw the = " << tmp.getIndex() << std::endl;
             Todraw(game, pos[i].value(), tmp.getRect(), tmp.getIndex(), tmp.getScale());
         }
     }
