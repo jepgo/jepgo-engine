@@ -41,5 +41,12 @@ namespace jgo::errors {
             }
     };
 
+    class DLError: BaseException {
+        public:
+            DLError(std::string const &what): BaseException(what) {
+                error = "DLError";
+            }
+    };
+
 }
 
