@@ -51,6 +51,9 @@
 #include "jepmaker/components/Dmg.hpp"
 #include "jepmaker/components/BombGeneration.hpp"
 #include "jepmaker/components/BombGenerationTime.hpp"
+#include "jepmaker/components/AutoShoot.hpp"
+#include "jepmaker/components/LvlUp.hpp"
+#include "jepmaker/components/Animation2Time.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
@@ -58,15 +61,17 @@ exported(void) onStart(jgo::Client &game)
 {
     game.loadGraphic("Raylib");
     game.useComponent<Positions>("KeySystem");
+    game.useComponent<Hitable>("HitSystem");
     game.useComponent<Move>("MoveSystem");
     game.useComponent<Sprite_Animation>("AnimationSpriteSystem");
     game.useComponent<Invincible>("InvincibleSystem");
-    game.useComponent<Hitable>("HitSystem");
+    game.useComponent<AutoShoot>("AutoShootSystem");
     game.useComponent<Module>("ModuleSystem");
     game.useComponent<DoDmg>("DoDmgSystem");
     game.useComponent<Dmg>("DmgSystem");
     game.useComponent<Death>("DeathSystem");
     game.useComponent<Explosion>("ExplosionSystem");
+    game.useComponent<Animation2Time>("Animation2TimeSystem");
     game.useComponent<BombGeneration>("BombGenerationSystem");
     game.useComponent<BombGenerationTime>("BombGenerationTimeSystem");
     game.useComponent<Drawable>("Draw2DSystem");
@@ -91,7 +96,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Exp>();
     game.useComponent<Points>();
     game.useComponent<DrawPoints>();
-    game.useComponent<Lvl>();
+    game.useComponent<Lvl>("GameLogic");
     game.useComponent<DrawLvl>();
     game.useComponent<DistanceKm>();
     game.useComponent<DrawKm>();
@@ -99,6 +104,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Hit>();
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
+    game.useComponent<LvLUp>();
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
@@ -112,7 +118,6 @@ exported(void) onStart(jgo::Client &game)
         "sprites/parallax-space-ring-planet.png",
         "sprites/parallax-space-stars.png"
     });
-    
     Game::CreatePlayer(game, 800, 600);
     Game::CreateBoostModule(game, 0);
     Game::CreateEasyEnemies(game);
