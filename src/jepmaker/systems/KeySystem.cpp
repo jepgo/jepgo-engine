@@ -15,7 +15,6 @@
 #include "jepmaker/components/Position.hpp"
 #include "jepmaker/components/Game.hpp"
 #include "jepmaker/components/EnumDirection.hpp"
-#include <raylib.h>
 
 static bool IsKeyDown(std::vector<jgo::u32> &key, jgo::u32 find)
 {
@@ -38,18 +37,18 @@ static std::array<float, 2> getDirectionVector(std::vector<jgo::u32> &vec)
 static void ToShoot(jgo::Game &game, Positions &pos, Direction &_direction, int &_decal)
 {
     std::cout << "directionnnnnnnnnnnnnnnnnnnn ============== " << _direction << std::endl;
-    if (_direction == LEFT) {
-        std::cout << "shhooooooooooooooooot" << std::endl;
-        Game::CreateShipShoot(game, pos + Positions(0 - _decal, 0));
-    }
-    else if (_direction == RIGHT) {
-        std::cout << "shhooooooooooooooooot" << std::endl;
-        Game::CreateShipShoot(game, pos + Positions(0 + _decal, 0));
-    }
-    else if (_direction == UP)
-        Game::CreateShipShoot(game, pos + Positions(0, 0 - _decal));
-    else if (_direction == DOWN)
-        Game::CreateShipShoot(game, pos + Positions(0, 0 + _decal));
+    // if (_direction == LEFT) {
+    //     std::cout << "shhooooooooooooooooot" << std::endl;
+    //     Game::CreateShipShoot(game, pos + Positions(0 - _decal, 0));
+    // }
+    // else if (_direction == RIGHT) {
+    //     std::cout << "shhooooooooooooooooot" << std::endl;
+    //     Game::CreateShipShoot(game, pos + Positions(0 + _decal, 0));
+    // }
+    // else if (_direction == UP)
+    //     Game::CreateShipShoot(game, pos + Positions(0, 0 - _decal));
+    // else if (_direction == DOWN)
+    //     Game::CreateShipShoot(game, pos + Positions(0, 0 + _decal));
 }
 
 static void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, int key)

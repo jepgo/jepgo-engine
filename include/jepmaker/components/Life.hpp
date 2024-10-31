@@ -12,5 +12,4 @@ class Life {
         Life(int life) : _life(life) {};
         ~Life(){};
         int _life;
-    private:
 };
