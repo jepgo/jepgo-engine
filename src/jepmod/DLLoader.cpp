@@ -35,7 +35,11 @@ DLLoader::DLLoader(std::string fullpath)
     if (_ptr == nullptr)
         throw WindowsRuntimeError(GetLastError());
     #else
+    #if defined(__APPLE__)
     filename = a + "lib" + b + ".so";
+    #else
+    filename = a + "lib" + b + ".so";
+    #endif
     _ptr = dlopen(filename.c_str(), RTLD_LAZY);
     if (_ptr == nullptr)
         throw std::runtime_error(dlerror());
