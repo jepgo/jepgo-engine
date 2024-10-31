@@ -14,7 +14,7 @@ jobs:
       - name: Pull and run build.sh in Epitech Marvin container
         run: |
           docker pull epitechcontent/epitest-docker
-          docker run --rm -v $(pwd):/project -w /project epitechcontent/epitest-docker bash -c "./build.sh"
+          docker run --rm -v $(pwd):/project -w /project epitechcontent/epitest-docker bash -c "./linux.sh"
 
   to_gitlab:
     runs-on: ubuntu-latest
