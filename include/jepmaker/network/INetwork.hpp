@@ -104,11 +104,13 @@ namespace jgo {
             /**
              * Send some data to the server.
              */
-            virtual std::vector<NetMessage>
+            virtual void
             sendToServer(std::vector<jgo::u8> const &data) = 0;
 
             /**
              * Get the most recent server message.
+             *
+             * If there is no message, it should reteurn an empty vector.
              */
             virtual std::vector<jgo::u8>
             getMessage(void) = 0;

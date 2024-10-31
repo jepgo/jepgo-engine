@@ -16,3 +16,10 @@ void jgo::Server::loadNetworkServer(std::string const &lib)
 
     _server.emplace(loader.getFunc<std::shared_ptr<IServer>>("getServer")());
 }
+
+void jgo::Client::loadNetworkClient(std::string const &lib)
+{
+    jmod::DLLoader loader(jmod::EasyLife() / "jepgo.network." + lib);
+
+    _client.emplace(loader.getFunc<std::shared_ptr<IClient>>("getClient")());
+}

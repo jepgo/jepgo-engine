@@ -9,43 +9,47 @@
 #include <chrono>
 #include <thread>
 
-#include "jepengine/Server.hpp"
+#include "jepengine/Client.hpp"
 #include "jepmod/exported.hpp"
 
-exported(void) onStart(jgo::Server &game)
+exported(void) onStart(jgo::Client &game)
 {
-    game.loadNetworkServer("Asio");
-    std::cout << "server has started !" << std::endl;
+    game.loadNetworkClient("Asio");
+    std::cout << "ckient has started !" << std::endl;
 }
 
-exported(void) onUpdate(jgo::Server &game)
+exported(void) onBegin(jgo::Client &game)
 {
-    std::cout << "send to them" << std::endl;
-    game.sendToAll("howdy clients !");
+    game.sendToServer("hello");
+}
+
+exported(void) onUpdate(jgo::Client &game)
+{
     return;
 }
 
-exported(void) onMessage(jgo::Server &game, jgo::NetMessage const &msg)
+exported(void) onServerMessage(jgo::Client &game, std::vector<jgo::u8> const &msg)
 {
     std::cout << "received "
-        << std::string(msg.first.cbegin(), msg.first.cend())
-        << " from "
-        << msg.second->getIP() << ":" << msg.second->getPort()
+        << msg.size()
+        << "bytes"
         << std::endl;
 }
 
 int main(int ac, char const *const av[])
 {
-    jgo::Server game(ac, av);
+    jgo::Client game(ac, av);
 
     onStart(game);
     if (game.hasGraphicLib())
         game.getGraphicLib()->openWindow("my windows", {0, 0, 800, 600});
-    if (game.hasNetwork()) game.host(4242);
+    if (game.hasNetwork()) game.connect("localhost", 4242);
+    onBegin(game);
     while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
-        if (game.hasNetwork())
-            for (auto const &msg : game.getMessages())
-                onMessage(game, msg);
+        if (game.hasNetwork()) {
+            auto const msg = game.getServerMessage();
+            if (not msg.empty()) onServerMessage(game, msg);
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         onUpdate(game);
         if (game.hasGraphicLib()) game.getGraphicLib()->update();

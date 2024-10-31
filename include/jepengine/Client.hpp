@@ -29,7 +29,7 @@ namespace jgo {
             /**
              * Load a network library.
              */
-            auto loadNetworkClient(std::string const &lib);
+            auto loadNetworkClient(std::string const &lib) -> void;
 
             /**
              * Requires `loadNetwork()`.
@@ -43,10 +43,41 @@ namespace jgo {
             /**
              * Requires `loadNetwork()`.
              * 
+             * Send a string to the server.
+             */
+            inline auto sendToServer(std::string const &str) -> void {
+                _client->get()->sendToServer(
+                    std::vector<jgo::u8>(str.cbegin(), str.cend())
+                );
+            }
+
+            /**
+             * Requires `loadNetwork()`.
+             * 
+             * Get the latest server message.
+             * If none, it should return an empty vector.
+             */
+            inline auto getServerMessage(void) -> std::vector<jgo::u8> {
+                return _client->get()->getMessage();
+            }
+
+            /**
+             * Requires `loadNetwork()`.
+             * 
              * Connect to a server.
              */
             auto connect(std::string const &ip, u16 port) -> void {
-                _client->get()->connect(ip, port);
+                if (ip == "localhost")
+                    _client->get()->connect("127.0.0.1", port);
+                else
+                    _client->get()->connect(ip, port);
+            }
+
+            /**
+             * Check if you have network.
+             */
+            auto hasNetwork(void) -> bool {
+                return static_cast<bool>(_client);
             }
 
             /**

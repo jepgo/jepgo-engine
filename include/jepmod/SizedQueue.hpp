@@ -11,11 +11,11 @@
 #include <cstddef>
 #include <stdexcept>
 
-template <typename T>
+template <typename T, std::size_t S>
 class SizedQueue {
     public:
-        SizedQueue(std::size_t maxSize): _maxSize(maxSize) {
-            if (not maxSize)
+        SizedQueue(void): _maxSize(S) {
+            if (not _maxSize)
                 throw std::invalid_argument("expected more than 0");
         }
 
@@ -51,5 +51,5 @@ class SizedQueue {
 
     private:
         std::queue<T> _q;
-        std::size_t _maxSize;
+        std::size_t _maxSize = S;
 };
