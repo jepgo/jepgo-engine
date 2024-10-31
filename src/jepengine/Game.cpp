@@ -21,12 +21,6 @@ auto jgo::Game::compile(void) -> bool
     return true;
 }
 
-auto jgo::Game::loadNetwork(std::string const &lib) -> void
-{
-    std::string realLib = jmod::EasyLife()/"jepgo.network." + lib;
-}
-    // _libs["network"] = jmod::DLLoader(realLib);
-
 auto jgo::Game::loadGraphic(std::string const &lib) -> void
 {
     std::string realLib = jmod::EasyLife()/"jepgo.graphic." + lib;

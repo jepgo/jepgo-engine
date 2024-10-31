@@ -16,6 +16,7 @@
 #include "jepengine/types.hpp"
 #include "jepengine/exceptions.hpp"
 #include "jepmaker/network/INetwork.hpp"
+#include "jepmod/exported.hpp"
 
 using udp = asio::ip::udp;
 
@@ -38,9 +39,10 @@ class AsioServer: public jgo::IServer {
         inline AsioServer() : _socket(_context) {
             return;
         }
-        void host(jgo::u16 port);
-        void stop(void);
-        std::vector<jgo::NetMessage> getAllMessages(void);
+        void host(jgo::u16 port) override;
+        void stop(void) override;
+        std::vector<jgo::NetMessage> getAllMessages(void) override;
+        void sendToAll(std::vector<jgo::u8> const &data) override;
 
     private:
         void _startReceiving(void);
@@ -104,7 +106,10 @@ void AsioServer::_processMessage(udp::endpoint const &endpoint)
             start + jgo::MAGIC_START.length(),
             end - start - jgo::MAGIC_START.length() - jgo::MAGIC_END.length()
         ));
-        _messages.emplace_back(message, std::make_shared<AsioConnection>(endpoint));
+        _messages.emplace_back(
+            std::vector<jgo::u8>(message.begin(), message.end()),
+            std::make_shared<AsioConnection>(endpoint)
+        );
         buf.erase(0, end);
         start = 0;
     }
@@ -114,6 +119,7 @@ void AsioServer::_handleReceive(std::error_code const &err, std::size_t bytes, B
 {
     if (err)
         throw jgo::errors::NetworkError("asio", err.message());
+
     std::string data(reinterpret_cast<char *>(buf->data()), bytes);
     _buffers[_endpoint].append(data);
     _processMessage(_endpoint);
@@ -123,12 +129,26 @@ void AsioServer::_handleReceive(std::error_code const &err, std::size_t bytes, B
 void AsioServer::_startReceiving(void)
 {
     Buffer buf = std::make_shared<std::array<char, jgo::BUFFER_SIZE>>();
+
     _socket.async_receive_from(
         asio::buffer(*buf), _endpoint,
         [this, buf](std::error_code err, std::size_t bytes) {
             _handleReceive(err, bytes, buf);
         }
     );
+}
+
+void AsioServer::sendToAll(std::vector<jgo::u8> const &vec)
+{
+    std::string const message(vec.begin(), vec.end());
+    std::string const fullMessage = jgo::MAGIC_START + message + jgo::MAGIC_END;
+
+    for (auto const &e : _buffers) {
+        _socket.async_send_to(asio::buffer(fullMessage), e.first,
+            [this](std::error_code err, std::size_t bytes) -> void {
+                return;
+            });
+    }
 }
 
 void AsioServer::stop(void)
@@ -195,20 +215,35 @@ void AsioClient::stop() {
     _context.stop();
 }
 
-int main(void)
+exported(std::shared_ptr<jgo::IServer>) getServer(void)
 {
-    std::shared_ptr<jgo::IServer> server = std::make_shared<AsioServer>();
-    
-    std::thread serverThread([&server]() {
-        server->host(8080);
-    });
-    std::cout << jgo::MAGIC_START << std::endl;
-    while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        for (auto const &msg : server->getAllMessages())
-            std::cout << "=> " << msg.first << std::endl;
-    }
-    server->stop();
-    serverThread.join();
-    return 0;
+    return std::make_shared<AsioServer>();
 }
+
+// exported(std::shared_ptr<jgo::IClient>) getClient(void)
+// {
+//     return std::make_shared<AsioClient>();
+// }
+
+// int main(void)
+// {
+//     std::shared_ptr<jgo::IServer> server = std::make_shared<AsioServer>();
+//     std::string str;
+//     std::string const msg = "Hello client !";
+//     std::vector<jgo::u8> const bytes(msg.begin(), msg.end());
+    
+//     std::thread serverThread([&server]() {
+//         server->host(8080);
+//     });
+//     while (true) {
+//         std::this_thread::sleep_for(std::chrono::seconds(1));
+//         server->sendToAll(bytes);
+//         for (auto const &msg : server->getAllMessages()) {
+//             str = std::string(msg.first.begin(), msg.first.end());
+//             std::cout << "=> " << str << std::endl;
+//         }
+//     }
+//     server->stop();
+//     serverThread.join();
+//     return 0;
+// }

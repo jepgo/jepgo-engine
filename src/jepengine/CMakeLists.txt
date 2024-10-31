@@ -6,6 +6,7 @@ ADD_LIBRARY(jepengine STATIC
     Register.cpp
 	Game.cpp
     LuaHelper.cpp
+    Network.cpp
 )
 
 TARGET_INCLUDE_DIRECTORIES(jepengine PRIVATE ../../include)

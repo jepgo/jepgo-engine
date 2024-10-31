@@ -16,9 +16,13 @@
 namespace jgo {
 
     static int const BUFFER_SIZE = 1024;
-    static jgo::u32 const MAGIC_NUMBER = 1769630074;
-    static std::string const MAGIC_START(reinterpret_cast<char const *>(&MAGIC_NUMBER), 4);
-    static std::string const MAGIC_END(reinterpret_cast<char const *>(&MAGIC_NUMBER), 4);
+    // static jgo::u32 const MAGIC_NUMBER = 1769630074;
+    // static std::string const MAGIC_START(reinterpret_cast<char const *>(&MAGIC_NUMBER), 4);
+    // static std::string const MAGIC_END(reinterpret_cast<char const *>(&MAGIC_NUMBER), 4);
+    static std::string const MAGIC_START = "*start*";
+    static std::string const MAGIC_END = "*end*";
+    static u8 MESSAGE_BYTE = 0x42;
+    static u8 COMPONENT_BYTE = 0x84;
 
     /**
      * A connection is a wrapper around a Port and an IP
@@ -39,7 +43,10 @@ namespace jgo {
     /**
      * A Message is a pair of string and Connection.
      */
-    using NetMessage = std::pair<std::string, std::shared_ptr<IConnection>>;
+    using NetMessage = std::pair<
+        std::vector<jgo::u8>,
+        std::shared_ptr<IConnection>
+    >;
 
     class IServer {
         public:
@@ -67,21 +74,27 @@ namespace jgo {
              */
             virtual std::vector<NetMessage>
             getAllMessages(void) = 0;
+
+            /**
+             * Send something to everyone.
+             */
+            virtual void
+            sendToAll(std::vector<jgo::u8> const &data) = 0;
             
     };
 
     class IClient {
         public:
             /**
-             * Host a server.
+             * Connect to a server.
              * 
-             * It should begin listening on the specified port.
+             * It should connect to the specified port with the specified ip.
              */
             virtual void
-            host(jgo::u16 port) = 0;
+            connect(std::string const &ip, jgo::u16 port) = 0;
 
             /**
-             * Stop your server.
+             * Stop your client.
              * 
              * It should free the ressources (if needed) and stop connections.
              */
@@ -89,14 +102,16 @@ namespace jgo {
             stop(void) = 0;
 
             /**
-             * Get all messages.
-             * 
-             * A message is a duo variable containing a string and a shared
-             * pointer to a IConnection.
+             * Send some data to the server.
              */
             virtual std::vector<NetMessage>
-            getAllMessages(void) = 0;
-            
+            sendToServer(std::vector<jgo::u8> const &data) = 0;
+
+            /**
+             * Get the most recent server message.
+             */
+            virtual std::vector<jgo::u8>
+            getMessage(void) = 0;
     };
 }
 
