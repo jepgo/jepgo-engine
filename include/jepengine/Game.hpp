@@ -108,7 +108,7 @@ namespace jgo {
              * Get the graphic lib (throw if not exists)
              */
             inline auto getGraphicLib(void) ->
-                std::unique_ptr<jgo::IGraphic> & {
+                std::shared_ptr<jgo::IGraphic> & {
                 if (not _graphicLib)
                     throw jgo::errors::NoGraphic();
                 return *_graphicLib;
@@ -145,7 +145,7 @@ namespace jgo {
             /**
              * The graphic library (if any)
              */
-            std::optional<std::unique_ptr<jgo::IGraphic>> _graphicLib;
+            std::optional<std::shared_ptr<jgo::IGraphic>> _graphicLib;
 
             /**
              * The components.

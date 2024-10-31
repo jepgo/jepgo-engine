@@ -26,7 +26,7 @@ auto jgo::Game::loadGraphic(std::string const &lib) -> void
     std::string realLib = jmod::EasyLife()/"jepgo.graphic." + lib;
     jmod::DLLoader loader(realLib);
 
-    _graphicLib = loader.getFunc<std::unique_ptr<jgo::IGraphic>>("createLibrary")();
+    _graphicLib = loader.getFunc<std::shared_ptr<jgo::IGraphic>>("createLibrary")();
 }
 
 auto jgo::Game::getTime(void) -> double

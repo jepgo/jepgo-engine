@@ -134,7 +134,7 @@ class YourLib: public IGraphic {
 /**
  * Your generate function.
  */
-exported(std::unique_ptr<IGraphic>) generate(void) {
-    return std::make_unique<IGraphic>(YourLib());
+exported(std::shared_ptr<IGraphic>) generate(void) {
+    return std::make_shared<IGraphic>(YourLib());
 }
 ```

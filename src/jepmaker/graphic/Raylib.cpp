@@ -345,6 +345,6 @@ void Raylib::closeWindow(void)
     CloseWindow();
 }
 
-exported(std::unique_ptr<jgo::IGraphic>) createLibrary(void) {
-    return std::make_unique<Raylib>(Raylib());
+exported(std::shared_ptr<jgo::IGraphic>) createLibrary(void) {
+    return std::make_shared<Raylib>(Raylib());
 }
