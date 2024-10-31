@@ -26,6 +26,7 @@ add_subdirectory(src/jepengine)
 add_subdirectory(src/jepmod)
 add_subdirectory(src/jepmaker/systems)
 add_subdirectory(src/jepmaker/graphic)
+add_subdirectory(src/jepmaker/network)
 # add_subdirectory(src/jep3rdparty/lua)
 
 # # game.client

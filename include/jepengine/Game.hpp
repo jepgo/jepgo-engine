@@ -42,13 +42,6 @@ namespace jgo {
             auto compile(void) -> bool;
 
             /**
-             * Load a network module.
-             * 
-             * `game.loadNetwork("asio");`
-             */
-            auto loadNetwork(std::string const &name) -> void;
-
-            /**
              * Load a graphic module.
              * 
              * `game.loadGraphic("raylib");`
