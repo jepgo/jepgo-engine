@@ -10,7 +10,8 @@
 #include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/Position.hpp"
 
-static void Todraw(jgo::Game &game, Positions &pos, std::optional<jgo::Rectangle> &rect, std::string &index, std::array<float, 2> scale)
+static void 
+Todraw(jgo::Game &game, Positions &pos, std::optional<jgo::Rectangle> &rect, std::string &index, std::array<float, 2> scale)
 {
         if (rect.has_value()) {
             float a = (rect.value().width * scale[0]);
@@ -38,7 +39,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &t)
     for (std::size_t i = 0; i < draw.size(); ++i) {
         if (draw[i].has_value() && pos[i].has_value()) {
             Drawable &tmp = draw[i].value();
-            std::cout << "i Draw the = " << tmp.getIndex() << std::endl;
             Todraw(game, pos[i].value(), tmp.getRect(), tmp.getIndex(), tmp.getScale());
         }
     }

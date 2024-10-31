@@ -28,6 +28,7 @@ static void ToExplose(jgo::Game &game, std::size_t entity, std::optional<jgo::Re
 
     game.ecs.removeComponent<Hitable>(entity);
     game.ecs.removeComponent<Move>(entity);
+    game.ecs.removeComponent<Explosion>(entity);
 }
 
 exported(void) jepgoSystem(jgo::Game &game, float &t)
