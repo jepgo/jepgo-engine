@@ -57,17 +57,17 @@ class Game {
         static void CreateEasyEnemies(jgo::Game &r) {
             r.ecs.createEntity();
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(0, 0));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-1, 0)));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-4, 0)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(1700, randomYPos()));
             r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet3.gif", jgo::Rectangle{0, 0, 17, 18}, std::vector<float>{1.5, 1.5}));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(10, 17, 0.5));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(10, 17, 0.05));
             r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({0.5, 0.5}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(35, 35, Positions(0, -1)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Enemy(100, 10));
             r.ecs.emplaceComp(r.ecs.currentEntity, Life(10));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(5));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(BOMB));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
         };
         static void CreateObstacle(jgo::Game &r) {
             r.ecs.createEntity();
@@ -81,7 +81,7 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Life(10));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(10));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(BOMB));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
         };
         static void CreateBackGround(jgo::Game &r) {
             r.ecs.createEntity();
@@ -103,7 +103,7 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(BOMB));
             r.ecs.emplaceComp(r.ecs.currentEntity, MoveToPlayer(4));
             r.ecs.emplaceComp(r.ecs.currentEntity, MoveToPlayerTime(time, 6));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
         };
         static void CreateBomb(jgo::Game &r, Positions &&pos, float time, float reset) {
             r.ecs.createEntity();
@@ -118,7 +118,7 @@ class Game {
             //r.ecs.emplaceComp(r.ecs.currentEntity, Life(30));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(10));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(BOMB));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 
         };
         static void CreatePlanet(jgo::Game &r) {
@@ -156,12 +156,12 @@ class Game {
             r.ecs.createEntity();
             r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{229, 100, 20, 20}, std::vector<float>{1.5, 1.5}));
             r.ecs.emplaceComp(r.ecs.currentEntity, std::move(pos));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(10, 0)));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(20, 0)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(40, 40));
             r.ecs.emplaceComp(r.ecs.currentEntity, Life(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(10));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(SHIPSHOOT));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 
         };
         static void CreateMiniBoss1(jgo::Game &r, Positions &&) {
@@ -185,19 +185,19 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet2.gif", jgo::Rectangle{173, 345, 32, 32}, std::vector<float>{1.5, 1.5}));
             //r.ecs.emplaceComp(r.ecs.currentEntity, Model3D(0, 30, 10, 10, 80));
             //r.ecs.emplaceComp(r.ecs.currentEntity, RotationTime((Vector3){1, 0, 0}, 0, time, 0.1));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(4, 32, 0.5));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(4, 32, 0.2));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(80, 90));
             r.ecs.emplaceComp(r.ecs.currentEntity, ModuleArmor({{LEFT, 170}, {UP, 0}, {RIGHT, 0}, {DOWN, 0}}, Life(1000), 10));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(NEUTRAL));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(30));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
         };
         static void CreatePlayer(jgo::Game &r, int height, int width) {
             r.ecs.createEntity();
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(200, 200));
             r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
             //r.ecs.emplaceComp(r.ecs.currentEntity, Model3D(1, 70, 40, 10));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({3, 3}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({7, 7}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Colision(30, 18));
             r.ecs.emplaceComp(r.ecs.currentEntity, Controllable());
             r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
@@ -216,7 +216,7 @@ class Game {
             //r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Positions(10, 540), 15, RED));
             r.ecs.emplaceComp(r.ecs.currentEntity, DistanceKm());
             //r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Positions(650, 20), 30, GREEN));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
         };
         static void CreateBoostModule(jgo::Game &r, std::size_t PlayerEntity) {
             r.ecs.createEntity();

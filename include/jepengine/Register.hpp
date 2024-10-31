@@ -103,6 +103,7 @@ public:
     std::size_t entityNbr(void) const;
 
     int currentEntity = -1;
+    int tmp = -1;
 
 private:
     RuleMap _regist;

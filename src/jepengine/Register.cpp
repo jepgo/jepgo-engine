@@ -6,6 +6,8 @@
 */
 
 #include "jepengine/Register.hpp"
+#include "jepmaker/components/Free.hpp"
+
 
 Register::Register()
 {
@@ -19,7 +21,16 @@ Register::~Register()
 
 void Register::createEntity()
 {
-    currentEntity++;
+    auto &free = getComp<Free>();
+
+    for (std::size_t i = 0; i < free.size(); i++)
+        if (free[i].has_value()) {
+            currentEntity = i;
+            removeComponent<Free>(i);
+            return;
+        }
+    tmp++;
+    currentEntity = tmp;
     for (auto const &cb : _rules)
         cb(_regist);
 }
@@ -32,5 +43,5 @@ std::map<std::type_index, std::any> &Register::getRegister()
 std::size_t Register::entityNbr(void) const
 {
     // return std::any_cast<SparseArray<Positions>>(regist[std::type_index(typeid(Positions))]).size();
-    return currentEntity + 1;
+    return tmp + 1;
 }

@@ -18,6 +18,8 @@
 #include "jepmaker/components/Points.hpp"
 #include "jepmaker/components/Exp.hpp"
 #include "jepmaker/components/Move.hpp"
+#include "jepmaker/components/SpriteStatus.hpp"
+#include "jepmaker/components/Drawable2D.hpp"
 
 static void ControlDeath(jgo::Game &game, std::size_t entity)
 {
@@ -28,6 +30,7 @@ static void ControlDeath(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Hitable>(entity);
     game.ecs.removeComponent<Shoot>(entity);
     game.ecs.removeComponent<Move>(entity);
+    game.ecs.removeComponent<Sprite_Status>(entity);
     //game.ecs.creatEntity();
     //game.ecs.emplace_comp(game.ecs.currentEntity, Message("You are dead...", Positions(200, 200), 50, RED));
 }
@@ -47,7 +50,7 @@ static void DeletAll(jgo::Game &game, std::size_t entity)
     // game.ecs.removeComponent<Drawable>(entity);
     // game.ecs.removeComponent<Positions>(entity);
     game.ecs.removeComponent<Hitable>(entity);
-    game.ecs.removeComponent<Life>(entity);
+    //game.ecs.removeComponent<Life>(entity);
     game.ecs.removeComponent<Colision>(entity);
     game.ecs.removeComponent<Move>(entity);
     //game.ecs.removeComponent<Model3D>(entity);

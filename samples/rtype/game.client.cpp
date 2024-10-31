@@ -70,6 +70,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Module>("ModuleSystem");
     game.useComponent<DoDmg>("DoDmgSystem");
     game.useComponent<Dmg>("DmgSystem");
+    game.useComponent<Free>("FreeSystem");
     game.useComponent<Death>("DeathSystem");
     game.useComponent<Explosion>("ExplosionSystem");
     game.useComponent<Animation2Time>("Animation2TimeSystem");
@@ -106,7 +107,6 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
     game.useComponent<LvLUp>();
-    game.useComponent<Free>("FreeSystem");
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
@@ -134,6 +134,7 @@ exported(void) onStart(jgo::Client &game)
 // system's call.
 exported(void) onUpdate(jgo::Client &game)
 {
+    //std::cout << "nbr of entity = " << game.ecs.entityNbr() << std::endl;
     return;
 }
 
