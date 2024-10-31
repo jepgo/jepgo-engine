@@ -8,7 +8,7 @@ foreach(file ${files})
     message(${finalName})
     # message(${file})
     add_library(${finalName} SHARED ${file})
-    target_include_directories(${finalName} PRIVATE ../../../include)
+    target_include_directories(${finalName} PRIVATE ../../../include ${asio_SOURCE_DIR}/asio/include)
     target_link_libraries(${finalName} jepengine jepmod)
     ADD_CUSTOM_COMMAND(TARGET ${finalName} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
