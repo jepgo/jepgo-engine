@@ -15,7 +15,6 @@
 #include "jepmaker/components/Position.hpp"
 #include "jepmaker/components/Game.hpp"
 #include "jepmaker/components/EnumDirection.hpp"
-#include <raylib.h>
 
 static bool IsKeyDown(std::vector<jgo::u32> &key, jgo::u32 find)
 {
