@@ -36,7 +36,7 @@ DLLoader::DLLoader(std::string fullpath)
         throw WindowsRuntimeError(GetLastError());
     #else
     #if defined(__APPLE__)
-    filename = a + "lib" + b + ".so";
+    filename = a + "lib" + b + ".dylib";
     #else
     filename = a + "lib" + b + ".so";
     #endif
