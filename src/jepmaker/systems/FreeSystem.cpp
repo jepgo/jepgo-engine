@@ -53,6 +53,7 @@
 #include "jepmaker/components/LvlUp.hpp"
 #include "jepmaker/components/Animation2Time.hpp"
 #include "jepmaker/components/Free.hpp"
+#include "jepmaker/components/ToFree.hpp"
 
 static void removeAll(jgo::Game &game, std::size_t entity)
 {
@@ -101,6 +102,7 @@ static void removeAll(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Colision>(entity);
     game.ecs.removeComponent<Controllable>(entity);
     game.ecs.removeComponent<LvLUp>(entity);
+    game.ecs.removeComponent<ToFree>(entity);
     game.ecs.emplaceComp(entity, Free());
 }
 
@@ -112,9 +114,12 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
     auto &anim = game.ecs.getComp<Sprite_Animation>();
     auto &draw = game.ecs.getComp<Drawable>();
     auto &Control = game.ecs.getComp<Controllable>();
+    auto &tofree = game.ecs.getComp<ToFree>();
 
     for (std::size_t i = 0; i < life.size(); i++) {
         if (life[i].has_value() && life[i].value()._life <= 0 && Control[i].has_value() == false && draw[i].has_value() == false)
+            removeAll(game, i);
+        if (tofree[i].has_value())
             removeAll(game, i);
     }
     std::cout << "nbr of entity = " << game.ecs.entityNbr() << std::endl;

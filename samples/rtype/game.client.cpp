@@ -55,6 +55,7 @@
 #include "jepmaker/components/LvlUp.hpp"
 #include "jepmaker/components/Animation2Time.hpp"
 #include "jepmaker/components/Free.hpp"
+#include "jepmaker/components/ToFree.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
@@ -107,6 +108,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
     game.useComponent<LvLUp>();
+    game.useComponent<ToFree>("DestroyerSystem");
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
