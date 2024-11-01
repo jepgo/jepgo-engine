@@ -40,6 +40,10 @@
 #include "jepmaker/components/DrawDistanceKm.hpp"
 #include "jepmaker/components/Message.hpp"
 #include "jepmaker/components/MessageTime.hpp"
+#include "jepmaker/components/Animation2Time.hpp"
+#include "jepmaker/components/MoveTo.hpp"
+#include "jepmaker/components/Invincible.hpp"
+#include "jepmaker/components/InvincibleTime.hpp"
 #include <random>
 
 class Game {
@@ -178,7 +182,7 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Invincible());
             r.ecs.emplaceComp(r.ecs.currentEntity, InvincibleTime(0, 5));
             r.ecs.emplaceComp(r.ecs.currentEntity, Enemy(10000, 100));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion(1, 4, -37, 0.2, 10, MINIBOSS, Rectangle{180, 300, 40, 40}, std::vector<float>{10, 10}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 
         };
         static void CreateShootModule(jgo::Game &r, Positions &&pos) {
