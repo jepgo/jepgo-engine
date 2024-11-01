@@ -164,7 +164,21 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
 
         };
-        static void CreateMiniBoss1(jgo::Game &r, Positions &&) {
+        static void CreateMiniBoss1(jgo::Game &r, Positions &&pos) {
+            r.ecs.createEntity();
+            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/r-typesheet32.gif", jgo::Rectangle{432, 0, 144, 250}, std::vector<float>{1, 1}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Positions(pos.x + 150, pos.y));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Animation2Time(Short_Animation(3, -144, 0.7), Short_Animation(3, 144, 0.7), std::vector<float>{2.1, 2.1}, 10));
+            //r.emplace_comp(r.currentEntity, Short_Animation(3, 144, 0.7));
+            r.ecs.emplaceComp(r.ecs.currentEntity, MoveTo(std::move(pos), 1));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(20));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Life(2000));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(44, 64, Positions(0, 220)));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Type(MINIBOSS));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Invincible());
+            r.ecs.emplaceComp(r.ecs.currentEntity, InvincibleTime(0, 5));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Enemy(10000, 100));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Explosion(1, 4, -37, 0.2, 10, MINIBOSS, Rectangle{180, 300, 40, 40}, std::vector<float>{10, 10}));
 
         };
         static void CreateShootModule(jgo::Game &r, Positions &&pos) {
