@@ -54,6 +54,7 @@
 #include "jepmaker/components/Animation2Time.hpp"
 #include "jepmaker/components/Free.hpp"
 #include "jepmaker/components/ToFree.hpp"
+#include "jepmaker/components/MoveTo.hpp"
 
 static void removeAll(jgo::Game &game, std::size_t entity)
 {
@@ -103,10 +104,11 @@ static void removeAll(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Controllable>(entity);
     game.ecs.removeComponent<LvLUp>(entity);
     game.ecs.removeComponent<ToFree>(entity);
+    game.ecs.removeComponent<MoveTo>(entity);
     game.ecs.emplaceComp(entity, Free());
 }
 
-exported(void) jepgoSystem(jgo::Game &game, float time)
+exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     std::size_t nbr = 0;
     auto &free = game.ecs.getComp<Free>();

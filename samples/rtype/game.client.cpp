@@ -56,6 +56,7 @@
 #include "jepmaker/components/Animation2Time.hpp"
 #include "jepmaker/components/Free.hpp"
 #include "jepmaker/components/ToFree.hpp"
+#include "jepmaker/components/MoveTo.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
@@ -64,6 +65,7 @@ exported(void) onStart(jgo::Client &game)
     game.loadGraphic("Raylib");
     game.useComponent<Positions>("KeySystem");
     game.useComponent<Hitable>("HitSystem");
+    game.useComponent<MoveTo>("MoveToSystem");
     game.useComponent<Move>("MoveSystem");
     game.useComponent<Sprite_Animation>("AnimationSpriteSystem");
     game.useComponent<Invincible>("InvincibleSystem");
@@ -94,7 +96,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<LoopMove>();
     game.useComponent<ModuleArmor>();
     game.useComponent<ModuleShoot>();
-    game.useComponent<Reborn>();
+    game.useComponent<Reborn>("RebornSystem");
     game.useComponent<DrawReborn>();
     game.useComponent<Exp>();
     game.useComponent<Points>();
@@ -107,6 +109,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Hit>();
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
+    game.useComponent<Message>();
     game.useComponent<LvLUp>();
     game.useComponent<ToFree>("DestroyerSystem");
 
