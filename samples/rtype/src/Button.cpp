@@ -7,8 +7,9 @@
 
 #include "Button.hpp"
 #include "RaylibPlus.hpp"
+#include <iostream>
 
-Menu::Button::Button(bool accessible, const float x, const float y, const float width, const float height, const float screenWidth, const float screenHeight, const std::string &text, const std::string &selectedText, Font &font, std::function<void()> onClick) :
+Menu::Button::Button(bool accessible, const float x, const float y, const float width, const float height, const float screenWidth, const float screenHeight, const std::string &text, const std::string &selectedText, Font &font, std::function<int()> onClick) :
     _x(x),
     _y(y),
     _width(width),
@@ -67,13 +68,16 @@ void Menu::Button::checkMouseHover() {
     }
 }
 
-void Menu::Button::buttonClicked()
+int Menu::Button::buttonClicked()
 {
     Vector2 mousePos = GetMousePosition();
 
     if (CheckCollisionPointRec(mousePos, { _x, _y, _width, _height })) {
-        _onClick();
+        int status = _onClick();
+        std::cout << "STATUS = " << status << std::endl;
+        return status;
     }
+    return 0;
 }
 
 void Menu::Button::updateWidth(float newScreenWidth)

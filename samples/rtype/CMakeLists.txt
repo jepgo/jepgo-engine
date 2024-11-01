@@ -6,6 +6,12 @@ SET(CMAKE_CXX_STANDARD 23)
 
 ADD_EXECUTABLE(r-type_client
     game.client.cpp
+    src/main.cpp
+    src/Menu.cpp
+    src/RaylibPlus.cpp
+    src/LogIcon.cpp
+    src/Button.cpp
+    src/AnimLine.cpp
 )
 
 LINK_DIRECTORIES(
@@ -13,13 +19,14 @@ LINK_DIRECTORIES(
 )
 
 TARGET_INCLUDE_DIRECTORIES(r-type_client PRIVATE
-    ./
+    ./include
     ${CMAKE_SOURCE_DIR}/include
 )
 
 TARGET_LINK_LIBRARIES(r-type_client
     jepengine
     jepmod
+    raylib
 )
 
 ADD_CUSTOM_COMMAND(TARGET r-type_client POST_BUILD

@@ -10,29 +10,34 @@
 #include <raylib.h>
 #include <iostream>
 #include "Menu.hpp"
+#include "jepengine/Client.hpp"
 
 int main(void)
 {
     size_t screenWidth = 800, screenHeight = 600;
+    int ac = 0;
+    const char *av[] = {};
+
+    jgo::Client window(ac, av);
+
+    window.loadGraphic("Raylib");
+    window.getGraphicLib()->openWindow("R-Type", {0, 0, 800, 600});
     
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(screenWidth, screenHeight, "R-Type");
-    InitAudioDevice();
-
-    Menu::Menu m(screenWidth, screenHeight);
+    
+    Menu::Menu m(screenWidth, screenHeight, window);
 
     SetTargetFPS(200);
-    while (!WindowShouldClose())
+    while (window.hasGraphicLib() && window.getGraphicLib()->isWindowOpen())
     {
         screenWidth = GetScreenWidth();
         screenHeight = GetScreenHeight();
-        m.updateSize(screenWidth, screenHeight);
+        // m.updateSize(screenWidth, screenHeight);
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        m.drawMenu();
+        if (m.drawMenu() == 1)
+            break;
         EndDrawing();
     }
-    CloseAudioDevice();
-    CloseWindow();
     return 0;
 }

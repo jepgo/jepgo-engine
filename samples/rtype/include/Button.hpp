@@ -51,7 +51,7 @@ namespace Menu {
             const std::string &text,
             const std::string &selectedText,
             Font &font,
-            std::function<void()> onClick
+            std::function<int ()> onClick
         );
         ~Button() = default;
 
@@ -72,7 +72,7 @@ namespace Menu {
          * and if the button is clicked, call the function onClick
          * 
          */
-        void buttonClicked();
+        int buttonClicked();
 
         /**
          * @brief Update the width of the button, and the width of the screen
@@ -161,7 +161,7 @@ namespace Menu {
          * @brief The function called when the button is clicked
          * 
          */
-        std::function<void()> _onClick;
+        std::function<int()> _onClick;
 
         /**
          * @brief The end of the box of the button

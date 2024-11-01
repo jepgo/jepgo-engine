@@ -120,6 +120,7 @@ exported(void) onStart(jgo::Client &game)
         "sprites/asteroid.png",
         "sprites/spaceship.png"
     });
+
     Game::CreateBackGround(game);
     //Game::CreateStars(game);
     Game::CreatePlayer(game, 800, 600);
@@ -135,14 +136,17 @@ exported(void) onUpdate(jgo::Client &game)
     return;
 }
 
-int main(int ac, char const *const av[])
+int mainClient()
 {
+    int ac = 0;
+    const char *av[] = {};
     jgo::Client game(ac, av);
 
     onStart(game);
-    if (game.hasGraphicLib())
-        game.getGraphicLib()->openWindow("my windows", {0, 0, 800, 600});
-    while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
+    if (game.hasGraphicLib()) {
+        game.getGraphicLib()->openWindow("R-Type", {0, 0, 800, 600});
+    }
+    while (game.hasGraphicLib() && game.getGraphicLib()->isWindowOpen()) {
         // std::this_thread::sleep_for(std::chrono::milliseconds(100));
         onUpdate(game);
         game.getGraphicLib()->update();
@@ -150,4 +154,5 @@ int main(int ac, char const *const av[])
     }
     if (game.hasGraphicLib())
         game.getGraphicLib()->closeWindow();
+    return 1;
 }

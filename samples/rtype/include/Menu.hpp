@@ -11,6 +11,7 @@
     #include <vector>
     #include <functional>
     #include <raylib.h>
+    #include "jepengine/Client.hpp"
     #include "Button.hpp"
     #include "AnimLine.hpp"
     #include "Clock.hpp"
@@ -33,7 +34,7 @@ namespace Menu {
              * @param screenWidth The width of the screen at the creation of the menu
              * @param screenHeight The height of the screen at the creation of the menu
              */
-            Menu(const size_t screenWidth, const size_t screenHeight);
+            Menu(const size_t screenWidth, const size_t screenHeight, jgo::Client &game);
             /**
              * @brief Destroy the Menu object
              * 
@@ -51,7 +52,7 @@ namespace Menu {
              * @brief Draw the menu
              * 
              */
-            void drawMenu();
+            int drawMenu();
 
 
         private:
@@ -61,14 +62,14 @@ namespace Menu {
                 OPTION_MENU
             };
 
-            void _drawEnterMenu();
-            void _drawInMenu();
-            void _drawOptionMenu();
+            int _drawEnterMenu();
+            int _drawInMenu();
+            int _drawOptionMenu();
 
-            const std::map<MenuState, std::function<void ()>> _menuPage = {
-                {MenuState::ENTER_MENU, [this](){_drawEnterMenu();}},
-                {MenuState::IN_MENU, [this](){_drawInMenu();}},
-                {MenuState::OPTION_MENU, [this](){_drawOptionMenu();}}
+            const std::map<MenuState, std::function<int ()>> _menuPage = {
+                {MenuState::ENTER_MENU, [this](){ return _drawEnterMenu(); }},
+                {MenuState::IN_MENU, [this](){ return _drawInMenu(); }},
+                {MenuState::OPTION_MENU, [this](){ return _drawOptionMenu(); }}
             };
 
             /**
