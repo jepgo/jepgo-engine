@@ -77,6 +77,10 @@ public:
         return list;
     }
 
+    void insert_at(size_type pos, T const &comp)
+    {
+        list.at(pos) = std::move(comp);
+    }
 
     void insert_at(size_type pos, T &&comp)
     {

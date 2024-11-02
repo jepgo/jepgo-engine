@@ -12,6 +12,7 @@
 #include <memory>
 #include "Game.hpp"
 #include "jepmaker/network/INetwork.hpp"
+#include "jepmod/CBuf.hpp"
 
 namespace jgo {
 
@@ -85,19 +86,32 @@ namespace jgo {
              * 
              * Receive components the server sent.
              */
-            template <typename T, jgo::u8 byte>
+            template <typename T, jgo::u8 B>
             auto maybeTreatComponent(std::vector<u8> data) -> bool {
-                data = std::vector(data.begin() + MAGIC_START.size(), data.end() - MAGIC_END.size());
+                CBuffer<T> buf;
+
                 if (data[0] != COMPONENT_BYTE)
                     return false;
                 data.erase(data.begin());
 
-                std::size_t n;
-                while (std::string(reinterpret_cast<char const *>(data.data())).substr(0, MAGIC_END.length()) == MAGIC_END) {
+                if (data.front() != B)
+                    return false;
+                data.erase(data.begin());
+
+                for (int n = 0; data.size() > 0; ++n) {
+                    if (data.front() == 0xff) {
+                        data.erase(data.begin());
+                        ++n;
+                        continue;
+                    } else if (data.front() != 0x00)
+                        throw std::runtime_error("invalid format error");
+                    data.erase(data.begin());
+                    buf.fill(data.data());
+                    if (n >= ecs.currentEntity)
+                        ecs.createEntity();
+                    ecs.emplaceComp<T>(n, *buf);
                     data.erase(data.begin(), data.begin() + sizeof(T));
-                    ++n;
                 }
-                std::cout << n << std::endl;
                 return true;
             }
 

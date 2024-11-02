@@ -15,6 +15,7 @@
 #include <thread>
 
 #include "Game.hpp"
+#include "jepmod/CBuf.hpp"
 #include "jepmaker/network/INetwork.hpp"
 
 namespace jgo {
@@ -92,9 +93,25 @@ namespace jgo {
              * 
              * Send components the all clients.
              */
-            template <typename T, jgo::u8 byte>
+            template <typename T, jgo::u8 B>
             auto sendComponents(void) -> bool {
-                return false;
+                auto &comp = ecs.getComp<T>();
+                CBuffer<T> buf;
+                std::vector<jgo::u8> vec = { COMPONENT_BYTE, B };
+                std::vector<jgo::u8> bytes;
+
+                for (std::size_t n = 0; n < comp.size(); ++n) {
+                    if (not comp[n]) {
+                        vec.emplace_back(0xff);
+                        continue;
+                    }
+                    vec.emplace_back(0x00);
+                    buf.fill(&comp[n].value());
+                    bytes = buf.toBytes();
+                    vec.insert(vec.end(), bytes.begin(), bytes.end());
+                }
+                sendToAll(vec);
+                return true;
             }
 
         private:
