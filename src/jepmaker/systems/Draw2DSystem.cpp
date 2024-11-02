@@ -38,7 +38,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &t)
     for (std::size_t i = 0; i < draw.size(); ++i) {
         if (draw[i].has_value() && pos[i].has_value()) {
             Drawable &tmp = draw[i].value();
-            std::cout << "i Draw the = " << tmp.getIndex() << std::endl;
             Todraw(game, pos[i].value(), tmp.getRect(), tmp.getIndex(), tmp.getScale());
         }
     }

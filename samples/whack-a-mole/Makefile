@@ -7,13 +7,12 @@
 
 CXX ?= g++
 
-BIN = whack-a-mole
+BIN = whack-a-mole-game
 
 CPPFLAGS = -iquote ../../include -iquote ./include/ -std=c++23 
 LDFLAGS = -L $(JEPGO_BUILD) -l jepengine -l jepmod
 
-SRC = 	game.client.cpp	\
-		src/Game.cpp
+SRC = 	game.client.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
