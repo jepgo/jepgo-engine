@@ -99,4 +99,5 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
         vel[i].value().setVel(getDirectionVector(key));
         game.ecs.emplaceComp(i, Move(vel[i].value().getVel()));
     }
+    std::cout << "end key" << std::endl;
 }

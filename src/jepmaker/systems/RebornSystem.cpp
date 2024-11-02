@@ -26,15 +26,19 @@ static bool SearchKey(int key, std::vector<jgo::u32> tmp)
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     std::vector<jgo::u32> key;
-    std::size_t playerEntity = 0;
+    int playerEntity = -1;
     auto &reborn = game.ecs.getComp<Reborn>();
     auto &contro = game.ecs.getComp<Controllable>();
     auto &mess = game.ecs.getComp<Message>();
+    auto &type = game.ecs.getComp<Type>();
 
-    for (std::size_t i = 0; i < contro.size(); i++)
-        if (contro[i].has_value())
+    for (std::size_t i = 0; i < type.size(); i++) {
+        std::cout << "here" << std::endl;
+        if (type[i].has_value() && type[i].value().getType() == CONTRO)
             playerEntity = i;
-    
+    }
+    if (playerEntity == -1)
+        return;
     key = game.getGraphicLib()->getKeyPressed();
     for (std::size_t i = 0; i < reborn.size(); i++){
         if (SearchKey(32, key) && reborn[i].has_value() && reborn[i].value().getLive() > 0){
@@ -42,6 +46,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
             game.ecs.removeComponent<Sprite_Animation>(i);
             game.ecs.emplaceComp(playerEntity, Controllable());
             game.ecs.emplaceComp(playerEntity, Positions(100, 100));
+            game.ecs.emplaceComp(playerEntity, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
             game.ecs.emplaceComp(playerEntity, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
             game.ecs.emplaceComp(playerEntity, Hitable(100, 40));
             game.ecs.emplaceComp(playerEntity, Life(30));
@@ -58,4 +63,5 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
             }
         }
     }
+    std::cout << "end of Reborn" << std::endl;
 };

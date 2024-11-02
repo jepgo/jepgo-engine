@@ -97,4 +97,5 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
             game.ecs.removeComponent<Death>(i);
         }
     }
+    std::cout << "death end" << std::endl;
 }

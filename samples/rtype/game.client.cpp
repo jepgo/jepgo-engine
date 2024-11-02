@@ -79,6 +79,9 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Animation2Time>("Animation2TimeSystem");
     game.useComponent<BombGeneration>("BombGenerationSystem");
     game.useComponent<BombGenerationTime>("BombGenerationTimeSystem");
+    game.useComponent<Reborn>("RebornSystem");
+    game.useComponent<DrawKm>("DrawKmSystem");
+    game.useComponent<Message>("MessageSystem");
     game.useComponent<Drawable>("Draw2DSystem");
     game.useComponent<Velocity>();
     game.useComponent<Type>();
@@ -96,20 +99,17 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<LoopMove>();
     game.useComponent<ModuleArmor>();
     game.useComponent<ModuleShoot>();
-    game.useComponent<Reborn>("RebornSystem");
     game.useComponent<DrawReborn>();
     game.useComponent<Exp>();
     game.useComponent<Points>();
     game.useComponent<DrawPoints>();
     game.useComponent<Lvl>("GameLogic");
     game.useComponent<DrawLvl>();
-    game.useComponent<DistanceKm>();
-    game.useComponent<DrawKm>();
+    game.useComponent<DistanceKm>("GameSystem");
     game.useComponent<InvincibleTime>();
     game.useComponent<Hit>();
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
-    game.useComponent<Message>();
     game.useComponent<LvLUp>();
     game.useComponent<ToFree>("DestroyerSystem");
 

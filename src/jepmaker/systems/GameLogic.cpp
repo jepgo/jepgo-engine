@@ -21,6 +21,7 @@ static void Stage1(jgo::Game &game)
 
 static void Stage2(jgo::Game &game, float time)
 {
+    Game::CreateEasyEnemies(game);
     Game::CreateSpaceShip(game, time);
 }
 
@@ -45,7 +46,7 @@ static void Stage4(jgo::Game &game)
 
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
-    std::size_t entity = 0;
+    int entity = -1;
     float reset = 3.0;
     auto &km = game.ecs.getComp<DistanceKm>();
     auto &sound = game.ecs.getComp<SoundLoop>();
@@ -55,6 +56,8 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     for (std::size_t i = 0; i < km.size(); i++)
         if (km[i].has_value())
             entity = i;
+    if (entity == -1)
+        return;
     if (km[entity].value()._dist >= 0 && km[entity].value()._dist <= 100)
         Stage1(game);
     else if (km[entity].value()._dist >= 100 && km[entity].value()._dist <= 350)

@@ -117,9 +117,10 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     auto &draw = game.ecs.getComp<Drawable>();
     auto &Control = game.ecs.getComp<Controllable>();
     auto &tofree = game.ecs.getComp<ToFree>();
+    auto &type = game.ecs.getComp<Type>();
 
     for (std::size_t i = 0; i < life.size(); i++) {
-        if (life[i].has_value() && life[i].value()._life <= 0 && Control[i].has_value() == false && draw[i].has_value() == false)
+        if (life[i].has_value() && life[i].value()._life <= 0 && type[i].has_value() == false && type[i].value().getType() != CONTRO && draw[i].has_value() == false)
             removeAll(game, i);
         if (tofree[i].has_value())
             removeAll(game, i);
