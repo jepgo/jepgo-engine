@@ -15,12 +15,12 @@ public:
      *
      * @param pos The Nex Position of the Object
      */
-    Move(Positions const &pos) : _pos(pos) {};
-    inline auto getPos() const noexcept -> Positions const &
+    Move(Position2D const &pos) : _pos(pos) {};
+    inline auto getPos() const noexcept -> Position2D const &
     {
         return _pos;
     }
 
 private:
-    Positions _pos;
+    Position2D _pos;
 };

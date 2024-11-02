@@ -41,7 +41,7 @@ namespace Components {
              * @param textures The List of all the texture
              * @param pos The Position of the Sprite
              */
-            void draw(std::vector<Texture2D> &textures, Positions &pos);
+            void draw(std::vector<Texture2D> &textures, Position2D &pos);
 
             /**
              * @brief Change the index of the texture

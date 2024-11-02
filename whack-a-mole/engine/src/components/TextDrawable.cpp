@@ -7,7 +7,7 @@
 
 #include "TextDrawable.hpp"
 
-Components::TextDrawable::TextDrawable(std::string const &mess, Positions &&pos, std::size_t size, Color color) : mess(mess), _pos(pos), _size(size), _color(color)
+Components::TextDrawable::TextDrawable(std::string const &mess, Position2D &&pos, std::size_t size, Color color) : mess(mess), _pos(pos), _size(size), _color(color)
 {
 
 }

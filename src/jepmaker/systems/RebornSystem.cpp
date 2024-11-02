@@ -47,7 +47,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
             reborn[i].value().getLive() -= 1;
             game.ecs.removeComponent<Sprite_Animation>(i);
             game.ecs.emplaceComp(i, Controllable());
-            game.ecs.emplaceComp(i, Positions(100, 100));
+            game.ecs.emplaceComp(i, Position2D(100, 100));
             game.ecs.emplaceComp(i, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
             game.ecs.emplaceComp(i, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
             game.ecs.emplaceComp(i, Hitable(100, 40));

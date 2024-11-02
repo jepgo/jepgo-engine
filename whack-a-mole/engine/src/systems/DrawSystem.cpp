@@ -20,7 +20,7 @@ Systems::DrawSystem::~DrawSystem()
 
 void Systems::DrawSystem::system(Register &r, std::vector<Texture2D> &texture)
 {
-    auto &pos = r.getComp<Components::Positions>();
+    auto &pos = r.getComp<Components::Position2D>();
     auto &draw = r.getComp<Components::Drawable>();
 
     for (std::size_t i = 0; i < draw.size(); i++) {

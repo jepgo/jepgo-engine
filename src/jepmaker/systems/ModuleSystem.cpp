@@ -13,7 +13,7 @@
 #include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/Hitable2D.hpp"
 
-static void Myupdate(std::optional<Positions> &me, std::optional<Positions> &pos, std::size_t entity, std::map<Direction, int> _space) {
+static void Myupdate(std::optional<Position2D> &me, std::optional<Position2D> &pos, std::size_t entity, std::map<Direction, int> _space) {
             if (!(me.has_value()))
                 return;
             if (pos.has_value()) {
@@ -25,7 +25,7 @@ static void Myupdate(std::optional<Positions> &me, std::optional<Positions> &pos
 exported(void) jepgoSystem(jgo::Game &game, float &t)
 {
     auto &modules = game.ecs.getComp<Module>();
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
     auto &life = game.ecs.getComp<Life>();
 
     for (std::size_t i = 0; i < modules.size(); i++) {

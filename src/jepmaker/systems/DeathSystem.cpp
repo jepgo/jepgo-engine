@@ -25,7 +25,7 @@
 static void ControlDeath(jgo::Game &game, std::size_t entity)
 {
     //game.ecs.removeComponent<Drawable>(entity);
-    //game.ecs.removeComponent<Positions>(entity);
+    //game.ecs.removeComponent<Position2D>(entity);
     //game.ecs.removeComponent<Model3D>(entity);
     game.ecs.removeComponent<Controllable>(entity);
     game.ecs.removeComponent<Hitable>(entity);
@@ -33,13 +33,13 @@ static void ControlDeath(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Move>(entity);
     game.ecs.removeComponent<Sprite_Status>(entity);
     //game.ecs.creatEntity();
-    game.ecs.emplaceComp(game.ecs.currentEntity, Message("You are dead...", Positions(200, 200), 50, 0xffff0000));
+    game.ecs.emplaceComp(game.ecs.currentEntity, Message("You are dead...", Position2D(200, 200), 50, 0xffff0000));
 }
 
 static void ModulesDeath(jgo::Game &game, std::size_t entity)
 {
     //game.ecs.removeComponent<Drawable>(entity);
-    //game.ecs.removeComponent<Positions>(entity);
+    //game.ecs.removeComponent<Position2D>(entity);
     //game.ecs.removeComponent<Model3D>(entity);
     game.ecs.removeComponent<Move>(entity);
     game.ecs.removeComponent<Controllable>(entity);
@@ -49,7 +49,7 @@ static void ModulesDeath(jgo::Game &game, std::size_t entity)
 static void DeletAll(jgo::Game &game, std::size_t entity)
 {
     // game.ecs.removeComponent<Drawable>(entity);
-    // game.ecs.removeComponent<Positions>(entity);
+    // game.ecs.removeComponent<Position2D>(entity);
     game.ecs.removeComponent<Hitable>(entity);
     //game.ecs.removeComponent<Life>(entity);
     game.ecs.removeComponent<Colision>(entity);

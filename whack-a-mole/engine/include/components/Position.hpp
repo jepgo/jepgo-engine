@@ -18,30 +18,30 @@ namespace Components {
      * @brief Class of the position of an entity
      * 
      */
-    class Positions {
+    class Position2D {
         public:
             /**
-             * @brief Construct a new Positions object
+             * @brief Construct a new Position2D object
              *
              * @param x Position x of the object
              * @param y Position y of the Object
              */
-            Positions(float x, float y);
+            Position2D(float x, float y);
 
             /**
-             * @brief Destroy the Positions object
+             * @brief Destroy the Position2D object
              * 
              */
-            ~Positions() = default;
+            ~Position2D() = default;
 
 
             /**
              * @brief Addition of 2 positions
              * 
              * @param pos The position to add
-             * @return Positions A new position object
+             * @return Position2D A new position object
              */
-            Positions operator+(Positions const &pos) const;
+            Position2D operator+(Position2D const &pos) const;
 
             /**
              * @brief Compare 2 positions
@@ -50,7 +50,7 @@ namespace Components {
              * @return true If the positions are the same
              * @return false If the positions are different
              */
-            bool operator==(Positions const &pos) const;
+            bool operator==(Position2D const &pos) const;
 
 
 

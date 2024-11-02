@@ -18,11 +18,11 @@ public:
         _vel.y = v[1] * _speed[1];
     }
 
-    inline auto getVel() const noexcept -> Positions const &
+    inline auto getVel() const noexcept -> Position2D const &
     {
         return _vel;
     }
 private:
     std::array<double, 2> _speed;
-    Positions _vel{0, 0};
+    Position2D _vel{0, 0};
 };

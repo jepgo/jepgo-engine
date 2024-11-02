@@ -64,7 +64,7 @@ exported(void) onStart(jgo::Client &game)
     game.loadGraphic("Raylib");
     game.storage["keys"] = std::vector<jgo::u32>();
 
-    game.useComponent<Positions>("KeySystem", 1);
+    game.useComponent<Position2D>("KeySystem", 1);
     game.useSystem("GameSystem", 0);
     game.useComponent<Hitable>("HitSystem", 2);
     game.useComponent<Move>("MoveSystem", 3);

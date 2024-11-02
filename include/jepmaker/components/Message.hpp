@@ -11,10 +11,10 @@
 
 class Message {
     public:
-        Message(std::string mess, Positions &&pos, std::size_t size, jgo::u32 color) : _mess(mess), _pos(pos), _size(size), _color(color) {};
+        Message(std::string mess, Position2D &&pos, std::size_t size, jgo::u32 color) : _mess(mess), _pos(pos), _size(size), _color(color) {};
         ~Message() {};
         std::string _mess;
-        Positions _pos;
+        Position2D _pos;
         std::size_t _size;
         jgo::u32 _color;
 };

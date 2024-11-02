@@ -23,7 +23,7 @@ Components::Drawable::Drawable(
     }
 };
 
-void Components::Drawable::draw(std::vector<Texture2D> &textures, Positions &pos)
+void Components::Drawable::draw(std::vector<Texture2D> &textures, Position2D &pos)
 {
     if (rect.has_value()) {
         float a = (rect.value().width * scale[0]);

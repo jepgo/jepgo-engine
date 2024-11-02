@@ -48,19 +48,19 @@ static void Whenhit(std::size_t entity, jgo::Game &game)
      * @return true
      * @return false
      */
-static bool isHit(Hitable &hit, Positions &him, Positions &me, std::optional<Positions> &himDecal, std::optional<Positions> &_pos, int &width, int &height)
+static bool isHit(Hitable &hit, Position2D &him, Position2D &me, std::optional<Position2D> &himDecal, std::optional<Position2D> &_pos, int &width, int &height)
     {
         if (_pos.has_value() && himDecal.has_value()) {
-            Positions &tmp = _pos.value();
-            Positions &tmp2 = himDecal.value();
+            Position2D &tmp = _pos.value();
+            Position2D &tmp2 = himDecal.value();
             return !(me.x + width + tmp.x < him.x + tmp2.x || me.x + tmp.x > him.x + hit.width + tmp2.x || me.y + height + tmp.y < him.y + tmp2.y || me.y + tmp.y > him.y + hit.height + tmp2.y);
         }
         else if (himDecal.has_value()) {
-            Positions &tmp2 = himDecal.value();
+            Position2D &tmp2 = himDecal.value();
             return !(me.x + width < him.x + tmp2.x || me.x > him.x + hit.width + tmp2.x || me.y + height < him.y + tmp2.y || me.y > him.y + hit.height + tmp2.y);
         }
         else if (_pos.has_value()) {
-            Positions &tmp = _pos.value();
+            Position2D &tmp = _pos.value();
             return !(me.x + width + tmp.x < him.x || me.x + tmp.x > him.x + hit.width || me.y + height + tmp.y < him.y || me.y + tmp.y > him.y + hit.height);
         }
          return !(me.x + width < him.x || me.x > him.x + hit.width || me.y + height < him.y || me.y > him.y + hit.height);
@@ -77,7 +77,7 @@ static bool isHit(Hitable &hit, Positions &him, Positions &me, std::optional<Pos
  * @return true 
  * @return false 
  */
-int compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Positions &m, SparseArray<Positions> &pos, int ind)
+int compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Position2D &m, SparseArray<Position2D> &pos, int ind)
 {
     int i = -1;
 
@@ -100,7 +100,7 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
     int tmp = 0;
     std::size_t nbr = 0;
     auto &hit = game.ecs.getComp<Hitable>();
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
     auto &h = game.ecs.getComp<Hit>();
     std::map<std::size_t, Hitable *> list;
 

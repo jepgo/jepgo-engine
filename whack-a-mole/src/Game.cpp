@@ -221,10 +221,10 @@ void WhackAMole::Game::createBackground(Register &r)
 
     r.creatEntity();
     r.emplace_comp(r.currentEntity, Components::Drawable(GAME_BACKGROUND, REC, std::vector<float>{1, 1}));
-    r.emplace_comp(r.currentEntity, Components::Positions(0, 0));
+    r.emplace_comp(r.currentEntity, Components::Position2D(0, 0));
 }
 
-void WhackAMole::Game::createMole(Register &r, Components::Positions &&pos)
+void WhackAMole::Game::createMole(Register &r, Components::Position2D &&pos)
 {
     const Rectangle REC = {WIDTH_MOLE_SPRITE * 0, HEIGHT_MOLE_SPRITE * 0, WIDTH_MOLE_SPRITE, HEIGHT_MOLE_SPRITE};
 
@@ -233,19 +233,19 @@ void WhackAMole::Game::createMole(Register &r, Components::Positions &&pos)
     r.emplace_comp(r.currentEntity, Components::Clickable2D());
     r.emplace_comp(r.currentEntity, Components::Drawable(MOLE_SPRITE, REC, std::vector<float>{0.5, 0.5}));
     r.emplace_comp(r.currentEntity, Components::Sprite2DMultiAnim(RECSIZE, MOLES_ANIM, MoleStates::SLEEP, 0.2f, 11));
-    r.emplace_comp(r.currentEntity, Components::TextDrawable("", Components::Positions(pos.x * 0.5, pos.y * 0.5), 20, BLUE));
+    r.emplace_comp(r.currentEntity, Components::TextDrawable("", Components::Position2D(pos.x * 0.5, pos.y * 0.5), 20, BLUE));
 }
 
 void WhackAMole::Game::createScore(Register &r)
 {
     r.creatEntity();
-    r.emplace_comp(r.currentEntity, Components::Score("Score", 0, Components::Positions(10, 10)));
+    r.emplace_comp(r.currentEntity, Components::Score("Score", 0, Components::Position2D(10, 10)));
 }
 
 void WhackAMole::Game::setWhack(Register &r)
 {
     auto &rec = r.getComp<Components::Clickable2D>();
-    auto &pos = r.getComp<Components::Positions>();
+    auto &pos = r.getComp<Components::Position2D>();
     auto &draw = r.getComp<Components::Drawable>();
     auto &anim = r.getComp<Components::Sprite2DMultiAnim>();
     auto &point = r.getComp<Components::TextDrawable>();

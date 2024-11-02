@@ -26,9 +26,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     std::size_t nbr = 0;
     auto &free = game.ecs.getComp<Free>();
     auto &life = game.ecs.getComp<Life>();
-    auto &anim = game.ecs.getComp<Sprite_Animation>();
-    auto &draw = game.ecs.getComp<Drawable>();
-    auto &Control = game.ecs.getComp<Controllable>();
     auto &tofree = game.ecs.getComp<ToFree>();
     auto &type = game.ecs.getComp<Type>();
 

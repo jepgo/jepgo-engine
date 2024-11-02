@@ -5,7 +5,6 @@
 ** InvinsibleSystem
 */
 
-#pragma once
 #include "jepengine/Client.hpp"
 #include "jepmod/exported.hpp"
 #include "jepmaker/components/Invincible.hpp"

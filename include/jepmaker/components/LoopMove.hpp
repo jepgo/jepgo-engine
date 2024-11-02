@@ -10,7 +10,7 @@
 
 class LoopMove {
     public:
-        LoopMove(Positions &&pos) : _pos(pos) {};
+        LoopMove(Position2D &&pos) : _pos(pos) {};
         ~LoopMove() {};
-        Positions _pos;        
+        Position2D _pos;        
 };

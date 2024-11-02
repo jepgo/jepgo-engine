@@ -22,10 +22,10 @@ static bool checkTime(float time, float _time, float reset)
 static void CreateShoot(jgo::Game &game, float time, std::size_t entity, AutoShoot &shoot)
 {
     auto &type = game.ecs.getComp<Type>();
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
 
     if (type[entity].has_value() && type[entity].value().getType() == MODULE_ARM && pos[entity].has_value()) {
-        Game::CreateShipShoot(game, Positions(pos[entity].value().x + 10, pos[entity].value().y));   
+        Game::CreateShipShoot(game, Position2D(pos[entity].value().x + 10, pos[entity].value().y));   
         shoot.getTime() = time;
     }
 }

@@ -19,7 +19,7 @@ public:
      * @param w the width of the object
      * @param h the hight of the object
      */
-    Hitable(int w, int h, std::optional<Positions> &&pos = std::nullopt) : width(w), height(h), _pos(pos) {};
+    Hitable(int w, int h, std::optional<Position2D> &&pos = std::nullopt) : width(w), height(h), _pos(pos) {};
     ~Hitable() {};
     /**
      * @brief
@@ -30,7 +30,7 @@ public:
      */
     int width;
     int height;
-    std::optional<Positions> _pos;
+    std::optional<Position2D> _pos;
     Direction _dir;
 private:
 };

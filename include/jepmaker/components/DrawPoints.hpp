@@ -11,9 +11,9 @@
 
 class DrawPoints {
     public:
-        DrawPoints(Positions &&pos, std::size_t size, jgo::u32 color) : _pos(pos), _size(size), _color(color) {};
+        DrawPoints(Position2D &&pos, std::size_t size, jgo::u32 color) : _pos(pos), _size(size), _color(color) {};
         ~DrawPoints() {};
-        Positions _pos;
+        Position2D _pos;
         std::size_t _size;
         jgo::u32 _color;
 };

@@ -39,7 +39,7 @@ static void Stage4(jgo::Game &game)
         if (type[i].has_value() && type[i].value().getType() == MINIBOSS)
             return;
     }
-    Game::CreateMiniBoss1(game, Positions(1360, 300));
+    Game::CreateMiniBoss1(game, Position2D(1360, 300));
     return;
 }
 

@@ -11,9 +11,9 @@
 #include "jepmaker/components/Move.hpp"
 #include "jepmaker/components/ScreenLimit.hpp"
 
-static bool checkMovement(jgo::Game &game, std::size_t &entity, Positions const &Newpos) {
+static bool checkMovement(jgo::Game &game, std::size_t &entity, Position2D const &Newpos) {
     auto &Col = game.ecs.getComp<Colision>();
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
 
     std::map<std::size_t, Colision *> list;
 
@@ -37,7 +37,7 @@ static bool checkMovement(jgo::Game &game, std::size_t &entity, Positions const 
     return true;
 }
 
-static bool checkScreen(std::optional<ScreenLimit> &limit, Positions pos)
+static bool checkScreen(std::optional<ScreenLimit> &limit, Position2D pos)
 {
     if (limit.has_value() == false)
         return true;
@@ -52,7 +52,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     float reset = 0.01;
     auto &move = game.ecs.getComp<Move>();
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
     auto &screen = game.ecs.getComp<ScreenLimit>();
 
     float t = game.getTime();
@@ -61,8 +61,8 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
         return;
     }
     for (std::size_t i = 0; i < move.size(); i++) {
-        if (move[i].has_value() && pos[i].has_value() && checkMovement(game, i, move[i].value().getPos()) && checkScreen(screen[i],Positions(move[i].value().getPos() + pos[i].value()))) {
-                game.ecs.emplaceComp(i, Positions(move[i].value().getPos() + pos[i].value()));
+        if (move[i].has_value() && pos[i].has_value() && checkMovement(game, i, move[i].value().getPos()) && checkScreen(screen[i],Position2D(move[i].value().getPos() + pos[i].value()))) {
+                game.ecs.emplaceComp(i, Position2D(move[i].value().getPos() + pos[i].value()));
         }
     }
     time = t;

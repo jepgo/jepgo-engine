@@ -40,10 +40,10 @@ namespace WhackAMole {
              * @brief Create a Mole object
              * 
              * @param r The Register object
-             * @param pos The Positions object
+             * @param pos The Position2D object
              * @param time The time
              */
-            static void createMole(Register &r, Components::Positions &&pos);
+            static void createMole(Register &r, Components::Position2D &&pos);
 
             static void createScore(Register &r);
             

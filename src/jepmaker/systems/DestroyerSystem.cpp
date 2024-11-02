@@ -14,7 +14,7 @@
 #include "jepmaker/components/Colision.hpp"
 #include "jepmaker/components/ToFree.hpp"
 
-static bool checkPosition(Positions &pos, int height, int width)
+static bool checkPosition(Position2D &pos, int height, int width)
 {
     if (pos.x > width * 10)
         return true;
@@ -30,7 +30,7 @@ static bool checkPosition(Positions &pos, int height, int width)
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &life = game.ecs.getComp<Life>();
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
 
     for (std::size_t i = 0; i < pos.size(); i++) {
         if (pos[i].has_value() && checkPosition(pos[i].value(), 600, 800)) {
