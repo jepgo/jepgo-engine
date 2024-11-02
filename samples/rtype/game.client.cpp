@@ -158,7 +158,6 @@ exported(void) onUpdate(jgo::Client &game)
 int main(int ac, char const *const av[])
 {
     jgo::Client game(ac, av);
-    std::cout << "main bebe!" << std::endl;
     onStart(game);
     if (game.hasGraphicLib())
         game.getGraphicLib()->openWindow("my windows", {0, 0, 800, 600});
