@@ -28,6 +28,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     auto &life = game.ecs.getComp<Life>();
     auto &tofree = game.ecs.getComp<ToFree>();
     auto &type = game.ecs.getComp<Type>();
+    auto &anim = game.ecs.getComp<Sprite_Animation>();
 
     for (std::size_t i = 0; i < life.size(); i++) {
         if (life[i].has_value() && life[i].value()._life <= 0 && type[i].has_value() && type[i].value().getType() != CONTRO && anim[i].has_value() == false)

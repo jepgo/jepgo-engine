@@ -71,17 +71,10 @@ class Game {
         };
         static void CreateObstacle(jgo::Game &r) {
             r.ecs.createEntity();
-<<<<<<< HEAD
-            r.ecs.emplaceComp(r.ecs.currentEntity, Positions(0, 0));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-2, 0)));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Positions(1700, randomYPos()));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/asteroid.png", jgo::Rectangle{0, 0, 840, 859}, std::vector<float>{0.05, 0.05}));
-=======
             r.ecs.emplaceComp(r.ecs.currentEntity, Position2D(0, 0));
             r.ecs.emplaceComp(r.ecs.currentEntity, Move(Position2D(-2, 0)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Position2D(1700, randomYPos()));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/parallax-space-stars.png", jgo::Rectangle{0, 0, 840, 859}, std::vector<float>{0.05, 0.05}));
->>>>>>> f0de896 (refactor: changed components name)
+            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/asteroid.png", jgo::Rectangle{0, 0, 840, 859}, std::vector<float>{0.05, 0.05}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({2, 2}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(35, 35, Position2D(0, -1)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Enemy(100, 10));
@@ -212,30 +205,17 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(100, 40));
             r.ecs.emplaceComp(r.ecs.currentEntity, Life(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, Reborn(3));
-<<<<<<< HEAD
-            r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Positions(10, 560), 15, 0xFF0000));
-=======
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Position2D(10, 560), 15, ));
->>>>>>> f0de896 (refactor: changed components name)
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Position2D(10, 560), 15, 0xFF0000));
             r.ecs.emplaceComp(r.ecs.currentEntity, Shoot(0.5, RIGHT, 20, 2));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(CONTRO));
             r.ecs.emplaceComp(r.ecs.currentEntity, Exp(0));
             r.ecs.emplaceComp(r.ecs.currentEntity, Points());
-<<<<<<< HEAD
-            r.ecs.emplaceComp(r.ecs.currentEntity, DrawPoints(Positions(10, 500), 20, 0x00FF00));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawPoints(Position2D(10, 500), 20, 0x00FF00));
             r.ecs.emplaceComp(r.ecs.currentEntity, Lvl(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(10));
-            r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Positions(10, 540), 15, 0xFF0000));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Position2D(10, 540), 15, 0xFF0000));
             r.ecs.emplaceComp(r.ecs.currentEntity, DistanceKm());
-            r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Positions(650, 20), 30, 0x00FF00));
-=======
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawPoints(Position2D(10, 500), 20, GREEN));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Lvl(1));
-            r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(10));
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Position2D(10, 540), 15, RED));
-            r.ecs.emplaceComp(r.ecs.currentEntity, DistanceKm());
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Position2D(650, 20), 30, GREEN));
->>>>>>> f0de896 (refactor: changed components name)
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Position2D(650, 20), 30, 0x00FF00));
             r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
         };
         static void CreateBoostModule(jgo::Game &r, std::size_t PlayerEntity) {
