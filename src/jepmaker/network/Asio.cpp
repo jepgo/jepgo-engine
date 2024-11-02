@@ -60,7 +60,7 @@ class AsioServer: public jgo::IServer {
 
 class AsioClient: public jgo::IClient {
     public:
-        inline AsioClient(): _socket(_context) {
+        inline AsioClient(): _socket(_service) {
             return;
         }
         void connect(std::string const &ip, jgo::u16 port) override;
@@ -72,7 +72,8 @@ class AsioClient: public jgo::IClient {
         void _startReceiving(void);
         void _handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf);
         void _processMessages(void);
-        asio::io_context _context;
+        // asio::io_context _context;
+        asio::io_service _service;
         udp::socket _socket;
         udp::endpoint _serverEndpoint;
         std::string _buffer; 
@@ -179,10 +180,8 @@ std::vector<jgo::NetMessage> AsioServer::getAllMessages(void)
 /* Client */
 
 void AsioClient::connect(std::string const &ip, jgo::u16 port) {
-    udp::endpoint localEndpoint(udp::v4(), 0);
+    _serverEndpoint = udp::endpoint(asio::ip::address::from_string(ip), port);
     _socket.open(udp::v4());
-    _socket.bind(localEndpoint);
-    _serverEndpoint = udp::endpoint(asio::ip::make_address(ip), port);
     _startReceiving();
 }
 
@@ -191,13 +190,15 @@ void AsioClient::_startReceiving(void)
     Buffer buf = std::make_shared<std::array<char, jgo::BUFFER_SIZE>>();
     
     std::cout << "waiting" << std::endl;
-    _socket.async_receive_from(
-        asio::buffer(*buf), _serverEndpoint,
-        [this, buf](std::error_code err, std::size_t bytes) {
-            std::cout << "test" << std::endl;
-            _handleReceive(err, bytes, buf);
-        }
-    );
+    _socket.receive_from(asio::buffer(*buf), _serverEndpoint);
+    std::cout << "test" << std::endl;
+    // _socket.async_receive_from(
+    //     asio::buffer(*buf), _serverEndpoint,
+    //     [this, buf](std::error_code err, std::size_t bytes) {
+    //         std::cout << "test" << std::endl;
+    //         _handleReceive(err, bytes, buf);
+    //     }
+    // );
 }
 
 void AsioClient::_handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf)
@@ -262,7 +263,7 @@ std::vector<jgo::u8> AsioClient::getMessage(void) {
 
 void AsioClient::stop(void) {
     _socket.close();
-    _context.stop();
+    _service.stop();
 }
 
 exported(std::shared_ptr<jgo::IServer>) getServer(void)
