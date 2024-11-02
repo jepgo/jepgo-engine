@@ -52,7 +52,7 @@ namespace jmod {
             }
 
             inline auto operator/(std::string const &what) const -> std::string {
-                return _wd / what;
+                return (_wd / what).string();
             }
 
         private:
