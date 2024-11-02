@@ -8,50 +8,11 @@
 #include "jepengine/Client.hpp"
 #include "jepmod/exported.hpp"
 
-#include "jepmaker/components/Game.hpp"
-#include "jepmaker/components/Position.hpp"
-#include "jepmaker/components/SoundLoop.hpp"
-#include "jepmaker/components/Move.hpp"
 #include "jepmaker/components/Life.hpp"
-#include "jepmaker/components/Hitable2D.hpp"
-#include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/SpriteAnimation.hpp"
-#include "jepmaker/components/SpriteStatus.hpp"
-#include "jepmaker/components/Velocity.hpp"
-#include "jepmaker/components/Type.hpp"
-#include "jepmaker/components/Enemy.hpp"
-#include "jepmaker/components/DoDmg.hpp"
-#include "jepmaker/components/Explosion.hpp"
-#include "jepmaker/components/MoveToPlayer.hpp"
-#include "jepmaker/components/MoveToPlayerTime.hpp"
-#include "jepmaker/components/ShortAnimation.hpp"
-#include "jepmaker/components/Colision.hpp"
-#include "jepmaker/components/ScreenLimit.hpp"
-#include "jepmaker/components/Shoot.hpp"
-#include "jepmaker/components/LoopMove.hpp"
-#include "jepmaker/components/Modules.hpp"
+#include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/Controllable.hpp"
-#include "jepmaker/components/Reborn.hpp"
-#include "jepmaker/components/DrawReborn.hpp"
-#include "jepmaker/components/Exp.hpp"
-#include "jepmaker/components/Points.hpp"
-#include "jepmaker/components/DrawPoints.hpp"
-#include "jepmaker/components/Lvl.hpp"
-#include "jepmaker/components/DrawLvl.hpp"
-#include "jepmaker/components/DistanceKm.hpp"
-#include "jepmaker/components/DrawDistanceKm.hpp"
-#include "jepmaker/components/Message.hpp"
-#include "jepmaker/components/MessageTime.hpp"
-#include "jepmaker/components/Invincible.hpp"
-#include "jepmaker/components/InvincibleTime.hpp"
-#include "jepmaker/components/Hit.hpp"
-#include "jepmaker/components/Death.hpp"
-#include "jepmaker/components/Dmg.hpp"
-#include "jepmaker/components/BombGeneration.hpp"
-#include "jepmaker/components/BombGenerationTime.hpp"
-#include "jepmaker/components/AutoShoot.hpp"
-#include "jepmaker/components/LvlUp.hpp"
-#include "jepmaker/components/Animation2Time.hpp"
+#include "jepmaker/components/Type.hpp"
 #include "jepmaker/components/Free.hpp"
 #include "jepmaker/components/ToFree.hpp"
 
@@ -78,9 +39,9 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
         if (tofree[i].has_value())
             removeAll(game, i);
     }
-    for (std::size_t i = 0; i < free.size(); i++)
-        if (free[i].has_value())
-            nbr++;
-    std::cout << "entity free = " << nbr << std::endl;
+    // for (std::size_t i = 0; i < free.size(); i++)
+    //     if (free[i].has_value())
+    //         nbr++;
+    // std::cout << "entity free = " << nbr << std::endl;
 }
 
