@@ -29,7 +29,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &t)
             game.ecs.emplaceComp<InvincibleTime>(i, InvincibleTime(game.getTime(), 0.1));
             game.ecs.removeComponent<Dmg>(i);
             if (life[i].value()._life <= 0) {
-                std::cout << "c aacccccccccccccccccccccccccccccccccccccccccccccccccccccccc" << std::endl;
                 game.ecs.emplaceComp(i, Death());
             }
         }

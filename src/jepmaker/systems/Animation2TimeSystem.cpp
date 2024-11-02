@@ -48,12 +48,10 @@ static void checkRules(std::optional<Animation2Time> &anim, std::optional<Invinc
 
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
-    std::cout << "start of Animation2Time" << std::endl;
     auto &inv = game.ecs.getComp<InvincibleTime>();
     auto &animation = game.ecs.getComp<Animation2Time>();
 
     for (std::size_t i = 0; i < animation.size(); i++) {
         checkRules(animation[i], inv[i], game.getTime(), i, game);
     }
-    std::cout << "end of Animation2Time" << std::endl;
 }

@@ -73,15 +73,14 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
     auto &type = game.ecs.getComp<Type>();
 
     for (std::size_t i = 0; i < life.size(); i++) {
-        if (life[i].has_value() && life[i].value()._life <= 0 && type[i].has_value() && type[i].value().getType() != CONTRO)
+        if (life[i].has_value() && life[i].value()._life <= 0 && type[i].has_value() && type[i].value().getType() != CONTRO && anim[i].has_value() == false)
             removeAll(game, i);
         if (tofree[i].has_value())
             removeAll(game, i);
     }
-    std::cout << "nbr of entity = " << game.ecs.entityNbr() << std::endl;
     for (std::size_t i = 0; i < free.size(); i++)
         if (free[i].has_value())
             nbr++;
-    std::cout << "nbr of free entity = " << nbr << std::endl;
+    std::cout << "entity free = " << nbr << std::endl;
 }
 

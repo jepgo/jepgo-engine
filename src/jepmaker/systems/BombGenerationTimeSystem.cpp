@@ -19,7 +19,6 @@ static bool checkTime(BombGenerationTime &bomb, float time)
 
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
-    std::cout << "start of BombTime" << std::endl;
     auto &bomb = game.ecs.getComp<BombGenerationTime>();
 
     for (std::size_t i = 0; i < bomb.size(); i++) {
@@ -28,5 +27,4 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
             game.ecs.removeComponent<BombGenerationTime>(i);
         }
     }
-    std::cout << "end of BombTime" << std::endl;
 }

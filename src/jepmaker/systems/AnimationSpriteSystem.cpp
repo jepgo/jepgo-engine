@@ -18,7 +18,6 @@
  */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
-    std::cout << "animation start" << std::endl;
     auto &rec = game.ecs.getComp<Sprite_Animation>();
     auto &draw = game.ecs.getComp<Drawable>();
 
@@ -45,5 +44,4 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
             }
         }
     }
-    std::cout << "end of animation system" << std::endl;
 }

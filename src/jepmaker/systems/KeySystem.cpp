@@ -73,7 +73,6 @@ static bool SearchKey(int key, std::vector<jgo::u32> tmp)
  */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
-    std::cout << "key" << std::endl;
     auto &control = game.ecs.getComp<Controllable>();
     auto &vel = game.ecs.getComp<Velocity>();
     auto &pos = game.ecs.getComp<Positions>();
@@ -100,5 +99,4 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
         vel[i].value().setVel(getDirectionVector(key));
         game.ecs.emplaceComp(i, Move(vel[i].value().getVel()));
     }
-    std::cout << "key end" << std::endl;
 }

@@ -97,7 +97,6 @@ int compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Positions
  */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
-    std::cout << "hit" << std::endl;
     int tmp = 0;
     std::size_t nbr = 0;
     auto &hit = game.ecs.getComp<Hitable>();
@@ -116,7 +115,6 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
         tmp = compareHitable(list, *(it->second), pos[it->first].value(), pos, nbr);
         if (tmp != -1) {
             //if (type[it->first].has_value() && type[it->first].value().getType() == SHIPSHOOT && type[tmp].value().getType() == MINIBOSS)
-            std::cout << "i hittttttttttttttt" << std::endl;
             game.ecs.emplaceComp(it->first, Hit(tmp));
         }    
         nbr++;

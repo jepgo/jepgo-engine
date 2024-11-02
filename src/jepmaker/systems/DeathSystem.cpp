@@ -99,5 +99,4 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
             //game.getGraphicLib()->drawImage
         }
     }
-    std::cout << "Death end" << std::endl;
 }
