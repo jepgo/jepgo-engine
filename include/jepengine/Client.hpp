@@ -87,7 +87,7 @@ namespace jgo {
              */
             template <typename T, jgo::u8 byte>
             auto maybeTreatComponent(std::vector<u8> data) -> bool {
-                data = std::vector(data.begin() + MAGIC_START.size(), data.end());
+                data = std::vector(data.begin() + MAGIC_START.size(), data.end() - MAGIC_END.size());
                 if (data[0] != COMPONENT_BYTE)
                     return false;
                 data.erase(data.begin());
