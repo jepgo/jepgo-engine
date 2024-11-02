@@ -27,6 +27,7 @@ static bool SearchKey(int key, std::vector<jgo::u32> &tmp)
 
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
+    std::vector<jgo::u32> key;
     int playerEntity = -1;
     auto &reborn = game.ecs.getComp<Reborn>();
     auto &contro = game.ecs.getComp<Controllable>();

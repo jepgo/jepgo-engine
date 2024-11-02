@@ -17,7 +17,7 @@ static void generatBomb(BombGeneration &bomb, float time, jgo::Game &game)
     Game::CreateBomb(game, std::move(bomb.getPos()), time, bomb.getTrac());
 }
 
-exported(void) jepgoSystem(jgo::Game &game, float time)
+exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     auto &bomb = game.ecs.getComp<BombGeneration>();
 

@@ -56,6 +56,7 @@
 #include "jepmaker/components/Animation2Time.hpp"
 #include "jepmaker/components/Free.hpp"
 #include "jepmaker/components/ToFree.hpp"
+#include "jepmaker/components/MoveTo.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
@@ -105,8 +106,8 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<DrawPoints>();
     game.useComponent<Lvl>("GameLogic", 18);
     game.useComponent<DrawLvl>();
-    game.useComponent<DistanceKm>();
-    game.useComponent<DrawKm>();
+    game.useComponent<DistanceKm>("GameSystem");
+    game.useComponent<InvincibleTime>();
     game.useComponent<Hit>();
     game.useComponent<Colision>();
     game.useComponent<Controllable>();

@@ -21,6 +21,7 @@ static void Stage1(jgo::Game &game)
 
 static void Stage2(jgo::Game &game, float time)
 {
+    Game::CreateEasyEnemies(game);
     Game::CreateSpaceShip(game, time);
 }
 
