@@ -15,6 +15,13 @@
 
 exported(void) onStart(jgo::Client &game)
 {
+<<<<<<< HEAD
+=======
+    // std::string caca = launchTCP();
+
+    game.loadNetworkClient("Asio");
+    // game.loadGraphic("Raylib");
+>>>>>>> 8c352c3 (fix(engine): remove magic end)
     std::cout << "client has started !" << std::endl;
 
     game.loadNetworkClient("Asio");
@@ -43,6 +50,10 @@ exported(void) onUpdate(jgo::Client &game)
 exported(void) onServerMessage(jgo::Client &game, std::vector<jgo::u8> const &msg)
 {
     game.maybeTreatComponent<Position2D, 0x42>(msg);
+    std::cout << "received "
+        << msg.size()
+        << "bytes"
+        << std::endl;
 }
 
 int main(int ac, char const *const av[])
