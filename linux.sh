@@ -14,6 +14,7 @@ function err() {
 
 function exportPath() {
     export JEPGO_BUILD="$(pwd)/build"
+    export JEPGO_INCLUDE="$(pwd)/include"
 }
 
 function build() {

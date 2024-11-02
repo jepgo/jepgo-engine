@@ -42,7 +42,7 @@ DLLoader::DLLoader(std::string fullpath)
     #endif
     _ptr = dlopen(filename.c_str(), RTLD_LAZY);
     if (_ptr == nullptr)
-        throw std::runtime_error(dlerror());
+        throw jgo::errors::DLError(dlerror());
     #endif
 }
 

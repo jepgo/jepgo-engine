@@ -69,29 +69,35 @@ namespace jgo {
              */
             template <typename T>
             auto useComponent(std::string const &sys = "", int prio = 0) -> void {
-                if (not sys.empty()) {
-                    try {
-                        _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
-                            std::make_shared<jmod::DLLoader>(
-                                jmod::EasyLife()/"jepgo.system." + sys
-                            ),
-                            getTime()
-                        ));
-                    } catch (jgo::errors::DLError const &e) {
-                        _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
-                            std::make_shared<jmod::DLLoader>(
-                                jmod::EasyLife(argv[0])/"jepgo.system." + sys
-                            ),
-                            getTime()
-                        ));
-                    }
-                }
+                if (not sys.empty())
+                    useSystem(sys, prio);
                 this->ecs.runTimeInsert<T>();
                 this->ecs.addRule([](Register::RuleMap &r) {
                     std::any_cast<SparseArray<T>&>(r[std::type_index(typeid(T))]).add();
                 });
                 if constexpr (lua::LuaFriend<T>) /* and */ if (lua)
                     lua->applyComponent<T>();
+            }
+
+            /**
+             * A function for using a system.
+             */
+            auto useSystem(std::string const &sys, int prio = 0) -> void {
+                try {
+                    _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
+                        std::make_shared<jmod::DLLoader>(
+                            jmod::EasyLife()/"jepgo.system." + sys
+                        ),
+                        getTime()
+                    ));
+                } catch (jgo::errors::DLError const &e) {
+                    _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
+                        std::make_shared<jmod::DLLoader>(
+                            jmod::EasyLife(argv[0])/"jepgo.system." + sys
+                        ),
+                        getTime()
+                    ));
+                }
             }
 
             /**
