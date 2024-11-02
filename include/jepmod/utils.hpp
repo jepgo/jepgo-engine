@@ -11,18 +11,18 @@
 
 namespace jgo {
 
-    template <typename T>
-    concept Comparable = requires(T a, T b) {
+    template <typename X>
+    concept Comparable = requires(X a, X b) {
         a < b;
     };
 
     template <Comparable T>
-    T const &max(T const &a, T const &b) {
+    constexpr T const &max(T const &a, T const &b) {
         return (a < b) ? b : a;
     }
 
     template <Comparable T>
-    T const &min(T const &a, T const &b) {
+    constexpr T const &min(T const &a, T const &b) {
         return (a < b) ? a : b;
     }
 }

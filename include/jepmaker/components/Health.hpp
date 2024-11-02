@@ -16,7 +16,7 @@ class Health {
             return;
         }
         constexpr inline void takeDamage(int n) {
-            _health = jgo::max(_health - n, 0);
+            _health = jgo::max<int>(_health - n, 0);
         }
         constexpr inline auto isDead() const noexcept -> bool {
             return _health == 0;
