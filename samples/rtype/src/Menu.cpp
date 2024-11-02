@@ -29,8 +29,10 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
     _titlePos = { 50, 20 };
 
     _buttons.push_back(Button(true, 0, 100, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Play", "Start the game from the hangar (where pilots can customize their starfighters).", _font, [&game]() {
-        if (game.hasGraphicLib())
+        if (game.hasGraphicLib()) {
+            EndDrawing();
             game.getGraphicLib()->closeWindow();
+        }
         if (mainClient() == 1)
             return 1;
         return 0;

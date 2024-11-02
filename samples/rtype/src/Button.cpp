@@ -74,7 +74,6 @@ int Menu::Button::buttonClicked()
 
     if (CheckCollisionPointRec(mousePos, { _x, _y, _width, _height })) {
         int status = _onClick();
-        std::cout << "STATUS = " << status << std::endl;
         return status;
     }
     return 0;

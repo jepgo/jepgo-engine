@@ -15,11 +15,8 @@
 int main(void)
 {
     size_t screenWidth = 800, screenHeight = 600;
-    int ac = 0;
-    const char *av[] = {};
 
-    jgo::Client window(ac, av);
-
+    jgo::Client window(0, NULL);
     window.loadGraphic("Raylib");
     window.getGraphicLib()->openWindow("R-Type", {0, 0, 800, 600});
     
@@ -30,9 +27,6 @@ int main(void)
     SetTargetFPS(200);
     while (window.hasGraphicLib() && window.getGraphicLib()->isWindowOpen())
     {
-        screenWidth = GetScreenWidth();
-        screenHeight = GetScreenHeight();
-        // m.updateSize(screenWidth, screenHeight);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         if (m.drawMenu() == 1)
