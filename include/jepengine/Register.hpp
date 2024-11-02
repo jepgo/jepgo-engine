@@ -25,6 +25,7 @@ class Register {
 public:
     using RuleMap = std::map<std::type_index, std::any>;
     using RuleCB = std::function<void(RuleMap &)>;
+    using RuleGCB = std::function<void(RuleMap &, std::size_t)>;
 
     /**
      * The register constructor.
@@ -40,6 +41,11 @@ public:
      * Creates a new entity (number is stored in currentEntity).
      */
     void createEntity();
+
+    /**
+     * Remove an entity
+     */
+    void removeEntity(std::size_t entity);
     
     /**
      * Get the register map.
@@ -61,6 +67,13 @@ public:
      */
     inline auto addRule(RuleCB cb) -> void {
         _rules.push_back(cb);
+    }
+
+    /**
+     * Add a new rule that applies when entity destroys.
+     */
+    inline auto addGarbageRule(RuleGCB cb) -> void {
+        _garbageRules.push_back(cb);
     }
 
     /**
@@ -108,4 +121,5 @@ public:
 private:
     RuleMap _regist;
     std::vector<RuleCB> _rules;
+    std::vector<RuleGCB> _garbageRules;
 };

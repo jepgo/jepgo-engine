@@ -75,6 +75,9 @@ namespace jgo {
                 this->ecs.addRule([](Register::RuleMap &r) {
                     std::any_cast<SparseArray<T>&>(r[std::type_index(typeid(T))]).add();
                 });
+                this->ecs.addGarbageRule([](Register::RuleMap &r, std::size_t e) {
+                    std::any_cast<SparseArray<T>&>(r[std::type_index(typeid(T))]).erase(e);
+                });
                 if constexpr (lua::LuaFriend<T>) /* and */ if (lua)
                     lua->applyComponent<T>();
             }

@@ -57,52 +57,7 @@
 
 static void removeAll(jgo::Game &game, std::size_t entity)
 {
-    game.ecs.removeComponent<Positions>(entity);
-    game.ecs.removeComponent<Hitable>(entity);
-    game.ecs.removeComponent<Move>(entity);
-    game.ecs.removeComponent<Sprite_Animation>(entity);
-    game.ecs.removeComponent<Invincible>(entity);
-    game.ecs.removeComponent<AutoShoot>(entity);
-    game.ecs.removeComponent<Module>(entity);
-    game.ecs.removeComponent<DoDmg>(entity);
-    game.ecs.removeComponent<Dmg>(entity);
-    game.ecs.removeComponent<Death>(entity);
-    game.ecs.removeComponent<Explosion>(entity);
-    game.ecs.removeComponent<Animation2Time>(entity);
-    game.ecs.removeComponent<BombGeneration>(entity);
-    game.ecs.removeComponent<BombGenerationTime>(entity);
-    game.ecs.removeComponent<Drawable>(entity);
-    game.ecs.removeComponent<Velocity>(entity);
-    game.ecs.removeComponent<Type>(entity);
-    game.ecs.removeComponent<Sprite_Status>(entity);
-    game.ecs.removeComponent<SoundLoop>(entity);
-    game.ecs.removeComponent<Short_Animation>(entity);
-    game.ecs.removeComponent<Shoot>(entity);
-    game.ecs.removeComponent<ScreenLimit>(entity);
-    game.ecs.removeComponent<MoveToPlayerTime>(entity);
-    game.ecs.removeComponent<MoveToPlayer>(entity);
-    game.ecs.removeComponent<Life>(entity);
-    game.ecs.removeComponent<Enemy>(entity);
-    game.ecs.removeComponent<MoveToPlayer>(entity);
-    game.ecs.removeComponent<MoveToPlayerTime>(entity);
-    game.ecs.removeComponent<LoopMove>(entity);
-    game.ecs.removeComponent<ModuleArmor>(entity);
-    game.ecs.removeComponent<ModuleShoot>(entity);
-    game.ecs.removeComponent<Reborn>(entity);
-    game.ecs.removeComponent<DrawReborn>(entity);
-    game.ecs.removeComponent<Exp>(entity);
-    game.ecs.removeComponent<Points>(entity);
-    game.ecs.removeComponent<DrawPoints>(entity);
-    game.ecs.removeComponent<Lvl>(entity);
-    game.ecs.removeComponent<DrawLvl>(entity);
-    game.ecs.removeComponent<DistanceKm>(entity);
-    game.ecs.removeComponent<DrawKm>(entity);
-    game.ecs.removeComponent<InvincibleTime>(entity);
-    game.ecs.removeComponent<Hit>(entity);
-    game.ecs.removeComponent<Colision>(entity);
-    game.ecs.removeComponent<Controllable>(entity);
-    game.ecs.removeComponent<LvLUp>(entity);
-    game.ecs.removeComponent<ToFree>(entity);
+    game.ecs.removeEntity(entity);
     game.ecs.emplaceComp(entity, Free());
 }
 

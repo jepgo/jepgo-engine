@@ -19,6 +19,12 @@ Register::~Register()
     return;
 }
 
+void Register::removeEntity(std::size_t e)
+{
+    for (auto const &cb : _garbageRules)
+        cb(_regist, e);
+}
+
 void Register::createEntity()
 {
     auto &free = getComp<Free>();
