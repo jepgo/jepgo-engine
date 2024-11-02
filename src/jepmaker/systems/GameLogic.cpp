@@ -46,7 +46,7 @@ static void Stage4(jgo::Game &game)
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     int entity = -1;
-    float reset = 3.0;
+    float reset = 1.0;
     auto &km = game.ecs.getComp<DistanceKm>();
     auto &sound = game.ecs.getComp<SoundLoop>();
 

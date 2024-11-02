@@ -74,7 +74,7 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(0, 0));
             r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-2, 0)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(1700, randomYPos()));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/parallax-space-stars.png", jgo::Rectangle{0, 0, 840, 859}, std::vector<float>{0.05, 0.05}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/asteroid.png", jgo::Rectangle{0, 0, 840, 859}, std::vector<float>{0.05, 0.05}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({2, 2}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(35, 35, Positions(0, -1)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Enemy(100, 10));
@@ -93,7 +93,7 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(0, 0));
             r.ecs.emplaceComp(r.ecs.currentEntity, Move(Positions(-4, 0)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Positions(1700, randomYPos()));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("11", jgo::Rectangle{0, 0, 32, 23}, std::vector<float>{1.5, 1.5}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Drawable("sprites/spaceship.png", jgo::Rectangle{0, 0, 32, 23}, std::vector<float>{1.5, 1.5}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Sprite_Animation(8, 32, 0.3));
             r.ecs.emplaceComp(r.ecs.currentEntity, Velocity({1, 1}));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(35, 35, Positions(0, -1)));
@@ -205,17 +205,17 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(100, 40));
             r.ecs.emplaceComp(r.ecs.currentEntity, Life(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, Reborn(3));
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Positions(10, 560), 15, ));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Positions(10, 560), 15, 0xFF0000));
             r.ecs.emplaceComp(r.ecs.currentEntity, Shoot(0.5, RIGHT, 20, 2));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(CONTRO));
             r.ecs.emplaceComp(r.ecs.currentEntity, Exp(0));
             r.ecs.emplaceComp(r.ecs.currentEntity, Points());
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawPoints(Positions(10, 500), 20, GREEN));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawPoints(Positions(10, 500), 20, 0x00FF00));
             r.ecs.emplaceComp(r.ecs.currentEntity, Lvl(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(10));
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Positions(10, 540), 15, RED));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Positions(10, 540), 15, 0xFF0000));
             r.ecs.emplaceComp(r.ecs.currentEntity, DistanceKm());
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Positions(650, 20), 30, GREEN));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Positions(650, 20), 30, 0x00FF00));
             r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
         };
         static void CreateBoostModule(jgo::Game &r, std::size_t PlayerEntity) {
