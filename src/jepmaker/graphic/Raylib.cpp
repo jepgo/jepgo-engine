@@ -353,10 +353,14 @@ void Raylib::update()
             );
             break;
 
+            // draw text
+            case _Argument::AT_Text:
+            DrawText(e.text.c_str(), static_cast<int>(e.rects[0].x), static_cast<int>(e.rects[0].y), e.size, e.color);
+            break;
+
             // the rest im lazy to handle
             default:
             break;
-            
         }
     _actions.clear();
     EndDrawing();

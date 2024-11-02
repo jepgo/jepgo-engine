@@ -34,25 +34,6 @@ namespace jgo {
     };
 
     /**
-     * A Color that have r, g, b and a value.
-     */
-    struct Color {
-        Color(
-            unsigned char r,
-            unsigned char g,
-            unsigned char b,
-            unsigned char a
-        ) : r(r), g(g), b(b), a(a) {
-            return;
-        };
-        unsigned char r = 0;
-        unsigned char g = 0;
-        unsigned char b = 0;
-        unsigned char a = 0;
-    };
-
-
-    /**
      * Just a vector with 3 float positions.
      */
     struct Vector3 {

@@ -4,7 +4,7 @@ SET(CMAKE_CXX_STANDARD 23)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 SET(Systems
-    HandleMoleBehaviorSystem.cpp
+    systems/HandleMoleBehaviorSystem.cpp
 )
 
 foreach(file ${Systems})
