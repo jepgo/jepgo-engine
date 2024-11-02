@@ -60,7 +60,7 @@ class AsioServer: public jgo::IServer {
 
 class AsioClient: public jgo::IClient {
     public:
-        inline AsioClient(): _socket(_service) {
+        inline AsioClient(): _socket(_context) {
             return;
         }
         void connect(std::string const &ip, jgo::u16 port) override;
@@ -72,8 +72,8 @@ class AsioClient: public jgo::IClient {
         void _startReceiving(void);
         void _handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf);
         void _processMessages(void);
-        // asio::io_context _context;
-        asio::io_service _service;
+        asio::io_context _context;
+        // asio::io_service _service;
         udp::socket _socket;
         udp::endpoint _serverEndpoint;
         std::string _buffer; 
@@ -150,8 +150,10 @@ void AsioServer::sendToAll(std::vector<jgo::u8> const &vec)
     std::string const fullMessage = jgo::MAGIC_START + message + jgo::MAGIC_END;
 
     for (auto const &e : _buffers) {
+        std::cout << e.first.address() << std::endl;
         _socket.async_send_to(asio::buffer(fullMessage), e.first,
             [this](std::error_code err, std::size_t bytes) -> void {
+                std::cout << "send" << std::endl;
                 return;
             });
     }
@@ -182,88 +184,42 @@ std::vector<jgo::NetMessage> AsioServer::getAllMessages(void)
 void AsioClient::connect(std::string const &ip, jgo::u16 port) {
     _serverEndpoint = udp::endpoint(asio::ip::address::from_string(ip), port);
     _socket.open(udp::v4());
-    _startReceiving();
 }
 
 void AsioClient::_startReceiving(void)
 {
-    Buffer buf = std::make_shared<std::array<char, jgo::BUFFER_SIZE>>();
-    
-    std::cout << "waiting" << std::endl;
-    _socket.receive_from(asio::buffer(*buf), _serverEndpoint);
-    std::cout << "test" << std::endl;
-    // _socket.async_receive_from(
-    //     asio::buffer(*buf), _serverEndpoint,
-    //     [this, buf](std::error_code err, std::size_t bytes) {
-    //         std::cout << "test" << std::endl;
-    //         _handleReceive(err, bytes, buf);
-    //     }
-    // );
-}
+    std::array<char, jgo::BUFFER_SIZE> buf;
 
-void AsioClient::_handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf)
-{
-    if (err)
-        throw jgo::errors::NetworkError("asio", err.message());
-
-    _buffer.append(reinterpret_cast<char*>(buf->data()), bytes);
-    // _processMessages();
-    _startReceiving();
-}
-
-void AsioClient::_processMessages(void) {
-    // std::size_t start = 0;
-    // std::size_t end = 0;
-
-    // while (true) {
-    //     start = _buffer.find(jgo::MAGIC_START, start);
-    //     if (start == std::string::npos)
-    //         break;
-    //     end = _buffer.find(jgo::MAGIC_END, start + jgo::MAGIC_START.length());
-    //     if (end == std::string::npos)
-    //         break;
-    //     end += jgo::MAGIC_END.length();
-    //     std::string message = _buffer.substr(
-    //         start + jgo::MAGIC_START.length(),
-    //         end - start - jgo::MAGIC_START.length() - jgo::MAGIC_END.length()
-    //     );
-
-    //     // Process message as needed (e.g., store it or call a handler)
-
-    //     _buffer.erase(0, end);
-    //     start = 0;
-    // }
+    size_t len = _socket.receive_from(asio::buffer(buf), _serverEndpoint);
+    _buffer += std::string(buf.data(), len);
 }
 
 void AsioClient::sendToServer(std::vector<jgo::u8> const &data) {
     std::string const message(data.begin(), data.end());
     std::string const fullMessage = jgo::MAGIC_START + message + jgo::MAGIC_END;
 
-    _socket.async_send_to(asio::buffer(fullMessage), _serverEndpoint,
-        [](std::error_code err, std::size_t bytes) {
-            return;
-        });
+    _socket.send_to(asio::buffer(fullMessage), _serverEndpoint);
 }
 
 std::vector<jgo::u8> AsioClient::getMessage(void) {
     std::vector<jgo::u8> result;
     
+    this->_startReceiving();
     std::cout << _buffer << std::endl;
-    if (_buffer.find(jgo::MAGIC_START) != std::string::npos) {
-        std::size_t start = _buffer.find(jgo::MAGIC_START) + jgo::MAGIC_START.length();
-        std::size_t end = _buffer.find(jgo::MAGIC_END, start);
-        if (end != std::string::npos) {
-            std::string message = _buffer.substr(start, end - start);
-            result = std::vector<jgo::u8>(message.begin(), message.end());
-            _buffer.erase(0, end + jgo::MAGIC_END.length());
-        }
-    }
+    if (_buffer.find(jgo::MAGIC_START) == std::string::npos)
+        return result;
+    std::size_t start = _buffer.find(jgo::MAGIC_START) + jgo::MAGIC_START.length();
+    std::size_t end = _buffer.find(jgo::MAGIC_END, start);
+    if (end == std::string::npos)
+        return result;
+    std::string message = _buffer.substr(start, end - start);
+    result = std::vector<jgo::u8>(message.begin(), message.end());
+    _buffer.erase(0, end + jgo::MAGIC_END.length());
     return result;
 }
 
 void AsioClient::stop(void) {
     _socket.close();
-    _service.stop();
 }
 
 exported(jgo::ptr<jgo::IServer>) getServer(void)

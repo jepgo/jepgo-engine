@@ -15,7 +15,8 @@
 exported(void) onStart(jgo::Client &game)
 {
     game.loadNetworkClient("Asio");
-    std::cout << "ckient has started !" << std::endl;
+    // game.loadGraphic("Raylib");
+    std::cout << "client has started !" << std::endl;
 }
 
 exported(void) onBegin(jgo::Client &game)
@@ -48,7 +49,7 @@ int main(int ac, char const *const av[])
     while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
         if (game.hasNetwork()) {
             auto const msg = game.getServerMessage();
-            if (not msg.empty()) onServerMessage(game, msg);
+            onServerMessage(game, msg);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         onUpdate(game);
