@@ -140,17 +140,8 @@ exported(void) onStart(jgo::Client &game)
 // system's call.
 exported(void) onUpdate(jgo::Client &game)
 {
-    //std::vector<jgo::u32> tmp = game.getGraphicLib()->getKeyPressed();
     std::vector<jgo::u32> &a = std::any_cast<std::vector<jgo::u32> &>(game.storage["keys"]);
     a = game.getGraphicLib()->getKeyPressed();
-    std::vector<jgo::u32> &o = std::any_cast<std::vector<jgo::u32>&>(game.storage["keys"]);
-
-    for (auto &b : o) {
-        std::cout << "so = " << b << std::endl;
-    }
-
-    //
-    //std::cout << "nbr of entity = " << game.ecs.entityNbr() << std::endl;
     return;
 }
 
