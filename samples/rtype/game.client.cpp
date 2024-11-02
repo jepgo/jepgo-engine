@@ -61,6 +61,7 @@
 // this is the function that will be called when starting
 exported(void) onStart(jgo::Client &game)
 {
+    std::cout << "on Start!" << std::endl;
     game.loadGraphic("Raylib");
     game.storage["keys"] = std::vector<jgo::u32>();
 
@@ -157,7 +158,7 @@ exported(void) onUpdate(jgo::Client &game)
 int main(int ac, char const *const av[])
 {
     jgo::Client game(ac, av);
-
+    std::cout << "main bebe!" << std::endl;
     onStart(game);
     if (game.hasGraphicLib())
         game.getGraphicLib()->openWindow("my windows", {0, 0, 800, 600});

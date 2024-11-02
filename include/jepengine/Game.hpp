@@ -120,7 +120,10 @@ namespace jgo {
                 jgo::ptr<jgo::IGraphic> & {
                 if (not _graphicLib)
                     throw jgo::errors::NoGraphic();
-                return *_graphicLib;
+                std::cout << "la" << std::endl;
+                auto &x = *_graphicLib;
+                std::cout << "ici" << std::endl;
+                return x;
             }
 
             /**
