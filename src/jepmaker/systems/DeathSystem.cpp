@@ -20,6 +20,7 @@
 #include "jepmaker/components/Move.hpp"
 #include "jepmaker/components/SpriteStatus.hpp"
 #include "jepmaker/components/Drawable2D.hpp"
+#include "jepmaker/components/Message.hpp"
 
 static void ControlDeath(jgo::Game &game, std::size_t entity)
 {
@@ -32,7 +33,7 @@ static void ControlDeath(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Move>(entity);
     game.ecs.removeComponent<Sprite_Status>(entity);
     //game.ecs.creatEntity();
-    //game.ecs.emplace_comp(game.ecs.currentEntity, Message("You are dead...", Positions(200, 200), 50, RED));
+    game.ecs.emplaceComp(game.ecs.currentEntity, Message("You are dead...", Positions(200, 200), 50, 0xffff0000));
 }
 
 static void ModulesDeath(jgo::Game &game, std::size_t entity)
@@ -95,6 +96,8 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
                 }
             }
             game.ecs.removeComponent<Death>(i);
+            //game.getGraphicLib()->drawImage
         }
     }
+    std::cout << "Death end" << std::endl;
 }

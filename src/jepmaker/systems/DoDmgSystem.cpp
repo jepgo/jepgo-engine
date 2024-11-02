@@ -59,6 +59,7 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
 
     for (std::size_t i = 0; i < hit.size(); i++) {
         if (hit[i].has_value() && checkValue(game, hit[i].value().GetEntity(), i)) {
+            std::cout << "damageddd" << std::endl;
             game.ecs.emplaceComp<Dmg>(i, addDmg(dmg[i], doDmg[hit[i].value().GetEntity()].value().getDmg()));
         }
         game.ecs.removeComponent<Hit>(i);

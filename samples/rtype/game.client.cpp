@@ -62,22 +62,26 @@
 exported(void) onStart(jgo::Client &game)
 {
     game.loadGraphic("Raylib");
-    game.useComponent<Positions>("KeySystem");
-    game.useComponent<Hitable>("HitSystem");
-    game.useComponent<Move>("MoveSystem");
-    game.useComponent<Sprite_Animation>("AnimationSpriteSystem");
-    game.useComponent<Invincible>("InvincibleSystem");
-    game.useComponent<AutoShoot>("AutoShootSystem");
-    game.useComponent<Module>("ModuleSystem");
-    game.useComponent<DoDmg>("DoDmgSystem");
-    game.useComponent<Dmg>("DmgSystem");
-    game.useComponent<Free>("FreeSystem");
-    game.useComponent<Death>("DeathSystem");
-    game.useComponent<Explosion>("ExplosionSystem");
-    game.useComponent<Animation2Time>("Animation2TimeSystem");
-    game.useComponent<BombGeneration>("BombGenerationSystem");
-    game.useComponent<BombGenerationTime>("BombGenerationTimeSystem");
-    game.useComponent<Drawable>("Draw2DSystem");
+    game.storage["keys"] = std::vector<jgo::u32>();
+
+    game.useComponent<Positions>("KeySystem", 1);
+    game.useComponent<Hitable>("HitSystem", 2);
+    game.useComponent<Move>("MoveSystem", 3);
+    game.useComponent<Sprite_Animation>("AnimationSpriteSystem", 4);
+    game.useComponent<Invincible>("InvincibleSystem", 5);
+    game.useComponent<InvincibleTime>("InvincibleTimeSystem", 6);
+    game.useComponent<AutoShoot>("AutoShootSystem", 6);
+    game.useComponent<Module>("ModuleSystem", 7);
+    game.useComponent<DoDmg>("DoDmgSystem", 8);
+    game.useComponent<Dmg>("DmgSystem", 9);
+    game.useComponent<Free>("FreeSystem", 10);
+    game.useComponent<Explosion>("ExplosionSystem", 11);
+    game.useComponent<Death>("DeathSystem", 12);
+    game.useComponent<Animation2Time>("Animation2TimeSystem", 13);
+    game.useComponent<BombGeneration>("BombGenerationSystem", 14);
+    game.useComponent<Reborn>("RebornSystem", 15);
+    game.useComponent<BombGenerationTime>("BombGenerationTimeSystem", 16);
+    game.useComponent<Drawable>("Draw2DSystem", 17);
     game.useComponent<Velocity>();
     game.useComponent<Type>();
     game.useComponent<Sprite_Status>();
@@ -94,21 +98,21 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<LoopMove>();
     game.useComponent<ModuleArmor>();
     game.useComponent<ModuleShoot>();
-    game.useComponent<Reborn>();
     game.useComponent<DrawReborn>();
     game.useComponent<Exp>();
     game.useComponent<Points>();
     game.useComponent<DrawPoints>();
-    game.useComponent<Lvl>("GameLogic");
+    game.useComponent<Lvl>("GameLogic", 18);
     game.useComponent<DrawLvl>();
     game.useComponent<DistanceKm>();
     game.useComponent<DrawKm>();
-    game.useComponent<InvincibleTime>();
     game.useComponent<Hit>();
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
     game.useComponent<LvLUp>();
-    game.useComponent<ToFree>("DestroyerSystem");
+    game.useComponent<Message>();
+    game.useComponent<MessageTime>();
+    game.useComponent<ToFree>("DestroyerSystem", 19);
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
@@ -136,6 +140,16 @@ exported(void) onStart(jgo::Client &game)
 // system's call.
 exported(void) onUpdate(jgo::Client &game)
 {
+    //std::vector<jgo::u32> tmp = game.getGraphicLib()->getKeyPressed();
+    std::vector<jgo::u32> &a = std::any_cast<std::vector<jgo::u32> &>(game.storage["keys"]);
+    a = game.getGraphicLib()->getKeyPressed();
+    std::vector<jgo::u32> &o = std::any_cast<std::vector<jgo::u32>&>(game.storage["keys"]);
+
+    for (auto &b : o) {
+        std::cout << "so = " << b << std::endl;
+    }
+
+    //
     //std::cout << "nbr of entity = " << game.ecs.entityNbr() << std::endl;
     return;
 }
@@ -148,7 +162,7 @@ int main(int ac, char const *const av[])
     if (game.hasGraphicLib())
         game.getGraphicLib()->openWindow("my windows", {0, 0, 800, 600});
     while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
-        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
         onUpdate(game);
         game.getGraphicLib()->update();
         game.callSystems();

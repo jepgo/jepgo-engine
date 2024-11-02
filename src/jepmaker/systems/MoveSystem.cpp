@@ -49,6 +49,7 @@ static bool checkScreen(std::optional<ScreenLimit> &limit, Positions pos)
 }
 
 exported(void) jepgoSystem(jgo::Game &game, float &time) {
+    std::cout << "move" << std::endl;
     float reset = 0.01;
     auto &move = game.ecs.getComp<Move>();
     auto &pos = game.ecs.getComp<Positions>();

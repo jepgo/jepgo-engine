@@ -15,9 +15,9 @@
 exported(void) onStart(jgo::Client &game)
 {
     std::cout << "prio has started !" << std::endl;
-    game.useSystem("systemA");
-    game.useSystem("systemB", -10);
-    game.useSystem("systemC", 10);
+    game.useSystem("systemA", 3);
+    game.useSystem("systemB", 2);
+    game.useSystem("systemC", 1);
 }
 
 exported(void) onBegin(jgo::Client &game)

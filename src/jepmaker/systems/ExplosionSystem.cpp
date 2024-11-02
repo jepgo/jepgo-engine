@@ -40,8 +40,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &t)
         if (death[i].has_value() && explosion[i].has_value()) {
             Explosion& tmp = explosion[i].value();
             ToExplose(game, i, tmp.rect, tmp.index, tmp.stat, tmp.value, tmp.time, std::array<float, 2>{tmp.scale[0], tmp.scale[1]});
-            //explosion[i].value().explose(r, i);
-            // PlaySound(sounds[ind]);
         }
     }
 }
