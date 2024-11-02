@@ -68,29 +68,29 @@ namespace jgo {
              * `game.useComponent("health");`
              */
             template <typename T>
-            auto useComponent(std::string const &sys = "") -> void {
-                std::string realLib;
-
+            auto useComponent(std::string const &sys = "", int prio = 0) -> void {
                 if (not sys.empty()) {
-                    realLib = jmod::EasyLife()/"jepgo.system." + sys;
                     try {
-                        _systems[sys] = std::make_pair(
-                            std::make_shared<jmod::DLLoader>(realLib),
+                        _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
+                            std::make_shared<jmod::DLLoader>(
+                                jmod::EasyLife()/"jepgo.system." + sys
+                            ),
                             getTime()
-                        );
+                        ));
                     } catch (jgo::errors::DLError const &e) {
-                        realLib = jmod::EasyLife()/"jepgo.system." + sys;
-                        _systems[sys] = std::make_pair(
-                            std::make_shared<jmod::DLLoader>(realLib),
+                        _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
+                            std::make_shared<jmod::DLLoader>(
+                                jmod::EasyLife(argv[0])/"jepgo.system." + sys
+                            ),
                             getTime()
-                        );
+                        ));
                     }
                 }
                 this->ecs.runTimeInsert<T>();
                 this->ecs.addRule([](Register::RuleMap &r) {
                     std::any_cast<SparseArray<T>&>(r[std::type_index(typeid(T))]).add();
                 });
-                if constexpr (lua::LuaFriend<T>) if (lua)
+                if constexpr (lua::LuaFriend<T>) /* and */ if (lua)
                     lua->applyComponent<T>();
             }
 
@@ -148,8 +148,22 @@ namespace jgo {
             std::optional<std::shared_ptr<jgo::IGraphic>> _graphicLib;
 
             /**
+             * The component key so that i can sort by priority.
+             */
+            struct _ComponentKey {
+                _ComponentKey(std::string const &str, int i): str(str), prio(i) {
+                    return;
+                }
+                std::string str;
+                int prio;
+                auto inline operator<(_ComponentKey const &other) const -> bool {
+                    return prio < other.prio;
+                }
+            };
+
+            /**
              * The components.
              */
-            std::map<std::string, std::optional<std::pair<jmod::DLLoaderPtr, float>>> _systems;
+            std::multimap<_ComponentKey, std::pair<jmod::DLLoaderPtr, float>> _systems;
     };
 }

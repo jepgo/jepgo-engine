@@ -5,7 +5,11 @@
 ## If you want to build on Windows, you need to install a bash interpreter like Git Bash.
 
 function say() {
-    echo -e "(._.) <( \x1b[32;1m" $@ "\x1b[m )"
+    echo -e "(._.) <( \x1b[34;1m" $@ "\x1b[m )"
+}
+
+function err() {
+    echo -e "(x.x) <( \x1b[31;1m" $@ "\x1b[m )"
 }
 
 function exportPath() {
@@ -21,6 +25,9 @@ function build() {
     cmake ..
     say "Building files";
     cmake --build .
+    if [[ $? -ne 0 ]]; then
+        err "Error while compiling"
+    fi
     say "Going back";
     cd ..
 }
