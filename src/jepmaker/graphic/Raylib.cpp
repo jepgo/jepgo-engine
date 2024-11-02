@@ -346,6 +346,6 @@ void Raylib::closeWindow(void)
     CloseAudioDevice();
 }
 
-exported(std::shared_ptr<jgo::IGraphic>) createLibrary(void) {
+exported(jgo::ptr<jgo::IGraphic>) createLibrary(void) {
     return std::make_shared<Raylib>(Raylib());
 }

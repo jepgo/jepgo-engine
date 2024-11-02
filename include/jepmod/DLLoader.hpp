@@ -13,6 +13,7 @@
 #include <functional>
 
 #include "jepengine/exceptions.hpp"
+#include "jepengine/types.hpp"
 
 #if defined(WINDOWS) || defined(_WIN32)
     #include <windows.h>
@@ -113,6 +114,6 @@ namespace jmod {
     /**
      * The DLLoader reference.
      */
-    using DLLoaderPtr = std::shared_ptr<DLLoader>;
+    using DLLoaderPtr = jgo::ptr<DLLoader>;
 
 }

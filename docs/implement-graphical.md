@@ -134,7 +134,7 @@ class YourLib: public IGraphic {
 /**
  * Your generate function.
  */
-exported(std::shared_ptr<IGraphic>) generate(void) {
+exported(jgo::ptr<IGraphic>) generate(void) {
     return std::make_shared<IGraphic>(YourLib());
 }
 ```

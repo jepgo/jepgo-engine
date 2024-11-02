@@ -45,7 +45,7 @@ namespace jgo {
      */
     using NetMessage = std::pair<
         std::vector<jgo::u8>,
-        std::shared_ptr<IConnection>
+        jgo::ptr<IConnection>
     >;
 
     class IServer {

@@ -101,7 +101,7 @@ namespace jgo {
             /**
              * Your jepgo server.
              */
-            std::optional<std::shared_ptr<jgo::IServer>> _server;
+            std::optional<jgo::ptr<jgo::IServer>> _server;
             
     };
 }

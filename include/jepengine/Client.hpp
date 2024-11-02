@@ -105,7 +105,7 @@ namespace jgo {
             /**
              * Your jepgo client.
              */
-            std::optional<std::shared_ptr<jgo::IClient>> _client;
+            std::optional<jgo::ptr<jgo::IClient>> _client;
 
     };
 

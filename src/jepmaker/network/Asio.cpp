@@ -34,7 +34,7 @@ class AsioConnection: public jgo::IConnection {
         udp::endpoint _endpoint;
 };
 
-using Buffer = std::shared_ptr<std::array<char, jgo::BUFFER_SIZE>>;
+using Buffer = jgo::ptr<std::array<char, jgo::BUFFER_SIZE>>;
 
 class AsioServer: public jgo::IServer {
 
@@ -266,19 +266,19 @@ void AsioClient::stop(void) {
     _service.stop();
 }
 
-exported(std::shared_ptr<jgo::IServer>) getServer(void)
+exported(jgo::ptr<jgo::IServer>) getServer(void)
 {
     return std::make_shared<AsioServer>();
 }
 
-exported(std::shared_ptr<jgo::IClient>) getClient(void)
+exported(jgo::ptr<jgo::IClient>) getClient(void)
 {
     return std::make_shared<AsioClient>();
 }
 
 // int main(void)
 // {
-//     std::shared_ptr<jgo::IServer> server = std::make_shared<AsioServer>();
+//     jgo::ptr<jgo::IServer> server = std::make_shared<AsioServer>();
 //     std::string str;
 //     std::string const msg = "Hello client !";
 //     std::vector<jgo::u8> const bytes(msg.begin(), msg.end());

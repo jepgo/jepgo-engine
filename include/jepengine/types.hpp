@@ -10,6 +10,10 @@
 
     #include <cstdint>
 
+    #if !defined(WINDOWS) && !defined(_WIN32)
+    #include <memory>
+    #endif
+
 namespace jgo {
     using u8 = std::uint8_t;
     using s8 = std::int8_t;
@@ -19,6 +23,13 @@ namespace jgo {
     using s32 = std::int32_t;
     using u64 = std::uint64_t;
     using s64 = std::int64_t;
+
+    template <typename T>
+    #if defined(WINDOWS) || defined(_WIN32)
+    using ptr = T *;
+    #else
+    using ptr = std::shared_ptr<T>;
+    #endif
 
     /**
      * A Rectangle that have x, y width and height.
