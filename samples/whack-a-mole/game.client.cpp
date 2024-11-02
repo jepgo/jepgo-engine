@@ -7,7 +7,8 @@
 
 #include "jepengine/Client.hpp"
 #include "jepmod/exported.hpp"
-#include "jepmaker/components/Score.hpp"
+
+#include "components/Score.hpp"
 #include "jepmaker/components/Message.hpp"
 #include "jepmaker/components/Position.hpp"
 #include "jepmaker/components/Drawable2D.hpp"
@@ -39,7 +40,8 @@ static void createMole(jgo::Client &game, Positions &&pos)
 static void createScore(jgo::Client &game)
 {
     game.ecs.createEntity();
-    game.ecs.emplaceComp(game.ecs.currentEntity, Score("Score", 0, Positions(10, 10)));
+    game.ecs.emplaceComp(game.ecs.currentEntity, Positions(10, 180));
+    game.ecs.emplaceComp(game.ecs.currentEntity, Score("Score"));
 }
 
 
@@ -59,6 +61,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Positions>();
     game.useComponent<Clickable2D>("HandleMoleBehaviorSystem");
     game.useComponent<Score>();
+    game.useComponent<Score>("ScoreSystem");
     game.useComponent<Sprite2DMultiAnim>();
     game.useComponent<Sprite2DMultiAnim>("Sprite2DMultiAnimSystem");
     game.useComponent<Message>();
@@ -75,7 +78,6 @@ exported(void) onStart(jgo::Client &game)
     }
 
     createScore(game);
-
 }
 
 exported(void) onUpdate(jgo::Client &game)

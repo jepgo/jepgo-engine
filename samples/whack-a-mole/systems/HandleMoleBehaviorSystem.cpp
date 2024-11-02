@@ -12,7 +12,7 @@
 #include "jepengine/Game.hpp"
 #include "jepmod/exported.hpp"
 
-#include "jepmaker/components/Score.hpp"
+#include "components/Score.hpp"
 #include "jepmaker/components/Position.hpp"
 #include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/Clickable2D.hpp"

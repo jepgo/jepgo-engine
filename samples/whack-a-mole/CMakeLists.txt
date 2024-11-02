@@ -5,6 +5,7 @@ SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 SET(Systems
     systems/HandleMoleBehaviorSystem.cpp
+    systems/ScoreSystem.cpp
 )
 
 foreach(file ${Systems})
