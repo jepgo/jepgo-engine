@@ -46,3 +46,4 @@
 #include "jepmaker/components/Animation2Time.hpp"
 #include "jepmaker/components/Free.hpp"
 #include "jepmaker/components/ToFree.hpp"
+#include "jepmaker/components/MoveTo.hpp"

@@ -182,6 +182,9 @@ std::vector<jgo::NetMessage> AsioServer::getAllMessages(void)
 void AsioClient::connect(std::string const &ip, jgo::u16 port) {
     _serverEndpoint = udp::endpoint(asio::ip::address::from_string(ip), port);
     _socket.open(udp::v4());
+    std::thread([this]() -> void {
+        this->_startReceiving();
+    }).detach();
 }
 
 void AsioClient::_startReceiving(void)
@@ -190,6 +193,7 @@ void AsioClient::_startReceiving(void)
 
     size_t len = _socket.receive_from(asio::buffer(buf), _serverEndpoint);
     _buffer += std::string(buf.data(), len);
+    _startReceiving();
 }
 
 void AsioClient::sendToServer(std::vector<jgo::u8> const &data) {
@@ -202,8 +206,8 @@ void AsioClient::sendToServer(std::vector<jgo::u8> const &data) {
 std::vector<jgo::u8> AsioClient::getMessage(void) {
     std::vector<jgo::u8> result;
     
-    this->_startReceiving();
-    std::cout << _buffer << std::endl;
+    // this->_startReceiving();
+    // std::cout << _buffer << std::endl;
     if (_buffer.find(jgo::MAGIC_START) == std::string::npos)
         return result;
     std::size_t start = _buffer.find(jgo::MAGIC_START) + jgo::MAGIC_START.length();

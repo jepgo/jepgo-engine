@@ -65,6 +65,8 @@ static bool SearchKey(int key, std::vector<jgo::u32> tmp)
     return false;
 }
 
+using KMap = std::map<size_t, std::vector<jgo::u32>>;
+
 /**
  * @brief The Controllable system
  * 
@@ -80,23 +82,28 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     auto &draw = game.ecs.getComp<Drawable>();
     auto &shoot = game.ecs.getComp<Shoot>();
 
-    std::vector<jgo::u32> &key = std::any_cast<std::vector<jgo::u32>&>(game.storage["keys"]);
-
+    auto &keys = std::any_cast<KMap &>(game.storage["keys"]);
     for (std::size_t i = 0; i < control.size(); i++)
     {
         if (!control[i].has_value() || !vel[i].has_value() || !pos[i].has_value())
             continue;
-        if (SearchKey(65, key) && shoot[i].has_value() && shoot[i].value().verif(game.getTime())) {
-            //SetSoundVolume(sounds[shoot[i].value()._ind], 0.1);
-            //PlaySound(sounds[shoot[i].value()._ind]);
-            ToShoot(game, pos[i].value(), shoot[i].value()._direction, shoot[i].value()._decal);
-            //shoot[i].value().shoot(r, pos[i].value());
-            shoot[i].value()._time = game.getTime();
+
+        try {
+            auto &key = keys[i];
+            if (key.empty())
+                continue;
+            std::cout << key.size() << std::endl;
+            if (SearchKey(65, key) && shoot[i].has_value() && shoot[i].value().verif(game.getTime())) {
+                ToShoot(game, pos[i].value(), shoot[i].value()._direction, shoot[i].value()._decal);
+                shoot[i].value()._time = game.getTime();
+            }
+            if (stat[i].has_value() && draw[i].has_value() && !key.empty())
+                moveStatus(stat[i], draw[i], key[0]);
+            vel[i].value().setVel(getDirectionVector(key));
+            game.ecs.emplaceComp(i, Move(vel[i].value().getVel()));
+        } catch (std::exception const &) {
+            continue;
         }
-        if (stat[i].has_value() && draw[i].has_value() && !key.empty())
-            moveStatus(stat[i], draw[i], key[0]);
-        //control[i].value().moveStatus(stat[i], draw[i], key);
-        vel[i].value().setVel(getDirectionVector(key));
-        game.ecs.emplaceComp(i, Move(vel[i].value().getVel()));
+
     }
 }

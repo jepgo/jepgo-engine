@@ -19,8 +19,6 @@ ADD_CUSTOM_TARGET(copy_resources ALL
 # create the systems
 
 SET(Systems
-    Movement.cpp
-    Display.cpp
 )
 
 foreach(file ${Systems})

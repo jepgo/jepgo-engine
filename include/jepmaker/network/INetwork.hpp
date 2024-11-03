@@ -23,6 +23,8 @@ namespace jgo {
     static std::string const MAGIC_END = "*end*";
     static u8 MESSAGE_BYTE = 0x42;
     static u8 COMPONENT_BYTE = 0x84;
+    static u8 NEW_PLAYER_BYTE = 0x69;
+    static u8 DIRECTION_BYTE = 0x10;
 
     /**
      * A connection is a wrapper around a Port and an IP

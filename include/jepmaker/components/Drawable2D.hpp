@@ -11,6 +11,7 @@
 #include <array>
 #include <vector>
 #include <string>
+#include <cstring>
 
 class Drawable {
 public:
@@ -21,23 +22,25 @@ public:
      * @param r optional rectangle for The Sprite to Draw
      * @param s A Optional Vector of 2 float for the Scale
      */
-    Drawable(std::string path, std::optional<jgo::Rectangle> r = std::nullopt, std::vector<float> s = {1, 1}) : index(path), rect(r)
+    Drawable(std::string path = "", std::optional<jgo::Rectangle> r = std::nullopt, std::vector<float> s = {1, 1})
+    : rect(r)
     {
+        std::strcpy(index, path.c_str());
         if (r.has_value())
             start = r.value().x;
         scale[0] = s[0];
         scale[1] = s[1];
     };
-    ~Drawable() {
+    ~Drawable() = default;
+    std::string getIndex() {
+        return std::string(index);
     };
-    void change_ind(std::size_t ind) { index = ind; };
-    std::string &getIndex() { return index; };
     std::optional<jgo::Rectangle> &getRect() { return rect; };
     std::array<float, 2> getScale() {return {scale[0], scale[1]};}
     int start;
 
 private:
-    std::string index;
+    char index[2048] = {0};
     float scale[2] = { 1, 1 };
     std::optional<jgo::Rectangle> rect;
 };
