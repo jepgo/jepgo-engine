@@ -226,13 +226,13 @@ bool Raylib::isMousePressing(jgo::MouseButton const &button)
     return false;
 }
 
-static Color u32tocolor(jgo::u32 i) {
-    return {
-        static_cast<jgo::u8>((i >> 16) & 0xff),
-        static_cast<jgo::u8>((i >> 8) & 0xff),
-        static_cast<jgo::u8>(i & 0xff),
-        static_cast<jgo::u8>((i >> 24) & 0xff)
-    };
+static Color u32tocolor(jgo::u32 colorValue) {
+    Color color;
+    color.a = (colorValue >> 24) & 0xFF;
+    color.r = (colorValue >> 16) & 0xFF;
+    color.g = (colorValue >> 8)  & 0xFF;
+    color.b = colorValue & 0xFF;
+    return color;
 }
 
 void Raylib::drawImage(std::string const &path, jgo::Rectangle const &rect, jgo::Rectangle const &where, jgo::Vector2 const &scale)
@@ -330,6 +330,8 @@ void Raylib::update()
                 e.color
             );
             break;
+
+
             case _Argument::AT_Text:
             DrawText(e.text.c_str(),
                 static_cast<int>(e.rects[0].x),

@@ -31,8 +31,7 @@ static void TableScore(jgo::Game &game)
 
 static void Stage1(jgo::Game &game, float &time)
 {
-    float reset = 2;
-
+    float reset = 1;
     if (game.getTime() - time < reset)
         return;
     Game::CreateEasyEnemies(game);
@@ -92,11 +91,9 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
         Stage1(game, time);
     else if (km[entity].value()._dist >= 100 && km[entity].value()._dist <= 350)
         Stage2(game, time);
-    else if (km[entity].value()._dist >= 350 && km[entity].value()._dist <= 700) {
+    else if (km[entity].value()._dist >= 350 && km[entity].value()._dist <= 700)
         Stage3(game, time);
-    }
     else if (km[entity].value()._dist >= 700)
         Stage4(game, time);
     game.ecs.removeComponent<LvLUp>(entity);
-    time = game.getTime();
 }

@@ -25,7 +25,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     {
         if (bomb[i].has_value())
         {
-            if (time - bomb[i].value().getTime() >= bomb[i].value().getReset()) {
+            if (game.getTime() - bomb[i].value().getTime() >= bomb[i].value().getReset()) {
                 Game::CreateBomb(game, std::move(bomb[i].value().getPos()), game.getTime(), bomb[i].value().getTrac());
                 bomb[i].value().getTime() = game.getTime();
             }

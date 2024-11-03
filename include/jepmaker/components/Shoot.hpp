@@ -31,7 +31,6 @@ public:
     bool verif(float time) {
         if (time - _time >= _fireRate) {
             _time = time;
-            std::cout << "yoyoyoyoyoyoyooyoyoy" << std::endl;
             return true;
         } else
             return false;

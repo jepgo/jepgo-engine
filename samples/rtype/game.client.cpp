@@ -78,16 +78,16 @@ exported(void) onStart(jgo::Client &game)
     game.useSystem("AttachModuleSystem", 8);
     game.useComponent<DoDmg>("DoDmgSystem", 9);
     game.useComponent<Dmg>("DmgSystem", 10);
-    game.useSystem("MyFree", 10);
-    game.useComponent<Free>("FreeSystem", 11);
-    game.useComponent<Explosion>("ExplosionSystem", 12);
-    game.useComponent<Death>("DeathSystem", 13);
+    game.useSystem("MyFree", 12);
+    game.useComponent<Free>("FreeSystem", 13);
+    game.useComponent<Explosion>("ExplosionSystem", 11);
+    game.useComponent<Death>("DeathSystem", 14);
     game.useComponent<Animation2Time>("Animation2TimeSystem", 14);
     game.useComponent<BombGeneration>("BombGenerationSystem", 15);
     game.useComponent<Reborn>("RebornSystem", 16);
     game.useComponent<BombGenerationTime>("BombGenerationTimeSystem", 17);
-    game.useComponent<DrawKm>("DrawKmSystem", 18);
-    game.useComponent<Drawable>("Draw2DSystem", 19);
+    game.useComponent<DrawKm>("DrawKmSystem", 19);
+    game.useComponent<Drawable>("Draw2DSystem", 18);
     game.useComponent<Velocity>();
     game.useComponent<Type>();
     game.useComponent<Sprite_Status>();
@@ -95,22 +95,20 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Short_Animation>();
     game.useComponent<Shoot>();
     game.useComponent<ScreenLimit>();
-    game.useComponent<MoveToPlayerTime>();
-    game.useComponent<MoveToPlayer>();
+    game.useComponent<MoveToPlayerTime>("MoveToPlayerTimeSystem");
+    game.useComponent<MoveToPlayer>("MoveToPlayerSystem");
+    game.useComponent<MoveTo>("MoveToSystem");
     game.useComponent<Life>();
     game.useComponent<Enemy>();
-    game.useComponent<MoveToPlayer>();
-    game.useComponent<MoveToPlayerTime>();
     game.useComponent<LoopMove>();
     game.useComponent<ModuleArmor>();
     game.useComponent<ModuleShoot>();
-    game.useComponent<DrawReborn>();
-    game.useComponent<DrawKm>("DrawKmSystem");
+    game.useComponent<DrawReborn>("DrawRebornSystem", 19);
     game.useComponent<Exp>();
     game.useComponent<Points>();
-    game.useComponent<DrawPoints>("DrawPointsSystem");
+    game.useComponent<DrawPoints>("DrawPointsSystem", 19);
     game.useComponent<Lvl>("GameLogic", 18);
-    game.useComponent<DrawLvl>("DrawLvlSystem");
+    game.useComponent<DrawLvl>("DrawLvlSystem", 19);
     game.useComponent<DistanceKm>("GameSystem");
     game.useComponent<InvincibleTime>();
     game.useComponent<Hit>();
@@ -135,13 +133,14 @@ exported(void) onStart(jgo::Client &game)
         "sprites/asteroid.png",
         "sprites/spaceship.png"
     });
-    //Game::CreateBackGround(game);
-    //Game::CreateStars(game);
+    // Game::CreateBackGround(game);
+    // Game::CreateStars(game);
     Game::CreatePlayer(game, 800, 600);
-    //Game::CreateShootModule(game, Positions(600, 300));
-    //Game::CreateBoostModule(game, 1);
-    //Game::CreateEasyEnemies(game);
-    //Game::CreateObstacle(game);
+    Game::CreateShootModule(game, Position2D(300, 300));
+    // Game::CreateShootModule(game, Positions(600, 300));
+    // Game::CreateBoostModule(game, 1);
+    // Game::CreateEasyEnemies(game);
+    // Game::CreateObstacle(game);
 }
 
 // this is the function that will be called each tick BEFORE rendering and

@@ -10,11 +10,11 @@
 
 class MoveTo {
     public:
-        MoveTo(Positions &&pos, int speed) : _pos(pos), _speed(speed) {};
+        MoveTo(Position2D &&pos, int speed) : _pos(pos), _speed(speed) {};
         ~MoveTo() {};
-        Positions &getPosition() {return _pos;};
+        Position2D &getPosition() {return _pos;};
         int &getSpeed() {return _speed;};
     private:
-        Positions _pos;
+        Position2D _pos;
         int _speed;
 };

@@ -24,16 +24,10 @@ static void removeAll(jgo::Game &game, std::size_t entity)
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     std::size_t nbr = 0;
-    auto &free = game.ecs.getComp<Free>();
-    auto &life = game.ecs.getComp<Life>();
-    auto &tofree = game.ecs.getComp<ToFree>();
-    auto &type = game.ecs.getComp<Type>();
-    auto &anim = game.ecs.getComp<Sprite_Animation>();
+    auto &free = game.ecs.getComp<ToFree>();
 
-    for (std::size_t i = 0; i < life.size(); i++) {
-        if (life[i].has_value() && life[i].value()._life <= 0 && type[i].has_value() && type[i].value().getType() != CONTRO && anim[i].has_value() == false)
-            removeAll(game, i);
-        if (tofree[i].has_value())
+    for (std::size_t i = 0; i < free.size(); i++) {
+        if (free[i].has_value())
             removeAll(game, i);
     }
     // for (std::size_t i = 0; i < free.size(); i++)

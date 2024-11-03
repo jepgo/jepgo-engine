@@ -21,7 +21,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
             int y = int(draw[i].value()._pos.y);
             std::string a = "KM = ";
             std::string tmp = a + std::to_string(km[i].value()._dist);
-            game.getGraphicLib()->drawText(tmp.c_str(), jgo::Rectangle{draw[i].value()._pos.x, draw[i].value()._pos.y, 0, 0}, draw[i].value()._color, "", draw[i].value()._size);
+            game.getGraphicLib()->drawText(tmp.c_str(), jgo::Rectangle{draw[i].value()._pos.x, draw[i].value()._pos.y, -1, -1}, draw[i].value()._color, "", draw[i].value()._size);
         }
     }
 };

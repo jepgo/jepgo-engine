@@ -16,7 +16,7 @@
 
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
-    float _reset = 0.05;
+    float _reset = 0.1;
     int entity = -1;
     auto &exp = game.ecs.getComp<Exp>();
     auto &lvl = game.ecs.getComp<Lvl>();
