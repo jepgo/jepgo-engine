@@ -219,9 +219,7 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, DistanceKm());
             //r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Positions(650, 20), 30, GREEN));
             r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
-            r.loadLevel("Level1");
-            // std::map<std::size_t, std::shared_ptr<jgo::ILevels>> tmp = {{1, std::make_shared<Level1>()}};
-            // r.ecs.emplaceComp(r.ecs.currentEntity, GameLvl(1, std::map<std::size_t, std::shared_ptr<jgo::ILevels>>{tmp}));
+            r.ecs.emplaceComp(r.ecs.currentEntity, GameLvl(0));
         };
         static void CreateBoostModule(jgo::Game &r, std::size_t PlayerEntity) {
             r.ecs.createEntity();

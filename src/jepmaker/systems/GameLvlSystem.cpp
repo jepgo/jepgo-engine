@@ -18,10 +18,8 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     {
         if (lvl[i].has_value()) {
             auto currentLevel = lvl[i].value()._gameLvl;
-            auto &levels = lvl[i].value()._levels;
-            if (levels.find(currentLevel) != levels.end()) {
-                levels[currentLevel]->launch(game, time);
-            }
+            std::cout << "Current Level: " << currentLevel << std::endl;
+            game.getGameLevels()[currentLevel]->launch(game, time);
         }
     }
 }

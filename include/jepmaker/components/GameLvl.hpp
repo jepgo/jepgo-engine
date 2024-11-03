@@ -16,10 +16,9 @@
 
 class GameLvl {
     public:
-        GameLvl(std::size_t gameLvl, std::map<std::size_t, std::shared_ptr<jgo::ILevels>> levels) : _gameLvl(gameLvl), _levels(levels) {};
+        GameLvl(std::size_t gameLvl) : _gameLvl(gameLvl) {};
         ~GameLvl() {};
         std::size_t _gameLvl;
-        std::map<std::size_t, std::shared_ptr<jgo::ILevels>> _levels;
 };
 
 #endif /* !GAMELVL_HPP_ */

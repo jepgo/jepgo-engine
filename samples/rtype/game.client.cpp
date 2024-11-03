@@ -55,6 +55,7 @@
 #include "jepmaker/components/LvlUp.hpp"
 #include "jepmaker/components/Animation2Time.hpp"
 #include "jepmaker/components/GameLvl.hpp"
+#include "jepmaker/levels/Level1.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
@@ -76,6 +77,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<BombGeneration>("BombGenerationSystem");
     game.useComponent<BombGenerationTime>("BombGenerationTimeSystem");
     game.useComponent<Drawable>("Draw2DSystem");
+    game.useComponent<GameLvl>("GameLvlSystem");
     game.useComponent<Velocity>();
     game.useComponent<Type>();
     game.useComponent<Sprite_Status>();
@@ -97,7 +99,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Exp>();
     game.useComponent<Points>();
     game.useComponent<DrawPoints>();
-    game.useComponent<Lvl>("GameLogic");
+    game.useComponent<Lvl>();
     game.useComponent<DrawLvl>();
     game.useComponent<DistanceKm>();
     game.useComponent<DrawKm>();
@@ -106,7 +108,6 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
     game.useComponent<LvLUp>();
-    game.useComponent<GameLvl>("GameLvlSystem");
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
@@ -122,6 +123,12 @@ exported(void) onStart(jgo::Client &game)
         "sprites/asteroid.png",
         "sprites/spaceship.png"
     });
+
+    std::map<std::size_t, std::shared_ptr<jgo::ILevels>> levels = {
+        {0, std::make_shared<Level1>()}
+    };
+
+    game.setGameLevels(levels);
 
     Game::CreateBackGround(game);
     //Game::CreateStars(game);

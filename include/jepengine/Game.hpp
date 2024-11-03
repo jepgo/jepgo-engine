@@ -49,7 +49,7 @@ namespace jgo {
              */
             auto loadGraphic(std::string const &name) -> void;
 
-            auto loadLevel(std::string const &name) -> void;
+            // auto loadLevel(std::string const &name) -> void;
 
             /**
              * Load Lua.
@@ -117,7 +117,11 @@ namespace jgo {
                 return *_graphicLib;
             }
 
-            inline auto getGameLevels() -> std::map<std::string, std::shared_ptr<jgo::ILevels>> & {
+            inline auto setGameLevels(std::map<std::size_t, std::shared_ptr<jgo::ILevels>> const &levels) -> void {
+                _levels = levels;
+            }
+
+            inline auto getGameLevels() -> std::map<std::size_t, std::shared_ptr<jgo::ILevels>> & {
                 return _levels;
             }
 
@@ -158,7 +162,7 @@ namespace jgo {
             /**
              * The levels.
              */
-            std::map<std::string, std::shared_ptr<jgo::ILevels>> _levels;
+            std::map<std::size_t, std::shared_ptr<jgo::ILevels>> _levels;
 
             /**
              * The components.
