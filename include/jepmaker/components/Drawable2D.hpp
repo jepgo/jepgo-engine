@@ -40,7 +40,7 @@ public:
     int start;
 
 private:
-    char index[2048] = {0};
+    char index[128] = {0};
     float scale[2] = { 1, 1 };
     std::optional<jgo::Rectangle> rect;
 };

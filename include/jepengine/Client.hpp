@@ -8,6 +8,7 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
 #include <optional>
 #include <memory>
 #include "Game.hpp"
@@ -90,6 +91,11 @@ namespace jgo {
             auto maybeTreatComponent(std::vector<u8> data) -> bool {
                 CBuffer<T> buf;
 
+                // std::cout << std::hex;
+                // for (auto const &b : data)
+                //     std::cout << int(b) << " ";
+                // std::cout << std::dec << std::endl;
+
                 if (data[0] != COMPONENT_BYTE)
                     return false;
                 data.erase(data.begin());
@@ -97,6 +103,7 @@ namespace jgo {
                 if (data.front() != B)
                     return false;
                 data.erase(data.begin());
+
 
                 for (int n = 0; data.size() > 0; ++n) {
                     if (data.front() == 0xff) {

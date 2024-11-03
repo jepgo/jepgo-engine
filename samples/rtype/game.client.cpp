@@ -13,6 +13,7 @@
 #include "jepmod/exported.hpp"
 #include "jepmaker/components/Position.hpp"
 #include "jepmaker/components/Game.hpp"
+#include "jepmaker/components/Drawable2D.hpp"
 
 exported(void) onStart(jgo::Client &game)
 {
@@ -41,6 +42,8 @@ exported(void) onStart(jgo::Client &game)
     // Game::CreateBoostModule(game, 1);
     // Game::CreateEasyEnemies(game);
     // Game::CreateObstacle(game);
+    game.useComponent<Position2D>();
+    game.useComponent<Drawable>("Draw2DSystem");
 }
 
 exported(void) onBegin(jgo::Client &game)
@@ -74,7 +77,14 @@ exported(void) onUpdate(jgo::Client &game)
 
 exported(void) onServerMessage(jgo::Client &game, std::vector<jgo::u8> const &msg)
 {
-    game.maybeTreatComponent<Position2D, 0x42>(msg);
+    if (game.maybeTreatComponent<Drawable, 0x01>(msg)) {
+        std::cout << "receive drawable" << std::endl;
+        return;
+    }
+    if (game.maybeTreatComponent<Position2D, 0x02>(msg)) {
+        std::cout << "receive drawable" << std::endl;
+        return;
+    }
 }
 
 int main(int ac, char const *const av[])
@@ -90,7 +100,7 @@ int main(int ac, char const *const av[])
             auto const msg = game.getServerMessage();
             if (not msg.empty()) onServerMessage(game, msg);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         onUpdate(game);
         if (game.hasGraphicLib()) game.getGraphicLib()->update();
         game.callSystems();

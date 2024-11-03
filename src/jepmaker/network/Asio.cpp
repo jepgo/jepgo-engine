@@ -146,14 +146,21 @@ void AsioServer::_startReceiving(void)
 
 void AsioServer::sendToAll(std::vector<jgo::u8> const &vec)
 {
-    std::string const message(vec.begin(), vec.end());
-    std::string const fullMessage = jgo::MAGIC_START + message + jgo::MAGIC_END;
+    std::vector<jgo::u8> res(jgo::MAGIC_START.begin(), jgo::MAGIC_START.end());
+    res.insert(res.end(), vec.cbegin(), vec.cend());
+    res.insert(res.end(), jgo::MAGIC_END.cbegin(), jgo::MAGIC_END.cend());
+    std::string msg(res.begin(), res.end());
 
+    std::cout << "vec size is " << res.size() << std::endl;
     for (auto const &e : _buffers) {
-        _socket.async_send_to(asio::buffer(fullMessage), e.first,
-            [this](std::error_code err, std::size_t bytes) -> void {
-                return;
-            });
+        while (not msg.empty()) {
+            std::string sub = msg.substr(0, jgo::BUFFER_SIZE);
+            msg = msg.substr(std::min(jgo::BUFFER_SIZE, msg.size()));
+            _socket.async_send_to(asio::buffer(sub), e.first,
+                [this](std::error_code err, std::size_t bytes) -> void {
+                    return;
+                });
+        }
     }
 }
 
@@ -207,7 +214,7 @@ std::vector<jgo::u8> AsioClient::getMessage(void) {
     std::vector<jgo::u8> result;
     
     // this->_startReceiving();
-    // std::cout << _buffer << std::endl;
+    std::cout << "buffer is " << _buffer.size() << std::endl;
     if (_buffer.find(jgo::MAGIC_START) == std::string::npos)
         return result;
     std::size_t start = _buffer.find(jgo::MAGIC_START) + jgo::MAGIC_START.length();
