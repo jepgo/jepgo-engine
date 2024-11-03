@@ -32,6 +32,7 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
         if (game.hasGraphicLib()) {
             EndDrawing();
             game.getGraphicLib()->closeWindow();
+            CloseAudioDevice();
         }
         if (mainClient() == 1)
             return 1;
