@@ -78,9 +78,9 @@ exported(void) onStart(jgo::Client &game)
     game.useSystem("AttachModuleSystem", 8);
     game.useComponent<DoDmg>("DoDmgSystem", 9);
     game.useComponent<Dmg>("DmgSystem", 10);
+    game.useComponent<Explosion>("ExplosionSystem", 11);
     game.useSystem("MyFree", 12);
     game.useComponent<Free>("FreeSystem", 13);
-    game.useComponent<Explosion>("ExplosionSystem", 11);
     game.useComponent<Death>("DeathSystem", 14);
     game.useComponent<Animation2Time>("Animation2TimeSystem", 14);
     game.useComponent<BombGeneration>("BombGenerationSystem", 15);

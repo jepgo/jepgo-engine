@@ -221,7 +221,7 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(100, 40));
             r.ecs.emplaceComp(r.ecs.currentEntity, Life(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, Reborn(3));
-            r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Position2D(10, 560), 15, 0xffff0000));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Position2D(10, 560), 15, 0xFFFF0000));
             r.ecs.emplaceComp(r.ecs.currentEntity, Shoot(0.5, RIGHT, 20, 2));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(CONTRO));
             r.ecs.emplaceComp(r.ecs.currentEntity, Exp(0));

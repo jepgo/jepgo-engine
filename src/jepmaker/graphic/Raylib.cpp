@@ -267,6 +267,7 @@ void Raylib::drawText(std::string const &text, jgo::Rectangle const &where, jgo:
         .size = fontSize
     };
 
+    std::cout << "where = " << arg.rects[0].x << " " << arg.rects[0].y << std::endl;
     _actions.push_back(arg);
 }
 
