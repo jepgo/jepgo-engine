@@ -176,14 +176,13 @@ class Game {
             //r.emplace_comp(r.currentEntity, Short_Animation(3, 144, 0.7));
             r.ecs.emplaceComp(r.ecs.currentEntity, MoveTo(std::move(pos), 1));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(20));
-            r.ecs.emplaceComp(r.ecs.currentEntity, Life(2000));
+            r.ecs.emplaceComp(r.ecs.currentEntity, Life(200));
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(44, 64, Positions(0, 220)));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(MINIBOSS));
             r.ecs.emplaceComp(r.ecs.currentEntity, Invincible());
             r.ecs.emplaceComp(r.ecs.currentEntity, InvincibleTime(0, 5));
             r.ecs.emplaceComp(r.ecs.currentEntity, Enemy(10000, 100));
             r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
-
         };
         static void CreateShootModule(jgo::Game &r, Positions &&pos) {
             r.ecs.createEntity();
@@ -223,15 +222,15 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, Hitable(100, 40));
             r.ecs.emplaceComp(r.ecs.currentEntity, Life(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, Reborn(3));
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Positions(10, 560), 15, ));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawReborn(Positions(10, 560), 15, 0xffff0000));
             r.ecs.emplaceComp(r.ecs.currentEntity, Shoot(0.5, RIGHT, 20, 2));
             r.ecs.emplaceComp(r.ecs.currentEntity, Type(CONTRO));
             r.ecs.emplaceComp(r.ecs.currentEntity, Exp(0));
             r.ecs.emplaceComp(r.ecs.currentEntity, Points());
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawPoints(Positions(10, 500), 20, GREEN));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawPoints(Positions(10, 500), 20, 0xff00ff00));
             r.ecs.emplaceComp(r.ecs.currentEntity, Lvl(1));
             r.ecs.emplaceComp(r.ecs.currentEntity, DoDmg(10));
-            //r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Positions(10, 540), 15, RED));
+            r.ecs.emplaceComp(r.ecs.currentEntity, DrawLvl(Positions(10, 540), 15, 0xffff0000));
             r.ecs.emplaceComp(r.ecs.currentEntity, DistanceKm());
             r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Positions(650, 20), 30, 0xff00ff00));
             r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));

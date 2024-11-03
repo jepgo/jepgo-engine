@@ -101,11 +101,12 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<ModuleArmor>();
     game.useComponent<ModuleShoot>();
     game.useComponent<DrawReborn>();
+    game.useComponent<DrawKm>("DrawKmSystem");
     game.useComponent<Exp>();
     game.useComponent<Points>();
-    game.useComponent<DrawPoints>();
+    game.useComponent<DrawPoints>("DrawPointsSystem");
     game.useComponent<Lvl>("GameLogic", 18);
-    game.useComponent<DrawLvl>();
+    game.useComponent<DrawLvl>("DrawLvlSystem");
     game.useComponent<DistanceKm>("GameSystem");
     game.useComponent<InvincibleTime>();
     game.useComponent<Hit>();
