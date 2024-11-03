@@ -10,6 +10,10 @@
 #include "jepmaker/components/DrawDistanceKm.hpp"
 #include "jepmaker/components/DistanceKm.hpp"
 
+/**
+ * @brief The DrawKmSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     auto &draw = game.ecs.getComp<DrawKm>();

@@ -10,8 +10,16 @@
 #include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/Position.hpp"
 
-static void 
-Todraw(jgo::Game &game, Position2D &pos, std::optional<jgo::Rectangle> &rect, std::string const &index, std::array<float, 2> scale)
+/**
+ * @brief The DrawSystem
+ * 
+ * @param game Game
+ * @param pos Position
+ * @param rect the jgo::Rectangle
+ * @param index The index of the image
+ * @param scale The scale of the image
+ */
+static void Todraw(jgo::Game &game, Position2D &pos, std::optional<jgo::Rectangle> &rect, std::string const &index, std::array<float, 2> scale)
 {
         if (rect.has_value()) {
             float a = (rect.value().width * scale[0]);

@@ -10,6 +10,13 @@
 #include "jepmaker/components/BombGeneration.hpp"
 #include "jepmaker/components/Game.hpp"
 
+/**
+ * @brief Generation Bomb
+ * 
+ * @param bomb Obj Bomb
+ * @param time current time
+ * @param game Game
+ */
 static void generatBomb(BombGeneration &bomb, float time, jgo::Game &game)
 {
     if (time - bomb.getTime() < bomb.getReset())
@@ -17,6 +24,10 @@ static void generatBomb(BombGeneration &bomb, float time, jgo::Game &game)
     Game::CreateBomb(game, std::move(bomb.getPos()), time, bomb.getTrac());
 }
 
+/**
+ * @brief The BombGenerationSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     auto &bomb = game.ecs.getComp<BombGeneration>();

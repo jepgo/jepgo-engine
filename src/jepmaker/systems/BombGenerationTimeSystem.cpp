@@ -10,6 +10,14 @@
 #include "jepmaker/components/BombGeneration.hpp"
 #include "jepmaker/components/BombGenerationTime.hpp"
 
+/**
+ * @brief CheckTimeSystem
+ * 
+ * @param bomb The Bomb
+ * @param time current time
+ * @return true 
+ * @return false 
+ */
 static bool checkTime(BombGenerationTime &bomb, float time)
 {
     if (time - bomb.getTime() < bomb.getDuring())
@@ -17,6 +25,10 @@ static bool checkTime(BombGenerationTime &bomb, float time)
     return true;
 }
 
+/**
+ * @brief The system of the BombGenerationSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &bomb = game.ecs.getComp<BombGenerationTime>();

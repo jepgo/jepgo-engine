@@ -14,6 +14,18 @@
 #include "jepmaker/components/Death.hpp"
 #include "jepmaker/components/Explosion.hpp"
 
+/**
+ * @brief The ToExplose function
+ * 
+ * @param game Game
+ * @param entity the entity player
+ * @param rect the jgo::Rectangle
+ * @param index th index of the image
+ * @param stat The statu nbr of the image
+ * @param value The value
+ * @param time the current time
+ * @param scale the scale of the image
+ */
 static void ToExplose(jgo::Game &game, std::size_t entity, std::optional<jgo::Rectangle> &rect, std::string &index, int stat, int value, double time, std::array<float, 2> scale)
 {
     if (rect.has_value()) {
@@ -31,6 +43,10 @@ static void ToExplose(jgo::Game &game, std::size_t entity, std::optional<jgo::Re
     game.ecs.removeComponent<Explosion>(entity);
 }
 
+/**
+ * @brief The ExplosionSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &t)
 {
     auto &death = game.ecs.getComp<Death>();

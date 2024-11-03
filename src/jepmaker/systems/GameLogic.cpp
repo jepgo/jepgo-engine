@@ -14,6 +14,13 @@
 #include "jepmaker/components/SoundLoop.hpp"
 #include "jepmaker/components/DistanceKm.hpp"
 
+/**
+ * @brief The table Score
+ * 
+ * The score of the player when the lvl is finish
+ * 
+ * @param game 
+ */
 static void TableScore(jgo::Game &game)
 {
     auto &pts = game.ecs.getComp<Points>();
@@ -29,6 +36,12 @@ static void TableScore(jgo::Game &game)
     return;
 }
 
+/**
+ * @brief Stage 1
+ * 
+ * @param game Game
+ * @param time The current time
+ */
 static void Stage1(jgo::Game &game, float &time)
 {
     float reset = 1;
@@ -38,6 +51,12 @@ static void Stage1(jgo::Game &game, float &time)
     time = game.getTime();
 }
 
+/**
+ * @brief Stage2
+ * 
+ * @param game Game
+ * @param time The current time
+ */
 static void Stage2(jgo::Game &game, float &time)
 {
     float reset = 2;
@@ -49,6 +68,12 @@ static void Stage2(jgo::Game &game, float &time)
     time = game.getTime();
 }
 
+/**
+ * @brief Stage3
+ * 
+ * @param game Game
+ * @param time The current time
+ */
 static void Stage3(jgo::Game &game, float &time)
 {
     float reset = 3;
@@ -61,6 +86,12 @@ static void Stage3(jgo::Game &game, float &time)
     time = game.getTime();
 }
 
+/**
+ * @brief stage4
+ * 
+ * @param game Game
+ * @param time the current time
+ */
 static void Stage4(jgo::Game &game, float &time)
 {
     auto &type = game.ecs.getComp<Type>();
@@ -76,6 +107,12 @@ static void Stage4(jgo::Game &game, float &time)
     return;
 }
 
+/**
+ * @brief The GameLogic
+ * 
+ * The goal is to load all the stages of the the game
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     int entity = -1;

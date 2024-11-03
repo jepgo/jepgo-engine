@@ -93,6 +93,9 @@ int compareHitable(std::map<std::size_t, Hitable*> &list, Hitable &me, Position2
 /**
  * @brief The Hitable System
  * 
+ * The purpose of this system is to detect all collisions between entities that also have the Hitable component.
+ * This Hitable component will contain information about where the objects have made contact.
+ * 
  * @param r The Registry
  */
 exported(void) jepgoSystem(jgo::Game &game, float time)

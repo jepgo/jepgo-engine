@@ -12,6 +12,15 @@
 #include "jepmaker/components/Game.hpp"
 #include "jepmaker/components/Type.hpp"
 
+/**
+ * @brief Check Time system
+ * 
+ * @param time 
+ * @param _time 
+ * @param reset 
+ * @return true 
+ * @return false 
+ */
 static bool checkTime(float time, float _time, float reset)
 {
     if (time - _time < reset)
@@ -19,6 +28,14 @@ static bool checkTime(float time, float _time, float reset)
     return true;
 }
 
+/**
+ * @brief Create a Shoot object
+ * 
+ * @param game Game
+ * @param time current time
+ * @param entity th entity player
+ * @param shoot shoot component
+ */
 static void CreateShoot(jgo::Game &game, float time, std::size_t entity, AutoShoot &shoot)
 {
     auto &type = game.ecs.getComp<Type>();
@@ -30,6 +47,11 @@ static void CreateShoot(jgo::Game &game, float time, std::size_t entity, AutoSho
     }
 }
 
+/**
+ * @brief The System for the AutoShootSystem
+ * 
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &autoshoot = game.ecs.getComp<AutoShoot>();

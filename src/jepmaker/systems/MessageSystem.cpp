@@ -9,6 +9,10 @@
 #include "jepmod/exported.hpp"
 #include "jepmaker/components/Message.hpp"
 
+/**
+ * @brief The MessageSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &mess = game.ecs.getComp<Message>();

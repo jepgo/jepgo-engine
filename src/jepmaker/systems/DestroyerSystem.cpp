@@ -14,6 +14,15 @@
 #include "jepmaker/components/Colision.hpp"
 #include "jepmaker/components/ToFree.hpp"
 
+/**
+ * @brief The CheckPosition
+ * 
+ * @param pos Position obj
+ * @param height the height of the obj
+ * @param width the width of the obj
+ * @return true 
+ * @return false 
+ */
 static bool checkPosition(Position2D &pos, int height, int width)
 {
     if (pos.x > width * 10)
@@ -27,6 +36,10 @@ static bool checkPosition(Position2D &pos, int height, int width)
     return false;
 }
 
+/**
+ * @brief The DestroyerSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &life = game.ecs.getComp<Life>();

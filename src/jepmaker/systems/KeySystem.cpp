@@ -16,6 +16,16 @@
 #include "jepmaker/components/Game.hpp"
 #include "jepmaker/components/EnumDirection.hpp"
 
+/**
+ * @brief The KeyDownFunction
+ * 
+ * The function is here to know if a key was pressed
+ * 
+ * @param key The list of the key
+ * @param find The key to find
+ * @return true 
+ * @return false 
+ */
 static bool IsKeyDown(std::vector<jgo::u32> &key, jgo::u32 find)
 {
     for (auto &i : key) {
@@ -25,6 +35,12 @@ static bool IsKeyDown(std::vector<jgo::u32> &key, jgo::u32 find)
     return false;
 }
 
+/**
+ * @brief Get the Direction Vector object
+ * 
+ * @param vec 
+ * @return std::array<float, 2> 
+ */
 static std::array<float, 2> getDirectionVector(std::vector<jgo::u32> &vec)
 {
     std::array<float, 2> res;    
@@ -34,6 +50,14 @@ static std::array<float, 2> getDirectionVector(std::vector<jgo::u32> &vec)
     return res;
 }
 
+/**
+ * @brief The Shoot Function
+ * 
+ * @param game 
+ * @param pos 
+ * @param _direction 
+ * @param _decal 
+ */
 static void ToShoot(jgo::Game &game, Position2D &pos, Direction &_direction, int &_decal)
 {
     if (_direction == LEFT) {
@@ -48,6 +72,13 @@ static void ToShoot(jgo::Game &game, Position2D &pos, Direction &_direction, int
         Game::CreateShipShoot(game, pos + Position2D(0, 0 + _decal));
 }
 
+/**
+ * @brief The move Status
+ * 
+ * @param stat 
+ * @param draw 
+ * @param key 
+ */
 static void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, int key)
 {
     if (key != 262 && key != 263 && key != 264 && key != 265)
@@ -56,6 +87,14 @@ static void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawabl
         draw.value().getRect().value().x = stat.value().status(ASSOCIATIVE_KEYS.at(key));
 };
 
+/**
+ * @brief Search a Key
+ * 
+ * @param key 
+ * @param tmp 
+ * @return true 
+ * @return false 
+ */
 static bool SearchKey(int key, std::vector<jgo::u32> tmp)
 {
     for (auto &t : tmp) {

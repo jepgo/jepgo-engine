@@ -11,6 +11,15 @@
 #include "jepmaker/components/Move.hpp"
 #include "jepmaker/components/ScreenLimit.hpp"
 
+/**
+ * @brief The CheckMovement
+ * 
+ * @param game Game
+ * @param entity The curr entity
+ * @param Newpos The NewPos for the entity
+ * @return true 
+ * @return false 
+ */
 static bool checkMovement(jgo::Game &game, std::size_t &entity, Position2D const &Newpos) {
     auto &Col = game.ecs.getComp<Colision>();
     auto &pos = game.ecs.getComp<Position2D>();
@@ -37,6 +46,14 @@ static bool checkMovement(jgo::Game &game, std::size_t &entity, Position2D const
     return true;
 }
 
+/**
+ * @brief The CheckScreenFunction
+ * 
+ * @param limit The ScreenLimit component
+ * @param pos The Position of the entity
+ * @return true 
+ * @return false 
+ */
 static bool checkScreen(std::optional<ScreenLimit> &limit, Position2D pos)
 {
     if (limit.has_value() == false)
@@ -48,6 +65,12 @@ static bool checkScreen(std::optional<ScreenLimit> &limit, Position2D pos)
     return true;
 }
 
+/**
+ * @brief The MoveSystem
+ * 
+ * The purpose of this system is to move entities in the form of a vector.
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     float reset = 0.01;

@@ -15,12 +15,22 @@
 #include "jepmaker/components/Free.hpp"
 #include "jepmaker/components/ToFree.hpp"
 
+/**
+ * @brief The remove Function
+ * 
+ * @param game 
+ * @param entity 
+ */
 static void removeAll(jgo::Game &game, std::size_t entity)
 {
     game.ecs.removeEntity(entity);
     game.ecs.emplaceComp(entity, Free());
 }
 
+/**
+ * @brief The FreeSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     std::size_t nbr = 0;

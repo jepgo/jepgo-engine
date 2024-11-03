@@ -13,6 +13,15 @@
 #include "jepmaker/components/BombGeneration.hpp"
 #include "jepmaker/components/BombGenerationTime.hpp"
 
+/**
+ * @brief Checkrule for Animation2TimeSystem
+ * 
+ * @param anim Animation2Time component
+ * @param inv optional invincibletime components
+ * @param time the current time
+ * @param i 
+ * @param game The Game
+ */
 static void checkRules(std::optional<Animation2Time> &anim, std::optional<InvincibleTime> &inv, float time, std::size_t i, jgo::Game &game)
 {
     if ((anim.has_value() == false) || inv.has_value()) {
@@ -46,6 +55,10 @@ static void checkRules(std::optional<Animation2Time> &anim, std::optional<Invinc
     }
 }
 
+/**
+ * @brief The Animation2Time system, used for the mini boss
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &inv = game.ecs.getComp<InvincibleTime>();

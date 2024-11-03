@@ -16,6 +16,12 @@
 #include "jepmaker/components/Move.hpp"
 #include "jepmaker/components/AutoShoot.hpp"
 
+/**
+ * @brief The Attache Module System
+ * 
+ * The Goal is to attach all the modules hitten
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     auto &hit = game.ecs.getComp<Hit>();

@@ -10,6 +10,10 @@
 #include "jepmaker/components/DrawPoints.hpp"
 #include "jepmaker/components/Points.hpp"
 
+/**
+ * @brief The DrawPointSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &draw = game.ecs.getComp<DrawPoints>();

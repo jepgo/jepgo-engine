@@ -22,6 +22,12 @@
 #include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/Message.hpp"
 
+/**
+ * @brief Death for the Player
+ * 
+ * @param game 
+ * @param entity 
+ */
 static void ControlDeath(jgo::Game &game, std::size_t entity)
 {
     //game.ecs.removeComponent<Drawable>(entity);
@@ -46,6 +52,12 @@ static void ModulesDeath(jgo::Game &game, std::size_t entity)
     game.ecs.removeComponent<Hitable>(entity);
 }
 
+/**
+ * @brief DeletAll
+ * 
+ * @param game Game
+ * @param entity entity player
+ */
 static void DeletAll(jgo::Game &game, std::size_t entity)
 {
     // game.ecs.removeComponent<Drawable>(entity);
@@ -57,6 +69,12 @@ static void DeletAll(jgo::Game &game, std::size_t entity)
     //game.ecs.removeComponent<Model3D>(entity);
 }
 
+/**
+ * @brief The Death obj
+ * 
+ * @param game 
+ * @param entity 
+ */
 static void deathObj(jgo::Game &game, std::size_t entity)
 {
     auto &type = game.ecs.getComp<Type>();
@@ -70,6 +88,10 @@ static void deathObj(jgo::Game &game, std::size_t entity)
     return DeletAll(game, entity);
 }
 
+/**
+ * @brief The DeathSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     std::vector<std::size_t> playerEntity;

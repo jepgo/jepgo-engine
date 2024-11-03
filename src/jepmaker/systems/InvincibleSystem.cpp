@@ -10,6 +10,14 @@
 #include "jepmaker/components/Invincible.hpp"
 #include "jepmaker/components/InvincibleTime.hpp"
 
+/**
+ * @brief The CheckTime
+ * 
+ * @param inv The Invincible Component
+ * @param time The current time
+ * @return true 
+ * @return false 
+ */
 static bool check_time(InvincibleTime &inv, float time)
 {
     if (time - inv._time < inv._reset)
@@ -17,6 +25,12 @@ static bool check_time(InvincibleTime &inv, float time)
     return true;
 };
 
+/**
+ * @brief The InvincibleSystem
+ * 
+ * The purpose of this system is to make my entity invincible.
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
     auto &inv = game.ecs.getComp<InvincibleTime>();

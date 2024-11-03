@@ -15,6 +15,14 @@
 #include "jepmaker/components/Invincible.hpp"
 #include "jepmaker/components/InvincibleTime.hpp"
 
+/**
+ * @brief The SearchKey
+ * 
+ * @param key The key
+ * @param tmp The list of all the key
+ * @return true 
+ * @return false 
+ */
 static bool SearchKey(int key, std::vector<jgo::u32> &tmp)
 {
     for (auto &t : tmp) {
@@ -24,6 +32,10 @@ static bool SearchKey(int key, std::vector<jgo::u32> &tmp)
     return false;
 }
 
+/**
+ * @brief The RebornSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
     int playerEntity = -1;

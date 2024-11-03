@@ -13,15 +13,28 @@
 #include "jepmaker/components/Drawable2D.hpp"
 #include "jepmaker/components/Hitable2D.hpp"
 
-static void Myupdate(std::optional<Position2D> &me, std::optional<Position2D> &pos, std::size_t entity, std::map<Direction, int> _space) {
-            if (!(me.has_value()))
-                return;
-            if (pos.has_value()) {
-                me.value().x = pos.value().x + _space[LEFT] - _space[RIGHT];
-                me.value().y = pos.value().y - _space[UP] + _space[DOWN];   
-            }
-        };
+/**
+ * @brief The MyUpdate
+ * 
+ * @param me The position of the curr entity
+ * @param pos The Position of the other entity
+ * @param entity The entity
+ * @param _space The list of all the direction
+ */
+static void Myupdate(std::optional<Position2D> &me, std::optional<Position2D> &pos, std::size_t entity, std::map<Direction, int> _space)
+{
+    if (!(me.has_value()))
+        return;
+    if (pos.has_value()) {
+        me.value().x = pos.value().x + _space[LEFT] - _space[RIGHT];
+        me.value().y = pos.value().y - _space[UP] + _space[DOWN];
+    }
+};
 
+/**
+ * @brief The ModulesSystem
+ *
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &t)
 {
     auto &modules = game.ecs.getComp<Module>();
@@ -31,7 +44,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &t)
     for (std::size_t i = 0; i < modules.size(); i++) {
         if (modules[i].has_value() && pos[i].has_value()) {
             Myupdate(pos[i], pos[modules[i].value()._entity], modules[i].value()._entity, modules[i].value()._space);
-            //modules[i].value().update(pos[i], pos);
+            // modules[i].value().update(pos[i], pos);
         }
         if (modules[i].has_value() && life[modules[i].value()._entity].has_value() && life[modules[i].value()._entity].value()._life <= 0) {
             game.ecs.removeComponent<Drawable>(i);

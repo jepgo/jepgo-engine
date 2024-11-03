@@ -13,6 +13,10 @@
 #include "jepmaker/components/InvincibleTime.hpp"
 #include "jepmaker/components/Death.hpp"
 
+/**
+ * @brief The DmgSystem
+ * 
+ */
 exported(void) jepgoSystem(jgo::Game &game, float &t)
 {
     auto &dmg = game.ecs.getComp<Dmg>();
