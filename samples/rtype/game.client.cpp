@@ -43,8 +43,11 @@ exported(void) onStart(jgo::Client &game)
     // Game::CreateEasyEnemies(game);
     // Game::CreateObstacle(game);
 
+    std::cout << "hello" << std::endl;
     game.useComponent<Position2D>();
+    std::cout << "hello" << std::endl;
     game.useComponent<Drawable>("Draw2DSystem");
+    std::cout << "hello" << std::endl;
 }
 
 exported(void) onBegin(jgo::Client &game)
@@ -88,15 +91,16 @@ exported(void) onServerMessage(jgo::Client &game, std::vector<jgo::u8> const &ms
     }
 }
 
-int mainClient(void)
+int mainClient(int ac, char const *const av[])
 {
-    int ac = 0;
-    const char *av[] = {};
     jgo::Client game(ac, av);
+    std::cout << "test" << std::endl;
     onStart(game);
+    std::cout << "test" << std::endl;
     if (game.hasNetwork()) game.connect("localhost", 4242);
     if (game.hasGraphicLib())
         game.getGraphicLib()->openWindow("RTYpe", {0, 0, 800, 600});
+    std::cout << "test" << std::endl;
     onBegin(game);
     while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
         if (game.hasNetwork()) {

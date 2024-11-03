@@ -10,9 +10,9 @@
 #include "RaylibPlus.hpp"
 #include "jepengine/Client.hpp"
 
-int mainClient();
+int mainClient(int, char const *const av[]);
 
-Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Client &game) :
+Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, int ac, char const *const av[]) :
     _screenWidth(screenWidth),
     _screenHeight(screenHeight),
     _state(ENTER_MENU),
@@ -29,13 +29,14 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
     _font = LoadFont("sprites/eurocine-regular.ttf");
     _titlePos = { 50, 20 };
 
-    _buttons.push_back(Button(true, 0, 100, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Play", "Start the game from the hangar (where pilots can customize their starfighters).", _font, [&game]() {
-        if (game.hasGraphicLib()) {
+    _buttons.push_back(Button(true, 0, 100, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Play", "Start the game from the hangar (where pilots can customize their starfighters).", _font, [ac, av]() {
+        // if (game.hasGraphicLib()) {
             EndDrawing();
-            game.getGraphicLib()->closeWindow();
+            // game.getGraphicLib()->closeWindow();
             CloseAudioDevice();
-        }
-        return mainClient();
+            CloseWindow();
+        // }
+        return mainClient(ac, av);
     }));
 
     _buttons.push_back(Button(false, 0, 150, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Level and score attack", "See all completed levels and your score.", _font, []() { std::cout << "Level and score attack" << std::endl; return 0;}));

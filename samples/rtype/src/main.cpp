@@ -12,20 +12,22 @@
 #include "Menu.hpp"
 #include "jepengine/Client.hpp"
 
-int main(void)
+int main(int ac, char const *const av[])
 {
     size_t screenWidth = 800, screenHeight = 600;
 
-    jgo::Client window(0, NULL);
-    window.loadGraphic("Raylib");
-    window.getGraphicLib()->openWindow("R-Type", {0, 0, 800, 600});
+    // jgo::Client game(ac, av);
+    // game.loadGraphic("Raylib");
+    // game.getGraphicLib()->openWindow("R-Type", {0, 0, 800, 600});
     
+    InitWindow(800, 600, "R-TYPE");
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     
-    Menu::Menu m(screenWidth, screenHeight, window);
+    Menu::Menu m(screenWidth, screenHeight, ac, av);
 
     SetTargetFPS(200);
-    while (window.hasGraphicLib() && window.getGraphicLib()->isWindowOpen())
+    // while (game.hasGraphicLib() && game.getGraphicLib()->isWindowOpen())
+    while (not WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);

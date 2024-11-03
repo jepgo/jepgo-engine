@@ -34,7 +34,7 @@ namespace Menu {
              * @param screenWidth The width of the screen at the creation of the menu
              * @param screenHeight The height of the screen at the creation of the menu
              */
-            Menu(const size_t screenWidth, const size_t screenHeight, jgo::Client &game);
+            Menu(const size_t screenWidth, const size_t screenHeight, int ac, char const *const av[]);
             /**
              * @brief Destroy the Menu object
              * 
