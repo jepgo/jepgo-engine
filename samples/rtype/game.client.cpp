@@ -88,13 +88,15 @@ exported(void) onServerMessage(jgo::Client &game, std::vector<jgo::u8> const &ms
     }
 }
 
-int main(int ac, char const *const av[])
+int mainClient(void)
 {
+    int ac = 0;
+    const char *av[] = {};
     jgo::Client game(ac, av);
     onStart(game);
     if (game.hasNetwork()) game.connect("localhost", 4242);
     if (game.hasGraphicLib())
-        game.getGraphicLib()->openWindow("my windows", {0, 0, 800, 600});
+        game.getGraphicLib()->openWindow("RTYpe", {0, 0, 800, 600});
     onBegin(game);
     while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
         if (game.hasNetwork()) {
@@ -108,4 +110,5 @@ int main(int ac, char const *const av[])
         if (game.lua) game.lua->callAllSystems();
     }
     if (game.hasGraphicLib()) game.getGraphicLib()->closeWindow();
+    return 1;
 }

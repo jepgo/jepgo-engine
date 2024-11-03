@@ -38,23 +38,59 @@ foreach(file ${Systems})
     )
 endforeach()
 
-# create the client
-
-PROJECT(client)
-ADD_EXECUTABLE(client
-    game.client.cpp
-)
-TARGET_INCLUDE_DIRECTORIES(client PRIVATE . $ENV{JEPGO_INCLUDE})
-TARGET_LINK_DIRECTORIES(client PRIVATE $ENV{JEPGO_BUILD})
-TARGET_LINK_LIBRARIES(client PRIVATE jepengine jepmod)
-
 # create the server
 
-PROJECT(server)
-ADD_EXECUTABLE(server
-    game.server.cpp
-    sysAndComps.cpp
+PROJECT(r-type_server)
+ADD_EXECUTABLE(r-type_server
+game.server.cpp
+sysAndComps.cpp
 )
-TARGET_INCLUDE_DIRECTORIES(server PRIVATE . $ENV{JEPGO_INCLUDE})
-TARGET_LINK_DIRECTORIES(server PRIVATE $ENV{JEPGO_BUILD})
-TARGET_LINK_LIBRARIES(server PRIVATE jepengine jepmod)
+TARGET_INCLUDE_DIRECTORIES(r-type_server PRIVATE . $ENV{JEPGO_INCLUDE})
+TARGET_LINK_DIRECTORIES(r-type_server PRIVATE $ENV{JEPGO_BUILD})
+TARGET_LINK_LIBRARIES(r-type_server PRIVATE jepengine jepmod)
+
+ADD_CUSTOM_COMMAND(TARGET r-type_server POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:r-type_server> ${CMAKE_SOURCE_DIR}/samples/rtype
+)
+
+# create the client
+
+# PROJECT(client)
+# ADD_EXECUTABLE(client
+#     game.client.cpp
+# )
+# TARGET_INCLUDE_DIRECTORIES(client PRIVATE . $ENV{JEPGO_INCLUDE})
+# TARGET_LINK_DIRECTORIES(client PRIVATE $ENV{JEPGO_BUILD})
+# TARGET_LINK_LIBRARIES(client PRIVATE jepengine jepmod)
+
+#
+
+PROJECT(r-type_client)
+
+ADD_EXECUTABLE(r-type_client
+    game.client.cpp
+    src/main.cpp
+    src/Menu.cpp
+    src/RaylibPlus.cpp
+    src/LogIcon.cpp
+    src/Button.cpp
+    src/AnimLine.cpp
+    src/Level1.cpp
+)
+
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/)
+TARGET_LINK_DIRECTORIES(r-type_client PRIVATE $ENV{JEPGO_INCLUDE})
+TARGET_INCLUDE_DIRECTORIES(r-type_client PRIVATE
+    ./include
+    # ${CMAKE_SOURCE_DIR}/include
+    $ENV{JEPGO_INCLUDE}
+)
+TARGET_LINK_LIBRARIES(r-type_client
+    jepengine
+    jepmod
+    raylib
+)
+
+ADD_CUSTOM_COMMAND(TARGET r-type_client POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:r-type_client> ${CMAKE_SOURCE_DIR}/samples/rtype
+)

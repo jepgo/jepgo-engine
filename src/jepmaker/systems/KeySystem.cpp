@@ -87,7 +87,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     {
         if (!control[i].has_value() || !vel[i].has_value() || !pos[i].has_value())
             continue;
-
         try {
             auto &key = keys[i];
             if (key.empty())
