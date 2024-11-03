@@ -10,6 +10,7 @@
     #include <string>    
     #include <raylib.h>
     #include <stddef.h>
+    #include <functional>
 
 /**
  * @brief Menu namespace of the game
@@ -42,7 +43,8 @@ namespace Menu {
                 const float screenWidth,
                 const float screenHeight,
                 const std::string text,
-                Font &font
+                Font &font,
+                std::function<int ()> onClick
             );
 
             /**
@@ -125,6 +127,7 @@ namespace Menu {
             float _screenWidth;
             float _screenHeight;
 
+            std::function<int ()> _onClick;
 
 
             /**
@@ -154,7 +157,9 @@ namespace Menu {
              */
             const Color _C_SELECTED = Color{ 0, 0, 0, 200 };
 
+    
             void _isSelectIcon();
+
     };
 }
 

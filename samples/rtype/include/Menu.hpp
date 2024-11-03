@@ -59,17 +59,22 @@ namespace Menu {
             enum MenuState {
                 ENTER_MENU,
                 IN_MENU,
-                OPTION_MENU
+                OPTION_MENU,
+                LOGREG_MENU
             };
+
+            void _startTransition(MenuState state);
 
             int _drawEnterMenu();
             int _drawInMenu();
             int _drawOptionMenu();
+            int _drawLogRegMenu();    
 
             const std::map<MenuState, std::function<int ()>> _menuPage = {
                 {MenuState::ENTER_MENU, [this](){ return _drawEnterMenu(); }},
                 {MenuState::IN_MENU, [this](){ return _drawInMenu(); }},
-                {MenuState::OPTION_MENU, [this](){ return _drawOptionMenu(); }}
+                {MenuState::OPTION_MENU, [this](){ return _drawOptionMenu(); }},
+                {MenuState::LOGREG_MENU, [this](){ return _drawLogRegMenu(); }}
             };
 
             /**
@@ -117,6 +122,8 @@ namespace Menu {
              * 
              */
             MenuState _state;
+
+            MenuState _nxtState;
 
             /**
              * @brief To save the opacity of an instruction at time t,

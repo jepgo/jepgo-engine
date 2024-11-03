@@ -22,7 +22,7 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
     _transitionOpacity(std::make_tuple(true, 0)),
     _CTransition(100),
     _playerName(""),
-    _logIcon(_screenWidth - 400, 25, 400, 50, _screenWidth, _screenHeight, "Login / Register", _font)
+    _logIcon(_screenWidth - 400, 25, 400, 50, _screenWidth, _screenHeight, "Login / Register", _font, [this]() { _startTransition(LOGREG_MENU); return 0; })
 {
     _bckgrnd = LoadTexture("sprites/background-menu.png");
     _font = LoadFont("sprites/eurocine-regular.ttf");
@@ -40,7 +40,7 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
     }));
     _buttons.push_back(Button(false, 0, 150, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Level and score attack", "See all completed levels and your score.", _font, []() { std::cout << "Level and score attack" << std::endl; return 0;}));
     _buttons.push_back(Button(false, 0, 200, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Data and gallery", "See your data and your gallery.", _font, []() { std::cout << "Data and gallery" << std::endl; return 0;}));
-    _buttons.push_back(Button(true, 0, 250, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Options", "Options of the game.", _font, [this]() { _state = OPTION_MENU; return 0;}));
+    _buttons.push_back(Button(true, 0, 250, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Options", "Options of the game.", _font, [this]() { _startTransition(OPTION_MENU); return 0;}));
     _buttons.push_back(Button(false, 0, 300, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Shop", "Buy skins and customize your starfighter.", _font, []() { std::cout << "Shop" << std::endl; return 0;}));
     _buttons.push_back(Button(true, 0, 350, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Manual R", "See key guide and game rules.", _font, []() { std::cout << "Shop" << std::endl; return 0;}));
     _buttons.push_back(Button(true, 0, 400, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Special", "Special.", _font, []() { std::cout << "Special" << std::endl; return 0;}));
@@ -59,7 +59,7 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
         return 0;
     }));
     
-    _optionButtons.push_back(Button(true, 10, 450, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Back to main menu", "Return back to main menu", _font, [this]() { _state = IN_MENU; return 0;}));
+    _optionButtons.push_back(Button(true, 10, 450, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Back to main menu", "Return back to main menu", _font, [this]() { _startTransition(IN_MENU); return 0;}));
 
     for (auto &button : _buttons) {
         button.updateWidth(_screenWidth);
@@ -148,8 +148,23 @@ int Menu::Menu::_drawEnterMenu()
     DrawTextEx(_font, instruction.c_str(), instructionPos, _font.baseSize, 2, Color{ 143, 255, 167, (unsigned char)std::get<1>(_instructionOpacity) });
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        _inTransition = true;
+        _startTransition(IN_MENU);
     return 0;
+}
+
+int Menu::Menu::_drawLogRegMenu()
+{
+    DrawTextEx(_font, "Login / Register", _titlePos, _font.baseSize, 2, WHITE);
+    DrawRectangleGradientH(0, 60, (_screenWidth / 5) * 2, 5, Color{ 143, 255, 167, 255 }, Color{ 143, 255, 167, 0 });
+
+    return 0;
+}
+
+void Menu::Menu::_startTransition(MenuState state)
+{
+    _inTransition = true;
+    _transitionOpacity = std::make_tuple(true, 0);
+    _nxtState = state;
 }
 
 int Menu::Menu::drawMenu()
@@ -172,7 +187,7 @@ int Menu::Menu::drawMenu()
         _transitionOpacity = std::make_tuple(std::get<0>(_transitionOpacity), std::get<1>(_transitionOpacity) + (std::get<0>(_transitionOpacity) ? 10 : -10));
         if (std::get<1>(_transitionOpacity) > 255) {
             _transitionOpacity = std::make_tuple(false, 255);
-            _state = IN_MENU;
+            _state = _nxtState;
         }
         if (std::get<1>(_transitionOpacity) < 0) {
             _transitionOpacity = std::make_tuple(true, 0);

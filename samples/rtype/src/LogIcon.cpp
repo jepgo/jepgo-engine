@@ -16,7 +16,8 @@ Menu::LogIcon::LogIcon(
     const float screenWidth,
     const float screenHeight,
     const std::string text,
-    Font &font
+    Font &font,
+    std::function<int ()> onClick
 ):
     _x(x),
     _y(y),
@@ -27,7 +28,8 @@ Menu::LogIcon::LogIcon(
     _text(text),
     _font(font),
     _isOpen(false),
-    _isSelect(false)
+    _isSelect(false),
+    _onClick(onClick)
 {
     _icon = LoadTexture("sprites/account.png");
 }
@@ -39,6 +41,8 @@ Menu::LogIcon::~LogIcon()
 void Menu::LogIcon::drawIcon()
 {
     _isSelectIcon();
+    if (_isSelect && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        _onClick();
     DrawRectangle(_x, _y, _width, _height, _isSelect ? _C_SELECTED : _C_UNSELECTED);
     DrawRectangle(_x, _y, _width, 3, _C_BORDER);
     DrawRectangle(_x, _y, 3, _height, _C_BORDER);
