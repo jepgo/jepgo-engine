@@ -167,6 +167,8 @@ namespace Menu {
              * 
              */
             LogIcon _logIcon;
+
+            bool _lineMouv;
     };
 }
 #endif /* !MENU_HPP_ */

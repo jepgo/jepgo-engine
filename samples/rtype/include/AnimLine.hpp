@@ -44,7 +44,7 @@ namespace Menu {
              * @brief Draw the lines
              * 
              */
-            void draw();
+            void draw(bool mouvLine);
             /**
              * @brief Update the size of the screen,
              * and the size of the line to adapt it to the new screen size

@@ -22,7 +22,8 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
     _transitionOpacity(std::make_tuple(true, 0)),
     _CTransition(100),
     _playerName(""),
-    _logIcon(_screenWidth - 400, 25, 400, 50, _screenWidth, _screenHeight, "Login / Register", _font, [this]() { _startTransition(LOGREG_MENU); return 0; })
+    _logIcon(_screenWidth - 400, 25, 400, 50, _screenWidth, _screenHeight, "Login / Register", _font, [this]() { _startTransition(LOGREG_MENU); return 0; }),
+    _lineMouv(true)
 {
     _bckgrnd = LoadTexture("sprites/background-menu.png");
     _font = LoadFont("sprites/eurocine-regular.ttf");
@@ -34,10 +35,9 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
             game.getGraphicLib()->closeWindow();
             CloseAudioDevice();
         }
-        if (mainClient() == 1)
-            return 1;
-        return 0;
+        return mainClient();
     }));
+
     _buttons.push_back(Button(false, 0, 150, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Level and score attack", "See all completed levels and your score.", _font, []() { std::cout << "Level and score attack" << std::endl; return 0;}));
     _buttons.push_back(Button(false, 0, 200, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Data and gallery", "See your data and your gallery.", _font, []() { std::cout << "Data and gallery" << std::endl; return 0;}));
     _buttons.push_back(Button(true, 0, 250, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Options", "Options of the game.", _font, [this]() { _startTransition(OPTION_MENU); return 0;}));
@@ -48,18 +48,20 @@ Menu::Menu::Menu(const size_t screenWidth, const size_t screenHeight, jgo::Clien
     _buttons.push_back(Button(false, 0, 500, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Online", "Play with other pilots across the world.", _font, []() { std::cout << "Online" << std::endl; return 0;}));
 
     _optionButtons.push_back(Button(false, 0, 100, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Sound", "General sound parameters", _font, []() {return 0;}));
-    _optionButtons.push_back(Button(true, 20, 150, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, (GetMasterVolume() == 1 ? "Turn off sound" : "Turn on sound"), "Turn on/off sound", _font, [this]() {
+    _optionButtons.push_back(Button(true, 0, 150, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, (GetMasterVolume() == 1 ? "Turn off sound" : "Turn on sound"), "Turn off sound", _font, [this]() {
         if (GetMasterVolume() > 0) {
             SetMasterVolume(0);
             _optionButtons.at(1).setNewText("Turn on sound");  
+            _optionButtons.at(1).setNewSelectedText("Turn off sound");
         } else {
             SetMasterVolume(1);
             _optionButtons.at(1).setNewText("Turn off sound");
+            _optionButtons.at(1).setNewSelectedText("Turn on sound");
         }
         return 0;
     }));
     
-    _optionButtons.push_back(Button(true, 10, 450, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Back to main menu", "Return back to main menu", _font, [this]() { _startTransition(IN_MENU); return 0;}));
+    _optionButtons.push_back(Button(true, 0, 450, (screenWidth / 10) * 4 - 50, 50, screenWidth, screenHeight, "Back to main menu", "Return back to main menu", _font, [this]() { _startTransition(IN_MENU); return 0;}));
 
     for (auto &button : _buttons) {
         button.updateWidth(_screenWidth);
@@ -154,9 +156,12 @@ int Menu::Menu::_drawEnterMenu()
 
 int Menu::Menu::_drawLogRegMenu()
 {
-    DrawTextEx(_font, "Login / Register", _titlePos, _font.baseSize, 2, WHITE);
-    DrawRectangleGradientH(0, 60, (_screenWidth / 5) * 2, 5, Color{ 143, 255, 167, 255 }, Color{ 143, 255, 167, 0 });
+    DrawRectangle(0, 0, _screenWidth, _screenHeight, Color(0, 0, 0, 160));
+    DrawTextEx(_font, "Login / Register", _titlePos, _font.baseSize, 2, GRAY);
+    DrawRectangleGradientH(0, 60, (_screenWidth / 5) * 2, 5, GRAY, Color{ 255, 255, 255, 255 });
 
+    if (_lineMouv)
+        _lineMouv = false;
     return 0;
 }
 
@@ -172,7 +177,7 @@ int Menu::Menu::drawMenu()
     RaylibPlus::DrawImage(_bckgrnd, 0, 0, _screenWidth, _screenHeight);
 
     for (auto &line : _lines) {
-        line.draw();
+        line.draw(_lineMouv);
     }
 
     DrawRectangle(0, 0, _screenWidth, _screenHeight, Color{ 0, 0, 0, 100 });

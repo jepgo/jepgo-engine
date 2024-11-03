@@ -96,6 +96,7 @@ namespace Menu {
         void setAccessible(bool accessible) { _accessible = accessible; }
 
         void setNewText(const std::string &newText) { _text = newText; }
+        void setNewSelectedText(const std::string &newSelectedText) { _selectedText = newSelectedText; }
     private:
         /**
          * @brief The x position of the button

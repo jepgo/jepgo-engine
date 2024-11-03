@@ -8,9 +8,9 @@
 #include <iostream>
 #include "AnimLine.hpp"
 
-void Menu::AnimLine::draw()
+void Menu::AnimLine::draw(bool mouvLine)
 {
-    if (_clock.isTicked())
+    if (mouvLine && _clock.isTicked())
         _startGen = _startGen >= _interval ? 1 : _startGen + 1;
 
     for (size_t y = _startGen; y < _screenHeight + _interval; y += _interval) {
