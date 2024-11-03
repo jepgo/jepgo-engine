@@ -18,7 +18,7 @@ class Module {
         int getEntityToModule() {
             return _entity;
         };
-        void update(std::optional<Positions> &me, SparseArray<Positions> &pos) {
+        void update(std::optional<Position2D> &me, SparseArray<Position2D> &pos) {
             if (!(me.has_value()))
                 return;
             if (pos[_entity].has_value()) {

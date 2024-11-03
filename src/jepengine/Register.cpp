@@ -48,6 +48,6 @@ std::map<std::type_index, std::any> &Register::getRegister()
 
 std::size_t Register::entityNbr(void) const
 {
-    // return std::any_cast<SparseArray<Positions>>(regist[std::type_index(typeid(Positions))]).size();
+    // return std::any_cast<SparseArray<Position2D>>(regist[std::type_index(typeid(Position2D))]).size();
     return tmp + 1;
 }

@@ -12,14 +12,14 @@
 
 void jgo::Server::loadNetworkServer(std::string const &lib)
 {
-    jmod::DLLoader loader(jmod::EasyLife() / "jepgo.network." + lib);
+    _loaders["network"].emplace(jmod::EasyLife() / "jepgo.network." + lib);
 
-    _server.emplace(loader.getFunc<jgo::ptr<IServer>>("getServer")());
+    _server.emplace(_loaders["network"]->getFunc<jgo::ptr<IServer>>("getServer")());
 }
 
 void jgo::Client::loadNetworkClient(std::string const &lib)
 {
-    jmod::DLLoader loader(jmod::EasyLife() / "jepgo.network." + lib);
+    _loaders["network"].emplace(jmod::EasyLife() / "jepgo.network." + lib);
 
-    _client.emplace(loader.getFunc<jgo::ptr<IClient>>("getClient")());
+    _client.emplace(_loaders["network"]->getFunc<jgo::ptr<IClient>>("getClient")());
 }

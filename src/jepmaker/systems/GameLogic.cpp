@@ -24,8 +24,8 @@ static void TableScore(jgo::Game &game)
             entity = i;
     if (entity == -1)
         return;
-    Game::CreateMessageTime(game, Positions(200, 200), std::string("Score :"), game.getTime(), 5);
-    Game::CreateMessageTime(game, Positions(200, 300), std::string(std::to_string(pts[entity].value()._point)), game.getTime(), 5);
+    Game::CreateMessageTime(game, Position2D(200, 200), std::string("Score :"), game.getTime(), 5);
+    Game::CreateMessageTime(game, Position2D(200, 300), std::string(std::to_string(pts[entity].value()._point)), game.getTime(), 5);
     return;
 }
 
@@ -73,7 +73,7 @@ static void Stage4(jgo::Game &game, float &time)
         if (type[i].has_value() && type[i].value().getType() == MINIBOSS)
             return;
     }
-    Game::CreateMiniBoss1(game, Positions(1360, 300));
+    Game::CreateMiniBoss1(game, Position2D(1360, 300));
     return;
 }
 

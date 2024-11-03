@@ -10,15 +10,15 @@
 
 class BombGeneration {
     public:
-        BombGeneration(float time, float reset, Positions &&pos, float trac) : _time(time), _reset(reset), _pos(pos), _trac(trac) {};
+        BombGeneration(float time, float reset, Position2D &&pos, float trac) : _time(time), _reset(reset), _pos(pos), _trac(trac) {};
         ~BombGeneration() {};
-        Positions &getPos() {return _pos;};
+        Position2D &getPos() {return _pos;};
         float &getTime() {return _time;};
         float &getReset() {return _reset;};
         float &getTrac() {return _trac;};
     private:
         float _time;
         float _reset;
-        Positions _pos;
+        Position2D _pos;
         float _trac;
 };

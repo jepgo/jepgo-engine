@@ -66,7 +66,8 @@ exported(void) onStart(jgo::Client &game)
     game.loadGraphic("Raylib");
     game.storage["keys"] = std::vector<jgo::u32>();
 
-    game.useComponent<Positions>("KeySystem", 1);
+    game.useComponent<Position2D>("KeySystem", 1);
+    game.useSystem("GameSystem", 0);
     game.useComponent<Hitable>("HitSystem", 2);
     game.useComponent<Move>("MoveSystem", 3);
     game.useComponent<Sprite_Animation>("AnimationSpriteSystem", 4);
@@ -74,16 +75,19 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<InvincibleTime>("InvincibleTimeSystem", 6);
     game.useComponent<AutoShoot>("AutoShootSystem", 6);
     game.useComponent<Module>("ModuleSystem", 7);
-    game.useComponent<DoDmg>("DoDmgSystem", 8);
-    game.useComponent<Dmg>("DmgSystem", 9);
-    game.useComponent<Free>("FreeSystem", 10);
-    game.useComponent<Explosion>("ExplosionSystem", 11);
-    game.useComponent<Death>("DeathSystem", 12);
-    game.useComponent<Animation2Time>("Animation2TimeSystem", 13);
-    game.useComponent<BombGeneration>("BombGenerationSystem", 14);
-    game.useComponent<Reborn>("RebornSystem", 15);
-    game.useComponent<BombGenerationTime>("BombGenerationTimeSystem", 16);
-    game.useComponent<Drawable>("Draw2DSystem", 17);
+    game.useSystem("AttachModuleSystem", 8);
+    game.useComponent<DoDmg>("DoDmgSystem", 9);
+    game.useComponent<Dmg>("DmgSystem", 10);
+    game.useSystem("MyFree", 10);
+    game.useComponent<Free>("FreeSystem", 11);
+    game.useComponent<Explosion>("ExplosionSystem", 12);
+    game.useComponent<Death>("DeathSystem", 13);
+    game.useComponent<Animation2Time>("Animation2TimeSystem", 14);
+    game.useComponent<BombGeneration>("BombGenerationSystem", 15);
+    game.useComponent<Reborn>("RebornSystem", 16);
+    game.useComponent<BombGenerationTime>("BombGenerationTimeSystem", 17);
+    game.useComponent<DrawKm>("DrawKmSystem", 18);
+    game.useComponent<Drawable>("Draw2DSystem", 19);
     game.useComponent<Velocity>();
     game.useComponent<Type>();
     game.useComponent<Sprite_Status>();
@@ -115,7 +119,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<LvLUp>();
     game.useComponent<Message>();
     game.useComponent<MessageTime>();
-    game.useComponent<ToFree>("DestroyerSystem", 19);
+    game.useComponent<ToFree>("DestroyerSystem", 21);
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",
@@ -131,9 +135,10 @@ exported(void) onStart(jgo::Client &game)
         "sprites/asteroid.png",
         "sprites/spaceship.png"
     });
-    Game::CreateBackGround(game);
+    //Game::CreateBackGround(game);
     //Game::CreateStars(game);
     Game::CreatePlayer(game, 800, 600);
+    //Game::CreateShootModule(game, Positions(600, 300));
     //Game::CreateBoostModule(game, 1);
     //Game::CreateEasyEnemies(game);
     //Game::CreateObstacle(game);
@@ -143,17 +148,8 @@ exported(void) onStart(jgo::Client &game)
 // system's call.
 exported(void) onUpdate(jgo::Client &game)
 {
-    //std::vector<jgo::u32> tmp = game.getGraphicLib()->getKeyPressed();
     std::vector<jgo::u32> &a = std::any_cast<std::vector<jgo::u32> &>(game.storage["keys"]);
     a = game.getGraphicLib()->getKeyPressed();
-    std::vector<jgo::u32> &o = std::any_cast<std::vector<jgo::u32>&>(game.storage["keys"]);
-
-    for (auto &b : o) {
-        std::cout << "so = " << b << std::endl;
-    }
-
-    //
-    //std::cout << "nbr of entity = " << game.ecs.entityNbr() << std::endl;
     return;
 }
 

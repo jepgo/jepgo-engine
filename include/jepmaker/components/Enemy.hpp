@@ -16,7 +16,7 @@ class Enemy {
          * @param point The number of point this enemy death give to the player
          * @param exp The number of exp point the enemy death give to the player
          */
-        Enemy(std::size_t point, std::size_t exp) {};
+        Enemy(std::size_t point, std::size_t exp) : _point(point), _exp(exp) {};
         ~Enemy() {};
     std::size_t _point;
     std::size_t _exp;

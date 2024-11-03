@@ -43,9 +43,9 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
     if (lvlup != 0)
         game.ecs.emplaceComp(entity, LvLUp(lvl[entity].value()._lvl));
     if (lvl[entity].value()._lvl == 2 && lvlup != 0)
-        Game::CreateShootModule(game, Positions(-10, 300));
+        Game::CreateShootModule(game, Position2D(-10, 300));
     if (lvl[entity].value()._lvl == 3 && lvlup != 0)
     {
-        Game::CreateArmorModule(game, Positions(-10, 300), time);
+        Game::CreateArmorModule(game, Position2D(-10, 300), time);
     }
 }

@@ -89,14 +89,14 @@ namespace jgo {
                 try {
                     _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
                         std::make_shared<jmod::DLLoader>(
-                            jmod::EasyLife()/"jepgo.system." + sys
+                            jmod::EasyLife(argv[0])/"jepgo.system." + sys
                         ),
                         getTime()
                     ));
                 } catch (jgo::errors::DLError const &e) {
                     _systems.emplace(_ComponentKey(sys, prio), std::make_pair(
                         std::make_shared<jmod::DLLoader>(
-                            jmod::EasyLife(argv[0])/"jepgo.system." + sys
+                            jmod::EasyLife()/"jepgo.system." + sys
                         ),
                         getTime()
                     ));
@@ -147,6 +147,14 @@ namespace jgo {
              * The internal storage (if you wanna store stuff)
              */
             std::map<std::string, std::any> storage;
+
+        protected:
+
+            /**
+             * The dlloaders
+             */
+            std::unordered_map<std::string, std::optional<jmod::DLLoader>> _loaders;
+        
 
         private:
             /**

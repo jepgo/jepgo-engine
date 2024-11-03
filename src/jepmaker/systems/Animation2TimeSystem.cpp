@@ -29,13 +29,13 @@ static void checkRules(std::optional<Animation2Time> &anim, std::optional<Invinc
         anim.value()._reset = anim.value().getAnimationTime();
     } else {
         game.ecs.createEntity();
-        game.ecs.emplaceComp(game.ecs.currentEntity, BombGeneration(time, 0.4, Positions(800, 300), 8));
+        game.ecs.emplaceComp(game.ecs.currentEntity, BombGeneration(time, 0.4, Position2D(800, 300), 8));
         game.ecs.emplaceComp(game.ecs.currentEntity, BombGenerationTime(time, 1.5));
         game.ecs.createEntity();
-        game.ecs.emplaceComp(game.ecs.currentEntity, BombGeneration(time, 0.4, Positions(800, 100), 8));
+        game.ecs.emplaceComp(game.ecs.currentEntity, BombGeneration(time, 0.4, Position2D(800, 100), 8));
         game.ecs.emplaceComp(game.ecs.currentEntity, BombGenerationTime(time, 1.5));
         game.ecs.createEntity();
-        game.ecs.emplaceComp(game.ecs.currentEntity, BombGeneration(time, 0.4, Positions(10, 200), 6));
+        game.ecs.emplaceComp(game.ecs.currentEntity, BombGeneration(time, 0.4, Position2D(10, 200), 6));
         game.ecs.emplaceComp(game.ecs.currentEntity, BombGenerationTime(time, 1.5));
         game.ecs.emplaceComp(i, std::move(anim.value().getAnim1()));
         game.ecs.emplaceComp(i, Invincible());
@@ -48,12 +48,10 @@ static void checkRules(std::optional<Animation2Time> &anim, std::optional<Invinc
 
 exported(void) jepgoSystem(jgo::Game &game, float time)
 {
-    std::cout << "start of Animation2Time" << std::endl;
     auto &inv = game.ecs.getComp<InvincibleTime>();
     auto &animation = game.ecs.getComp<Animation2Time>();
 
     for (std::size_t i = 0; i < animation.size(); i++) {
         checkRules(animation[i], inv[i], game.getTime(), i, game);
     }
-    std::cout << "end of Animation2Time" << std::endl;
 }

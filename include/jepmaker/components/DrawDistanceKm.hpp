@@ -11,9 +11,9 @@
 
 class DrawKm {
     public:
-        DrawKm(Positions &&pos, std::size_t size, jgo::u32 color) : _pos(pos), _size(size), _color(color) {};
+        DrawKm(Position2D &&pos, std::size_t size, jgo::u32 color) : _pos(pos), _size(size), _color(color) {};
         ~DrawKm() {};
-        Positions _pos;
+        Position2D _pos;
         std::size_t _size;
         jgo::u32 _color;
 };

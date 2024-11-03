@@ -28,12 +28,12 @@ long int const &Components::Score::getScore() const
 }
 
 
-void Components::Score::setPos(Positions &&pos)
+void Components::Score::setPos(Position2D &&pos)
 {
     _pos = std::move(pos);
 }
 
-Components::Positions const &Components::Score::getPosition() const
+Components::Position2D const &Components::Score::getPosition() const
 {
     return _pos;
 }

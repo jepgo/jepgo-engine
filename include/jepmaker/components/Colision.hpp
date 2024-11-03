@@ -30,7 +30,7 @@ public:
      * @return true
      * @return false
      */
-    bool isCol(Colision &col, Positions const &him, Positions const &me)
+    bool isCol(Colision &col, Position2D const &him, Position2D const &me)
     {
         return (me.x + width < him.x || me.x > him.x + col.width || me.y + height < him.y || me.y > him.y + col.height);
     }

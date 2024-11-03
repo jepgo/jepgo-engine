@@ -64,21 +64,21 @@ The reasoning behind an ECS is quite simple. ECS allows for the generation of en
 Managing entities is therefore quite simple; you just need a table that contains "gaps." The idea is simple: when an entity has a component, it has it, otherwise, there will be a gap. All of this is placed into what we will call a "Registry."
 The creation of a component is quite simple. Let's say I want my entity to have a position and be able to display it. I will create two components: a Position and a Drawable, and I will create a system: DrawSystem:
 ```
-class Positions {
+class Position2D {
     public:
         /**
-         * @brief Construct a new Positions object
+         * @brief Construct a new Position2D object
         *
         * @param x Position x of the object
         * @param y Position y of the Object
         */
-        Positions(float x = 0, float y = 0) : x(x), y(y) {}
-        ~Positions() {};
-        Positions operator+(Positions const &pos) const
+        Position2D(float x = 0, float y = 0) : x(x), y(y) {}
+        ~Position2D() {};
+        Position2D operator+(Position2D const &pos) const
         {
-            return Positions(this->x + pos.x, this->y + pos.y);
+            return Position2D(this->x + pos.x, this->y + pos.y);
         }
-        bool operator==(Positions const &pos) const
+        bool operator==(Position2D const &pos) const
         {
             if (this->x == pos.x && this->y == pos.y)
                 return true;
@@ -118,7 +118,7 @@ class Drawable {
 With these two components now complete, it's time to move on to the system:
 ```
 
-static void draw(std::vector<Texture2D> &textures, Positions &pos, Drawable &draw)
+static void draw(std::vector<Texture2D> &textures, Position2D &pos, Drawable &draw)
     {
         if (rect.has_value()) {
             float a = (draw.rect.value().width * draw.scale[0]);
@@ -138,7 +138,7 @@ static void draw(std::vector<Texture2D> &textures, Positions &pos, Drawable &dra
  */
 void DrawSystem::system(Register &r, std::vector<Texture2D> &texture)
 {
-    auto &pos = r.getComp<Positions>();
+    auto &pos = r.getComp<Position2D>();
     auto &draw = r.getComp<Drawable>();
 
     for (std::size_t i = 0; i < draw.size(); ++i) {
@@ -153,21 +153,21 @@ So, to summarize what I just did: I created a Position class to manage the posit
 ## How to Add a Component ?
 If you want to add your components to the engine, it's not very difficult. Let's say you have this component:
 ```
-class Positions {
+class Position2D {
     public:
         /**
-         * @brief Construct a new Positions object
+         * @brief Construct a new Position2D object
         *
         * @param x Position x of the object
         * @param y Position y of the Object
         */
-        Positions(float x = 0, float y = 0) : x(x), y(y) {}
-        ~Positions() {};
-        Positions operator+(Positions const &pos) const
+        Position2D(float x = 0, float y = 0) : x(x), y(y) {}
+        ~Position2D() {};
+        Position2D operator+(Position2D const &pos) const
         {
-            return Positions(this->x + pos.x, this->y + pos.y);
+            return Position2D(this->x + pos.x, this->y + pos.y);
         }
-        bool operator==(Positions const &pos) const
+        bool operator==(Position2D const &pos) const
         {
             if (this->x == pos.x && this->y == pos.y)
                 return true;

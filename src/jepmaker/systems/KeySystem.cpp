@@ -34,18 +34,18 @@ static std::array<float, 2> getDirectionVector(std::vector<jgo::u32> &vec)
     return res;
 }
 
-static void ToShoot(jgo::Game &game, Positions &pos, Direction &_direction, int &_decal)
+static void ToShoot(jgo::Game &game, Position2D &pos, Direction &_direction, int &_decal)
 {
     if (_direction == LEFT) {
-        Game::CreateShipShoot(game, pos + Positions(0 - _decal, 0));
+        Game::CreateShipShoot(game, pos + Position2D(0 - _decal, 0));
     }
     else if (_direction == RIGHT) {
-        Game::CreateShipShoot(game, pos + Positions(0 + _decal, 0));
+        Game::CreateShipShoot(game, pos + Position2D(0 + _decal, 0));
     }
     else if (_direction == UP)
-        Game::CreateShipShoot(game, pos + Positions(0, 0 - _decal));
+        Game::CreateShipShoot(game, pos + Position2D(0, 0 - _decal));
     else if (_direction == DOWN)
-        Game::CreateShipShoot(game, pos + Positions(0, 0 + _decal));
+        Game::CreateShipShoot(game, pos + Position2D(0, 0 + _decal));
 }
 
 static void moveStatus(std::optional<Sprite_Status> &stat, std::optional<Drawable> &draw, int key)
@@ -73,10 +73,9 @@ static bool SearchKey(int key, std::vector<jgo::u32> tmp)
  */
 exported(void) jepgoSystem(jgo::Game &game, float &time)
 {
-    std::cout << "key" << std::endl;
     auto &control = game.ecs.getComp<Controllable>();
     auto &vel = game.ecs.getComp<Velocity>();
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
     auto &stat = game.ecs.getComp<Sprite_Status>();
     auto &draw = game.ecs.getComp<Drawable>();
     auto &shoot = game.ecs.getComp<Shoot>();
@@ -100,5 +99,4 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
         vel[i].value().setVel(getDirectionVector(key));
         game.ecs.emplaceComp(i, Move(vel[i].value().getVel()));
     }
-    std::cout << "key end" << std::endl;
 }

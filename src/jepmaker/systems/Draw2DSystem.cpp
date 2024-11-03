@@ -11,7 +11,7 @@
 #include "jepmaker/components/Position.hpp"
 
 static void 
-Todraw(jgo::Game &game, Positions &pos, std::optional<jgo::Rectangle> &rect, std::string &index, std::array<float, 2> scale)
+Todraw(jgo::Game &game, Position2D &pos, std::optional<jgo::Rectangle> &rect, std::string &index, std::array<float, 2> scale)
 {
         if (rect.has_value()) {
             float a = (rect.value().width * scale[0]);
@@ -33,7 +33,7 @@ Todraw(jgo::Game &game, Positions &pos, std::optional<jgo::Rectangle> &rect, std
  */
 exported(void) jepgoSystem(jgo::Game &game, float &t)
 {
-    auto &pos = game.ecs.getComp<Positions>();
+    auto &pos = game.ecs.getComp<Position2D>();
     auto &draw = game.ecs.getComp<Drawable>();
 
     for (std::size_t i = 0; i < draw.size(); ++i) {

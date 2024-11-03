@@ -32,7 +32,7 @@ exported(void) onStart(jgo::Client &game)
 
     // and finally, we preload the account image.
     game.getGraphicLib()->preloadImages({
-        "sprites/account.png"
+        "./account.png"
     });
 
     // and i set the background color to red
@@ -55,7 +55,7 @@ exported(void) onUpdate(jgo::Client &game)
     // the health and poison component.
     if (not health->isDead()) {
         game.getGraphicLib()->drawImage(
-            "sprites/account.png",
+            "./account.png",
             {0, 0, 230, 250},
             {100, 100, 200, 200},
             {1, 1}

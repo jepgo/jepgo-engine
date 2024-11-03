@@ -150,10 +150,8 @@ void AsioServer::sendToAll(std::vector<jgo::u8> const &vec)
     std::string const fullMessage = jgo::MAGIC_START + message + jgo::MAGIC_END;
 
     for (auto const &e : _buffers) {
-        std::cout << e.first.address() << std::endl;
         _socket.async_send_to(asio::buffer(fullMessage), e.first,
             [this](std::error_code err, std::size_t bytes) -> void {
-                std::cout << "send" << std::endl;
                 return;
             });
     }

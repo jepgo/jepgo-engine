@@ -81,7 +81,7 @@ public:
      */
     template <typename Component>
     inline auto emplaceComp(std::size_t id, Component const &comp) -> void {
-        std::any_cast<SparseArray<Component>&>(_regist[std::type_index(typeid(Component))]).insert_at(id, std::move(comp));
+        std::any_cast<SparseArray<Component>&>(_regist[std::type_index(typeid(Component))]).insert_at(id, comp);
     }
 
     template <typename Component>

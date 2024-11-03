@@ -10,10 +10,11 @@
 #include "jepmod/Clock++.hpp"
 #include "jepmod/EasyLife.hpp"
 #include "jepengine/Game.hpp"
+#include "jepmaker/components/Free.hpp"
 
 jgo::Game::Game(int ac, char const *const av[]): argv(av, av + ac)
 {
-    return;
+    useComponent<Free>();
 }
 
 auto jgo::Game::compile(void) -> bool
@@ -24,9 +25,10 @@ auto jgo::Game::compile(void) -> bool
 auto jgo::Game::loadGraphic(std::string const &lib) -> void
 {
     std::string realLib = jmod::EasyLife()/"jepgo.graphic." + lib;
-    jmod::DLLoader loader(realLib);
+    _loaders["graphic"].emplace(realLib);
+    // jmod::DLLoader loader(realLib);
 
-    _graphicLib = loader.getFunc<jgo::ptr<jgo::IGraphic>>("createLibrary")();
+    _graphicLib = _loaders["graphic"]->getFunc<jgo::ptr<jgo::IGraphic>>("createLibrary")();
 }
 
 auto jgo::Game::getTime(void) -> double

@@ -6,7 +6,6 @@
 ** RebornSystem
 */
 
-#pragma once
 #include "jepengine/Client.hpp"
 #include "jepmod/exported.hpp"
 #include "jepmaker/components/Game.hpp"
@@ -40,11 +39,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
             playerEntity = i;
     }
     if (playerEntity == -1) {
-        std::cout << "no player" << std::endl;
         return;
-    }
-    for (auto &k : key) {
-        std::cout << "the value = " << k << std::endl;
     }
     for (std::size_t i = 0; i < reborn.size(); i++){
         if (SearchKey(32, key) && reborn[i].has_value() && reborn[i].value().getLive() > 0 && life[i].has_value() && life[i].value()._life <= 0){
@@ -52,7 +47,7 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
             reborn[i].value().getLive() -= 1;
             game.ecs.removeComponent<Sprite_Animation>(i);
             game.ecs.emplaceComp(i, Controllable());
-            game.ecs.emplaceComp(i, Positions(100, 100));
+            game.ecs.emplaceComp(i, Position2D(100, 100));
             game.ecs.emplaceComp(i, Sprite_Status({{UP, 235}, {DOWN, 100}, {MID, 202}, {LEFT, 202}, {RIGHT, 202}}));
             game.ecs.emplaceComp(i, Drawable("sprites/r-typesheet1.gif", jgo::Rectangle{202, 0, 30, 18}, std::vector<float>{1.5, 1.5}));
             game.ecs.emplaceComp(i, Hitable(100, 40));
@@ -63,12 +58,10 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
             game.ecs.emplaceComp(i, InvincibleTime(game.getTime(), 2));
             game.ecs.emplaceComp(i, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.2, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
             Game::CreateBoostModule(game, i);
-            for (std::size_t a = 0; a < mess.size(); a++)
-            {
+            for (std::size_t a = 0; a < mess.size(); a++) {
                 if (mess[a].has_value())
                     game.ecs.removeComponent<Message>(a);
             }
         }
     }
-    std::cout << "end of Reborn" << std::endl;
 };
