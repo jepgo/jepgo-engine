@@ -104,6 +104,11 @@ namespace jgo {
             virtual jgo::Vector2 getMousePos(void) = 0;
 
             /**
+             * Check the collision between a point and a rectangle.
+             */
+            virtual bool CheckCollisionPointRectangle(jgo::Vector2 const &point, jgo::Rectangle const &rec) = 0;
+
+            /**
              * Check if button is pressed, using bitshifting.
              */
             virtual bool

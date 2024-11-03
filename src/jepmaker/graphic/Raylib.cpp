@@ -66,6 +66,11 @@ class Raylib: public jgo::IGraphic {
         jgo::Vector2 getMousePos(void) override;
 
         /**
+         * Check the collision between a point and a rectangle.
+         */
+        bool CheckCollisionPointRectangle(jgo::Vector2 const &point, jgo::Rectangle const &rec) override;
+
+        /**
          * Check if button is pressed, using bitshifting.
          */
         bool isMousePressing(jgo::MouseButton const &button) override;
@@ -218,12 +223,29 @@ std::vector<jgo::u32> Raylib::getKeyPressed(void)
 
 jgo::Vector2 Raylib::getMousePos(void)
 {
-    return {0, 0};
+    auto pos = GetMousePosition();
+
+    return {pos.x, pos.y};
+}
+
+bool Raylib::CheckCollisionPointRectangle(jgo::Vector2 const &point, jgo::Rectangle const &rec)
+{
+    Vector2 const p = {point.x, point.y};
+    Rectangle const r = {rec.x, rec.y, rec.width, rec.height};
+
+    return CheckCollisionPointRec(p, r);
 }
 
 bool Raylib::isMousePressing(jgo::MouseButton const &button)
 {
-    return false;
+    if (button == jgo::MouseButton::LeftClick)
+        return IsMouseButtonDown(MOUSE_LEFT_BUTTON);
+    else if ( button == jgo::MouseButton::RightClick)
+        return IsMouseButtonDown(MOUSE_RIGHT_BUTTON);
+    else if (button == jgo::MouseButton::MiddleClick)
+        return IsMouseButtonDown(MOUSE_MIDDLE_BUTTON);
+    else
+        return false;
 }
 
 static Color u32tocolor(jgo::u32 colorValue) {
@@ -339,10 +361,10 @@ void Raylib::update()
                 static_cast<int>(e.rects[0].y),
                 e.size, e.color);
             break;
+
             // the rest im lazy to handle
             default:
             break;
-            
         }
     _actions.clear();
     EndDrawing();

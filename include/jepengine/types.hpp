@@ -7,7 +7,6 @@
 
 #ifndef TYPES_HPP_
     #define TYPES_HPP_
-
     #include <cstdint>
 
     #if !defined(WINDOWS) && !defined(_WIN32)
