@@ -49,13 +49,14 @@ void useSystemsAndComponents(jgo::Server &game)
     game.useComponent<LoopMove>();
     game.useComponent<ModuleArmor>();
     game.useComponent<ModuleShoot>();
-    game.useComponent<DrawReborn>("DrawRebornSystem", 19);
+    // game.useComponent<DrawReborn>("DrawRebornSystem", 19);
+    game.useComponent<DrawReborn>();
     game.useComponent<Exp>();
     game.useComponent<Points>();
     // game.useComponent<DrawPoints>("DrawPointsSystem", 19);
     game.useComponent<DrawPoints>();
-    // game.useComponent<Lvl>("GameLogic", 18);
-    game.useComponent<Lvl>();
+    game.useComponent<Lvl>("GameLogic", 18);
+    // game.useComponent<Lvl>();
     // game.useComponent<DrawLvl>("DrawLvlSystem", 19);
     game.useComponent<DrawLvl>();
     // game.useComponent<DistanceKm>("GameSystem");

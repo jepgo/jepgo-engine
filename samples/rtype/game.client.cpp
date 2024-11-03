@@ -36,12 +36,13 @@ exported(void) onStart(jgo::Client &game)
     });
     // Game::CreateBackGround(game);
     // Game::CreateStars(game);
-    Game::CreatePlayer(game, 800, 600);
-    Game::CreateShootModule(game, Position2D(300, 300));
+    // Game::CreatePlayer(game, 800, 600);
+    // Game::CreateShootModule(game, Position2D(300, 300));
     // Game::CreateShootModule(game, Positions(600, 300));
     // Game::CreateBoostModule(game, 1);
     // Game::CreateEasyEnemies(game);
     // Game::CreateObstacle(game);
+
     game.useComponent<Position2D>();
     game.useComponent<Drawable>("Draw2DSystem");
 }
@@ -100,7 +101,7 @@ int main(int ac, char const *const av[])
             auto const msg = game.getServerMessage();
             if (not msg.empty()) onServerMessage(game, msg);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
         onUpdate(game);
         if (game.hasGraphicLib()) game.getGraphicLib()->update();
         game.callSystems();

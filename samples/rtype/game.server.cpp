@@ -42,7 +42,7 @@ exported(void) onStart(jgo::Server &game)
     //     "sprites/asteroid.png",
     //     "sprites/spaceship.png"
     // });
-    // Game::CreateBackGround(game);
+    Game::CreateBackGround(game);
     // Game::CreateObstacle(game);
     // Game::CreateObstacle(game);
     // Game::CreateObstacle(game);
@@ -107,7 +107,7 @@ int main(int ac, char const *const av[])
     while (game.hasGraphicLib() ? game.getGraphicLib()->isWindowOpen() : true) {
         if (game.hasNetwork()) for (auto const &msg : game.getMessages())
                 onMessage(game, msg);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         onUpdate(game);
         game.callSystems();
         if (game.hasGraphicLib()) game.getGraphicLib()->update();
