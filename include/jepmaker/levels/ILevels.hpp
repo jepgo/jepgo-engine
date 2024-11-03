@@ -17,7 +17,7 @@ namespace jgo {
     class ILevels {
     public:
         virtual ~ILevels() = default;
-        virtual void launch(jgo::Game &game, float time) = 0;
+        virtual void launch(jgo::Game &game, float &time) = 0;
 
     };
 

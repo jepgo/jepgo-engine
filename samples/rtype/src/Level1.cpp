@@ -45,15 +45,19 @@ static void Stage4(jgo::Game &game)
     return;
 }
 
-void Level1::launch(jgo::Game &game, float time)
+void Level1::launch(jgo::Game &game, float &time)
 {
     std::size_t entity = 0;
     float reset = 3.0;
     auto &km = game.ecs.getComp<DistanceKm>();
     auto &sound = game.ecs.getComp<SoundLoop>();
 
-    if (game.getTime() - time < reset)
+    if (game.getTime() - time < reset) {
+        std::cout << "Return !" << std::endl;
+        std::cout << "Time: " << game.getTime() << std::endl;
+        std::cout << "Time - time: " << game.getTime() - time << std::endl;
         return;
+    }
     for (std::size_t i = 0; i < km.size(); i++)
         if (km[i].has_value())
             entity = i;

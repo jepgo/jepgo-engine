@@ -20,7 +20,7 @@ class Level1 : public jgo::ILevels {
     public:
         Level1() {};
         ~Level1() {};
-        void launch(jgo::Game &game, float time);
+        void launch(jgo::Game &game, float &time);
         
         private:
             float _reset;

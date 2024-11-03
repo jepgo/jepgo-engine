@@ -90,7 +90,6 @@ exported(void) jepgoSystem(jgo::Game &game, float &time)
         if (!control[i].has_value() || !vel[i].has_value() || !pos[i].has_value())
             continue;
             for (auto &i : key) {
-                std::cout << "val = " << i << std::endl;
             }
         if (SearchKey(65, key) && shoot[i].has_value() && shoot[i].value().verif(game.getTime())) {
             std::cout << "yeah" << std::endl;
