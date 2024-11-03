@@ -107,6 +107,7 @@ namespace jgo {
 
                 for (int n = 0; data.size() > 0; ++n) {
                     if (data.front() == 0xff) {
+                        ecs.removeComponent<T>(n);
                         data.erase(data.begin());
                         ++n;
                         continue;

@@ -14,6 +14,7 @@
 #include "jepmaker/components/Position.hpp"
 #include "jepmaker/components/Game.hpp"
 #include "jepmaker/components/Drawable2D.hpp"
+#include "jepmaker/components/ToFree.hpp"
 
 exported(void) onStart(jgo::Client &game)
 {
@@ -43,11 +44,9 @@ exported(void) onStart(jgo::Client &game)
     // Game::CreateEasyEnemies(game);
     // Game::CreateObstacle(game);
 
-    std::cout << "hello" << std::endl;
     game.useComponent<Position2D>();
-    std::cout << "hello" << std::endl;
     game.useComponent<Drawable>("Draw2DSystem");
-    std::cout << "hello" << std::endl;
+    // game.useComponent<ToFree>("FreeSystem", -1);
 }
 
 exported(void) onBegin(jgo::Client &game)

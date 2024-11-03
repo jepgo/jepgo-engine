@@ -21,27 +21,27 @@ using KMap = std::map<size_t, std::vector<jgo::u32>>;
 
 exported(void) onStart(jgo::Server &game)
 {
-    // game.loadGraphic("Raylib");
+    game.loadGraphic("Raylib");
     game.loadNetworkServer("Asio");
 
     game.storage["players"] = 0;
     game.storage["keys"] = KMap();
     useSystemsAndComponents(game);
 
-    // game.getGraphicLib()->preloadImages({
-    //     "sprites/r-typesheet3.gif",
-    //     "sprites/r-typesheet1.gif",
-    //     "sprites/r-typesheet2.gif",
-    //     "sprites/parallax-space-backgound.png",
-    //     "sprites/parallax-space-big-planet.png",
-    //     "sprites/r-typesheet32.gif",
-    //     "sprites/r-typesheet14.gif",
-    //     "sprites/parallax-space-far-planets.png",
-    //     "sprites/parallax-space-ring-planet.png",
-    //     "sprites/parallax-space-stars.png",
-    //     "sprites/asteroid.png",
-    //     "sprites/spaceship.png"
-    // });
+    game.getGraphicLib()->preloadImages({
+        "sprites/r-typesheet3.gif",
+        "sprites/r-typesheet1.gif",
+        "sprites/r-typesheet2.gif",
+        "sprites/parallax-space-backgound.png",
+        "sprites/parallax-space-big-planet.png",
+        "sprites/r-typesheet32.gif",
+        "sprites/r-typesheet14.gif",
+        "sprites/parallax-space-far-planets.png",
+        "sprites/parallax-space-ring-planet.png",
+        "sprites/parallax-space-stars.png",
+        "sprites/asteroid.png",
+        "sprites/spaceship.png"
+    });
     Game::CreateBackGround(game);
     // Game::CreateObstacle(game);
     // Game::CreateObstacle(game);

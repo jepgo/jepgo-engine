@@ -31,9 +31,9 @@ void useSystemsAndComponents(jgo::Server &game)
     game.useComponent<Reborn>("RebornSystem", 16);
     game.useComponent<BombGenerationTime>("BombGenerationTimeSystem", 17);
     // game.useComponent<DrawKm>("DrawKmSystem", 19);
-    // game.useComponent<Drawable>("Draw2DSystem", 18);
+    game.useComponent<Drawable>("Draw2DSystem", 18);
     game.useComponent<DrawKm>();
-    game.useComponent<Drawable>();
+    // game.useComponent<Drawable>();
     game.useComponent<Velocity>();
     game.useComponent<Type>();
     game.useComponent<Sprite_Status>();

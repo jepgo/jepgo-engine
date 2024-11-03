@@ -11,6 +11,7 @@
 #include "jepmod/EasyLife.hpp"
 #include "jepengine/Game.hpp"
 #include "jepmaker/components/Free.hpp"
+#include "jepmaker/components/Free.hpp"
 
 jgo::Game::Game(int ac, char const *const av[]): argv(av, av + ac)
 {
