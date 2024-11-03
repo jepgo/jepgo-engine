@@ -1,0 +1,79 @@
+==534208== Memcheck, a memory error detector
+==534208== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==534208== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==534208== Command: ./r-type_client
+==534208== 
+==534208== Invalid read of size 8
+==534208==    at 0x40286A8: strncmp (strcmp.S:172)
+==534208==    by 0x400668D: is_dst (dl-load.c:216)
+==534208==    by 0x400810E: _dl_dst_count (dl-load.c:253)
+==534208==    by 0x400810E: expand_dynamic_string_token (dl-load.c:395)
+==534208==    by 0x40082B7: fillin_rpath.isra.0 (dl-load.c:483)
+==534208==    by 0x4008602: decompose_rpath (dl-load.c:654)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==534208==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==534208==    by 0x4003494: openaux (dl-deps.c:64)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==534208==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==534208==  Address 0x50259d9 is 9 bytes inside a block of size 15 alloc'd
+==534208==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==534208==    by 0x40271DF: malloc (rtld-malloc.h:56)
+==534208==    by 0x40271DF: strdup (strdup.c:42)
+==534208==    by 0x4008594: decompose_rpath (dl-load.c:629)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==534208==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==534208==    by 0x4003494: openaux (dl-deps.c:64)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==534208==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x400E34D: _dl_open (dl-open.c:883)
+==534208== 
+==534208== Invalid read of size 8
+==534208==    at 0x40286A8: strncmp (strcmp.S:172)
+==534208==    by 0x400668D: is_dst (dl-load.c:216)
+==534208==    by 0x4007F79: _dl_dst_substitute (dl-load.c:295)
+==534208==    by 0x40082B7: fillin_rpath.isra.0 (dl-load.c:483)
+==534208==    by 0x4008602: decompose_rpath (dl-load.c:654)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==534208==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==534208==    by 0x4003494: openaux (dl-deps.c:64)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==534208==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==534208==  Address 0x50259d9 is 9 bytes inside a block of size 15 alloc'd
+==534208==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==534208==    by 0x40271DF: malloc (rtld-malloc.h:56)
+==534208==    by 0x40271DF: strdup (strdup.c:42)
+==534208==    by 0x4008594: decompose_rpath (dl-load.c:629)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==534208==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==534208==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==534208==    by 0x4003494: openaux (dl-deps.c:64)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==534208==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==534208==    by 0x4D5EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==534208==    by 0x400E34D: _dl_open (dl-open.c:883)
+==534208== 
+==534208== 
+==534208== Process terminating with default action of signal 11 (SIGSEGV)
+==534208==  Bad permissions for mapped region at address 0x11135760
+==534208==    at 0x59AEF22: AsioClient::_startReceiving() (in /home/pol/Documents/tek3/cpp/rtype/build/libjepgo.network.Asio.so)
+==534208== 
+==534208== HEAP SUMMARY:
+==534208==     in use at exit: 10,093,134 bytes in 54,524 blocks
+==534208==   total heap usage: 132,792 allocs, 78,268 frees, 76,217,816 bytes allocated
+==534208== 

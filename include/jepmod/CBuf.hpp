@@ -17,11 +17,11 @@ template <typename T>
 class CBuffer {
     public:
         inline CBuffer
-        (std::size_t count) : _ptr(new T[count]), _size(count * sizeof(T)) {
+        (std::size_t count) : _ptr(static_cast<T*>(malloc(count * sizeof(T)))), _size(count * sizeof(T)) {
             return;
         }
 
-        inline CBuffer(void): _ptr(new T), _size(sizeof(T)) {
+        inline CBuffer(void): _ptr(static_cast<T*>(malloc(sizeof(T)))), _size(sizeof(T)) {
             return;
         }
 
@@ -71,7 +71,7 @@ class CBuffer {
 
         inline auto reset(void) -> void {
             if (_ptr) {
-                delete _ptr;
+                free(_ptr);
                 _ptr = nullptr;
             }
         }

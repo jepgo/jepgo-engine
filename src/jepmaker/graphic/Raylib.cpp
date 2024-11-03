@@ -326,6 +326,7 @@ void Raylib::update()
 {
     BeginDrawing();
     ClearBackground(_backgroundColor);
+    std::cout << "=> on update" << std::endl;
     for (_Argument const &e : _actions)
         switch (e.type) {
 
@@ -333,14 +334,15 @@ void Raylib::update()
             case _Argument::AT_Image:
                 if (e.rects[0].x == -1)
                     DrawTextureEx(_images[e.path], Vector2{e.rects[1].x, e.rects[1].y}, 0, e.vec.x, WHITE);
-            DrawTexturePro(
-                _images[e.path],
-                Rectangle{e.rects[0].x, e.rects[0].y, e.rects[0].width, e.rects[0].height},
-                Rectangle{e.rects[1].x, e.rects[1].y, e.rects[1].width, e.rects[1].height},
-                {e.rects[1].x / 2, e.rects[1].y / 2},
-                0,
-                WHITE
-            );
+                else
+                    DrawTexturePro(
+                        _images[e.path],
+                        Rectangle{e.rects[0].x, e.rects[0].y, e.rects[0].width, e.rects[0].height},
+                        Rectangle{e.rects[1].x, e.rects[1].y, e.rects[1].width, e.rects[1].height},
+                        {e.rects[1].x / 2, e.rects[1].y / 2},
+                        0,
+                        WHITE
+                    );
             break;
 
             // draw rectangle

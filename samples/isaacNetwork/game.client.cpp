@@ -16,7 +16,7 @@
 exported(void) onStart(jgo::Client &game)
 {
     game.loadNetworkClient("Asio");
-    // game.loadGraphic("Raylib");
+    game.loadGraphic("Raylib");
     std::cout << "client has started !" << std::endl;
 
     game.useComponent<Position2D>();

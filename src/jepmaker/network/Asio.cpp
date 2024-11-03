@@ -13,6 +13,7 @@
 #include <map>
 #include <thread>
 #include <chrono>
+#include <mutex>
 
 #include "jepengine/types.hpp"
 #include "jepengine/exceptions.hpp"
@@ -51,6 +52,7 @@ class AsioServer: public jgo::IServer {
         void _startReceiving(void);
         void _handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf);
         void _processMessage(udp::endpoint const &endpoint);
+        std::mutex _mutex;
         asio::io_context _context;
         udp::socket _socket;
         udp::endpoint _endpoint;
@@ -70,9 +72,8 @@ class AsioClient: public jgo::IClient {
 
     private:
         void _startReceiving(void);
-        void _handleReceive(std::error_code const &err, std::size_t bytes, Buffer buf);
-        void _processMessages(void);
         asio::io_context _context;
+        std::mutex _mutex;
         // asio::io_service _service;
         udp::socket _socket;
         udp::endpoint _serverEndpoint;
@@ -112,10 +113,12 @@ void AsioServer::_processMessage(udp::endpoint const &endpoint)
             start + jgo::MAGIC_START.length(),
             end - start - jgo::MAGIC_START.length() - jgo::MAGIC_END.length()
         ));
+        _mutex.lock();
         _messages.emplace_back(
             std::vector<jgo::u8>(message.begin(), message.end()),
             std::make_shared<AsioConnection>(endpoint)
         );
+        _mutex.unlock();
         buf.erase(0, end);
         start = 0;
     }
@@ -151,7 +154,7 @@ void AsioServer::sendToAll(std::vector<jgo::u8> const &vec)
     res.insert(res.end(), jgo::MAGIC_END.cbegin(), jgo::MAGIC_END.cend());
     std::string msg(res.begin(), res.end());
 
-    std::cout << "vec size is " << res.size() << std::endl;
+    // std::cout << "vec size is " << res.size() << std::endl;
     for (auto const &e : _buffers) {
         while (not msg.empty()) {
             std::string sub = msg.substr(0, jgo::BUFFER_SIZE);
@@ -178,9 +181,11 @@ void AsioServer::host(jgo::u16 port)
 
 std::vector<jgo::NetMessage> AsioServer::getAllMessages(void)
 {
+    _mutex.lock();
     std::vector<jgo::NetMessage> tmp = _messages;
 
     _messages.clear();
+    _mutex.unlock();
     return tmp;
 }
 
@@ -196,11 +201,19 @@ void AsioClient::connect(std::string const &ip, jgo::u16 port) {
 
 void AsioClient::_startReceiving(void)
 {
-    std::array<char, jgo::BUFFER_SIZE> buf;
+    while (true) {
+        std::array<char, jgo::BUFFER_SIZE> buf;
+        asio::error_code error;
+        size_t len = _socket.receive_from(asio::buffer(buf), _serverEndpoint, 0, error);
 
-    size_t len = _socket.receive_from(asio::buffer(buf), _serverEndpoint);
-    _buffer += std::string(buf.data(), len);
-    _startReceiving();
+        if (error)
+            break;
+
+        {
+            std::lock_guard<std::mutex> lock(_mutex);
+            _buffer += std::string(buf.data(), len);
+        }
+    }
 }
 
 void AsioClient::sendToServer(std::vector<jgo::u8> const &data) {
@@ -223,7 +236,9 @@ std::vector<jgo::u8> AsioClient::getMessage(void) {
         return result;
     std::string message = _buffer.substr(start, end - start);
     result = std::vector<jgo::u8>(message.begin(), message.end());
+    _mutex.lock();
     _buffer.erase(0, end + jgo::MAGIC_END.length());
+    _mutex.unlock();
     return result;
 }
 

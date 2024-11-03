@@ -110,8 +110,8 @@ namespace jgo {
                     bytes = buf.toBytes();
                     vec.insert(vec.end(), bytes.begin(), bytes.end());
                 }
-                std::cout << "=== foo ===" << std::endl;
-                std::cout << vec.size() << std::endl;
+                // std::cout << "=== foo ===" << std::endl;
+                // std::cout << vec.size() << std::endl;
                 sendToAll(vec);
                 return true;
             }

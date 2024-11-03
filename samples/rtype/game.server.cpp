@@ -59,40 +59,35 @@ exported(void) onUpdate(jgo::Server &game)
 
 exported(void) onMessage(jgo::Server &game, jgo::NetMessage const &msg)
 {
-    std::string str(msg.first.begin(), msg.first.end());
-    std::string who = msg.second->getIP() + ":";
-
-    who += msg.second->getPort();
-    std::cout << "received " << str << " from " << who << std::endl;
+    std::string const str(msg.first.cbegin(), msg.first.cend());
+    std::string const who = msg.second->getIP() + ":" + std::to_string(static_cast<int>(msg.second->getPort()));
 
     if (msg.first[0] == jgo::NEW_PLAYER_BYTE) {
-
         auto &players = std::any_cast<int &>(game.storage["players"]);
         if (players >= 4)
             return;
         Game::CreatePlayer(game, 800, 600);
         game.storage[who] = game.ecs.currentEntity;
         ++players;
-        auto zizi = std::any_cast<KMap &>(game.storage["keys"]);
+        auto estebanus = std::any_cast<KMap &>(game.storage["keys"]);
         auto e = std::any_cast<int>(game.storage[who]);
-        zizi[e] = {0, 0, 0, 0};
+        estebanus[e] = {0, 0, 0, 0};
 
     } else if (msg.first[0] == jgo::DIRECTION_BYTE) {
-        std::vector<jgo::u8> caca = msg.first;
+        std::vector<jgo::u8> joffrey = msg.first;
         std::vector<jgo::u32> foo;
         CBuffer<jgo::u32> buf(4);
 
-        caca.erase(caca.begin());
-        buf.fill(caca.data());
+        joffrey.erase(joffrey.begin());
+        buf.fill(joffrey.data());
         for (int n = 0; n < 4; ++n)
             foo.emplace_back(buf[n]);
-
-        auto &zizi = std::any_cast<KMap &>(game.storage["keys"]);
+        auto &estebanus = std::any_cast<KMap &>(game.storage["keys"]);
         auto e = std::any_cast<int>(game.storage[who]);
-        std::cout << "== input ==" << std::endl;
-        zizi[e] = foo;
-        for (auto const &n : foo)
-            std::cout << n << std::endl;
+        // std::cout << "== input ==" << std::endl;
+        estebanus[e] = foo;
+        // for (auto const &n : foo)
+        //     std::cout << n << std::endl;
     }
 }
 

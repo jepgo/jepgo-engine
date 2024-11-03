@@ -119,8 +119,8 @@ namespace jgo {
             /**
              * Get the graphic lib (throw if not exists)
              */
-            inline auto getGraphicLib(void) ->
-                jgo::ptr<jgo::IGraphic> & {
+            inline auto getGraphicLib(void) -> jgo::ptr<jgo::IGraphic> &
+            {
                 if (not _graphicLib)
                     throw jgo::errors::NoGraphic();
                 // std::cout << "la" << std::endl;
