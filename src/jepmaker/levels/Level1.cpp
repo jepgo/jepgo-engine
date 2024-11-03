@@ -5,8 +5,7 @@
 ** Level1
 */
 
-// #include "jepmaker/levels/ILevels.hpp"
-#include "jepmaker/levels/Level1.hpp"
+#include "jepmaker/levels/ILevels.hpp"
 #include "jepmod/exported.hpp"
 #include "jepmaker/components/Game.hpp"
 #include "jepmaker/components/Type.hpp"
@@ -14,7 +13,25 @@
 #include "jepmaker/components/Position.hpp"
 #include "jepmaker/components/SoundLoop.hpp"
 #include "jepmaker/components/DistanceKm.hpp"
+
 #include <memory>
+
+class Level1 : public jgo::ILevels {
+    public:
+        Level1();
+        ~Level1();
+        void launch(jgo::Game &game, float &time);
+        
+        private:
+            float _reset;
+};
+
+Level1::Level1()
+{
+    _reset = 3.0;
+}
+
+Level1::~Level1() {}
 
 static void Stage1(jgo::Game &game)
 {
@@ -53,9 +70,6 @@ void Level1::launch(jgo::Game &game, float &time)
     auto &sound = game.ecs.getComp<SoundLoop>();
 
     if (game.getTime() - time < reset) {
-        std::cout << "Return !" << std::endl;
-        std::cout << "Time: " << game.getTime() << std::endl;
-        std::cout << "Time - time: " << game.getTime() - time << std::endl;
         return;
     }
     for (std::size_t i = 0; i < km.size(); i++)
@@ -75,6 +89,6 @@ void Level1::launch(jgo::Game &game, float &time)
     time = game.getTime();
 }
 
-// exported(std::unique_ptr<jgo::ILevels>) createLevel(void) {
-//     return std::make_unique<Level1>();
-// }
+exported(std::shared_ptr<jgo::ILevels>) createLevel(void) {
+    return std::make_shared<Level1>();
+}

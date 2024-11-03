@@ -117,7 +117,7 @@ namespace jgo {
                 return *_graphicLib;
             }
 
-            inline auto getGameLevels() -> std::map<std::string, std::unique_ptr<jgo::ILevels>> & {
+            inline auto getGameLevels() -> std::map<std::string, std::shared_ptr<jgo::ILevels>> & {
                 return _levels;
             }
 
@@ -158,7 +158,7 @@ namespace jgo {
             /**
              * The levels.
              */
-            std::map<std::string, std::unique_ptr<jgo::ILevels>> _levels;
+            std::map<std::string, std::shared_ptr<jgo::ILevels>> _levels;
 
             /**
              * The components.

@@ -32,10 +32,10 @@ auto jgo::Game::loadGraphic(std::string const &lib) -> void
 auto jgo::Game::loadLevel(std::string const &lib) -> void
 {
     std::string realLib = jmod::EasyLife()/"jepgo.levels." + lib;
-    std::cout << "Loading level " << lib << std::endl;
+    std::cout << "Loading " << lib << std::endl;
     jmod::DLLoader loader(realLib);
 
-    /* _levels[lib] =  */loader.getFunc<std::unique_ptr<jgo::ILevels>>("createLevel")();
+    _levels[lib] = loader.getFunc<std::shared_ptr<jgo::ILevels>>("createLevel")();
     std::cout << "Level " << lib << " loaded" << std::endl;
 }
 

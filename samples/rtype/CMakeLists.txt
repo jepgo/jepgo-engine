@@ -12,7 +12,6 @@ ADD_EXECUTABLE(r-type_client
     src/LogIcon.cpp
     src/Button.cpp
     src/AnimLine.cpp
-    src/Level1.cpp
 )
 
 LINK_DIRECTORIES(
