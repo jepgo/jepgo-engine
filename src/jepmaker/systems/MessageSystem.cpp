@@ -16,7 +16,7 @@ exported(void) jepgoSystem(jgo::Game &game, float time)
 
     for (std::size_t i = 0; i < mess.size(); i++) {
         if (mess[i].has_value()) {
-            game.getGraphicLib()->drawText(mess[i].value()._mess.c_str(), jgo::Rectangle {(int)mess[i].value()._pos.x, (int)mess[i].value()._pos.y, 0, 0},  mess[i].value()._color, "", mess[i].value()._size);
+            game.getGraphicLib()->drawText(mess[i].value()._mess.c_str(), jgo::Rectangle {static_cast<int>(mess[i].value()._pos.x), static_cast<int>(mess[i].value()._pos.y), 0, 0}, mess[i].value()._color, "", static_cast<int>(mess[i].value()._size));
         }
     }
 };

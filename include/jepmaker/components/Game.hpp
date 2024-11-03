@@ -40,6 +40,9 @@
 #include "jepmaker/components/DrawDistanceKm.hpp"
 #include "jepmaker/components/Message.hpp"
 #include "jepmaker/components/MessageTime.hpp"
+#include "jepmaker/components/GameLvl.hpp"
+#include "jepmaker/levels/Level1.hpp"
+
 #include <random>
 
 class Game {
@@ -217,6 +220,9 @@ class Game {
             r.ecs.emplaceComp(r.ecs.currentEntity, DistanceKm());
             //r.ecs.emplaceComp(r.ecs.currentEntity, DrawKm(Positions(650, 20), 30, GREEN));
             r.ecs.emplaceComp(r.ecs.currentEntity, Explosion("sprites/r-typesheet1.gif", 4, -37, 0.5, 10, jgo::Rectangle{180, 300, 40, 40}, std::vector<float>{1.5, 1.5}));
+            // r.loadLevel("Level1");
+            std::map<std::size_t, std::shared_ptr<jgo::ILevels>> tmp = {{1, std::make_shared<Level1>()}};
+            r.ecs.emplaceComp(r.ecs.currentEntity, GameLvl(1, std::map<std::size_t, std::shared_ptr<jgo::ILevels>>{tmp}));
         };
         static void CreateBoostModule(jgo::Game &r, std::size_t PlayerEntity) {
             r.ecs.createEntity();
@@ -236,9 +242,11 @@ class Game {
         std::size_t &getPoint() {return _point;};
         std::size_t &getLvl() {return _lvl;};
         std::size_t &getKm() {return _km;};
+        std::map<std::size_t, std::unique_ptr<jgo::ILevels>> &getGameLvls() {return _gameLvls;};
     private:
         std::size_t _exp;
         std::size_t _point;
         std::size_t _lvl;
         std::size_t _km;
+        std::map<std::size_t, std::unique_ptr<jgo::ILevels>> _gameLvls;
 };

@@ -54,6 +54,7 @@
 #include "jepmaker/components/AutoShoot.hpp"
 #include "jepmaker/components/LvlUp.hpp"
 #include "jepmaker/components/Animation2Time.hpp"
+#include "jepmaker/components/GameLvl.hpp"
 #include "jepmod/exported.hpp"
 
 // this is the function that will be called when starting
@@ -105,6 +106,7 @@ exported(void) onStart(jgo::Client &game)
     game.useComponent<Colision>();
     game.useComponent<Controllable>();
     game.useComponent<LvLUp>();
+    game.useComponent<GameLvl>("GameLvlSystem");
 
     game.getGraphicLib()->preloadImages({
         "sprites/r-typesheet3.gif",

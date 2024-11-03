@@ -13,6 +13,7 @@
 #include <map>
 #include <any>
 #include "jepmaker/graphic/IGraphic.hpp"
+#include "jepmaker/levels/ILevels.hpp"
 #include "jepmod/EasyLife.hpp"
 #include "jepmod/Clock++.hpp"
 #include "jepmod/DLLoader.hpp"
@@ -47,6 +48,8 @@ namespace jgo {
              * `game.loadGraphic("raylib");`
              */
             auto loadGraphic(std::string const &name) -> void;
+
+            auto loadLevel(std::string const &name) -> void;
 
             /**
              * Load Lua.
@@ -114,6 +117,11 @@ namespace jgo {
                 return *_graphicLib;
             }
 
+            inline auto getGameLevels() -> std::map<std::string, std::unique_ptr<jgo::ILevels>> & {
+                return _levels;
+            }
+
+
             /**
              * Returns true if you have a graphic lib.
              */
@@ -146,6 +154,11 @@ namespace jgo {
              * The graphic library (if any)
              */
             std::optional<std::unique_ptr<jgo::IGraphic>> _graphicLib;
+
+            /**
+             * The levels.
+             */
+            std::map<std::string, std::unique_ptr<jgo::ILevels>> _levels;
 
             /**
              * The components.
