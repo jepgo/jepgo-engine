@@ -31,6 +31,7 @@ add_subdirectory(src/jepmaker/levels)
 add_subdirectory(samples/rtype)
 
 add_subdirectory(samples/whack-a-mole)
+add_subdirectory(jepgo/.jepgo/project/)
 # add_subdirectory(src/jep3rdparty/lua)
 
 # # game.client
