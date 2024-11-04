@@ -15,7 +15,7 @@ namespace jgo::errors {
     class BaseException: public std::exception {
         public:
             BaseException(std::string const &err) {
-                _final = "Jepgo " + error + " → " + error + ".";
+                _final = "Jepgo " + error + " → " + err + ".";
             }
             char const *what() const noexcept override {
                 return _final.c_str();
@@ -26,14 +26,14 @@ namespace jgo::errors {
             std::string _final;
     };
 
-    class NoGraphic: BaseException {
+    class NoGraphic: public BaseException {
         public:
             NoGraphic(): BaseException("no graphic library loaded") {
                 error = "NoGraphicLibrary";
             };
     };
 
-    class NetworkError: BaseException {
+    class NetworkError: public BaseException {
         public:
             NetworkError(std::string const &lib, std::string const &err)
             : BaseException(err) {
@@ -41,10 +41,24 @@ namespace jgo::errors {
             }
     };
 
-    class DLError: BaseException {
+    class DLError: public BaseException {
         public:
             DLError(std::string const &what): BaseException(what) {
                 error = "DLError";
+            }
+    };
+
+    class EnvNotFound: public BaseException {
+        public:
+            EnvNotFound(std::string const &what): BaseException(what) {
+                error = "EnvVariableNotFound";
+            }
+    };
+
+    class NotExists: public BaseException {
+        public:
+            NotExists(std::string const &what): BaseException(what) {
+                error = "NotExists";
             }
     };
 

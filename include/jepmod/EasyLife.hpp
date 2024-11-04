@@ -14,6 +14,8 @@
 #include <stdexcept>
 #include <cstdlib>
 
+#include "jepengine/exceptions.hpp"
+
 namespace jmod {
     /**
      * Allow simple folder/resource path managing for folders and files.
