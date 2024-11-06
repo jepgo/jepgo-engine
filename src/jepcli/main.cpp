@@ -157,7 +157,7 @@ static void cmdNew(std::vector<std::string> const &commands)
     std::size_t n = 0;
     std::string a, b;
 
-    if (commands.size() == 1)
+    if (commands.size() == 2)
         throw std::runtime_error("expected an argument.");
     n = commands[2].find_first_of('@');
     if (n != std::string::npos) {
@@ -207,9 +207,10 @@ static void cmdRun(std::vector<std::string> const &commands)
     int ac = 0;
     char const *const *av = vec2acAv(commands, ac);
 
+    if (commands.size() >= 3)
+        what = commands[2];
     while (less < ac and std::string(av[less]) != "--")
         ++less;
-    std::cout << ac << ", " << av[0] << ", " << (ac - less) << std::endl;
     runSomething(what, ac - less, av + (ac - less));
     delete av;
 }
