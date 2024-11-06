@@ -11,7 +11,7 @@ int cfunc(lua_State *l)
 int foo_tostring(lua_State *l)
 {
     lua::State L(l);
-    L.push("zizi");
+    L.push("zizou");
     return 1;
 }
 

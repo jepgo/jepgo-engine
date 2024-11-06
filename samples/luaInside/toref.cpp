@@ -4,7 +4,7 @@
 
 int game_tostring(lua_State *L)
 {
-    lua_pushstring(L, "zizi");
+    lua_pushstring(L, "zizou");
     return 1;
 }
 

@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
     lua_State *L = luaL_newstate();
     
     luaL_openlibs(L);
-    if (my_luadofile(L, "caca.lua") != LUA_OK) {
+    if (my_luadofile(L, "coco.lua") != LUA_OK) {
         dprintf(2, "error -> %s\n", lua_tolstring(L, -1, nullptr));
         lua_close(L);
         return 1;

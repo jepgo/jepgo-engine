@@ -21,7 +21,7 @@ exported(void) onStart(jgo::Client &game)
     game.loadGraphic("Raylib");
 
     game.lua->dostring("print('hello, jepgo !')");
-    game.lua->useSystem("caca");
+    game.lua->useSystem("coco");
     game.useComponent<Color>();
 }
 
